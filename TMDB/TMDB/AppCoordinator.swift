@@ -20,7 +20,8 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        print("start \(Self.self)")
+        let movieCoordinator = MovieCoordinator()
+        coordinate(to: movieCoordinator)
     }
     
     

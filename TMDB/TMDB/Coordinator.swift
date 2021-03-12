@@ -8,6 +8,7 @@
 import Foundation
 
 protocol Coordinator: class {
+    
     var identifier: UUID { get }
     var childCoordinators: [UUID: Coordinator] { get set }
     var parentCoordinator: Coordinator? { get set }
