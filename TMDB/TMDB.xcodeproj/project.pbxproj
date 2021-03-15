@@ -17,6 +17,10 @@
 		BBAA913225FBA4DB0095DB27 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA913125FBA4DB0095DB27 /* AppCoordinator.swift */; };
 		BBAA913525FBA8F80095DB27 /* MovieCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA913425FBA8F80095DB27 /* MovieCoordinator.swift */; };
 		BBAA914225FBAB200095DB27 /* TMDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA914125FBAB200095DB27 /* TMDBTests.swift */; };
+		BBAA915325FFE9FE0095DB27 /* MovieModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA915225FFE9FE0095DB27 /* MovieModel.swift */; };
+		BBAA915725FFEA670095DB27 /* MovieProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA915625FFEA670095DB27 /* MovieProtocol.swift */; };
+		BBAA915B25FFECAC0095DB27 /* MovieListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA915A25FFECAC0095DB27 /* MovieListResponse.swift */; };
+		BBAA915F25FFECCC0095DB27 /* MovieListResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA915E25FFECCC0095DB27 /* MovieListResponseProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +50,10 @@
 		BBAA913F25FBAB200095DB27 /* TMDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TMDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAA914125FBAB200095DB27 /* TMDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBTests.swift; sourceTree = "<group>"; };
 		BBAA914325FBAB200095DB27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBAA915225FFE9FE0095DB27 /* MovieModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieModel.swift; sourceTree = "<group>"; };
+		BBAA915625FFEA670095DB27 /* MovieProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieProtocol.swift; sourceTree = "<group>"; };
+		BBAA915A25FFECAC0095DB27 /* MovieListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponse.swift; sourceTree = "<group>"; };
+		BBAA915E25FFECCC0095DB27 /* MovieListResponseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponseProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +107,7 @@
 		BBAA90F225F9287A0095DB27 /* TMDB */ = {
 			isa = PBXGroup;
 			children = (
+				BBAA916225FFECF00095DB27 /* Models */,
 				BBAA90F325F9287A0095DB27 /* AppDelegate.swift */,
 				BBAA90F525F9287A0095DB27 /* SceneDelegate.swift */,
 				BBAA90F725F9287A0095DB27 /* ViewController.swift */,
@@ -119,6 +128,17 @@
 				BBAA914325FBAB200095DB27 /* Info.plist */,
 			);
 			path = TMDBTests;
+			sourceTree = "<group>";
+		};
+		BBAA916225FFECF00095DB27 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BBAA915225FFE9FE0095DB27 /* MovieModel.swift */,
+				BBAA915625FFEA670095DB27 /* MovieProtocol.swift */,
+				BBAA915A25FFECAC0095DB27 /* MovieListResponse.swift */,
+				BBAA915E25FFECCC0095DB27 /* MovieListResponseProtocol.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		C886EACE0189022CDD6DC360 /* Frameworks */ = {
@@ -254,11 +274,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBAA915325FFE9FE0095DB27 /* MovieModel.swift in Sources */,
 				BBAA912F25FB9EAE0095DB27 /* Coordinator.swift in Sources */,
 				BBAA90F825F9287A0095DB27 /* ViewController.swift in Sources */,
+				BBAA915F25FFECCC0095DB27 /* MovieListResponseProtocol.swift in Sources */,
 				BBAA913225FBA4DB0095DB27 /* AppCoordinator.swift in Sources */,
+				BBAA915B25FFECAC0095DB27 /* MovieListResponse.swift in Sources */,
 				BBAA90F425F9287A0095DB27 /* AppDelegate.swift in Sources */,
 				BBAA90F625F9287A0095DB27 /* SceneDelegate.swift in Sources */,
+				BBAA915725FFEA670095DB27 /* MovieProtocol.swift in Sources */,
 				BBAA913525FBA8F80095DB27 /* MovieCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
