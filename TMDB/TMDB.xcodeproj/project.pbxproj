@@ -21,6 +21,10 @@
 		BBAA915725FFEA670095DB27 /* MovieProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA915625FFEA670095DB27 /* MovieProtocol.swift */; };
 		BBAA915B25FFECAC0095DB27 /* MovieListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA915A25FFECAC0095DB27 /* MovieListResponse.swift */; };
 		BBAA915F25FFECCC0095DB27 /* MovieListResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA915E25FFECCC0095DB27 /* MovieListResponseProtocol.swift */; };
+		BBAA916625FFF2F80095DB27 /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA916525FFF2F80095DB27 /* NetworkManagerProtocol.swift */; };
+		BBAA916A25FFF3DF0095DB27 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA916925FFF3DF0095DB27 /* NetworkManager.swift */; };
+		BBAA916E25FFFA2C0095DB27 /* TmdbAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA916D25FFFA2C0095DB27 /* TmdbAPI.swift */; };
+		BBAA917425FFFA6D0095DB27 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA917325FFFA6D0095DB27 /* API.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,10 @@
 		BBAA915625FFEA670095DB27 /* MovieProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieProtocol.swift; sourceTree = "<group>"; };
 		BBAA915A25FFECAC0095DB27 /* MovieListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponse.swift; sourceTree = "<group>"; };
 		BBAA915E25FFECCC0095DB27 /* MovieListResponseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponseProtocol.swift; sourceTree = "<group>"; };
+		BBAA916525FFF2F80095DB27 /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
+		BBAA916925FFF3DF0095DB27 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		BBAA916D25FFFA2C0095DB27 /* TmdbAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmdbAPI.swift; sourceTree = "<group>"; };
+		BBAA917325FFFA6D0095DB27 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +115,7 @@
 		BBAA90F225F9287A0095DB27 /* TMDB */ = {
 			isa = PBXGroup;
 			children = (
+				BBAA9177260008210095DB27 /* Network */,
 				BBAA916225FFECF00095DB27 /* Models */,
 				BBAA90F325F9287A0095DB27 /* AppDelegate.swift */,
 				BBAA90F525F9287A0095DB27 /* SceneDelegate.swift */,
@@ -139,6 +148,17 @@
 				BBAA915E25FFECCC0095DB27 /* MovieListResponseProtocol.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		BBAA9177260008210095DB27 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BBAA917325FFFA6D0095DB27 /* API.swift */,
+				BBAA916D25FFFA2C0095DB27 /* TmdbAPI.swift */,
+				BBAA916525FFF2F80095DB27 /* NetworkManagerProtocol.swift */,
+				BBAA916925FFF3DF0095DB27 /* NetworkManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		C886EACE0189022CDD6DC360 /* Frameworks */ = {
@@ -274,11 +294,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBAA916A25FFF3DF0095DB27 /* NetworkManager.swift in Sources */,
+				BBAA916625FFF2F80095DB27 /* NetworkManagerProtocol.swift in Sources */,
 				BBAA915325FFE9FE0095DB27 /* MovieModel.swift in Sources */,
 				BBAA912F25FB9EAE0095DB27 /* Coordinator.swift in Sources */,
 				BBAA90F825F9287A0095DB27 /* ViewController.swift in Sources */,
 				BBAA915F25FFECCC0095DB27 /* MovieListResponseProtocol.swift in Sources */,
+				BBAA917425FFFA6D0095DB27 /* API.swift in Sources */,
 				BBAA913225FBA4DB0095DB27 /* AppCoordinator.swift in Sources */,
+				BBAA916E25FFFA2C0095DB27 /* TmdbAPI.swift in Sources */,
 				BBAA915B25FFECAC0095DB27 /* MovieListResponse.swift in Sources */,
 				BBAA90F425F9287A0095DB27 /* AppDelegate.swift in Sources */,
 				BBAA90F625F9287A0095DB27 /* SceneDelegate.swift in Sources */,
