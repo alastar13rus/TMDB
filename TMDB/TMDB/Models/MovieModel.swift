@@ -18,10 +18,10 @@ struct MovieModel: MovieProtocol {
     var originalLanguage: String
     var title: String
     var backdropPath: String?
-    var popularity: Int
+    var popularity: Float
     var voteCount: Int
     var video: Bool
-    var voteAverage: Int
+    var voteAverage: Float
     
 }
 
@@ -29,11 +29,11 @@ extension MovieModel: Decodable {
     enum CodingKeys: String, CodingKey {
         case adult
         case overview
-        case genreIds
         case id
         case title
         case popularity
         case video
+        case genreIds = "genre_ids"
         case posterPath = "poster_path"
         case releaseDate = "release_date"
         case originalTitle = "original_title"

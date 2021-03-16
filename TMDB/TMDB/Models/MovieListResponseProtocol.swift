@@ -7,7 +7,10 @@
 
 import Foundation
 
-protocol MovieListResponseProtocol {
+protocol MovieListResponseProtocol: Decodable {
+    
+    associatedtype MovieProtocol
+    
     var page: Int { get }
     var totalResults: Int { get }
     var totalPages: Int { get }

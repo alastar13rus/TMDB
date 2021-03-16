@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MovieProtocol {
+protocol MovieProtocol: Decodable {
     var posterPath: String? { get }
     var adult: Bool { get }
     var overview: String { get }
@@ -18,9 +18,9 @@ protocol MovieProtocol {
     var originalLanguage: String { get }
     var title: String { get }
     var backdropPath: String? { get }
-    var popularity: Int { get }
+    var popularity: Float { get }
     var voteCount: Int { get }
     var video: Bool { get }
-    var voteAverage: Int { get }
+    var voteAverage: Float { get }
     
 }
