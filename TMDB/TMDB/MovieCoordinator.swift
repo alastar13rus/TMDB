@@ -16,6 +16,15 @@ class MovieCoordinator: Coordinator {
     
     func start() {
         print("start \(Self.self)")
+        let networkManager = NetworkManager()
+        networkManager.request(TmdbAPI.movies(.popular(page: 1))) { (result: Result<MovieListResponse, Error>) in
+            switch result {
+            case .success(let list):
+                print(list)
+            case .failure(_): break
+                
+            }
+        }
     }
     
 }
