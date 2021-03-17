@@ -20,10 +20,7 @@ class MovieListCoordinator: Coordinator {
     
     func start() {
 
-        let movieListViewController = MovieListViewController()
-        let movieListViewModel = MovieListViewModel()
-        movieListViewModel.coordinator = self
-        movieListViewController.bindViewModel(to: movieListViewModel)
+        let (_, _, movieListViewController) = factory()
         
         window?.rootViewController = movieListViewController
         
@@ -39,7 +36,19 @@ class MovieListCoordinator: Coordinator {
 //        }
     }
     
+    func factory() -> (coordinator: MovieListCoordinator, viewModel: MovieListViewModel, viewController: MovieListViewController) {
+        
+        let movieListViewController = MovieListViewController()
+        let movieListViewModel = MovieListViewModel()
+        movieListViewModel.coordinator = self
+        movieListViewController.bindViewModel(to: movieListViewModel)
+        
+        return (self, movieListViewModel, movieListViewController)
+    }
+    
 }
+
+
 
 extension MovieListCoordinator : Equatable {
     static func == (lhs: MovieListCoordinator, rhs: MovieListCoordinator) -> Bool {
