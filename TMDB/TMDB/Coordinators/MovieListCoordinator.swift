@@ -12,37 +12,29 @@ class MovieListCoordinator: Coordinator {
     var identifier = UUID()
     var childCoordinators = [UUID : Coordinator]()
     var parentCoordinator: Coordinator?
-    let window: UIWindow?
     
-    init(window: UIWindow) {
+    let window: UIWindow?
+    let navigationController: UINavigationController
+    
+    init(window: UIWindow, navigationController: UINavigationController) {
         self.window = window
+        self.navigationController = navigationController
     }
     
     func start() {
-
-        let (_, _, movieListViewController) = factory()
-        
-        window?.rootViewController = movieListViewController
-        
-        
-//        let networkManager = NetworkManager()
-//        networkManager.request(TmdbAPI.movies(.popular(page: 1))) { (result: Result<MovieListResponse, Error>) in
-//            switch result {
-//            case .success(let list):
-//                print(list)
-//            case .failure(_): break
-//
-//            }
-//        }
+        let (_, _, _) = factory()
+        window?.rootViewController = navigationController
     }
     
     func factory() -> (coordinator: MovieListCoordinator, viewModel: MovieListViewModel, viewController: MovieListViewController) {
         
+        let networkManager: NetworkManagerProtocol = NetworkManager()
+        
         let movieListViewController = MovieListViewController()
-        let movieListViewModel = MovieListViewModel()
+        let movieListViewModel = MovieListViewModel(networkManager: networkManager)
         movieListViewModel.coordinator = self
         movieListViewController.bindViewModel(to: movieListViewModel)
-        
+        navigationController.viewControllers = [movieListViewController]
         return (self, movieListViewModel, movieListViewController)
     }
     

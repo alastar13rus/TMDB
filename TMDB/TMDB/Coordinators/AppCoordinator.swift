@@ -14,13 +14,15 @@ class AppCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     
     let window: UIWindow
+    let navigationController: UINavigationController
     
-    init(window: UIWindow) {
+    init(window: UIWindow, navigationController: UINavigationController) {
         self.window = window
+        self.navigationController = navigationController
     }
     
     func start() {
-        let movieListCoordinator = MovieListCoordinator(window: window)
+        let movieListCoordinator = MovieListCoordinator(window: window, navigationController: navigationController)
         coordinate(to: movieListCoordinator)
     }
     

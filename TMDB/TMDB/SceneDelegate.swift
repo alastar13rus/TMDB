@@ -21,7 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let window = window else { return }
         window.makeKeyAndVisible()
         
-        appCoordinator = AppCoordinator(window: window)
+        let navigationController = UINavigationController()
+        
+        appCoordinator = AppCoordinator(window: window, navigationController: navigationController)
         appCoordinator?.start()
         
     }
