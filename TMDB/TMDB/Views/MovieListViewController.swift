@@ -26,7 +26,7 @@ class MovieListViewController: UIViewController {
     var movieListTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: String(describing: MovieTableViewCell.self))
-//        tableView.tableFooterView = UIView()
+        tableView.tableFooterView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -91,8 +91,21 @@ extension MovieListViewController: BindableType {
             .drive(movieListTableView.rx.items(dataSource: movieListDataSource))
             .disposed(by: disposeBag)
         
+        movieListTableView.rx.setDelegate(self)
+        
         
     }
 
 
+}
+
+extension MovieListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
 }
