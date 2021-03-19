@@ -18,7 +18,7 @@ class MovieListCoordinatorTest: XCTestCase {
     }
     
 //    MARK: - Helpers
-    let sut = MovieListCoordinator(window: UIWindow())
+    let sut = MovieListCoordinator(window: UIWindow(), navigationController: UINavigationController())
     
 }
 

@@ -40,8 +40,9 @@ class AppCoordinatorTest: XCTestCase {
 //    MARK : - Helpers
     
     let window = UIWindow()
-    lazy var sut = AppCoordinator(window: window)
-    lazy var spyMovieListCoordinator = SpyMovieListCoordinator(window: window)
+    let navigationController = UINavigationController()
+    lazy var sut = AppCoordinator(window: window, navigationController: navigationController)
+    lazy var spyMovieListCoordinator = SpyMovieListCoordinator(window: window, navigationController: navigationController)
     
     public class SpyMovieListCoordinator: MovieListCoordinator {}
     
