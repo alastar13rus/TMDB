@@ -44,6 +44,10 @@ extension MovieCellViewModel: IdentifiableType {
     
 }
 
+extension MovieCellViewModel: Hashable {
+    
+}
+
 extension MovieCellViewModel: Equatable {
     
 }

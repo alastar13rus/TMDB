@@ -14,9 +14,9 @@ struct MovieListDataSource {
     static func dataSource() -> DataSource {
         
         let animationConfiguration = AnimationConfiguration(
-            insertAnimation: .automatic,
-            reloadAnimation: .automatic,
-            deleteAnimation: .automatic)
+            insertAnimation: .left,
+            reloadAnimation: .left,
+            deleteAnimation: .right)
         
         let configureCell: DataSource.ConfigureCell = { (dataSource, tableView, indexPath, item) -> UITableViewCell in
             let cell = MovieTableViewCell()

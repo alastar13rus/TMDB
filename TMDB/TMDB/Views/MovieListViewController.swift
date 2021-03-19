@@ -27,7 +27,17 @@ class MovieListViewController: UIViewController {
     var movieListTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(MovieTableViewCell.self, forCellReuseIdentifier: String(describing: MovieTableViewCell.self))
+        tableView.separatorStyle = .singleLine
+        tableView.separatorColor = .systemBlue
+        tableView.separatorInset = .init(top: 10, left: 10, bottom: 10, right: 10)
         tableView.tableFooterView = UIView()
+        let refreshControl: UIRefreshControl = {
+            let refreshControl = UIRefreshControl()
+            refreshControl.endRefreshing()
+            refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+            return refreshControl
+        }()
+        tableView.refreshControl = refreshControl
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -51,8 +61,6 @@ class MovieListViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        
-        
     }
     
     private func setupHierarhy() {
@@ -71,11 +79,12 @@ class MovieListViewController: UIViewController {
             movieListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             movieListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             movieListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            
-            
         ])
-        
+    }
+    
+    @objc private func pullToRefresh(_ sender: UIRefreshControl) {
+        sender.beginRefreshing()
+        viewModel.input.isRefreshing.accept(sender.isRefreshing)
     }
     
 
@@ -87,32 +96,34 @@ extension MovieListViewController: BindableType {
     func bindViewModel() {
         viewModel.output.title.bind(to: navigationItem.rx.title).disposed(by: disposeBag)
         viewModel.output.categories.subscribe(onNext: { (categories) in
-            categories.reversed().map { self.categoryListSegmentedControl.insertSegment(withTitle: $0, at: 0, animated: true) }
+            _ = categories.reversed()
+                .map { self.categoryListSegmentedControl.insertSegment(withTitle: $0, at: 0, animated: true) }
         }).disposed(by: disposeBag)
         
+        movieListTableView.rx.setDelegate(self).disposed(by: disposeBag)
         viewModel.output.sectionedItems
             .asDriver(onErrorJustReturn: [])
             .drive(movieListTableView.rx.items(dataSource: movieListDataSource))
             .disposed(by: disposeBag)
         
-        movieListTableView.rx.setDelegate(self).disposed(by: disposeBag)
-        
-        
         viewModel.output.selectedSegmentIndex
             .asDriver().drive(categoryListSegmentedControl.rx.selectedSegmentIndex)
             .disposed(by: disposeBag)
-        
-//        categoryListSegmentedControl.rx.controlEvent(.valueChanged).subscribe { _ in
-//            self.movieListTableView.scrollToRow(at: [0, 0], at: .top, animated: true)
-//        }
 
-        
+        viewModel.output.isRefreshing.filter { !$0 } .subscribe (onNext: { _ in
+            self.movieListTableView.refreshControl!.endRefreshing()
+        }).disposed(by: disposeBag)
+
         categoryListSegmentedControl.rx.selectedSegmentIndex
             .asDriver().drive(viewModel.input.selectedSegmentIndex)
             .disposed(by: disposeBag)
         
-        movieListTableView.rx.willDisplayCell.map { $0.indexPath.row }.bind(to: viewModel.input.willDisplayCellIndex).disposed(by: disposeBag)
+        viewModel.output.selectedSegmentIndex.map { _ in true }
+            .subscribe(onNext: {  self.movieListTableView.scrollsToTop = $0 })
+            .disposed(by: disposeBag)
         
+        movieListTableView.rx.willDisplayCell.map { $0.indexPath.row }.bind(to: viewModel.input.willDisplayCellIndex).disposed(by: disposeBag)
+                
     }
 
 

@@ -18,7 +18,7 @@ class MovieTableViewCell: UITableViewCell {
     
     var posterImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .gray
+//        imageView.backgroundColor = .gray
         imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -70,6 +70,11 @@ class MovieTableViewCell: UITableViewCell {
     }
     
 //    MARK: - Methods
+    
+    override func prepareForReuse() {
+        posterImageView.image = nil
+    }
+    
     private func configure(with vm: MovieCellViewModel) {
 
         layoutIfNeeded()
@@ -78,13 +83,19 @@ class MovieTableViewCell: UITableViewCell {
         voteAverageLabel.text = vm.voteAverage
         vm.posterImageData {[weak self] imageData in
             guard let self = self else { return }
-            self.posterImageView.image = UIImage(data: imageData)
+            self.posterImageView.layer.opacity = 0
+            UIView.animate(withDuration: 0.5) {
+                self.posterImageView.layer.opacity = 1
+                self.posterImageView.image = UIImage(data: imageData)
+            }
         }
         
     }
     
+    
+    
     private func setupUI() {
-        
+        self.selectionStyle = .none
     }
     
     private func setupHierarhy() {
@@ -113,7 +124,6 @@ class MovieTableViewCell: UITableViewCell {
             voteAverageLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -8),
             voteAverageLabel.widthAnchor.constraint(equalToConstant: 32),
             voteAverageLabel.leftAnchor.constraint(greaterThanOrEqualTo: titleLabel.rightAnchor, constant: 8),
-            
             
         ])
     }
