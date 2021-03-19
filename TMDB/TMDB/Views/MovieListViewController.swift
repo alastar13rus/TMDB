@@ -39,7 +39,7 @@ class MovieListViewController: UIViewController {
         setupUI()
         setupHierarhy()
         setupConstraints()
-        print(categoryListSegmentedControl.selectedSegmentIndex)
+        
     }
     
 //    MARK: - Methods
@@ -77,6 +77,8 @@ class MovieListViewController: UIViewController {
         ])
         
     }
+    
+
 }
 
 //  MARK: - Extensions
@@ -100,11 +102,16 @@ extension MovieListViewController: BindableType {
             .asDriver().drive(categoryListSegmentedControl.rx.selectedSegmentIndex)
             .disposed(by: disposeBag)
         
+//        categoryListSegmentedControl.rx.controlEvent(.valueChanged).subscribe { _ in
+//            self.movieListTableView.scrollToRow(at: [0, 0], at: .top, animated: true)
+//        }
+
+        
         categoryListSegmentedControl.rx.selectedSegmentIndex
             .asDriver().drive(viewModel.input.selectedSegmentIndex)
             .disposed(by: disposeBag)
         
-        
+        movieListTableView.rx.willDisplayCell.map { $0.indexPath.row }.bind(to: viewModel.input.willDisplayCellIndex).disposed(by: disposeBag)
         
     }
 
@@ -120,4 +127,7 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
+    
+
+    
 }
