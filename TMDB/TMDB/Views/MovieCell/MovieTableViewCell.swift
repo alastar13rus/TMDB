@@ -46,7 +46,10 @@ class MovieTableViewCell: UITableViewCell {
     
     var voteAverageLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = .gray
+        label.textAlignment = .right
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -101,13 +104,14 @@ class MovieTableViewCell: UITableViewCell {
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
             titleLabel.leftAnchor.constraint(equalTo: posterImageView.rightAnchor, constant: 8),
             
-            overviewLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 8),
+            overviewLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 16),
             overviewLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
             overviewLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
             overviewLabel.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor),
             
             voteAverageLabel.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
             voteAverageLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -8),
+            voteAverageLabel.widthAnchor.constraint(equalToConstant: 32),
             voteAverageLabel.leftAnchor.constraint(greaterThanOrEqualTo: titleLabel.rightAnchor, constant: 8),
             
             

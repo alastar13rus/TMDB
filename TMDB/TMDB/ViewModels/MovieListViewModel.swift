@@ -18,26 +18,26 @@ class MovieListViewModel: ViewModelType {
     
     
     
-    
 //    MARK: - Inputs
     
     struct Input {
-        
+        var selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
     }
     
-    lazy var input: Input = { setupInput() }()
+    var input = Input()
     
     
 //    MARK: - Outputs
     
     struct Output {
-        let title: BehaviorRelay<String>
-        let categories: BehaviorRelay<[String]>
-        let movies: BehaviorRelay<[MovieCellViewModel]>
-        let sectionedItems: BehaviorRelay<[MovieCellViewModelSection]>
+        var title = BehaviorRelay<String>(value: "")
+        var categories = BehaviorRelay<[String]>(value: [])
+        var selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
+        var movies = BehaviorRelay<[MovieCellViewModel]>(value: [])
+        var sectionedItems = BehaviorRelay<[MovieCellViewModelSection]>(value: [])
     }
     
-    lazy var output: Output = { setupOutput() }()
+    var output = Output()
     
     
     
@@ -45,7 +45,7 @@ class MovieListViewModel: ViewModelType {
     init(networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
         
-        
+        self.setupOutput()
         
     }
     
@@ -73,24 +73,48 @@ class MovieListViewModel: ViewModelType {
         
     }
     
-    private func setupOutput() -> Output {
+    private func setupOutput() {
         let _title = BehaviorRelay<String>(value: "Рейтинг фильмов")
         let _categories = BehaviorRelay<[String]>(value: ["ТОП рейтинга", "Популярные", "Свежие", "Ожидаемые"])
         let _movies = BehaviorRelay<[MovieCellViewModel]>(value: [])
         let _sectionedItems = BehaviorRelay<[MovieCellViewModelSection]>(value: [])
+        var _selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
         
-        self.fetchMovies(api: TmdbAPI.movies(.topRated(page: 1))) { fetchedMovies in
-            _movies.accept(fetchedMovies)
+        var _movieEndpoint: TmdbAPI.MovieEndpoint {
+            let index = self.input.selectedSegmentIndex.value
+            switch index {
+            case 0:
+                return .topRated(page: 1)
+            case 1:
+                return .popular(page: 1)
+            case 2:
+                return .nowPlaying(page: 1)
+            case 3:
+                return .upcoming(page: 1)
+            default:
+                return .topRated(page: 1)
+            }
         }
         
-        _movies.subscribe(onNext: { (cells) in
-            _sectionedItems.accept([MovieCellViewModelSection(header: "efsd", items: cells)])
+        
+        
+        input.selectedSegmentIndex.subscribe(onNext: { index in
+            _selectedSegmentIndex.accept(index)
+            self.fetchMovies(api: TmdbAPI.movies(_movieEndpoint)) { fetchedMovies in
+                self.output.movies.accept(fetchedMovies)
+            }
         }).disposed(by: disposeBag)
         
-        return Output(title: _title, categories: _categories, movies: _movies, sectionedItems: _sectionedItems)
+        _movies.subscribe(onNext: { (cells) in
+            _sectionedItems.accept([MovieCellViewModelSection(header: _title.value, items: cells)])
+        }).disposed(by: disposeBag)
+        
+        self.output.title = _title
+        self.output.categories = _categories
+        self.output.selectedSegmentIndex = _selectedSegmentIndex
+        self.output.movies = _movies
+        self.output.sectionedItems = _sectionedItems
+        
     }
     
-    private func setupInput() -> Input {
-        return Input()
-    }
 }

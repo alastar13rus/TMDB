@@ -19,6 +19,7 @@ class MovieListViewController: UIViewController {
     
     var categoryListSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
+        segmentedControl.selectedSegmentIndex = 1
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
@@ -38,6 +39,7 @@ class MovieListViewController: UIViewController {
         setupUI()
         setupHierarhy()
         setupConstraints()
+        print(categoryListSegmentedControl.selectedSegmentIndex)
     }
     
 //    MARK: - Methods
@@ -91,7 +93,17 @@ extension MovieListViewController: BindableType {
             .drive(movieListTableView.rx.items(dataSource: movieListDataSource))
             .disposed(by: disposeBag)
         
-        movieListTableView.rx.setDelegate(self)
+        movieListTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        
+        viewModel.output.selectedSegmentIndex
+            .asDriver().drive(categoryListSegmentedControl.rx.selectedSegmentIndex)
+            .disposed(by: disposeBag)
+        
+        categoryListSegmentedControl.rx.selectedSegmentIndex
+            .asDriver().drive(viewModel.input.selectedSegmentIndex)
+            .disposed(by: disposeBag)
+        
         
         
     }
