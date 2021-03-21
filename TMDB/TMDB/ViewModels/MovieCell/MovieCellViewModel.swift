@@ -12,7 +12,7 @@ struct MovieCellViewModel {
     let id: String
     let title: String
     let overview: String
-    let voteAverage: String
+    let voteAverage: CGFloat
     let posterPath: String?
     
     private var posterAbsolutePath: URL? {
@@ -30,7 +30,7 @@ struct MovieCellViewModel {
         self.id = String(model.id)
         self.title = model.title
         self.overview = model.overview
-        self.voteAverage = String(Int(model.voteAverage * 10))
+        self.voteAverage = CGFloat(model.voteAverage * 10)
         self.posterPath = model.posterPath
         
     }

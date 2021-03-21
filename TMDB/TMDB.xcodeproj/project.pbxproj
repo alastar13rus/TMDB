@@ -36,6 +36,7 @@
 		BBAA91B72602A8270095DB27 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91B62602A8270095DB27 /* MovieTableViewCell.swift */; };
 		BBAA91BC2602DF440095DB27 /* ImageURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91BB2602DF440095DB27 /* ImageURL.swift */; };
 		BBAA91D22603ED570095DB27 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91D12603ED570095DB27 /* URL+Extensions.swift */; };
+		BBAA91FA260566FF0095DB27 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91F9260566FE0095DB27 /* CircleProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		BBAA91B62602A8270095DB27 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		BBAA91BB2602DF440095DB27 /* ImageURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageURL.swift; sourceTree = "<group>"; };
 		BBAA91D12603ED570095DB27 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
+		BBAA91F9260566FE0095DB27 /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				BBAA90FC25F9287C0095DB27 /* Assets.xcassets */,
 				BBAA90FE25F9287C0095DB27 /* LaunchScreen.storyboard */,
 				BBAA910125F9287C0095DB27 /* Info.plist */,
+				BBAA91F9260566FE0095DB27 /* CircleProgressBar.swift */,
 			);
 			path = TMDB;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				BBAA90F425F9287A0095DB27 /* AppDelegate.swift in Sources */,
 				BBAA91BC2602DF440095DB27 /* ImageURL.swift in Sources */,
 				BBAA90F625F9287A0095DB27 /* SceneDelegate.swift in Sources */,
+				BBAA91FA260566FF0095DB27 /* CircleProgressBar.swift in Sources */,
 				BBAA915725FFEA670095DB27 /* MovieProtocol.swift in Sources */,
 				BBAA91B72602A8270095DB27 /* MovieTableViewCell.swift in Sources */,
 				BBAA913525FBA8F80095DB27 /* MovieListCoordinator.swift in Sources */,

@@ -16,6 +16,7 @@ class MovieListViewController: UIViewController {
     var viewModel: MovieListViewModel!
     var disposeBag = DisposeBag()
     var movieListDataSource = MovieListDataSource.dataSource()
+    var displayIndexPaths = [IndexPath]()
     
     var categoryListSegmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
@@ -38,6 +39,7 @@ class MovieListViewController: UIViewController {
             return refreshControl
         }()
         tableView.refreshControl = refreshControl
+        tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -138,7 +140,5 @@ extension MovieListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
     }
-    
-
     
 }

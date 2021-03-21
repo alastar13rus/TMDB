@@ -18,7 +18,6 @@ class MovieTableViewCell: UITableViewCell {
     
     var posterImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.backgroundColor = .gray
         imageView.layer.cornerRadius = 5
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -55,6 +54,15 @@ class MovieTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var voteAverageCircleProgressBar: CircleProgressBar = {
+        let view = CircleProgressBar()
+        view.isAnimating = true
+        view.counterDuration = 1.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
 //    MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -77,19 +85,20 @@ class MovieTableViewCell: UITableViewCell {
     
     private func configure(with vm: MovieCellViewModel) {
 
-        layoutIfNeeded()
+//        layoutIfNeeded()
         titleLabel.text = vm.title
         overviewLabel.text = vm.overview
-        voteAverageLabel.text = vm.voteAverage
-        vm.posterImageData {[weak self] imageData in
+        voteAverageCircleProgressBar.progress = vm.voteAverage
+        
+        vm.posterImageData { [weak self] imageData in
             guard let self = self else { return }
             self.posterImageView.layer.opacity = 0
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.2) {
                 self.posterImageView.layer.opacity = 1
                 self.posterImageView.image = UIImage(data: imageData)
             }
         }
-        
+    
     }
     
     
@@ -102,7 +111,8 @@ class MovieTableViewCell: UITableViewCell {
         addSubview(posterImageView)
         addSubview(titleLabel)
         addSubview(overviewLabel)
-        addSubview(voteAverageLabel)
+//        addSubview(voteAverageLabel)
+        addSubview(voteAverageCircleProgressBar)
     }
     
     private func setupConstraints() {
@@ -111,19 +121,20 @@ class MovieTableViewCell: UITableViewCell {
             posterImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 8),
             posterImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
             posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.5),
-            
+
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
             titleLabel.leftAnchor.constraint(equalTo: posterImageView.rightAnchor, constant: 8),
-            
+
             overviewLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 16),
             overviewLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
             overviewLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
             overviewLabel.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor),
             
-            voteAverageLabel.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
-            voteAverageLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -8),
-            voteAverageLabel.widthAnchor.constraint(equalToConstant: 32),
-            voteAverageLabel.leftAnchor.constraint(greaterThanOrEqualTo: titleLabel.rightAnchor, constant: 8),
+            voteAverageCircleProgressBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            voteAverageCircleProgressBar.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -8),
+            voteAverageCircleProgressBar.leftAnchor.constraint(greaterThanOrEqualTo: titleLabel.rightAnchor, constant: 8),
+            voteAverageCircleProgressBar.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            voteAverageCircleProgressBar.widthAnchor.constraint(equalToConstant: 50),
             
         ])
     }
