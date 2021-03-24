@@ -37,6 +37,7 @@ class AppCoordinatorTest: XCTestCase {
         
     }
     
+    
 //    MARK : - Helpers
     
     let window = UIWindow()

@@ -11,12 +11,41 @@ import RxCocoa
 
 class MovieListViewModel: ViewModelType {
     
+    
 //    MARK: - Properties
     let networkManager: NetworkManagerProtocol
     weak var coordinator: MovieListCoordinator?
     let disposeBag = DisposeBag()
     
     var currentPage = 1
+    var numberOfMovies = 0
+    var requiredThresholdNumberOfCells = 5
+    
+    var actualThresholdNumberOfCells: Int {
+        abs(numberOfMovies - input.willDisplayCellIndex.value)
+    }
+    
+    var isRequiredNextFetching: Bool {
+        actualThresholdNumberOfCells < requiredThresholdNumberOfCells
+    }
+    
+    
+    var movieEndpoint: TmdbAPI.MovieEndpoint {
+        let index = self.input.selectedSegmentIndex.value
+        
+        switch index {
+        case 0:
+            return .topRated(page: currentPage)
+        case 1:
+            return .popular(page: currentPage)
+        case 2:
+            return .nowPlaying(page: currentPage)
+        case 3:
+            return .upcoming(page: currentPage)
+        default:
+            return .topRated(page: currentPage)
+        }
+    }
     
 //    MARK: - Inputs
     
@@ -55,16 +84,25 @@ class MovieListViewModel: ViewModelType {
     }
     
 //    MARK: - Methods
-    private func fetchMovies(api: API, completion: @escaping ([MovieCellViewModel]) -> Void) {
+    public func fetchMovies(api: API, completion: @escaping ([MovieCellViewModel]) -> Void) {
         
-        guard !output.isFetching.value else { return }
+        guard !output.isFetching.value else {
+            completion([])
+            return
+        }
         
         DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let self = self else { return }
+            guard let self = self else {
+                completion([])
+                return
+            }
             
             self.networkManager.request(api) { [weak self] (result: Result<MovieListResponse, Error>) in
                 
-                guard let self = self else { return }
+                guard let self = self else {
+                    completion([])
+                    return
+                }
                 
                 self.output.isFetching.accept(true)
                 
@@ -72,12 +110,15 @@ class MovieListViewModel: ViewModelType {
                 case .success(let response):
                     DispatchQueue.main.async {
                         let fetchedMovies = response.results.map { MovieCellViewModel($0) }
+                        print("===============================================")
+                        print(self.input.selectedSegmentIndex.value)
                         completion(fetchedMovies)
                         
                         self.output.isFetching.accept(false)
                         
                     }
                 case .failure(let error):
+                    completion([])
                     break
                 }
             }
@@ -91,45 +132,28 @@ class MovieListViewModel: ViewModelType {
         let _categories = BehaviorRelay<[String]>(value: ["ТОП рейтинга", "Популярные", "Свежие", "Ожидаемые"])
         let _movies = BehaviorRelay<[MovieCellViewModel]>(value: [])
         let _sectionedItems = BehaviorRelay<[MovieCellViewModelSection]>(value: [])
-        let _selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
+    
         
-        var _movieEndpoint: TmdbAPI.MovieEndpoint {
-            let index = self.input.selectedSegmentIndex.value
+        input.selectedSegmentIndex.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] index in
             
-            switch index {
-            case 0:
-                return .topRated(page: currentPage)
-            case 1:
-                return .popular(page: currentPage)
-            case 2:
-                return .nowPlaying(page: currentPage)
-            case 3:
-                return .upcoming(page: currentPage)
-            default:
-                return .topRated(page: currentPage)
-            }
-        }
-        
-        
-        
-        input.selectedSegmentIndex.distinctUntilChanged().subscribe(onNext: { index in
-            _selectedSegmentIndex.accept(index)
+            guard let self = self else { return }
+            
             self.currentPage = 1
-            self.fetchMovies(api: TmdbAPI.movies(_movieEndpoint)) { fetchedMovies in
-//                _movies.accept([])
+            self.fetchMovies(api: TmdbAPI.movies(self.movieEndpoint)) { fetchedMovies in
                 _movies.accept(fetchedMovies)
+                self.numberOfMovies = _movies.value.count
             }
         }).disposed(by: disposeBag)
         
-        input.willDisplayCellIndex
-            .filter { $0 >= self.output.movies.value.count - 5 && !self.output.movies.value.isEmpty }
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+        input.willDisplayCellIndex.skip(1)
+            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .filter { _ in self.isRequiredNextFetching && self.numberOfMovies > 0 }
             .subscribe(onNext: { [weak self] (index) in
                 
                 guard let self = self else { return }
                 
                 self.currentPage += 1
-                self.fetchMovies(api: TmdbAPI.movies(_movieEndpoint)) { fetchedMovies in
+                self.fetchMovies(api: TmdbAPI.movies(self.movieEndpoint)) { fetchedMovies in
                     var currentMovies = _movies.value
                     currentMovies.append(contentsOf: fetchedMovies)
                     var currentMoviesSet = Set(currentMovies)
@@ -141,25 +165,28 @@ class MovieListViewModel: ViewModelType {
                         .map { newCurrentMovies.append($0) }
 
                     _movies.accept(newCurrentMovies)
+                    self.numberOfMovies = _movies.value.count
                 }
             }).disposed(by: disposeBag)
         
-        _movies.subscribe(onNext: { (cells) in
+        _movies.skip(1).compactMap { $0 } .subscribe(onNext: { (cells) in
             _sectionedItems.accept([MovieCellViewModelSection(header: _title.value, items: cells)])
         }).disposed(by: disposeBag)
         
-        input.isRefreshing.filter { $0 } .subscribe (onNext: { _ in
+        input.isRefreshing.filter { $0 } .subscribe (onNext: { [weak self] _ in
+
+            guard let self = self else { return }
+
             self.currentPage = 1
-            self.fetchMovies(api: TmdbAPI.movies(_movieEndpoint)) { fetchedMovies in
+            self.fetchMovies(api: TmdbAPI.movies(self.movieEndpoint)) { fetchedMovies in
                 _movies.accept(fetchedMovies)
                 self.output.isRefreshing.accept(false)
             }
         }).disposed(by: disposeBag)
 
-        
         self.output.title = _title
         self.output.categories = _categories
-        self.output.selectedSegmentIndex = _selectedSegmentIndex
+        self.numberOfMovies = _movies.value.count
         self.output.movies = _movies
         self.output.sectionedItems = _sectionedItems
         
