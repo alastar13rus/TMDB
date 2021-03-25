@@ -110,8 +110,6 @@ class MovieListViewModel: ViewModelType {
                 case .success(let response):
                     DispatchQueue.main.async {
                         let fetchedMovies = response.results.map { MovieCellViewModel($0) }
-                        print("===============================================")
-                        print(self.input.selectedSegmentIndex.value)
                         completion(fetchedMovies)
                         
                         self.output.isFetching.accept(false)
