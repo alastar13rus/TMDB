@@ -170,7 +170,7 @@ class MovieListViewModelTest: XCTestCase {
         }
         XCTAssertEqual(movies.count, 0)
 
-        waitForExpectations(timeout: 3)
+        waitForExpectations(timeout: 10)
 
         XCTAssertEqual(sut.output.isFetching.value, false)
         XCTAssertEqual(movies.count, 20)
