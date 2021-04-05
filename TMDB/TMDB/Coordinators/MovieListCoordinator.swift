@@ -23,7 +23,6 @@ class MovieListCoordinator: Coordinator {
     
     func start() {
         let (_, _, _) = factory()
-        window?.rootViewController = navigationController
     }
     
     func factory() -> (coordinator: MovieListCoordinator, viewModel: MovieListViewModel, viewController: MovieListViewController) {

@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		57775DF4BBFE451716EB13F2 /* Pods_TMDBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AA98EB030C1236C39DAD383 /* Pods_TMDBTests.framework */; };
 		A02231CF2042FACA3436C860 /* Pods_TMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 540E68142B75814D35CD3ECF /* Pods_TMDB.framework */; };
+		BB109FC8261B81AC008C50EE /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FC7261B81AC008C50EE /* TabBarCoordinator.swift */; };
+		BB109FDC261B8971008C50EE /* TabBarDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FDB261B8971008C50EE /* TabBarDataSource.swift */; };
+		BB109FEA261B90BA008C50EE /* TabBarCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */; };
+		BB109FEE261B9A46008C50EE /* TVListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FED261B9A46008C50EE /* TVListCoordinator.swift */; };
+		BB109FF2261B9A60008C50EE /* FavoriteListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FF1261B9A60008C50EE /* FavoriteListCoordinator.swift */; };
 		BB4C7C242607CF9C0022EAFD /* MovieListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4C7C232607CF9C0022EAFD /* MovieListViewModelTest.swift */; };
 		BBAA90F425F9287A0095DB27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA90F325F9287A0095DB27 /* AppDelegate.swift */; };
 		BBAA90F625F9287A0095DB27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA90F525F9287A0095DB27 /* SceneDelegate.swift */; };
@@ -57,6 +62,11 @@
 		3159522495BC9CB644E5749C /* Pods-TMDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB.release.xcconfig"; path = "Target Support Files/Pods-TMDB/Pods-TMDB.release.xcconfig"; sourceTree = "<group>"; };
 		540E68142B75814D35CD3ECF /* Pods_TMDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TMDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		586AABA755050441B801F822 /* Pods-TMDB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB.debug.xcconfig"; path = "Target Support Files/Pods-TMDB/Pods-TMDB.debug.xcconfig"; sourceTree = "<group>"; };
+		BB109FC7261B81AC008C50EE /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
+		BB109FDB261B8971008C50EE /* TabBarDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarDataSource.swift; sourceTree = "<group>"; };
+		BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinatorTest.swift; sourceTree = "<group>"; };
+		BB109FED261B9A46008C50EE /* TVListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVListCoordinator.swift; sourceTree = "<group>"; };
+		BB109FF1261B9A60008C50EE /* FavoriteListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListCoordinator.swift; sourceTree = "<group>"; };
 		BB4C7C232607CF9C0022EAFD /* MovieListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewModelTest.swift; sourceTree = "<group>"; };
 		BBAA90F025F9287A0095DB27 /* TMDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAA90F325F9287A0095DB27 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +135,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		BB109FE6261B8E86008C50EE /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				BB109FC7261B81AC008C50EE /* TabBarCoordinator.swift */,
+				BB109FDB261B8971008C50EE /* TabBarDataSource.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		BBAA90E725F9287A0095DB27 = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +190,7 @@
 			children = (
 				BBAA914125FBAB200095DB27 /* AppCoordinatorTest.swift */,
 				BBAA9195260157380095DB27 /* MovieListCoordinatorTest.swift */,
+				BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */,
 				BB4C7C232607CF9C0022EAFD /* MovieListViewModelTest.swift */,
 				BBAA914325FBAB200095DB27 /* Info.plist */,
 			);
@@ -202,9 +222,12 @@
 		BBAA917C2600DCF90095DB27 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				BB109FE6261B8E86008C50EE /* TabBar */,
 				BBAA912E25FB9EAE0095DB27 /* Coordinator.swift */,
 				BBAA913125FBA4DB0095DB27 /* AppCoordinator.swift */,
 				BBAA913425FBA8F80095DB27 /* MovieListCoordinator.swift */,
+				BB109FED261B9A46008C50EE /* TVListCoordinator.swift */,
+				BB109FF1261B9A60008C50EE /* FavoriteListCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -462,6 +485,7 @@
 				BBAA912F25FB9EAE0095DB27 /* Coordinator.swift in Sources */,
 				BBAA90F825F9287A0095DB27 /* ViewController.swift in Sources */,
 				BBAA915F25FFECCC0095DB27 /* MovieListResponseProtocol.swift in Sources */,
+				BB109FC8261B81AC008C50EE /* TabBarCoordinator.swift in Sources */,
 				BBAA917F2600DD950095DB27 /* MovieListViewController.swift in Sources */,
 				BBAA917425FFFA6D0095DB27 /* API.swift in Sources */,
 				BBAA913225FBA4DB0095DB27 /* AppCoordinator.swift in Sources */,
@@ -479,8 +503,11 @@
 				BBAA90F625F9287A0095DB27 /* SceneDelegate.swift in Sources */,
 				BBAA91FA260566FF0095DB27 /* CircleProgressBar.swift in Sources */,
 				BBAA915725FFEA670095DB27 /* MovieProtocol.swift in Sources */,
+				BB109FEE261B9A46008C50EE /* TVListCoordinator.swift in Sources */,
 				BBAA91B72602A8270095DB27 /* MovieTableViewCell.swift in Sources */,
 				BBAA913525FBA8F80095DB27 /* MovieListCoordinator.swift in Sources */,
+				BB109FF2261B9A60008C50EE /* FavoriteListCoordinator.swift in Sources */,
+				BB109FDC261B8971008C50EE /* TabBarDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +517,7 @@
 			files = (
 				BBAA9196260157380095DB27 /* MovieListCoordinatorTest.swift in Sources */,
 				BBAA914225FBAB200095DB27 /* AppCoordinatorTest.swift in Sources */,
+				BB109FEA261B90BA008C50EE /* TabBarCoordinatorTest.swift in Sources */,
 				BB4C7C242607CF9C0022EAFD /* MovieListViewModelTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
