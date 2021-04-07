@@ -40,7 +40,7 @@
 		BBAA917F2600DD950095DB27 /* MediaListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA917E2600DD950095DB27 /* MediaListViewController.swift */; };
 		BBAA918A2600E30D0095DB27 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91892600E30D0095DB27 /* ViewModelType.swift */; };
 		BBAA918E2600E3320095DB27 /* BindableType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA918D2600E3320095DB27 /* BindableType.swift */; };
-		BBAA9196260157380095DB27 /* MovieListCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA9195260157380095DB27 /* MovieListCoordinatorTest.swift */; };
+		BBAA9196260157380095DB27 /* MediaListCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA9195260157380095DB27 /* MediaListCoordinatorTest.swift */; };
 		BBAA91A82602465F0095DB27 /* MediaCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91A72602465F0095DB27 /* MediaCellViewModel.swift */; };
 		BBAA91AE2602622C0095DB27 /* MediaCellViewModelSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91AD2602622C0095DB27 /* MediaCellViewModelSection.swift */; };
 		BBAA91B2260267880095DB27 /* MediaListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91B1260267880095DB27 /* MediaListDataSource.swift */; };
@@ -101,7 +101,7 @@
 		BBAA917E2600DD950095DB27 /* MediaListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListViewController.swift; sourceTree = "<group>"; };
 		BBAA91892600E30D0095DB27 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		BBAA918D2600E3320095DB27 /* BindableType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindableType.swift; sourceTree = "<group>"; };
-		BBAA9195260157380095DB27 /* MovieListCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCoordinatorTest.swift; sourceTree = "<group>"; };
+		BBAA9195260157380095DB27 /* MediaListCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListCoordinatorTest.swift; sourceTree = "<group>"; };
 		BBAA91A72602465F0095DB27 /* MediaCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCellViewModel.swift; sourceTree = "<group>"; };
 		BBAA91AD2602622C0095DB27 /* MediaCellViewModelSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCellViewModelSection.swift; sourceTree = "<group>"; };
 		BBAA91B1260267880095DB27 /* MediaListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListDataSource.swift; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				BBAA914125FBAB200095DB27 /* AppCoordinatorTest.swift */,
-				BBAA9195260157380095DB27 /* MovieListCoordinatorTest.swift */,
+				BBAA9195260157380095DB27 /* MediaListCoordinatorTest.swift */,
 				BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */,
 				BB4C7C232607CF9C0022EAFD /* MediaListViewModelTest.swift */,
 				BBAA914325FBAB200095DB27 /* Info.plist */,
@@ -539,7 +539,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBAA9196260157380095DB27 /* MovieListCoordinatorTest.swift in Sources */,
+				BBAA9196260157380095DB27 /* MediaListCoordinatorTest.swift in Sources */,
 				BBAA914225FBAB200095DB27 /* AppCoordinatorTest.swift in Sources */,
 				BB109FEA261B90BA008C50EE /* TabBarCoordinatorTest.swift in Sources */,
 				BB4C7C242607CF9C0022EAFD /* MediaListViewModelTest.swift in Sources */,

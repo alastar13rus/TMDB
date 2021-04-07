@@ -49,7 +49,7 @@ class MediaListViewModelTest: XCTestCase {
         waitForExpectations(timeout: 3)
     }
     
-    func test_subscribeSelectedSegmentIndex_defaultSetupSelectedSegmentIndex_noFetchingMovies() {
+    func test_subscribeSelectedSegmentIndex_defaultSetupSelectedSegmentIndex_noFetchingMedia() {
         
         let sut = SpyMediaListViewModel(networkManager: NetworkManager())
         
@@ -69,7 +69,7 @@ class MediaListViewModelTest: XCTestCase {
 
     }
 
-    func test_subscribeSelectedSegmentIndex_didChangeSelectedSegmentIndex_moviesIsReplacedWithANextMovies() {
+    func test_subscribeSelectedSegmentIndex_didChangeSelectedSegmentIndex_mediaIsReplacedWithANextMedia() {
         
         let sut = SpyMediaListViewModel(networkManager: NetworkManager())
         
@@ -90,7 +90,7 @@ class MediaListViewModelTest: XCTestCase {
 
     }
 
-    func test_subscribeWillDisplayCellIndex_emptyCurrentMovies_noFetchingMovies() {
+    func test_subscribeWillDisplayCellIndex_emptyCurrentMovies_noFetchingMedia() {
         
         let sut = SpyMediaListViewModel(networkManager: NetworkManager())
         
@@ -106,7 +106,7 @@ class MediaListViewModelTest: XCTestCase {
 
     }
 
-    func test_subscribeWillDisplayCellIndex_actualThresholdLessThanRequiredThreshold_startFetchingMovies() {
+    func test_subscribeWillDisplayCellIndex_actualThresholdLessThanRequiredThreshold_startFetchingMedia() {
         
         let sut = SpyMediaListViewModel(networkManager: NetworkManager())
         
@@ -133,7 +133,7 @@ class MediaListViewModelTest: XCTestCase {
 
     }
 
-    func test_subscribeWillDisplayCellIndex_actualThresholdGreaterThanRequiredThreshold_noFetchingMovies() {
+    func test_subscribeWillDisplayCellIndex_actualThresholdGreaterThanRequiredThreshold_noFetchingMedia() {
         
         let sut = SpyMediaListViewModel(networkManager: NetworkManager())
         
@@ -156,7 +156,7 @@ class MediaListViewModelTest: XCTestCase {
 
     }
 
-    func test_fetchMedia_paramIsFetchingEqualFalse_fetchingMovies() {
+    func test_fetchMedia_paramIsFetchingEqualFalse_fetchingMedia() {
         
         let sut = SpyMediaListViewModel(networkManager: NetworkManager())
         
@@ -180,28 +180,28 @@ class MediaListViewModelTest: XCTestCase {
         XCTAssertEqual(movies.count, 20)
     }
 
-    func test_fetchMedia_paramIsFetchingEqualTrue_noFetchingMovies() {
+    func test_fetchMedia_paramIsFetchingEqualTrue_noFetchingMedia() {
         
         let sut = SpyMediaListViewModel(networkManager: NetworkManager())
 
         sut.output.isFetching.accept(true)
-        var movies = [MediaCellViewModel]()
+        var media = [MediaCellViewModel]()
         XCTAssertEqual(sut.output.media.value.count, 0)
 
         let expectation = self.expectation(description: #function)
 
-        sut.testFetch { (fetchedMovies) in
-            XCTAssertEqual(movies.count, 0)
-            movies = fetchedMovies
+        sut.testFetch { (fetchedMedia) in
+            XCTAssertEqual(media.count, 0)
+            media = fetchedMedia
             XCTAssertEqual(sut.output.isFetching.value, true)
             expectation.fulfill()
         }
-        XCTAssertEqual(movies.count, 0)
+        XCTAssertEqual(media.count, 0)
 
         waitForExpectations(timeout: 3)
 
         XCTAssertEqual(sut.output.isFetching.value, true)
-        XCTAssertEqual(movies.count, 0)
+        XCTAssertEqual(media.count, 0)
     }
     
     func test_subscribeIsRefreshing_whenIsRefreshingEqualTrue_thenFetchingMoviesAndResetParams() {
@@ -218,10 +218,6 @@ class MediaListViewModelTest: XCTestCase {
         XCTAssertEqual(sut.output.media.value.count, 20)
         XCTAssertEqual(sut.currentPage, 1)
         XCTAssertEqual(sut.output.isRefreshing.value, false)
-        
-        
-
-
     }
     
 }
@@ -233,8 +229,8 @@ class SpyMediaListViewModel: MediaListViewModel { }
 
 extension SpyMediaListViewModel {
     func testFetch(completion: @escaping ([MediaCellViewModel]) -> Void) {
-        self.fetch() { (movies) in
-            completion(movies)
+        self.fetch() { (media) in
+            completion(media)
         }
     }
 }

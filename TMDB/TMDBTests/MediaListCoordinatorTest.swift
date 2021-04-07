@@ -1,5 +1,5 @@
 //
-//  MovieListCoordinatorTest.swift
+//  MediaListCoordinatorTest.swift
 //  TMDBTests
 //
 //  Created by Докин Андрей (IOS) on 17.03.2021.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import TMDB
 
-class MovieListCoordinatorTest: XCTestCase {
+class MediaListCoordinatorTest: XCTestCase {
     
     func test_factory() {
         let (coordinator, viewModel, viewController) = sut.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
