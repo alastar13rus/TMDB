@@ -5,7 +5,7 @@
 //  Created by Докин Андрей (IOS) on 12.03.2021.
 //
 
-import Foundation
+import UIKit
 
 protocol Coordinator: class {
     
@@ -32,6 +32,27 @@ extension Coordinator {
     func coordinate(to coordinator: Coordinator) {
         store(coordinator)
         coordinator.start()
+    }
+}
+
+protocol NavigationCoordinator: Coordinator {
+    var navigationController: UINavigationController { get }
+}
+
+extension NavigationCoordinator {
+    
+    func factory<M: ViewModelType, C: BindableType & UIViewController>(vmType: M.Type, vcType: C.Type) -> (coordinator: Self, viewModel: M, viewController: C) {
+        
+        let networkManager: NetworkManagerProtocol = NetworkManager()
+        
+        let viewController = C()
+        let viewModel = M(networkManager: networkManager)
+        viewModel.coordinator = self
+        viewController.bindViewModel(to: viewModel as! C.ViewModelType)
+        if (self.navigationController.viewControllers.isEmpty) {
+            self.navigationController.pushViewController(viewController, animated: true)
+        }
+        return (self, viewModel, viewController)
     }
     
 }

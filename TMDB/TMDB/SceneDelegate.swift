@@ -21,9 +21,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let window = window else { return }
         window.makeKeyAndVisible()
         
-        let navigationController = UINavigationController()
+        let tabBarController = UITabBarController()
         
-        appCoordinator = AppCoordinator(window: window, navigationController: navigationController)
+        appCoordinator = AppCoordinator(window: window, tabBarController: tabBarController)
         appCoordinator?.start()
         
     }

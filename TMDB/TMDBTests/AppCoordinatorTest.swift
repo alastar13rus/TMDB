@@ -11,29 +11,29 @@ import XCTest
 class AppCoordinatorTest: XCTestCase {
     
     func testCoordinator_store() {
-        sut.store(spyMovieListCoordinator)
+        sut.store(spyTabBarCoordinator)
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators[spyMovieListCoordinator.identifier] is SpyMovieListCoordinator)
-        XCTAssertEqual(sut.childCoordinators[spyMovieListCoordinator.identifier] as! SpyMovieListCoordinator, spyMovieListCoordinator)
+        XCTAssert(sut.childCoordinators[spyTabBarCoordinator.identifier] is SpyTabBarCoordinator)
+        XCTAssertEqual(sut.childCoordinators[spyTabBarCoordinator.identifier] as! SpyTabBarCoordinator, spyTabBarCoordinator)
         
     }
     
     func testCoordinator_free() {
-        sut.childCoordinators[spyMovieListCoordinator.identifier] = spyMovieListCoordinator
-        sut.free(spyMovieListCoordinator)
+        sut.childCoordinators[spyTabBarCoordinator.identifier] = spyTabBarCoordinator
+        sut.free(spyTabBarCoordinator)
         
         XCTAssertEqual(sut.childCoordinators.count, 0)
-        XCTAssertFalse(sut.childCoordinators[spyMovieListCoordinator.identifier] is SpyMovieListCoordinator)
+        XCTAssertFalse(sut.childCoordinators[spyTabBarCoordinator.identifier] is SpyTabBarCoordinator)
         
     }
     
     func testCoordinator_coordinate() {
-        sut.coordinate(to: spyMovieListCoordinator)
+        sut.coordinate(to: spyTabBarCoordinator)
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators[spyMovieListCoordinator.identifier] is SpyMovieListCoordinator)
-        XCTAssertEqual(sut.childCoordinators[spyMovieListCoordinator.identifier] as! SpyMovieListCoordinator, spyMovieListCoordinator)
+        XCTAssert(sut.childCoordinators[spyTabBarCoordinator.identifier] is SpyTabBarCoordinator)
+        XCTAssertEqual(sut.childCoordinators[spyTabBarCoordinator.identifier] as! SpyTabBarCoordinator, spyTabBarCoordinator)
         
     }
     
@@ -41,11 +41,11 @@ class AppCoordinatorTest: XCTestCase {
 //    MARK : - Helpers
     
     let window = UIWindow()
-    let navigationController = UINavigationController()
-    lazy var sut = AppCoordinator(window: window, navigationController: navigationController)
-    lazy var spyMovieListCoordinator = SpyMovieListCoordinator(window: window, navigationController: navigationController)
+    let tabBarController = UITabBarController()
+    lazy var sut = AppCoordinator(window: window, tabBarController: tabBarController)
+    lazy var spyTabBarCoordinator = SpyTabBarCoordinator(window: window)
     
-    public class SpyMovieListCoordinator: MovieListCoordinator {}
+    public class SpyTabBarCoordinator: TabBarCoordinator {}
     
 
 }

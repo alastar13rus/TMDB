@@ -7,18 +7,16 @@
 
 import Foundation
 
-struct MovieListResponse: MovieListResponseProtocol {
-    
-    typealias MovieProtocol = MovieModel
-    
+struct MediaListResponse<T: MediaProtocol>: MediaListResponseProtocol {
+
     var page: Int
     var totalResults: Int
     var totalPages: Int
-    var results: [MovieModel]
-    
+    var results: [T]
+
 }
 
-extension MovieListResponse {
+extension MediaListResponse {
     enum CodingKeys: String, CodingKey {
         case page
         case totalResults = "total_results"

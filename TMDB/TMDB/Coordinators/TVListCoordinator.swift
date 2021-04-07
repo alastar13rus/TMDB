@@ -1,13 +1,13 @@
 //
-//  MovieListCoordinator.swift
+//  TVListCoordinator.swift
 //  TMDB
 //
-//  Created by Докин Андрей (IOS) on 12.03.2021.
+//  Created by Докин Андрей (IOS) on 05.04.2021.
 //
 
 import UIKit
 
-class MovieListCoordinator: NavigationCoordinator {
+class TVListCoordinator:  NavigationCoordinator {
     
     var identifier = UUID()
     var childCoordinators = [UUID : Coordinator]()
@@ -22,15 +22,5 @@ class MovieListCoordinator: NavigationCoordinator {
     func start() {
         (_, _, _) = factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
     }
-    
-}
-
-
-
-extension MovieListCoordinator : Equatable {
-    static func == (lhs: MovieListCoordinator, rhs: MovieListCoordinator) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
-    
     
 }
