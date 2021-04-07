@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TabBarDataSource {
+class TabBarControllerDataSource {
     let items = [
         UINavigationController(),
         UINavigationController(),

@@ -43,7 +43,7 @@ class AppCoordinatorTest: XCTestCase {
     let window = UIWindow()
     let tabBarController = UITabBarController()
     lazy var sut = AppCoordinator(window: window, tabBarController: tabBarController)
-    lazy var spyTabBarCoordinator = SpyTabBarCoordinator(window: window, tabBarController: tabBarController)
+    lazy var spyTabBarCoordinator = SpyTabBarCoordinator(window: window)
     
     public class SpyTabBarCoordinator: TabBarCoordinator {}
     

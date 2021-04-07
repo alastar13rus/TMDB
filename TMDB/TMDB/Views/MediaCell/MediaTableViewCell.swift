@@ -1,5 +1,5 @@
 //
-//  MovieTableViewCell.swift
+//  MediaTableViewCell.swift
 //  TMDB
 //
 //  Created by Докин Андрей (IOS) on 18.03.2021.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MovieTableViewCell: UITableViewCell {
+class MediaTableViewCell: UITableViewCell {
     
 //    MARK: - Properties
-    var viewModel: MovieCellViewModel! {
+    var viewModel: MediaCellViewModel! {
         didSet {
             self.configure(with: viewModel)
         }
@@ -54,7 +54,7 @@ class MovieTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var voteAverageCircleProgressBar: CircleProgressBar = {
+    lazy var voteAverageCircleProgressBar: CircleProgressBar = {
         let view = CircleProgressBar()
         view.isAnimating = true
         view.counterDuration = 1.0
@@ -83,9 +83,8 @@ class MovieTableViewCell: UITableViewCell {
         posterImageView.image = nil
     }
     
-    private func configure(with vm: MovieCellViewModel) {
-
-//        layoutIfNeeded()
+    private func configure(with vm: MediaCellViewModel) {
+        
         titleLabel.text = vm.title
         overviewLabel.text = vm.overview
         voteAverageCircleProgressBar.progress = vm.voteAverage
@@ -98,10 +97,8 @@ class MovieTableViewCell: UITableViewCell {
                 self.posterImageView.image = UIImage(data: imageData)
             }
         }
-    
+        
     }
-    
-    
     
     private func setupUI() {
         self.selectionStyle = .none
@@ -111,7 +108,6 @@ class MovieTableViewCell: UITableViewCell {
         addSubview(posterImageView)
         addSubview(titleLabel)
         addSubview(overviewLabel)
-//        addSubview(voteAverageLabel)
         addSubview(voteAverageCircleProgressBar)
     }
     
@@ -121,10 +117,10 @@ class MovieTableViewCell: UITableViewCell {
             posterImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 8),
             posterImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
             posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.5),
-
+            
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
             titleLabel.leftAnchor.constraint(equalTo: posterImageView.rightAnchor, constant: 8),
-
+            
             overviewLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 16),
             overviewLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
             overviewLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),

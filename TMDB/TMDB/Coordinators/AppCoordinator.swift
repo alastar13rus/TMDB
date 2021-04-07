@@ -22,7 +22,7 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        let tabBarCoordinator = TabBarCoordinator(window: window, tabBarController: tabBarController)
+        let tabBarCoordinator = TabBarCoordinator(window: window)
         coordinate(to: tabBarCoordinator)
     }
     

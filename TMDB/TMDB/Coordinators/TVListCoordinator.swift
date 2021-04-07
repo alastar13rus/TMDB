@@ -5,8 +5,22 @@
 //  Created by Докин Андрей (IOS) on 05.04.2021.
 //
 
-import Foundation
+import UIKit
 
-class TVListCoordinator {
+class TVListCoordinator:  NavigationCoordinator {
+    
+    var identifier = UUID()
+    var childCoordinators = [UUID : Coordinator]()
+    var parentCoordinator: Coordinator?
+    
+    let navigationController: UINavigationController
+    
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    func start() {
+        (_, _, _) = factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
+    }
     
 }

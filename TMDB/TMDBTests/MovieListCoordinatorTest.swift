@@ -11,20 +11,20 @@ import XCTest
 class MovieListCoordinatorTest: XCTestCase {
     
     func test_factory() {
-        let (coordinator, viewModel, viewController) = sut.factory()
+        let (coordinator, viewModel, viewController) = sut.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
         
         XCTAssertEqual(viewController.viewModel, viewModel)
-        XCTAssertEqual(viewModel.coordinator, coordinator)
+        XCTAssertEqual(viewModel.coordinator as! MovieListCoordinator, coordinator)
     }
     
 //    MARK: - Helpers
-    let sut = MovieListCoordinator(window: UIWindow(), navigationController: UINavigationController())
+    let sut = MovieListCoordinator(navigationController: UINavigationController())
     
 }
 
-extension MovieListViewModel: Equatable {
+extension MediaListViewModel: Equatable {
     
-    public static func == (lhs: MovieListViewModel, rhs: MovieListViewModel) -> Bool {
+    public static func == (lhs: MediaListViewModel, rhs: MediaListViewModel) -> Bool {
         return lhs === rhs
     }
 

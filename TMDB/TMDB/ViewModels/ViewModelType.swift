@@ -14,5 +14,8 @@ protocol ViewModelType: class {
     
     var input: Input { get }
     var output: Output { get }
+    var coordinator: Coordinator? { get set }
+    
+    init(networkManager: NetworkManagerProtocol)
     
 }

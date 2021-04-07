@@ -14,18 +14,20 @@ class TabBarCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     
     let window: UIWindow
-    let tabBarController: UITabBarController
     let items: [UINavigationController]
+    let dataSource = TabBarControllerDataSource()
     
-    init(window: UIWindow, tabBarController: UITabBarController) {
-        self.window = window
-        self.tabBarController = tabBarController
-        
-        let dataSource = TabBarDataSource()
-        self.items = dataSource.items
-        
+    lazy var tabBarController: TabBarController = {
+        let tabBarController = TabBarController()
+        tabBarController.coordinator = self
         tabBarController.setViewControllers(items, animated: true)
         tabBarController.selectedViewController = items[0]
+        return tabBarController
+    }()
+    
+    init(window: UIWindow) {
+        self.window = window
+        self.items = dataSource.items
     }
     
     func start() {
@@ -35,17 +37,17 @@ class TabBarCoordinator: Coordinator {
     }
     
     public func showMovieTab() {
-        let movieListCoordinator = MovieListCoordinator(window: window, navigationController: items[0])
+        let movieListCoordinator = MovieListCoordinator(navigationController: items[0])
         coordinate(to: movieListCoordinator)
     }
     
     public func showTVTab() {
-//        let tvListCoordinator = TVListCoordinator(window: window, navigationController: items[0])
-//        coordinate(to: tvListCoordinator)
+        let tvListCoordinator = TVListCoordinator(navigationController: items[1])
+        coordinate(to: tvListCoordinator)
     }
     
     public func showFavoriteTab() {
-//        let favoriteListCoordinator = FavoriteListCoordinator(window: window, navigationController: items[0])
+//        let favoriteListCoordinator = FavoriteListCoordinator(navigationController: items[2])
 //        coordinate(to: favoriteListCoordinator)
     }
     

@@ -7,34 +7,20 @@
 
 import UIKit
 
-class MovieListCoordinator: Coordinator {
+class MovieListCoordinator: NavigationCoordinator {
     
     var identifier = UUID()
     var childCoordinators = [UUID : Coordinator]()
     var parentCoordinator: Coordinator?
     
-    let window: UIWindow?
     let navigationController: UINavigationController
     
-    init(window: UIWindow, navigationController: UINavigationController) {
-        self.window = window
+    init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
     func start() {
-        let (_, _, _) = factory()
-    }
-    
-    func factory() -> (coordinator: MovieListCoordinator, viewModel: MovieListViewModel, viewController: MovieListViewController) {
-        
-        let networkManager: NetworkManagerProtocol = NetworkManager()
-        
-        let movieListViewController = MovieListViewController()
-        let movieListViewModel = MovieListViewModel(networkManager: networkManager)
-        movieListViewModel.coordinator = self
-        movieListViewController.bindViewModel(to: movieListViewModel)
-        navigationController.viewControllers = [movieListViewController]
-        return (self, movieListViewModel, movieListViewController)
+        (_, _, _) = factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
     }
     
 }
