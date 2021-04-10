@@ -41,11 +41,9 @@ class MediaListViewController: UIViewController {
     //    MARK: - Methods
         private func setupUI() {
             view.backgroundColor = .white
-            self.navigationController?.navigationBar.prefersLargeTitles = true
-            self.navigationItem.largeTitleDisplayMode = .always
-            self.navigationController?.navigationBar.isTranslucent = false
-            navigationItem.largeTitleDisplayMode = .always
-            self.navigationController?.navigationBar.prefersLargeTitles = true
+//            self.navigationController?.navigationBar.isTranslucent = false
+//            navigationItem.largeTitleDisplayMode = .always
+//            self.navigationController?.navigationBar.prefersLargeTitles = true
             
         }
         
@@ -108,6 +106,11 @@ extension MediaListViewController: BindableType {
             .disposed(by: disposeBag)
         
         mediaListTableView.rx.willDisplayCell.map { $0.indexPath.row }.bind(to: viewModel.input.willDisplayCellIndex).disposed(by: disposeBag)
+        
+        mediaListTableView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).map { (item) -> MediaCellViewModel in
+            switch item { case .movie(let vm), .tv(let vm): return vm.self }
+        }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
+        
                 
     }
 

@@ -15,7 +15,7 @@ protocol MediaDetailProtocol: Decodable {
     var overview: String { get }
     var popularity: Float { get }
     var posterPath: String? { get }
-    var productionCompanies: [ProductionCompanyModel] { get }
+    var productionCompanies: [CompanyModel] { get }
     var status: String { get }
     var voteAverage: Float { get }
     var voteCount: Int {get }
@@ -36,6 +36,7 @@ protocol TVDetailProtocol: MediaDetailProtocol {
     var languages: [LanguageModel] { get }
     var lastAirDate: String { get }
     var lastEpisodeToAir: TVEpisodeModel { get }
+    var name: String { get }
     var networks: [TVNetworkModel] { get }
     var numberOfEpisodes: Int { get }
     var numberOfSeasons: Int { get }

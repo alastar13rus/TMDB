@@ -41,7 +41,7 @@ class CircleProgressBar: UIView {
     private lazy var gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
         layer.startPoint = CGPoint(x: 0.5, y: 0.5)
-        layer.endPoint = CGPoint(x: 0.0, y: 0.0)
+        layer.endPoint = CGPoint(x: 0.4, y: 0.0)
         
         layer.colors = gradientColors.map { $0.cgColor }
         layer.frame = self.bounds

@@ -25,6 +25,7 @@ struct TVDetailModel: TVDetailProtocol {
     let languages: [LanguageModel]
     let lastAirDate: String
     let lastEpisodeToAir: TVEpisodeModel
+    let name: String
     let networks: [TVNetworkModel]
     let numberOfEpisodes: Int
     let numberOfSeasons: Int
@@ -34,7 +35,7 @@ struct TVDetailModel: TVDetailProtocol {
     let overview: String
     let popularity: Float
     let posterPath: String?
-    let productionCompanies: [ProductionCompanyModel]
+    let productionCompanies: [CompanyModel]
     let seasons: [TVSeasonModel]
     let status: String
     let tagline: String
@@ -55,6 +56,7 @@ struct TVDetailModel: TVDetailProtocol {
         case languages
         case lastAirDate = "last_air_date"
         case lastEpisodeToAir = "last_episode_to_air"
+        case name
         case networks
         case numberOfEpisodes = "number_of_episodes"
         case numberOfSeasons = "number_of_seasons"
@@ -63,7 +65,7 @@ struct TVDetailModel: TVDetailProtocol {
         case originalName = "original_name"
         case overview
         case popularity
-        case posterPath
+        case posterPath = "poster_path"
         case productionCompanies = "production_companies"
         case seasons
         case status
