@@ -52,6 +52,7 @@
 		BB0AC68C26220B7100CFA11B /* TVCreatorWithPhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC68B26220B7100CFA11B /* TVCreatorWithPhotoCellViewModel.swift */; };
 		BB0AC6922622117100CFA11B /* TVCreatorWithPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC6912622117100CFA11B /* TVCreatorWithPhotoCell.swift */; };
 		BB0AC6C12622472F00CFA11B /* TVDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC6BA2622462D00CFA11B /* TVDetailDataSource.swift */; };
+		BB0AC6D52622506E00CFA11B /* TVSceneTransitionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC6D42622506E00CFA11B /* TVSceneTransitionTest.swift */; };
 		BB109FC8261B81AC008C50EE /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FC7261B81AC008C50EE /* TabBarCoordinator.swift */; };
 		BB109FDC261B8971008C50EE /* TabBarControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FDB261B8971008C50EE /* TabBarControllerDataSource.swift */; };
 		BB109FEA261B90BA008C50EE /* TabBarCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */; };
@@ -147,6 +148,7 @@
 		BB0AC68B26220B7100CFA11B /* TVCreatorWithPhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVCreatorWithPhotoCellViewModel.swift; sourceTree = "<group>"; };
 		BB0AC6912622117100CFA11B /* TVCreatorWithPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVCreatorWithPhotoCell.swift; sourceTree = "<group>"; };
 		BB0AC6BA2622462D00CFA11B /* TVDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailDataSource.swift; sourceTree = "<group>"; };
+		BB0AC6D42622506E00CFA11B /* TVSceneTransitionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSceneTransitionTest.swift; sourceTree = "<group>"; };
 		BB109FC7261B81AC008C50EE /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		BB109FDB261B8971008C50EE /* TabBarControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerDataSource.swift; sourceTree = "<group>"; };
 		BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinatorTest.swift; sourceTree = "<group>"; };
@@ -482,6 +484,7 @@
 				BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */,
 				BB4C7C232607CF9C0022EAFD /* MediaListViewModelTest.swift */,
 				BBAA914325FBAB200095DB27 /* Info.plist */,
+				BB0AC6D42622506E00CFA11B /* TVSceneTransitionTest.swift */,
 			);
 			path = TMDBTests;
 			sourceTree = "<group>";
@@ -811,6 +814,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB0AC6D52622506E00CFA11B /* TVSceneTransitionTest.swift in Sources */,
 				BBAA9196260157380095DB27 /* MediaListCoordinatorTest.swift in Sources */,
 				BBAA914225FBAB200095DB27 /* AppCoordinatorTest.swift in Sources */,
 				BB109FEA261B90BA008C50EE /* TabBarCoordinatorTest.swift in Sources */,

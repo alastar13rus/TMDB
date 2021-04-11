@@ -14,6 +14,7 @@ class MediaListViewController: UIViewController {
     
     
     //    MARK: - Property
+    var qwe = 0
         var viewModel: MediaListViewModel!
         var disposeBag = DisposeBag()
         var mediaListDataSource = MediaListDataSource.dataSource()
@@ -108,6 +109,7 @@ extension MediaListViewController: BindableType {
         mediaListTableView.rx.willDisplayCell.map { $0.indexPath.row }.bind(to: viewModel.input.willDisplayCellIndex).disposed(by: disposeBag)
         
         mediaListTableView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).map { (item) -> MediaCellViewModel in
+            self.qwe = 10
             switch item { case .movie(let vm), .tv(let vm): return vm.self }
         }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
         
