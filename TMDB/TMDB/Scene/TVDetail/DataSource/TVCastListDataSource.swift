@@ -20,6 +20,11 @@ struct TVCastListDataSource {
             deleteAnimation: .automatic)
         
         let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
+            if dataSource[indexPath].order == 99 {
+///            Вставить ячейку "Показать еще" в конец коллекции
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowMoreCell.self), for: indexPath) as! ShowMoreCell
+                return cell
+            }
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVCastCell.self), for: indexPath) as? TVCastCell else { return UICollectionViewCell() }
             cell.viewModel = item
             return cell

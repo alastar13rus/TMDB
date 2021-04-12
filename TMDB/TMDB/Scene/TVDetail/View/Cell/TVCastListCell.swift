@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxRelay
+import RxDataSources
 
 class TVCastListCell: UITableViewCell {
     
@@ -23,6 +24,7 @@ class TVCastListCell: UITableViewCell {
     lazy var tvCastListCollectionView: TVCastListCollectionView = {
         let collectionView = TVCastListCollectionView(frame: .zero, collectionViewLayout: TVCollectionViewLayout(countItemsInRowOrColumn: 3, scrollDirection: .horizontal, view: self))
         collectionView.register(TVCastCell.self, forCellWithReuseIdentifier: String(describing: TVCastCell.self))
+        collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -42,7 +44,13 @@ class TVCastListCell: UITableViewCell {
     
 //    MARK: - Methods
     fileprivate func configure(with vm: TVCastListViewModel) {
-        vm.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvCastListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        vm.sectionedItems.map { (sections) -> [TVCastCellViewModelSection] in
+            sections.map {
+                $0.items.append(TVCastCellViewModel($0.items.last!))
+                return $0
+            }
+        }
+        .asDriver(onErrorJustReturn: []).drive(tvCastListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {

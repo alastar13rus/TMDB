@@ -19,7 +19,7 @@ class TVCastCell: UICollectionViewCell {
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 5
+        imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

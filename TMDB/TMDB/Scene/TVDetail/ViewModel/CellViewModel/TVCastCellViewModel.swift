@@ -43,7 +43,7 @@ class TVCastCellViewModel {
     let profilePath: String?
     let character: String
     let creditID: String
-    let order: Int
+    var order: Int
     
     var profileAbsolutePath: URL? {
         return ImageURL.profile(.w185, profilePath).fullURL
@@ -62,12 +62,27 @@ class TVCastCellViewModel {
         self.order = model.order
     }
     
+    init(_ vm: TVCastCellViewModel) {
+        self.gender = vm.gender
+        self.id = vm.id
+        self.name = vm.name
+        self.popularity = vm.popularity
+        self.profilePath = vm.profilePath
+        self.character = vm.character
+        self.creditID = vm.creditID
+        self.order = 99
+    }
+    
 //    MARK: - Methods
     
     func profileImageData(completion: @escaping (Data) -> Void) {
         profileAbsolutePath?.downloadImageData(completion: { (data) in
             completion(data)
         })
+    }
+    
+    func changeOrder(to newOrder: Int) {
+        self.order = newOrder
     }
     
 }

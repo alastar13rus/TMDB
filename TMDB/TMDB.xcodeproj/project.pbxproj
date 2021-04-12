@@ -63,6 +63,7 @@
 		BB0AC6FB26236E6300CFA11B /* TVCastListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC6FA26236E6300CFA11B /* TVCastListDataSource.swift */; };
 		BB0AC6FF262379C700CFA11B /* TVCastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC6FE262379C700CFA11B /* TVCastCell.swift */; };
 		BB0AC70326239A9E00CFA11B /* TVCastListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC70226239A9E00CFA11B /* TVCastListViewModel.swift */; };
+		BB0AC708262449E500CFA11B /* ShowMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0AC707262449E500CFA11B /* ShowMoreCell.swift */; };
 		BB109FC8261B81AC008C50EE /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FC7261B81AC008C50EE /* TabBarCoordinator.swift */; };
 		BB109FDC261B8971008C50EE /* TabBarControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FDB261B8971008C50EE /* TabBarControllerDataSource.swift */; };
 		BB109FEA261B90BA008C50EE /* TabBarCoordinatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */; };
@@ -169,6 +170,7 @@
 		BB0AC6FA26236E6300CFA11B /* TVCastListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVCastListDataSource.swift; sourceTree = "<group>"; };
 		BB0AC6FE262379C700CFA11B /* TVCastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVCastCell.swift; sourceTree = "<group>"; };
 		BB0AC70226239A9E00CFA11B /* TVCastListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVCastListViewModel.swift; sourceTree = "<group>"; };
+		BB0AC707262449E500CFA11B /* ShowMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreCell.swift; sourceTree = "<group>"; };
 		BB109FC7261B81AC008C50EE /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		BB109FDB261B8971008C50EE /* TabBarControllerDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerDataSource.swift; sourceTree = "<group>"; };
 		BB109FE9261B90BA008C50EE /* TabBarCoordinatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinatorTest.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 		BB0AC6B02622448200CFA11B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BB0AC706262449B200CFA11B /* Cell */,
 				BB0AC58A261C5BC300CFA11B /* MediaListTableView.swift */,
 				BB0AC591261C5F9100CFA11B /* RefreshControl.swift */,
 				BB0AC595261C616000CFA11B /* SegmentedControl.swift */,
@@ -454,6 +457,14 @@
 				BB0AC6FA26236E6300CFA11B /* TVCastListDataSource.swift */,
 			);
 			path = DataSource;
+			sourceTree = "<group>";
+		};
+		BB0AC706262449B200CFA11B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BB0AC707262449E500CFA11B /* ShowMoreCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		BB109FE6261B8E86008C50EE /* TabBar */ = {
@@ -805,6 +816,7 @@
 				BBAA916E25FFFA2C0095DB27 /* TmdbAPI.swift in Sources */,
 				BB0AC61E261F4F5100CFA11B /* TVDetailViewController.swift in Sources */,
 				BB0AC612261F4B3A00CFA11B /* LanguageModel.swift in Sources */,
+				BB0AC708262449E500CFA11B /* ShowMoreCell.swift in Sources */,
 				BBAA91AE2602622C0095DB27 /* MediaCellViewModelSection.swift in Sources */,
 				BB0AC64826208E6700CFA11B /* TVOverviewCell.swift in Sources */,
 				BB0AC64426208CE000CFA11B /* TVOverviewCellViewModel.swift in Sources */,
