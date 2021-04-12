@@ -42,117 +42,175 @@ class TVDetailViewModel: DetailViewModelType {
     required init(with detailID: String, networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
         self.detailID = detailID
+        
         fetch { [weak self] (tvDetail) in
             guard let self = self else { return }
             
-            var sections = [TVDetailCellViewModelMultipleSection]()
-            
-            let tvPosterWrapperSection: TVDetailCellViewModelMultipleSection =
-                .tvPosterWrapperSection(
-                    title: "Poster",
-                    items: [.tvPosterWrapper(vm: TVPosterWrapperCellViewModel(tvDetail))])
-            
-            sections.append(tvPosterWrapperSection)
-            
-            let tvOverviewSection: TVDetailCellViewModelMultipleSection =
-                .tvOverviewSection(
-                    title: "Overview",
-                    items: [.tvOverview(vm: TVOverviewCellViewModel(tvDetail))])
-            
-            sections.append(tvOverviewSection)
-
-            let tvRuntimeSection: TVDetailCellViewModelMultipleSection =
-                .tvRuntimeSection(
-                    title: "Продолжительность",
-                    items: [.tvRuntime(vm: TVRuntimeCellViewModel(tvDetail))])
-            
-            sections.append(tvRuntimeSection)
-
-            let tvGenresSection: TVDetailCellViewModelMultipleSection =
-                .tvGenresSection(
-                    title: "Жанры",
-                    items: [.tvGenres(vm: TVGenresCellViewModel(tvDetail))])
-            
-            sections.append(tvGenresSection)
-
-            if !tvDetail.createdBy.isEmpty {
-            
-            let tvCreatorsSection: TVDetailCellViewModelMultipleSection =
-                .tvCreatorsSection(
-                    title: "Создатели",
-                    items: tvDetail.createdBy.map { .tvCreators(vm: TVCreatorWithPhotoCellViewModel($0)) })
-            
-            sections.append(tvCreatorsSection)
-            }
-            
-            let tvStatusSection: TVDetailCellViewModelMultipleSection =
-                .tvStatusSection(
-                    title: "Статус",
-                    items: [.tvStatus(vm: TVStatusCellViewModel(tvDetail))])
-            
-            sections.append(tvStatusSection)
-            
-            
-            if let castList = tvDetail.credits?.cast, !castList.isEmpty {
-                
-                let tvCastListSection: TVDetailCellViewModelMultipleSection =
-                    .tvCastListSection(title: "Актеры", items: [.tvCastList(vm: TVCastListViewModel(title: "Актеры", items: castList.map { TVCastCellViewModel($0) }))])
-                
-                sections.append(tvCastListSection)
-            }
-            
+            let sections = self.configureSections(from: tvDetail)
             self.output.sectionedItems.accept(sections)
             
-            
-            switch tvPosterWrapperSection.items[0] {
-            case .tvPosterWrapper(let vm):
-                self.output.title.accept(vm.title)
-                
-                var posterAbsolutePath: URL? {
-                    return ImageURL.poster(.w500, vm.posterPath).fullURL
-                }
-                
-                var backdropAbsolutePath: URL? {
-                    return ImageURL.backdrop(.w780, vm.backdropPath).fullURL
-                }
-                self.output.posterAbsolutePath.accept(posterAbsolutePath)
-                self.output.backdropAbsolutePath.accept(backdropAbsolutePath)
-
-                
-            default: break
-            }
-            
         }
-        setupOutput()
+        
     }
     
 //    MARK: - Methods
     
     private func fetch(completion: @escaping (TVDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.credits]))) { [weak self] (result: Result<TVDetailModel, Error>) in
+        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.credits]))) { (result: Result<TVDetailModel, Error>) in
             
             switch result {
             case .success(let tvDetail):
                 completion(tvDetail)
                 
-            case .failure(let error): break
+            case .failure(_): break
             }
         }
-}
-        
-        
-        
-        
-        
-        
-        
-        
+    }
     
-    private func setupOutput() {
+    private func refreshOutput(with section: TVDetailCellViewModelMultipleSection) {
+        
+        switch section.items[0] {
+        case .tvPosterWrapper(let vm):
+            self.output.title.accept(vm.title)
+
+            var posterAbsolutePath: URL? {
+                return ImageURL.poster(.w500, vm.posterPath).fullURL
+            }
+
+            var backdropAbsolutePath: URL? {
+                return ImageURL.backdrop(.w780, vm.backdropPath).fullURL
+            }
+            self.output.posterAbsolutePath.accept(posterAbsolutePath)
+            self.output.backdropAbsolutePath.accept(backdropAbsolutePath)
+
+        default: break
+        }
+    }
+    
+    private func configureSections(from model: TVDetailModel) -> [TVDetailCellViewModelMultipleSection] {
+        
+        let sections = [TVDetailCellViewModelMultipleSection]()
+        
+        return sections
+            .buildSections(withModel: model, andAction: self.configureTVPosterWrapperSection(withModel:sections:))
+            .buildSections(withModel: model, andAction: self.configureTVCastListSection(withModel:sections:))
+            .buildSections(withModel: model, andAction: self.configureTVOverviewSection(withModel:sections:))
+            .buildSections(withModel: model, andAction: self.configureTVRuntimeSection(withModel:sections:))
+            .buildSections(withModel: model, andAction: self.configureTVGenresSection(withModel:sections:))
+            .buildSections(withModel: model, andAction: self.configureTVStatusSection(withModel:sections:))
+            .buildSections(withModel: model, andAction: self.configureTVCreatorsSection(withModel:sections:))
         
     }
     
+    fileprivate func configureTVPosterWrapperSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+
+        var sections = sections
+
+        let tvPosterWrapperSection: TVDetailCellViewModelMultipleSection =
+            .tvPosterWrapperSection(
+                title: "Poster",
+                items: [.tvPosterWrapper(vm: TVPosterWrapperCellViewModel(model))])
+
+        sections.append(tvPosterWrapperSection)
+
+        refreshOutput(with: tvPosterWrapperSection)
+
+        return sections
+    }
+
     
+    fileprivate func configureTVOverviewSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+        
+        var sections = sections
+        
+        let tvOverviewSection: TVDetailCellViewModelMultipleSection =
+            .tvPosterWrapperSection(
+                title: "Overview",
+                items: [.tvOverview(vm: TVOverviewCellViewModel(model))])
+        
+        sections.append(tvOverviewSection)
+        return sections
+    }
     
+    fileprivate func configureTVRuntimeSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+        
+        var sections = sections
+        
+        let tvRuntimeSection: TVDetailCellViewModelMultipleSection =
+            .tvRuntimeSection(
+                title: "Продолжительность",
+                items: [.tvRuntime(vm: TVRuntimeCellViewModel(model))])
+        
+        sections.append(tvRuntimeSection)
+        return sections
+    }
     
+    fileprivate func configureTVGenresSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+        
+        var sections = sections
+        
+        let tvGenresSection: TVDetailCellViewModelMultipleSection =
+            .tvGenresSection(
+                title: "Жанры",
+                items: [.tvGenres(vm: TVGenresCellViewModel(model))])
+        
+        sections.append(tvGenresSection)
+        return sections
+    }
+    
+    fileprivate func configureTVStatusSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+        
+        var sections = sections
+        
+        let tvStatusSection: TVDetailCellViewModelMultipleSection =
+            .tvStatusSection(
+                title: "Статус",
+                items: [.tvStatus(vm: TVStatusCellViewModel(model))])
+        
+        sections.append(tvStatusSection)
+        return sections
+    }
+    
+    fileprivate func configureTVCreatorsSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+        
+        var sections = sections
+        
+        if !model.createdBy.isEmpty {
+            
+            let tvCreatorsSection: TVDetailCellViewModelMultipleSection =
+                .tvCreatorsSection(
+                    title: "Создатели",
+                    items: model.createdBy.map { .tvCreators(vm: TVCreatorWithPhotoCellViewModel($0)) })
+            
+            sections.append(tvCreatorsSection)
+        }
+        return sections
+    }
+    
+    fileprivate func configureTVCastListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+        
+        var sections = sections
+        
+        if let castList = model.credits?.cast, !castList.isEmpty {
+            
+            let tvCastListSection: TVDetailCellViewModelMultipleSection =
+                .tvCastListSection(title: "Актеры", items: [.tvCastList(vm: TVCastListViewModel(title: "Актеры", items: castList.map { TVCastCellViewModel($0) }))])
+            
+            sections.append(tvCastListSection)
+        }
+        return sections
+    }
+    
+}
+
+extension Array where Array.Element == TVDetailCellViewModelMultipleSection {
+    
+    typealias Section = TVDetailCellViewModelMultipleSection
+    
+    func buildSections(withModel model: TVDetailModel,
+                       andAction action: ((TVDetailModel, [Section]) -> [Section])) -> [Section] {
+        
+        return action(model, self)
+    }
+
 }
