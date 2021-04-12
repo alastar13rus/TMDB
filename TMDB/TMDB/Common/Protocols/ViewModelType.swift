@@ -15,7 +15,15 @@ protocol ViewModelType: class {
     var input: Input { get }
     var output: Output { get }
     var coordinator: Coordinator? { get set }
+
+}
+
+protocol GeneralViewModelType: ViewModelType {
     
     init(networkManager: NetworkManagerProtocol)
+}
+
+protocol DetailViewModelType: ViewModelType {
     
+    init(with detailID: String, networkManager: NetworkManagerProtocol)
 }

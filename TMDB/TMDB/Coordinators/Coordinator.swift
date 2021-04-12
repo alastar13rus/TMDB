@@ -41,7 +41,7 @@ protocol NavigationCoordinator: Coordinator {
 
 extension NavigationCoordinator {
     
-    func factory<M: ViewModelType, C: BindableType & UIViewController>(vmType: M.Type, vcType: C.Type) -> (coordinator: Self, viewModel: M, viewController: C) {
+    func factory<M: GeneralViewModelType, C: BindableType & UIViewController>(vmType: M.Type, vcType: C.Type) -> (coordinator: Self, viewModel: M, viewController: C) {
         
         let networkManager: NetworkManagerProtocol = NetworkManager()
         
@@ -52,6 +52,18 @@ extension NavigationCoordinator {
         if (self.navigationController.viewControllers.isEmpty) {
             self.navigationController.pushViewController(viewController, animated: true)
         }
+        return (self, viewModel, viewController)
+    }
+    
+    func factory<M: DetailViewModelType, C: BindableType & UIViewController>(with detailID: String, vmType: M.Type, vcType: C.Type) -> (coordinator: Self, viewModel: M, viewController: C) {
+        
+        let networkManager: NetworkManagerProtocol = NetworkManager()
+        
+        let viewController = C()
+        let viewModel = M(with: detailID, networkManager: networkManager)
+        viewModel.coordinator = self
+        viewController.bindViewModel(to: viewModel as! C.ViewModelType)
+        self.navigationController.pushViewController(viewController, animated: true)
         return (self, viewModel, viewController)
     }
     
