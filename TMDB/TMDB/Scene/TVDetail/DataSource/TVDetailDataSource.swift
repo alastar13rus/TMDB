@@ -58,6 +58,11 @@ struct TVDetailDataSource {
                 let cell = TVStatusCell()
                 cell.viewModel = vm
                 return cell
+            
+            case .tvCastList(let vm):
+                let cell = TVCastListCell()
+                cell.viewModel = vm
+                return cell
             }
         }
         
@@ -66,6 +71,7 @@ struct TVDetailDataSource {
             case .tvRuntimeSection(let title, _),
                  .tvGenresSection(let title, _),
                  .tvCreatorsSection(let title, _),
+                 .tvCastListSection(let title, _),
                  .tvStatusSection(let title, _):
                 return title
             default:

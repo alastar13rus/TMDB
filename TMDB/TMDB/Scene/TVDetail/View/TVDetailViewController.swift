@@ -104,9 +104,11 @@ extension TVDetailViewController: UITableViewDelegate {
         switch dataSource[indexPath] {
         case .tvPosterWrapper(_): return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
+        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
         case .tvInfo(_): return 300
-        case .tvCreators(_): return 100
-        case .tvRuntime(_), .tvGenres(_), .tvStatus(_): return 40
+        case .tvCreators(_): return 120
+        case .tvCastList(_): return tableView.bounds.width / 2
+        case .tvRuntime(_), .tvStatus(_): return 40
         }
     }
     
@@ -114,15 +116,21 @@ extension TVDetailViewController: UITableViewDelegate {
         switch dataSource[indexPath] {
         case .tvPosterWrapper(_): return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
+        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
         case .tvInfo(_): return 300
-        case .tvCreators(_): return 100
-        case .tvRuntime(_), .tvGenres(_), .tvStatus(_): return 40
+        case .tvCreators(_): return 120
+        case .tvCastList(_): return tableView.bounds.width / 2
+        case .tvRuntime(_), .tvStatus(_): return 40
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch dataSource[section] {
-        case .tvRuntimeSection(_, _), .tvGenresSection(_, _), .tvCreatorsSection(_, _), .tvStatusSection(_, _):
+        case .tvRuntimeSection(_, _),
+             .tvGenresSection(_, _),
+             .tvCreatorsSection(_, _),
+             .tvCastListSection(_, _),
+             .tvStatusSection(_, _):
             return 40
         default:
             return 0

@@ -13,7 +13,7 @@ class TVDetailTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.separatorColor = .clear
-        self.allowsSelection = false
+//        self.allowsSelection = false
         self.tableFooterView = UIView()
         self.showsVerticalScrollIndicator = false
         self.translatesAutoresizingMaskIntoConstraints = false

@@ -24,6 +24,13 @@ class TVPosterWrapperCell: UITableViewCell {
         return view
     }()
     
+    let activityIndicatorView: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .large)
+        activity.startAnimating()
+        activity.translatesAutoresizingMaskIntoConstraints = false
+        return activity
+    }()
+    
 //    MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,11 +54,12 @@ class TVPosterWrapperCell: UITableViewCell {
         
         vm.posterImageData { [weak self] imageData in
             guard let self = self else { return }
-            self.posterWrapperView.posterImageView.layer.opacity = 0
-            UIView.animate(withDuration: 0.2) {
-                self.posterWrapperView.posterImageView.layer.opacity = 1
+//            self.posterWrapperView.posterImageView.layer.opacity = 0
+//            UIView.animate(withDuration: 0.2) {
+//                self.posterWrapperView.posterImageView.layer.opacity = 1
+            self.activityIndicatorView.stopAnimating()
                 self.posterWrapperView.posterImageView.image = UIImage(data: imageData)
-            }
+//            }
         }
     }
     
@@ -60,11 +68,17 @@ class TVPosterWrapperCell: UITableViewCell {
     }
     
     fileprivate func setupHierarhy() {
+        addSubview(activityIndicatorView)
         addSubview(posterWrapperView)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
+            activityIndicatorView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            activityIndicatorView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            activityIndicatorView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
+            activityIndicatorView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
+            
             posterWrapperView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             posterWrapperView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
             posterWrapperView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),

@@ -45,45 +45,64 @@ class TVDetailViewModel: DetailViewModelType {
         fetch { [weak self] (tvDetail) in
             guard let self = self else { return }
             
+            var sections = [TVDetailCellViewModelMultipleSection]()
+            
             let tvPosterWrapperSection: TVDetailCellViewModelMultipleSection =
                 .tvPosterWrapperSection(
                     title: "Poster",
                     items: [.tvPosterWrapper(vm: TVPosterWrapperCellViewModel(tvDetail))])
+            
+            sections.append(tvPosterWrapperSection)
             
             let tvOverviewSection: TVDetailCellViewModelMultipleSection =
                 .tvOverviewSection(
                     title: "Overview",
                     items: [.tvOverview(vm: TVOverviewCellViewModel(tvDetail))])
             
+            sections.append(tvOverviewSection)
+
             let tvRuntimeSection: TVDetailCellViewModelMultipleSection =
                 .tvRuntimeSection(
                     title: "Продолжительность",
                     items: [.tvRuntime(vm: TVRuntimeCellViewModel(tvDetail))])
             
+            sections.append(tvRuntimeSection)
+
             let tvGenresSection: TVDetailCellViewModelMultipleSection =
                 .tvGenresSection(
                     title: "Жанры",
                     items: [.tvGenres(vm: TVGenresCellViewModel(tvDetail))])
             
-            let creators = tvDetail.createdBy.map { TVCreatorWithPhotoCellViewModel($0) }
+            sections.append(tvGenresSection)
+
+            if !tvDetail.createdBy.isEmpty {
+            
             let tvCreatorsSection: TVDetailCellViewModelMultipleSection =
                 .tvCreatorsSection(
                     title: "Создатели",
-                    items: creators.map { .tvCreators(vm: $0) })
+                    items: tvDetail.createdBy.map { .tvCreators(vm: TVCreatorWithPhotoCellViewModel($0)) })
+            
+            sections.append(tvCreatorsSection)
+            }
             
             let tvStatusSection: TVDetailCellViewModelMultipleSection =
                 .tvStatusSection(
                     title: "Статус",
                     items: [.tvStatus(vm: TVStatusCellViewModel(tvDetail))])
             
-            self.output.sectionedItems.accept([
-                tvPosterWrapperSection,
-                tvOverviewSection,
-                tvRuntimeSection,
-                tvGenresSection,
-                tvCreatorsSection,
-                tvStatusSection,
-            ])
+            sections.append(tvStatusSection)
+            
+            
+            if let castList = tvDetail.credits?.cast, !castList.isEmpty {
+                
+                let tvCastListSection: TVDetailCellViewModelMultipleSection =
+                    .tvCastListSection(title: "Актеры", items: [.tvCastList(vm: TVCastListViewModel(title: "Актеры", items: castList.map { TVCastCellViewModel($0) }))])
+                
+                sections.append(tvCastListSection)
+            }
+            
+            self.output.sectionedItems.accept(sections)
+            
             
             switch tvPosterWrapperSection.items[0] {
             case .tvPosterWrapper(let vm):
@@ -110,17 +129,24 @@ class TVDetailViewModel: DetailViewModelType {
 //    MARK: - Methods
     
     private func fetch(completion: @escaping (TVDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID))) { [weak self] (result: Result<TVDetailModel, Error>) in
+        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.credits]))) { [weak self] (result: Result<TVDetailModel, Error>) in
+            
+            switch result {
+            case .success(let tvDetail):
+                completion(tvDetail)
                 
-                switch result {
-                case .success(let tvDetail):
-                    completion(tvDetail)
-                    
-                case .failure(let error): break
-                }
+            case .failure(let error): break
             }
+        }
+}
         
-    }
+        
+        
+        
+        
+        
+        
+        
     
     private func setupOutput() {
         

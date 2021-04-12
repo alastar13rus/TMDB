@@ -42,6 +42,7 @@ struct TVDetailModel: TVDetailProtocol {
     let type: String
     let voteAverage: Float
     let voteCount: Int
+    let credits: TVCreditList?
     
     enum CodingKeys: String, CodingKey {
 
@@ -73,6 +74,7 @@ struct TVDetailModel: TVDetailProtocol {
         case type
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+        case credits
     }
 }
 
