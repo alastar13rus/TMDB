@@ -23,4 +23,8 @@ class TVListCoordinator:  NavigationCoordinator {
         (_, _, _) = factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
     }
     
+    func toDetail(with detailID: String) {
+        (_, _, _) = factory(with: detailID, vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
+    }
+    
 }
