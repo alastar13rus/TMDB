@@ -93,12 +93,12 @@ class TVDetailViewModel: DetailViewModelType {
         
         return sections
             .buildSections(withModel: model, andAction: self.configureTVPosterWrapperSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureTVCastListSection(withModel:sections:))
             .buildSections(withModel: model, andAction: self.configureTVOverviewSection(withModel:sections:))
             .buildSections(withModel: model, andAction: self.configureTVRuntimeSection(withModel:sections:))
             .buildSections(withModel: model, andAction: self.configureTVGenresSection(withModel:sections:))
             .buildSections(withModel: model, andAction: self.configureTVStatusSection(withModel:sections:))
             .buildSections(withModel: model, andAction: self.configureTVCreatorsSection(withModel:sections:))
+            .buildSections(withModel: model, andAction: self.configureTVCastListSection(withModel:sections:))
         
     }
     
