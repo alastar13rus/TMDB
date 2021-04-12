@@ -53,9 +53,15 @@ class TVDetailViewController: UIViewController {
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
         navigationItem.compactAppearance = appearance
-
-        navigationController?.navigationBar.tintColor = .white
+        
+        navigationItem.leftItemsSupplementBackButton = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         navigationItem.largeTitleDisplayMode = .always
+        
+        let imgBackArrow = UIImage(named: "back_arrow_32")
+        navigationController?.navigationBar.backIndicatorImage = imgBackArrow
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = imgBackArrow
+        navigationController?.navigationBar.tintColor = .white
     }
     
     private func setupHierarhy() {
