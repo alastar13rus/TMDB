@@ -19,7 +19,7 @@ class TVSceneTransitionTest: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 2)
+        waitForExpectations(timeout: 3)
         
         sut.viewController.mediaListTableView.delegate?.tableView?(sut.viewController.mediaListTableView, didSelectRowAt: IndexPath(row: 4, section: 0))
         
@@ -27,7 +27,7 @@ class TVSceneTransitionTest: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation2.fulfill()
         }
-        waitForExpectations(timeout: 2)
+        waitForExpectations(timeout: 3)
         
         XCTAssertEqual(sut.coordinator.navigationController.viewControllers.count, 2)
 
@@ -42,7 +42,7 @@ class TVSceneTransitionTest: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
         }
-        waitForExpectations(timeout: 2)
+        waitForExpectations(timeout: 3)
         
         sut.viewController.mediaListTableView.delegate?.tableView?(sut.viewController.mediaListTableView, didSelectRowAt: IndexPath(row: 19, section: 0))
         
@@ -50,7 +50,7 @@ class TVSceneTransitionTest: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation2.fulfill()
         }
-        waitForExpectations(timeout: 2)
+        waitForExpectations(timeout: 3)
         
         switch sut.viewController.mediaListDataSource[0] {
         case .tvSection(_, let items):
