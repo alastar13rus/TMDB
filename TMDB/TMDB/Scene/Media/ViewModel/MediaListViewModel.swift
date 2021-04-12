@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-class MediaListViewModel: ViewModelType {
+class MediaListViewModel: GeneralViewModelType {
     
 
 //    MARK: - Properties
@@ -89,9 +89,10 @@ class MediaListViewModel: ViewModelType {
 //    MARK: - Inputs
             
             struct Input {
-                var selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
-                var willDisplayCellIndex = BehaviorRelay<Int>(value: 0)
+                let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
+                let willDisplayCellIndex = BehaviorRelay<Int>(value: 0)
                 let isRefreshing = BehaviorRelay<Bool>(value: false)
+                let selectedMedia = PublishRelay<MediaCellViewModel>()
             }
             
             var input = Input()
@@ -102,7 +103,7 @@ class MediaListViewModel: ViewModelType {
             struct Output {
                 var title = BehaviorRelay<String>(value: "")
                 var categories = BehaviorRelay<[String]>(value: [])
-                var selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
+                let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
                 var media = BehaviorRelay<[MediaCellViewModel]>(value: [])
                 var sectionedItems = BehaviorRelay<[MediaCellViewModelMultipleSection]>(value: [])
                 let isFetching = BehaviorRelay<Bool>(value: false)
@@ -243,6 +244,11 @@ class MediaListViewModel: ViewModelType {
                 self.numberOfMedia = _media.value.count
                 self.output.isRefreshing.accept(false)
             }
+        }).disposed(by: disposeBag)
+        
+        input.selectedMedia.subscribe(onNext: { [weak self] (mediaCellViewModel: MediaCellViewModel) in
+            guard let self = self, let coordinator = self.coordinator as? TVListCoordinator else { return }
+            coordinator.toDetail(with: mediaCellViewModel.id)
         }).disposed(by: disposeBag)
         
         self.output.title = _title
