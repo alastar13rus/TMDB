@@ -1,8 +1,8 @@
 //
-//  TVDetailViewController.swift
+//  MovieDetailViewController.swift
 //  TMDB
 //
-//  Created by Докин Андрей (IOS) on 08.04.2021.
+//  Created by Докин Андрей (IOS) on 12.04.2021.
 //
 
 import UIKit
@@ -10,14 +10,14 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class TVDetailViewController: UIViewController {
+class MovieDetailViewController: UIViewController {
     
 //    MARK: - Properties
-    var viewModel: TVDetailViewModel!
-    let dataSource = TVDetailDataSource.dataSource()
+    var viewModel: MovieDetailViewModel!
+    let dataSource = MovieDetailDataSource.dataSource()
     let disposeBag = DisposeBag()
     
-    let tvDetailTableView: MediaDetailTableView = {
+    let movieDetailTableView: MediaDetailTableView = {
         let tableView = MediaDetailTableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -53,71 +53,74 @@ class TVDetailViewController: UIViewController {
     }
     
     private func setupHierarhy() {
-        view.addSubview(tvDetailTableView)
+        view.addSubview(movieDetailTableView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            tvDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tvDetailTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tvDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tvDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            movieDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            movieDetailTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            movieDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            movieDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     
 }
 
-extension TVDetailViewController: BindableType {
+extension MovieDetailViewController: BindableType {
     
     func bindViewModel() {
         
-        tvDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        movieDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(movieDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
         viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
         
         viewModel.output.backdropAbsolutePath.subscribe(onNext: { (path) in
             path?.downloadImageData(completion: { [self] (imageData) in
+                
                 self.navigationItem.standardAppearance?.backgroundColor = .white
                 self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
                 self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
+                
             })
         }).disposed(by: disposeBag)
     }
     
 }
 
-extension TVDetailViewController: UITableViewDelegate {
+extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .tvPosterWrapper(_): return tableView.bounds.height
-        case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
-        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .tvCreators(_): return 120
-        case .tvCastList(_): return tableView.bounds.width / 2 + 24
-        case .tvRuntime(_), .tvStatus(_): return 40
+        case .moviePosterWrapper(_): return tableView.bounds.height
+        case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
+        case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
+        case .movieCreators(_): return 120
+        case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
+        case .movieRuntime(_), .movieStatus(_): return 40
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .tvPosterWrapper(_): return tableView.bounds.height
-        case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
-        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .tvCreators(_): return 120
-        case .tvCastList(_): return tableView.bounds.width / 2 + 24
-        case .tvRuntime(_), .tvStatus(_): return 40
+        case .moviePosterWrapper(_): return tableView.bounds.height
+        case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
+        case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
+        case .movieCreators(_): return 120
+        case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
+        case .movieRuntime(_), .movieStatus(_): return 40
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch dataSource[section] {
-        case .tvRuntimeSection(_, _),
-             .tvGenresSection(_, _),
-             .tvCreatorsSection(_, _),
-             .tvCastListSection(_, _),
-             .tvStatusSection(_, _):
+        case .movieRuntimeSection(_, _),
+             .movieGenresSection(_, _),
+             .movieCreatorsSection(_, _),
+             .movieCastListSection(_, _),
+             .movieCrewListSection(_, _),
+             .movieStatusSection(_, _):
             return 40
         default:
             return 0

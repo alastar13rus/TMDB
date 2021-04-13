@@ -11,15 +11,30 @@ protocol MediaDetailProtocol: Decodable {
 
     var genres: [GenreModel] { get }
     var id: Int { get }
+    var backdropPath: String? { get }
     var originalLanguage: String { get }
     var overview: String { get }
     var popularity: Float { get }
     var posterPath: String? { get }
     var productionCompanies: [CompanyModel] { get }
     var status: String { get }
+    var tagline: String { get }
     var voteAverage: Float { get }
     var voteCount: Int {get }
     
+}
+
+protocol MovieDetailProtocol: MediaDetailProtocol {
+    
+    var adult: Bool { get }
+    var popularity: Float { get }
+    var budget: Double { get }
+    var originalTitle: String { get }
+    var releaseDate: String? { get }
+    var revenue: Double { get }
+    var runtime: Int? { get }
+    var title: String { get }
+    var video: Bool { get }
 }
 
 protocol TVDetailProtocol: MediaDetailProtocol {
@@ -28,8 +43,7 @@ protocol TVDetailProtocol: MediaDetailProtocol {
     associatedtype TVNetworkProtocol
     associatedtype TVSeasonProtocol
     
-    var backdropPath: String? { get }
-    var createdBy: [TVCreatorModel] { get }
+    var createdBy: [CreatorModel] { get }
     var episodeRunTime: [Int] { get }
     var firstAirDate: String { get }
     var inProduction: Bool { get }
@@ -43,7 +57,6 @@ protocol TVDetailProtocol: MediaDetailProtocol {
     var originCountry: [String] { get }
     var originalName: String { get }
     var seasons: [TVSeasonModel] { get }
-    var tagline: String { get }
     var type: String { get }
     
 }

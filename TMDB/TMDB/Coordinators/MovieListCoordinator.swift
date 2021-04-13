@@ -23,6 +23,10 @@ class MovieListCoordinator: NavigationCoordinator {
         (_, _, _) = factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
     }
     
+    func toDetail(with detailID: String) {
+        (_, _, _) = factory(with: detailID, vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
+    }
+    
 }
 
 

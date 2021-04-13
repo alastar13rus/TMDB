@@ -15,7 +15,7 @@ struct TVDetailModel: TVDetailProtocol {
     typealias TVSeasonProtocol = TVSeasonModel
     
     let backdropPath: String?
-    let createdBy: [TVCreatorModel]
+    let createdBy: [CreatorModel]
     let episodeRunTime: [Int]
     let firstAirDate: String
     let genres: [GenreModel]
@@ -42,7 +42,7 @@ struct TVDetailModel: TVDetailProtocol {
     let type: String
     let voteAverage: Float
     let voteCount: Int
-    let credits: TVCreditList?
+    let credits: MediaCreditList?
     
     enum CodingKeys: String, CodingKey {
 

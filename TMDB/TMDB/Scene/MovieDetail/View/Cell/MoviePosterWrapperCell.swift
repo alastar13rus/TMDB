@@ -1,16 +1,16 @@
 //
-//  TVPosterWrapperCell.swift
+//  MoviePosterWrapperCell.swift
 //  TMDB
 //
-//  Created by Докин Андрей (IOS) on 09.04.2021.
+//  Created by Докин Андрей (IOS) on 13.04.2021.
 //
 
 import UIKit
 
-class TVPosterWrapperCell: UITableViewCell {
+class MoviePosterWrapperCell: UITableViewCell {
     
 //    MARK: - Properties
-    var viewModel: TVPosterWrapperCellViewModel! {
+    var viewModel: MoviePosterWrapperCellViewModel! {
         didSet {
             self.configure(with: viewModel)
         }
@@ -46,7 +46,7 @@ class TVPosterWrapperCell: UITableViewCell {
     
     
 //    MARK: - Methods
-    fileprivate func configure(with vm: TVPosterWrapperCellViewModel) {
+    fileprivate func configure(with vm: MoviePosterWrapperCellViewModel) {
         posterWrapperView.titleLabel.text = vm.title
         posterWrapperView.releaseYearLabel.text = vm.releaseYear
         posterWrapperView.taglineLabel.text = vm.tagline

@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxRelay
+import RxDataSources
 
 class TVDetailViewModel: DetailViewModelType {
     
@@ -126,7 +127,7 @@ class TVDetailViewModel: DetailViewModelType {
         let tvOverviewSection: TVDetailCellViewModelMultipleSection =
             .tvPosterWrapperSection(
                 title: "Overview",
-                items: [.tvOverview(vm: TVOverviewCellViewModel(model))])
+                items: [.tvOverview(vm: MediaOverviewCellViewModel(model))])
         
         sections.append(tvOverviewSection)
         return sections
@@ -152,7 +153,7 @@ class TVDetailViewModel: DetailViewModelType {
         let tvGenresSection: TVDetailCellViewModelMultipleSection =
             .tvGenresSection(
                 title: "Жанры",
-                items: [.tvGenres(vm: TVGenresCellViewModel(model))])
+                items: [.tvGenres(vm: GenresCellViewModel(model))])
         
         sections.append(tvGenresSection)
         return sections
@@ -165,7 +166,7 @@ class TVDetailViewModel: DetailViewModelType {
         let tvStatusSection: TVDetailCellViewModelMultipleSection =
             .tvStatusSection(
                 title: "Статус",
-                items: [.tvStatus(vm: TVStatusCellViewModel(model))])
+                items: [.tvStatus(vm: MediaStatusCellViewModel(model))])
         
         sections.append(tvStatusSection)
         return sections
@@ -180,7 +181,7 @@ class TVDetailViewModel: DetailViewModelType {
             let tvCreatorsSection: TVDetailCellViewModelMultipleSection =
                 .tvCreatorsSection(
                     title: "Создатели",
-                    items: model.createdBy.map { .tvCreators(vm: TVCreatorWithPhotoCellViewModel($0)) })
+                    items: model.createdBy.map { .tvCreators(vm: CreatorWithPhotoCellViewModel($0)) })
             
             sections.append(tvCreatorsSection)
         }
@@ -192,9 +193,9 @@ class TVDetailViewModel: DetailViewModelType {
         var sections = sections
         
         if let castList = model.credits?.cast, !castList.isEmpty {
-            
+            let title = "Актеры"
             let tvCastListSection: TVDetailCellViewModelMultipleSection =
-                .tvCastListSection(title: "Актеры", items: [.tvCastList(vm: TVCastListViewModel(title: "Актеры", items: castList.map { TVCastCellViewModel($0) }))])
+                .tvCastListSection(title: title, items: [.tvCastList(vm: CastListViewModel(title: title, items: castList.map { CastCellViewModel($0) }))])
             
             sections.append(tvCastListSection)
         }
@@ -203,14 +204,12 @@ class TVDetailViewModel: DetailViewModelType {
     
 }
 
-extension Array where Array.Element == TVDetailCellViewModelMultipleSection {
+extension Array where Array.Element: AnimatableSectionModelType {
     
-    typealias Section = TVDetailCellViewModelMultipleSection
-    
-    func buildSections(withModel model: TVDetailModel,
-                       andAction action: ((TVDetailModel, [Section]) -> [Section])) -> [Section] {
-        
-        return action(model, self)
+    func buildSections<T, U: MediaDetailProtocol>(withModel model: U,
+                             andAction action: ((U, [T]) -> [T])) -> [T] {
+        guard let self = self as? [T] else { return [] }
+        return action(model, self as [T])
     }
 
 }
