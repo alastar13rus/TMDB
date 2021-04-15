@@ -12,7 +12,7 @@ struct MovieRuntimeCellViewModel {
     let id: String
     let runtime: Int?
     
-    var preparedRuntime: String {
+    var runtimeText: String {
         guard let runtime = runtime else { return "" }
         switch runtime {
         case 60...:

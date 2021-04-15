@@ -65,7 +65,7 @@ struct MovieDetailModel: MovieDetailProtocol {
     }
 }
 
-extension MovieDetailModel: Equatable {
+extension MovieDetailModel: Equatable, Comparable {
 
     static func == (lhs: MovieDetailModel, rhs: MovieDetailModel) -> Bool {
         lhs.id == rhs.id

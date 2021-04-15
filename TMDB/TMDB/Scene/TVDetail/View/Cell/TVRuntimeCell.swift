@@ -41,7 +41,7 @@ class TVRuntimeCell: UITableViewCell {
         
     //    MARK: - Methods
     fileprivate func configureCell(with vm: TVRuntimeCellViewModel) {
-        runtimeLabel.text = vm.runtime
+        runtimeLabel.text = vm.runtimeText
     }
     
     fileprivate func setupUI() {

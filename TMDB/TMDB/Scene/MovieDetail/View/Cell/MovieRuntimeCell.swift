@@ -41,7 +41,7 @@ class MovieRuntimeCell: UITableViewCell {
         
     //    MARK: - Methods
         fileprivate func configureCell(with vm: MovieRuntimeCellViewModel) {
-            runtimeLabel.text = vm.preparedRuntime
+            runtimeLabel.text = vm.runtimeText
         }
         
         fileprivate func setupUI() {

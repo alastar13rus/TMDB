@@ -43,7 +43,7 @@ enum TVDetailCellViewModelMultipleSection {
         }
         
         static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
-            return lhs == rhs
+            return lhs.identity == rhs.identity
         }
     }
     

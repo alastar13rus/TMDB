@@ -36,7 +36,8 @@ struct MediaListDataSource {
         
     }
     
-    enum Screen {
+    enum Screen: Equatable {
+        
         case movie(MovieListInfo)
         case tv(TVListInfo)
         
@@ -53,6 +54,19 @@ struct MediaListDataSource {
         
         static let movieListInfo = MovieListInfo()
         static let tvListInfo = TVListInfo()
+    
+        static func == (lhs: MediaListDataSource.Screen, rhs: MediaListDataSource.Screen) -> Bool {
+            switch (lhs, rhs) {
+            case (.movie(let lhsInfo), .movie(let rhsInfo)):
+                return lhsInfo.title == rhsInfo.title && lhsInfo.categories == rhsInfo.categories
+            case (.tv(let lhsInfo), .tv(let rhsInfo)):
+                return lhsInfo.title == rhsInfo.title && lhsInfo.categories == rhsInfo.categories
+            case (.movie(_), .tv(_)):
+                return false
+            case (.tv(_), .movie(_)):
+                return false
+            }
+        }
         
     }
     

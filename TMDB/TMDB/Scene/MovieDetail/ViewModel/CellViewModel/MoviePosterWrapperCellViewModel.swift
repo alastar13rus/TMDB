@@ -22,7 +22,7 @@ struct MoviePosterWrapperCellViewModel {
         return ImageURL.poster(.w500, posterPath).fullURL
     }
     
-    func posterImageData(completion: @escaping (Data) -> Void) {
+    func posterImageData(completion: @escaping (Data?) -> Void) {
         posterAbsolutePath?.downloadImageData(completion: { (data) in
             completion(data)
         })

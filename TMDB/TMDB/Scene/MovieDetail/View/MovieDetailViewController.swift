@@ -77,14 +77,16 @@ extension MovieDetailViewController: BindableType {
         
         viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
         
-        viewModel.output.backdropAbsolutePath.subscribe(onNext: { (path) in
-            path?.downloadImageData(completion: { [self] (imageData) in
-                
-                self.navigationItem.standardAppearance?.backgroundColor = .white
-                self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
-                self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
-                
-            })
+        viewModel.output.backdropImageData.skip(1).subscribe(onNext: { (imageData) in
+            self.navigationItem.standardAppearance?.backgroundColor = .white
+            
+            guard let imageData = imageData else {
+                self.navigationItem.scrollEdgeAppearance?.backgroundImage = #imageLiteral(resourceName: "movieTab").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                self.navigationItem.compactAppearance?.backgroundImage =  #imageLiteral(resourceName: "movieTab").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                return
+            }
+            self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
+            self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
         }).disposed(by: disposeBag)
     }
     
@@ -96,7 +98,6 @@ extension MovieDetailViewController: UITableViewDelegate {
         case .moviePosterWrapper(_): return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .movieCreators(_): return 120
         case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
         case .movieRuntime(_), .movieStatus(_): return 40
         }
@@ -107,7 +108,6 @@ extension MovieDetailViewController: UITableViewDelegate {
         case .moviePosterWrapper(_): return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .movieCreators(_): return 120
         case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
         case .movieRuntime(_), .movieStatus(_): return 40
         }

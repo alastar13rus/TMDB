@@ -31,8 +31,7 @@ class MovieDetailViewModel: DetailViewModelType {
     
     struct Output {
         let title = BehaviorRelay<String>(value: "")
-        let posterAbsolutePath = BehaviorRelay<URL?>(value: URL(string: ""))
-        let backdropAbsolutePath = BehaviorRelay<URL?>(value: URL(string: ""))
+        let backdropImageData = BehaviorRelay<Data?>(value: nil)
         let sectionedItems = BehaviorRelay<[MovieDetailCellViewModelMultipleSection]>(value: [])
     }
     
@@ -55,7 +54,7 @@ class MovieDetailViewModel: DetailViewModelType {
     
 //    MARK: - Methods
     
-    private func fetch(completion: @escaping (MovieDetailModel) -> Void) {
+    func fetch(completion: @escaping (MovieDetailModel) -> Void) {
         self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits]))) { (result: Result<MovieDetailModel, Error>) in
             
             switch result {
@@ -72,17 +71,18 @@ class MovieDetailViewModel: DetailViewModelType {
         switch section.items[0] {
         case .moviePosterWrapper(let vm):
             self.output.title.accept(vm.title)
-
-            var posterAbsolutePath: URL? {
-                return ImageURL.poster(.w500, vm.posterPath).fullURL
-            }
-
-            var backdropAbsolutePath: URL? {
-                return ImageURL.backdrop(.w780, vm.backdropPath).fullURL
-            }
-            self.output.posterAbsolutePath.accept(posterAbsolutePath)
-            self.output.backdropAbsolutePath.accept(backdropAbsolutePath)
-
+            
+            guard let backdropPath = vm.backdropPath else { self.output.backdropImageData.accept(nil); return }
+            guard let backdropAbsolutePath = ImageURL.backdrop(.w780, backdropPath).fullURL else { self.output.backdropImageData.accept(nil); return }
+            
+            backdropAbsolutePath.downloadImageData(completion: { (imageData) in
+                guard let imageData = imageData else {
+                    self.output.backdropImageData.accept(nil)
+                    return
+                }
+                self.output.backdropImageData.accept(imageData)
+            })
+        
         default: break
         }
     }

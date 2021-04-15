@@ -21,7 +21,7 @@ class TVSceneTransitionTest: XCTestCase {
         }
         waitForExpectations(timeout: 3)
         
-        sut.viewController.mediaListTableView.delegate?.tableView?(sut.viewController.mediaListTableView, didSelectRowAt: IndexPath(row: 4, section: 0))
+        sut.viewController.mediaListTableView.delegate?.tableView?(sut.viewController.mediaListTableView, didSelectRowAt: IndexPath(row: 2, section: 0))
         
         let expectation2 = self.expectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

@@ -77,15 +77,28 @@ extension TVDetailViewController: BindableType {
         
         viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
         
-        viewModel.output.backdropAbsolutePath.subscribe(onNext: { (path) in
-            path?.downloadImageData(completion: { [self] (imageData) in
-                self.navigationItem.standardAppearance?.backgroundColor = .white
-                self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
-                self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
-            })
+        viewModel.output.backdropImageData.skip(1).subscribe(onNext: { (imageData) in
+            self.navigationItem.standardAppearance?.backgroundColor = .white
+            
+            guard let imageData = imageData else {
+                self.navigationItem.scrollEdgeAppearance?.backgroundColor = .white
+                self.navigationItem.compactAppearance?.backgroundColor = .white
+                self.navigationItem.scrollEdgeAppearance?.largeTitleTextAttributes = [
+                    .foregroundColor: UIColor.darkText,
+                    .font: UIFont.boldSystemFont(ofSize: 24),
+                ]
+                self.navigationItem.compactAppearance?.largeTitleTextAttributes = [
+                    .foregroundColor: UIColor.darkText,
+                    .font: UIFont.boldSystemFont(ofSize: 24),
+                ]
+                self.navigationItem.compactAppearance?.backgroundColor = .white
+                return
+            }
+            self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
+            self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
         }).disposed(by: disposeBag)
+        
     }
-    
 }
 
 extension TVDetailViewController: UITableViewDelegate {

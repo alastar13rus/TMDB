@@ -28,7 +28,7 @@ class CrewCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Eq
     }
     
     static func ==(lhs: CrewCellViewModelSection, rhs: CrewCellViewModelSection) -> Bool {
-        return lhs == rhs
+        return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
 }

@@ -26,19 +26,17 @@ enum MovieDetailCellViewModelMultipleSection {
         case movieOverview(vm: MediaOverviewCellViewModel)
         case movieRuntime(vm: MovieRuntimeCellViewModel)
         case movieGenres(vm: GenresCellViewModel)
-        case movieCreators(vm: CreatorWithPhotoCellViewModel)
         case movieCrewList(vm: CrewListViewModel)
         case movieCastList(vm: CastListViewModel)
         case movieStatus(vm: MediaStatusCellViewModel)
 
-
+        
         var identity: String {
             switch self {
             case .moviePosterWrapper(let vm): return vm.id
             case .movieOverview(let vm): return vm.id
             case .movieRuntime(let vm): return vm.id
             case .movieGenres(let vm): return vm.id
-            case .movieCreators(let vm): return vm.id
             case .movieCrewList(_): return "crewList"
             case .movieCastList(_): return "castList"
             case .movieStatus(let vm): return vm.id
@@ -46,7 +44,7 @@ enum MovieDetailCellViewModelMultipleSection {
         }
         
         static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
-            return lhs == rhs
+            return lhs.identity == rhs.identity
         }
     }
     

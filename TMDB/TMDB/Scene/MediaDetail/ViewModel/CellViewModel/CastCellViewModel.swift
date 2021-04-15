@@ -28,7 +28,7 @@ class CastCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Eq
     }
     
     static func ==(lhs: CastCellViewModelSection, rhs: CastCellViewModelSection) -> Bool {
-        return lhs == rhs
+        return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
 }
@@ -89,12 +89,15 @@ class CastCellViewModel {
     }
 }
 
-extension CastCellViewModel: IdentifiableType, Equatable {
-    
+extension CastCellViewModel: IdentifiableType, Equatable, Comparable {
     var identity: String { self.creditID }
     
     static func ==(lhs: CastCellViewModel, rhs: CastCellViewModel) -> Bool {
         return lhs.creditID == rhs.creditID
+    }
+    
+    static func < (lhs: CastCellViewModel, rhs: CastCellViewModel) -> Bool {
+        return lhs.name < rhs.name
     }
     
 }

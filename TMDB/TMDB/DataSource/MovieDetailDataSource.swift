@@ -44,11 +44,6 @@ struct MovieDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
                 
-            case .movieCreators(let vm):
-                let cell = CreatorWithPhotoCell()
-                cell.viewModel = vm
-                return cell
-                
             case .movieStatus(let vm):
                 let cell = MediaStatusCell()
                 cell.viewModel = vm

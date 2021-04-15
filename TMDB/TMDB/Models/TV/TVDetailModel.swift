@@ -78,7 +78,7 @@ struct TVDetailModel: TVDetailProtocol {
     }
 }
 
-extension TVDetailModel: Equatable {
+extension TVDetailModel: Equatable, Comparable {
 
     static func == (lhs: TVDetailModel, rhs: TVDetailModel) -> Bool {
         lhs.id == rhs.id
