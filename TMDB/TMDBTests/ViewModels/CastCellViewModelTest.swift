@@ -37,14 +37,10 @@ class CastCellViewModelTest: XCTestCase {
         
         castCellViewModel.profileImageData { (data) in
             imageData = data
-            
+            expectation.fulfill()
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-            expectation.fulfill()
-        })
-        
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 6, handler: nil)
         XCTAssertNotNil(imageData)
 
     }
