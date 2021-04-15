@@ -20,7 +20,7 @@ class MediaCellViewModel {
         return ImageURL.poster(.w154, posterPath).fullURL
     }
     
-    func posterImageData(completion: @escaping (Data) -> Void) {
+    func posterImageData(completion: @escaping (Data?) -> Void) {
         guard let url = posterAbsolutePath else { return }
         url.downloadImageData { imageData in
             completion(imageData)
@@ -31,8 +31,6 @@ class MediaCellViewModel {
 
 extension MediaCellViewModel: IdentifiableType {
     var identity: String { id }
-    
-    
 }
 
 extension MediaCellViewModel: Hashable {

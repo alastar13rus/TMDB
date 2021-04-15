@@ -15,6 +15,8 @@ class TabBarControllerDataSource {
     ]
     
     init() {
+        self.items[0].navigationBar.prefersLargeTitles = true
+        self.items[0].navigationItem.largeTitleDisplayMode = .always
         self.items[0].tabBarItem = .init(title: "Фильмы", image: #imageLiteral(resourceName: "movieTab"), tag: 0)
         
         self.items[1].navigationBar.prefersLargeTitles = true

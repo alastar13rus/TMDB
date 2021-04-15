@@ -44,7 +44,7 @@ enum TmdbAPI: API {
                 return "/3/movie/now_playing"
             case .upcoming(_):
                 return "/3/movie/upcoming"
-            case .details(let mediaID):
+            case .details(let mediaID, _):
                 return "/3/movie/" + mediaID
             case .recommendations(let mediaID):
                 return "/3/movie/" + mediaID + "/recommendations"
@@ -89,8 +89,10 @@ enum TmdbAPI: API {
                     URLQueryItem(name: "page", value: String(page)),
                 ]
                 
-            case .details(_):
+            case .details(_, let appendToResponse):
+                let appendString = appendToResponse.map { $0.rawValue }.joined(separator: ",")
                 return [
+                    URLQueryItem(name: "append_to_response", value: appendString),
                     URLQueryItem(name: "language", value: Language.ru.rawValue),
                     URLQueryItem(name: "api_key", value: Self.apiKey),
                 ]
@@ -145,7 +147,7 @@ enum TmdbAPI: API {
         case popular(page: Int)
         case nowPlaying(page: Int)
         case upcoming(page: Int)
-        case details(mediaID: String)
+        case details(mediaID: String, appendToResponse: [AppendToResponse])
         case recommendations(mediaID: String)
         case credits(mediaID: String)
         

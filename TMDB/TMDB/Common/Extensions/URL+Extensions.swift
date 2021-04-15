@@ -8,12 +8,15 @@
 import Foundation
 
 extension URL {
-    func downloadImageData(completion: @escaping (Data) -> Void) {
+    func downloadImageData(completion: @escaping (Data?) -> Void) {
         DispatchQueue.global(qos: .background).async {
             URLSession(configuration: .default).dataTask(with: self) { (data, _, _) in
                 
                 DispatchQueue.main.async {
-                    guard let data = data else { return }
+                    guard let data = data else {
+                        completion(nil)
+                        return
+                    }
                     completion(data)
                 }
             }.resume()

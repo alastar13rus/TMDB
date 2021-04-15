@@ -17,8 +17,8 @@ class TVDetailViewController: UIViewController {
     let dataSource = TVDetailDataSource.dataSource()
     let disposeBag = DisposeBag()
     
-    let tvDetailTableView: TVDetailTableView = {
-        let tableView = TVDetailTableView()
+    let tvDetailTableView: MediaDetailTableView = {
+        let tableView = MediaDetailTableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -49,19 +49,7 @@ class TVDetailViewController: UIViewController {
     
 //    MARK: - Methods
     private func setupUI() {
-    
-        navigationItem.standardAppearance = appearance
-        navigationItem.scrollEdgeAppearance = appearance
-        navigationItem.compactAppearance = appearance
-        
-        navigationItem.leftItemsSupplementBackButton = true
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        navigationItem.largeTitleDisplayMode = .always
-        
-        let imgBackArrow = UIImage(named: "back_arrow_32")
-        navigationController?.navigationBar.backIndicatorImage = imgBackArrow
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = imgBackArrow
-        navigationController?.navigationBar.tintColor = .white
+        setupNavigationWithAppearance(appearance)
     }
     
     private func setupHierarhy() {
@@ -89,20 +77,28 @@ extension TVDetailViewController: BindableType {
         
         viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
         
-        viewModel.output.backdropAbsolutePath.subscribe(onNext: { (path) in
-            path?.downloadImageData(completion: { [self] (imageData) in
-                
-                self.navigationItem.standardAppearance?.backgroundImage = UIImage(data: imageData)
-                self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
-                self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
-                self.navigationItem.standardAppearance?.backgroundImageContentMode = .scaleAspectFill
-                self.navigationItem.scrollEdgeAppearance?.backgroundImageContentMode = .scaleAspectFill
-                self.navigationItem.compactAppearance?.backgroundImageContentMode = .scaleAspectFill
-                
-            })
+        viewModel.output.backdropImageData.skip(1).subscribe(onNext: { (imageData) in
+            self.navigationItem.standardAppearance?.backgroundColor = .white
+            
+            guard let imageData = imageData else {
+                self.navigationItem.scrollEdgeAppearance?.backgroundColor = .white
+                self.navigationItem.compactAppearance?.backgroundColor = .white
+                self.navigationItem.scrollEdgeAppearance?.largeTitleTextAttributes = [
+                    .foregroundColor: UIColor.darkText,
+                    .font: UIFont.boldSystemFont(ofSize: 24),
+                ]
+                self.navigationItem.compactAppearance?.largeTitleTextAttributes = [
+                    .foregroundColor: UIColor.darkText,
+                    .font: UIFont.boldSystemFont(ofSize: 24),
+                ]
+                self.navigationItem.compactAppearance?.backgroundColor = .white
+                return
+            }
+            self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
+            self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
         }).disposed(by: disposeBag)
+        
     }
-    
 }
 
 extension TVDetailViewController: UITableViewDelegate {
@@ -111,9 +107,8 @@ extension TVDetailViewController: UITableViewDelegate {
         case .tvPosterWrapper(_): return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .tvInfo(_): return 300
         case .tvCreators(_): return 120
-        case .tvCastList(_): return tableView.bounds.width / 2
+        case .tvCastList(_): return tableView.bounds.width / 2 + 24
         case .tvRuntime(_), .tvStatus(_): return 40
         }
     }
@@ -123,9 +118,8 @@ extension TVDetailViewController: UITableViewDelegate {
         case .tvPosterWrapper(_): return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .tvInfo(_): return 300
         case .tvCreators(_): return 120
-        case .tvCastList(_): return tableView.bounds.width / 2
+        case .tvCastList(_): return tableView.bounds.width / 2 + 24
         case .tvRuntime(_), .tvStatus(_): return 40
         }
     }

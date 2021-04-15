@@ -12,7 +12,7 @@ struct TVRuntimeCellViewModel {
     let id: String
     let episodeRunTime: Int
     
-    var runtime: String {
+    var runtimeText: String {
         switch episodeRunTime {
         case 60...:
             let hours = Int(Double(episodeRunTime / 60))

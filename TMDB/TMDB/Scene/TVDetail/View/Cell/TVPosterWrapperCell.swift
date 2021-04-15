@@ -16,8 +16,8 @@ class TVPosterWrapperCell: UITableViewCell {
         }
     }
     
-    let posterWrapperView: TVPosterWrapperView = {
-        let view = TVPosterWrapperView()
+    let posterWrapperView: MediaPosterWrapperView = {
+        let view = MediaPosterWrapperView()
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -58,7 +58,13 @@ class TVPosterWrapperCell: UITableViewCell {
 //            UIView.animate(withDuration: 0.2) {
 //                self.posterWrapperView.posterImageView.layer.opacity = 1
             self.activityIndicatorView.stopAnimating()
-                self.posterWrapperView.posterImageView.image = UIImage(data: imageData)
+            
+            guard let imageData = imageData else {
+                self.posterWrapperView.posterImageView.image = #imageLiteral(resourceName: "man").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                return
+            }
+
+            self.posterWrapperView.posterImageView.image = UIImage(data: imageData)
 //            }
         }
     }
