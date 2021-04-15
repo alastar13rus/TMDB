@@ -34,7 +34,7 @@ class TVDetailViewModelTest: XCTestCase {
             tvDetail = fetchedTVDetail
         }
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
         }
         

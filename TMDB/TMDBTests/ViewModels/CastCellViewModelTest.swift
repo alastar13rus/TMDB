@@ -30,22 +30,18 @@ class CastCellViewModelTest: XCTestCase {
     
     func test_profileImageData() {
         
+        var imageData: Data?
         let castCellViewModel = CastCellViewModel(castModel)
         
-        var imageData: Data?
         let expectation = self.expectation(description: #function)
         
         castCellViewModel.profileImageData { (data) in
             imageData = data
-            
+            expectation.fulfill()
         }
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2, execute: {
-            expectation.fulfill()
-        })
-        
-        waitForExpectations(timeout: 3, handler: nil)
-        XCTAssertNotNil(imageData)
+        waitForExpectations(timeout: 10, handler: nil)
+        XCTAssertNotNil(UIImage(data: imageData!))
 
     }
     

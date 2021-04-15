@@ -32,13 +32,10 @@ class MovieDetailViewModelTest: XCTestCase {
         let expectation = self.expectation(description: #function)
         viewModel.fetch { (fetchedMovieDetail) in
             movieDetail = fetchedMovieDetail
-        }
-        
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 6, handler: nil)
         XCTAssertNotNil(movieDetail)
     }
     
