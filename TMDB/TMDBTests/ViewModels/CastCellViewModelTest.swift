@@ -40,7 +40,7 @@ class CastCellViewModelTest: XCTestCase {
             
         }
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
             expectation.fulfill()
         })
         

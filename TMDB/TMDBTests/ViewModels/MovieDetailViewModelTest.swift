@@ -34,7 +34,7 @@ class MovieDetailViewModelTest: XCTestCase {
             movieDetail = fetchedMovieDetail
         }
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
         }
         

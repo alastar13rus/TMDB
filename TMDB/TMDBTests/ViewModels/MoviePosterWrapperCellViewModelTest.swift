@@ -45,7 +45,7 @@ class MoviePosterWrapperCellViewModelTest: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 6, handler: nil)
         XCTAssertNotNil(UIImage(data: imageData!))
         
     }
