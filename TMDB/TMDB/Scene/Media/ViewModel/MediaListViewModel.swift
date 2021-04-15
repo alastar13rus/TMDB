@@ -247,8 +247,14 @@ class MediaListViewModel: GeneralViewModelType {
         }).disposed(by: disposeBag)
         
         input.selectedMedia.subscribe(onNext: { [weak self] (mediaCellViewModel: MediaCellViewModel) in
-            guard let self = self, let coordinator = self.coordinator as? TVListCoordinator else { return }
-            coordinator.toDetail(with: mediaCellViewModel.id)
+            if let self = self, let coordinator = self.coordinator as? MovieListCoordinator {
+                coordinator.toDetail(with: mediaCellViewModel.id)
+            }
+            
+            if let self = self, let coordinator = self.coordinator as? TVListCoordinator {
+                coordinator.toDetail(with: mediaCellViewModel.id)
+            }
+            
         }).disposed(by: disposeBag)
         
         self.output.title = _title

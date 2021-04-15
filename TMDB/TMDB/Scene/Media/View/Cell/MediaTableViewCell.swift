@@ -94,6 +94,12 @@ class MediaTableViewCell: UITableViewCell {
             self.posterImageView.layer.opacity = 0
             UIView.animate(withDuration: 0.2) {
                 self.posterImageView.layer.opacity = 1
+                
+                guard let imageData = imageData else {
+                    self.posterImageView.image = #imageLiteral(resourceName: "man").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                    return
+                }
+
                 self.posterImageView.image = UIImage(data: imageData)
             }
         }

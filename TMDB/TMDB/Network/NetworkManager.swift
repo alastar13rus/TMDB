@@ -21,17 +21,20 @@ class NetworkManager: NetworkManagerProtocol {
             
             
             guard let url = components.url else { return }
-            
+
             let request = URLRequest(url: url)
             let session = URLSession(configuration: .default)
             
             let dataTask = session.dataTask(with: request) { (data, response, error) in
-                
+//                if let data = data {
+//                         if let jsonString = String(data: data, encoding: .utf8) {
+//                            print(jsonString)
+//                         }
+//                       }
                 guard error == nil else { return }
                 guard response != nil else { return }
                 guard let data = data else { return }
                 
-                let response = try! JSONDecoder().decode(T.self, from: data)
                 do {
                     let responseObject = try JSONDecoder().decode(T.self, from: data)
                     

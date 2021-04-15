@@ -15,8 +15,9 @@ class NavigationBarAppearance: UINavigationBarAppearance {
         
         self.configureWithTransparentBackground()
         self.backgroundImageContentMode = .scaleAspectFill
-        self.backgroundEffect = UIBlurEffect(style: .dark)
-        self.titleTextAttributes = [.foregroundColor: UIColor.lightText]
+        self.titleTextAttributes = [
+            .foregroundColor: UIColor.darkText,
+        ]
         self.largeTitleTextAttributes = [
             .foregroundColor: UIColor.lightText,
             .font: UIFont.boldSystemFont(ofSize: 24),

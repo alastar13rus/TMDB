@@ -22,5 +22,7 @@ target 'TMDBTests' do
   pod 'RxCocoa'
   pod 'RxRelay'
   pod 'RxDataSources'
+  pod 'RxBlocking'
+  pod 'RxTest'
 
 end
