@@ -41,7 +41,7 @@ class CastCellViewModelTest: XCTestCase {
         }
         
         waitForExpectations(timeout: 6, handler: nil)
-        XCTAssertNotNil(imageData)
+        XCTAssertNotNil(UIImage(data: imageData!))
 
     }
     
