@@ -32,8 +32,8 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
         let itemHeight: CGFloat
         switch scrollDirection {
         case .vertical:
-            itemHeight = 330 / CGFloat(countItemsInRowOrColumn) - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing
-            itemWidth = itemHeight / 2
+            itemHeight = view.bounds.width / CGFloat(countItemsInRowOrColumn) - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing
+            itemWidth = view.bounds.width / CGFloat(countItemsInRowOrColumn)
             
         case .horizontal:
             itemWidth =
