@@ -41,9 +41,6 @@ class MediaListViewController: UIViewController {
     //    MARK: - Methods
         private func setupUI() {
             view.backgroundColor = .white
-//            self.navigationController?.navigationBar.isTranslucent = false
-//            navigationItem.largeTitleDisplayMode = .always
-//            self.navigationController?.navigationBar.prefersLargeTitles = true
             
         }
         

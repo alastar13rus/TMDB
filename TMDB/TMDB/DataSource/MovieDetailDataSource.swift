@@ -50,12 +50,12 @@ struct MovieDetailDataSource: DataSourceProtocol {
                 return cell
                 
             case .movieCastList(let vm):
-                let cell = CastListCell()
+                let cell = CastShortListTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
             case .movieCrewList(let vm):
-                let cell = CrewListCell()
+                let cell = CrewShortListTableViewCell()
                 cell.viewModel = vm
                 return cell
             }

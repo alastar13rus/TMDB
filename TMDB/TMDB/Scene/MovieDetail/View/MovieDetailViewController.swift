@@ -96,8 +96,8 @@ extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
         case .moviePosterWrapper(_): return tableView.bounds.height
-        case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
-        case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
+        case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
+        case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
         case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
         case .movieRuntime(_), .movieStatus(_): return 40
         }
@@ -106,8 +106,8 @@ extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
         case .moviePosterWrapper(_): return tableView.bounds.height
-        case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
-        case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
+        case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
+        case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
         case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
         case .movieRuntime(_), .movieStatus(_): return 40
         }

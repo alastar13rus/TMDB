@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct CastModel: Decodable {
     let adult: Bool
@@ -34,4 +35,8 @@ struct CastModel: Decodable {
         case order
             
     }
+}
+
+extension CastModel: IdentifiableType {
+    var identity: Int { return id }
 }

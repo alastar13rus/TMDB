@@ -10,29 +10,6 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class CastCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Equatable {
-    
-    var identity: String { self.title }
-    let title: String
-    var items: [CastCellViewModel]
-    
-    init(title: String, items: [CastCellViewModel]) {
-        self.title = title
-        self.items = items
-    }
-    
-    required init(original: CastCellViewModelSection, items: [CastCellViewModel]) {
-        self.title = original.title
-        self.items = items
-        
-    }
-    
-    static func ==(lhs: CastCellViewModelSection, rhs: CastCellViewModelSection) -> Bool {
-        return lhs.items == rhs.items && lhs.identity == rhs.identity
-    }
-    
-}
-
 class CastCellViewModel {
     
 //    MARK: - Properties
@@ -56,17 +33,6 @@ class CastCellViewModel {
         self.character = model.character
         self.creditID = model.creditID
         self.order = model.order
-    }
-    
-    init(_ vm: CastCellViewModel) {
-        self.gender = vm.gender
-        self.id = vm.id
-        self.name = vm.name
-        self.popularity = vm.popularity
-        self.profilePath = vm.profilePath
-        self.character = vm.character
-        self.creditID = vm.creditID
-        self.order = 99
     }
     
 //    MARK: - Methods
