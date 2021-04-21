@@ -1,8 +1,8 @@
 //
-//  CrewCellViewModel.swift
+//  CrewCombinedCellViewModel.swift
 //  TMDB
 //
-//  Created by Докин Андрей (IOS) on 13.04.2021.
+//  Created by Докин Андрей (IOS) on 21.04.2021.
 //
 
 import Foundation
@@ -10,30 +10,30 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class CrewCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Equatable {
+class CrewCombinedCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Equatable {
     
     var identity: String { self.title }
     let title: String
-    var items: [CrewCellViewModel]
+    var items: [CrewCombinedCellViewModel]
     
-    init(title: String, items: [CrewCellViewModel]) {
+    init(title: String, items: [CrewCombinedCellViewModel]) {
         self.title = title
         self.items = items
     }
     
-    required init(original: CrewCellViewModelSection, items: [CrewCellViewModel]) {
+    required init(original: CrewCombinedCellViewModelSection, items: [CrewCombinedCellViewModel]) {
         self.title = original.title
         self.items = items
         
     }
     
-    static func ==(lhs: CrewCellViewModelSection, rhs: CrewCellViewModelSection) -> Bool {
+    static func ==(lhs: CrewCombinedCellViewModelSection, rhs: CrewCombinedCellViewModelSection) -> Bool {
         return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
 }
 
-class CrewCellViewModel {
+class CrewCombinedCellViewModel {
     
 //    MARK: - Properties
     let gender: Int
@@ -42,13 +42,12 @@ class CrewCellViewModel {
     let popularity: Float
     let profilePath: String?
     let creditID: String
-    let department: String
-    let job: String
+    let jobs: String
     let knownForDepartment: String
     
 //    MARK: - Init
     
-    init(_ model: CrewModel) {
+    init(_ model: CrewCombinedModel) {
         self.gender = model.gender
         self.id = model.id
         self.name = model.name
@@ -56,8 +55,7 @@ class CrewCellViewModel {
         self.profilePath = model.profilePath
         self.knownForDepartment = model.knownForDepartment
         self.creditID = model.creditID
-        self.department = model.department
-        self.job = model.job
+        self.jobs = model.jobs
     }
     
 //    MARK: - Methods
@@ -81,11 +79,11 @@ class CrewCellViewModel {
     
 }
 
-extension CrewCellViewModel: IdentifiableType, Equatable {
+extension CrewCombinedCellViewModel: IdentifiableType, Equatable {
     
     var identity: String { self.creditID }
     
-    static func ==(lhs: CrewCellViewModel, rhs: CrewCellViewModel) -> Bool {
+    static func ==(lhs: CrewCombinedCellViewModel, rhs: CrewCombinedCellViewModel) -> Bool {
         return lhs.creditID == rhs.creditID
     }
     
