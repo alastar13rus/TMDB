@@ -105,10 +105,10 @@ extension TVDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
         case .tvPosterWrapper(_): return tableView.bounds.height
-        case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
-        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .tvCreators(_): return 120
+        case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
+        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
         case .tvCastList(_): return tableView.bounds.width / 2 + 24
+        case .tvCrewList(_): return tableView.bounds.width / 2 + 24
         case .tvRuntime(_), .tvStatus(_): return 40
         }
     }
@@ -116,10 +116,10 @@ extension TVDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
         case .tvPosterWrapper(_): return tableView.bounds.height
-        case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview)
-        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres)
-        case .tvCreators(_): return 120
+        case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
+        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
         case .tvCastList(_): return tableView.bounds.width / 2 + 24
+        case .tvCrewList(_): return tableView.bounds.width / 2 + 24
         case .tvRuntime(_), .tvStatus(_): return 40
         }
     }
@@ -128,8 +128,8 @@ extension TVDetailViewController: UITableViewDelegate {
         switch dataSource[section] {
         case .tvRuntimeSection(_, _),
              .tvGenresSection(_, _),
-             .tvCreatorsSection(_, _),
              .tvCastListSection(_, _),
+             .tvCrewListSection(_, _),
              .tvStatusSection(_, _):
             return 40
         default:

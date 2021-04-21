@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct CrewCombinedModel: Decodable, Hashable {
     let adult: Bool
