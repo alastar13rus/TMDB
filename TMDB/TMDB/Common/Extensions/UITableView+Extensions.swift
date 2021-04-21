@@ -9,9 +9,9 @@ import UIKit
 
 extension UITableView {
     
-    func calculateCellHeight(withContent content: String) -> CGFloat {
+    func calculateCellHeight(withContent content: String, font: UIFont) -> CGFloat {
         let stringSize = CGSize(width: self.bounds.width - 2 * 12, height: .greatestFiniteMagnitude)
-        let string = NSAttributedString(string: content, attributes: [.font: UIFont.systemFont(ofSize: 16)])
+        let string = NSAttributedString(string: content, attributes: [.font: font])
         let stringBox = string.boundingRect(with: stringSize, options: .usesLineFragmentOrigin, context: nil)
         
         return stringBox.height + 3 * 12

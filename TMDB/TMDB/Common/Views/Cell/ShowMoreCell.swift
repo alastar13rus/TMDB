@@ -10,20 +10,27 @@ import UIKit
 class ShowMoreCell: UICollectionViewCell {
     
 //    MARK: - Properties
+    var viewModel: ShowMoreCellViewModel! {
+        didSet {
+            configure(with: viewModel)
+        }
+    }
+    
     let showMoreButton: UIButton = {
         let button = UIButton(type: .system)
+        button.isUserInteractionEnabled = false
         button.setTitle("→", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
         button.tintColor = .systemBlue
         button.backgroundColor = .white
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 30
         button.clipsToBounds = true
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    let textLabel: UILabel = {
+    let showMoreLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.italicSystemFont(ofSize: 12)
         label.text = "Показать еще"
@@ -47,6 +54,10 @@ class ShowMoreCell: UICollectionViewCell {
     
     
 //    MARK: - Methods
+    fileprivate func configure(with vm: ShowMoreCellViewModel) {
+        showMoreLabel.text = vm.title
+    }
+    
     fileprivate func setupUI() {
         contentView.backgroundColor = .systemGray6
         contentView.layer.cornerRadius = 10
@@ -54,18 +65,18 @@ class ShowMoreCell: UICollectionViewCell {
     
     fileprivate func setupHierarhy() {
         contentView.addSubview(showMoreButton)
-        contentView.addSubview(textLabel)
+        contentView.addSubview(showMoreLabel)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
             showMoreButton.centerYAnchor.constraint(equalTo: centerYAnchor),
             showMoreButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            showMoreButton.widthAnchor.constraint(equalToConstant: 40),
-            showMoreButton.heightAnchor.constraint(equalToConstant: 40),
+            showMoreButton.widthAnchor.constraint(equalToConstant: 60),
+            showMoreButton.heightAnchor.constraint(equalToConstant: 60),
             
-            textLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            textLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            showMoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            showMoreLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
 }

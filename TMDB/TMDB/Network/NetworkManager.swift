@@ -34,7 +34,7 @@ class NetworkManager: NetworkManagerProtocol {
                 guard error == nil else { return }
                 guard response != nil else { return }
                 guard let data = data else { return }
-                
+//                let responseObject = try! JSONDecoder().decode(T.self, from: data)
                 do {
                     let responseObject = try JSONDecoder().decode(T.self, from: data)
                     

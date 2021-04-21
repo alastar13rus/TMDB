@@ -10,13 +10,12 @@ import XCTest
 
 class CastCellViewModelTest: XCTestCase {
     
-    func test_initWithViewModel() {
+    func test_init() {
         
         let castCellViewModel = CastCellViewModel(castModel)
-        let castCellViewModel2 = CastCellViewModel(castCellViewModel)
         
-        XCTAssertEqual(castCellViewModel2.identity, "ohfbksdbsf")
-        XCTAssertEqual(castCellViewModel2.order, 99)
+        XCTAssertEqual(castCellViewModel.identity, "ohfbksdbsf")
+        XCTAssertEqual(castCellViewModel.order, 1)
 
     }
     

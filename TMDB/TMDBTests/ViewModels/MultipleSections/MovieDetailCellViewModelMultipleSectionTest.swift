@@ -108,16 +108,20 @@ class MovieDetailCellViewModelMultipleSectionTest: XCTestCase {
         case movieStatus
     }
     
-    var castList: [CastModel] = [
-        .init(adult: false, gender: 1, id: 1, knownForDepartment: "", name: "", originalName: "", popularity: 0, profilePath: nil, character: "", creditID: "", order: 1)
-    ]
+    var castModel = CastModel(adult: false, gender: 1, id: 1, knownForDepartment: "", name: "", originalName: "", popularity: 0, profilePath: nil, character: "", creditID: "", order: 1)
     
-    var crewList: [CrewModel] = [
-        .init(adult: false, gender: 2, id: 2, knownForDepartment: "", name: "", originalName: "", popularity: 0, profilePath: nil, creditID: "", department: "", job: "")
-    ]
+    lazy var castList = [castModel]
+    
+    var crewModel = CrewModel(adult: false, gender: 2, id: 2, knownForDepartment: "", name: "", originalName: "", popularity: 0, profilePath: nil, creditID: "", department: "", job: "")
+    
+    lazy var crewList = [crewModel]
     
     var movieDetail: MovieDetailModel {
         MovieDetailModel(adult: false, backdropPath: nil, budget: 0, genres: [], homepage: "", id: 1, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: nil, productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 60, spokenLanguages: [], status: "", tagline: "", title: "", voteAverage: 10, voteCount: 10, video: false, credits: MediaCreditList(cast: castList, crew: crewList))
+    }
+    
+    var tvDetail: TVDetailModel {
+        TVDetailModel(backdropPath: nil, createdBy: [], episodeRunTime: [0], firstAirDate: "", genres: [], homepage: "", id: 1, inProduction: false, languages: [], lastAirDate: "", lastEpisodeToAir: TVEpisodeModel(), name: "", networks: [], numberOfEpisodes: 0, numberOfSeasons: 0, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: nil, productionCompanies: [], seasons: [], status: "", tagline: "", type: "", voteAverage: 0, voteCount: 0, credits: nil)
     }
     
     var moviePosterWrapperCellViewModel: MoviePosterWrapperCellViewModel { MoviePosterWrapperCellViewModel(movieDetail) }
@@ -125,7 +129,13 @@ class MovieDetailCellViewModelMultipleSectionTest: XCTestCase {
     var movieRuntimeCellViewModel: MovieRuntimeCellViewModel { MovieRuntimeCellViewModel(movieDetail) }
     var movieStatusCellViewModel: MediaStatusCellViewModel { MediaStatusCellViewModel(movieDetail) }
     var genresCellViewModel: GenresCellViewModel { GenresCellViewModel(movieDetail) }
-    var crewListViewModel: CrewListViewModel { CrewListViewModel(title: Title.movieCrewList.rawValue, items: movieDetail.credits!.crew.map { CrewCellViewModel($0) })}
-    var castListViewModel: CastListViewModel { CastListViewModel(title: Title.movieCastList.rawValue, items: movieDetail.credits!.cast.map { CastCellViewModel($0) })}
+    
+    var castListViewModel: CreditShortListViewModel {
+        CreditShortListViewModel(title: Title.movieCastList.rawValue, items: [.cast(vm: CastCellViewModel(castModel))], coordinator: nil, networkManager: nil, mediaID: "550", creditType: .cast)
+    }
+    
+    var crewListViewModel: CreditShortListViewModel {
+        CreditShortListViewModel(title: Title.movieCrewList.rawValue, items: [.crew(vm: CrewCellViewModel(crewModel))], coordinator: nil, networkManager: nil, mediaID: "550", creditType: .crew)
+    }
     
 }

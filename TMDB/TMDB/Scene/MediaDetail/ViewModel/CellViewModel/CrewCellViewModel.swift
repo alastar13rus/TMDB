@@ -60,18 +60,6 @@ class CrewCellViewModel {
         self.job = model.job
     }
     
-    init(_ vm: CrewCellViewModel) {
-        self.gender = vm.gender
-        self.id = 999999
-        self.name = vm.name
-        self.popularity = vm.popularity
-        self.profilePath = vm.profilePath
-        self.creditID = vm.creditID
-        self.job = vm.job
-        self.department = vm.department
-        self.knownForDepartment = vm.knownForDepartment
-    }
-    
 //    MARK: - Methods
     
     func profileImageData(completion: @escaping (Data?) -> Void) {

@@ -67,4 +67,16 @@ extension NavigationCoordinator {
         return (self, viewModel, viewController)
     }
     
+    func factory<M: DetailWithParamViewModelType, C: BindableType & UIViewController>(with detailID: String, vmType: M.Type, vcType: C.Type, params: [String:String]) -> (coordinator: Self, viewModel: M, viewController: C) {
+        
+        let networkManager: NetworkManagerProtocol = NetworkManager()
+        
+        let viewController = C()
+        let viewModel = M(with: detailID, networkManager: networkManager, params: params)
+        viewModel.coordinator = self
+        viewController.bindViewModel(to: viewModel as! C.ViewModelType)
+        self.navigationController.pushViewController(viewController, animated: true)
+        return (self, viewModel, viewController)
+    }
+    
 }

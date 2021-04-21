@@ -26,8 +26,8 @@ enum MovieDetailCellViewModelMultipleSection {
         case movieOverview(vm: MediaOverviewCellViewModel)
         case movieRuntime(vm: MovieRuntimeCellViewModel)
         case movieGenres(vm: GenresCellViewModel)
-        case movieCrewList(vm: CrewListViewModel)
-        case movieCastList(vm: CastListViewModel)
+        case movieCrewList(vm: CreditShortListViewModel)
+        case movieCastList(vm: CreditShortListViewModel)
         case movieStatus(vm: MediaStatusCellViewModel)
 
         

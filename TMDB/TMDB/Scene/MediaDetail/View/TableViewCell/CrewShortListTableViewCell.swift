@@ -1,5 +1,5 @@
 //
-//  CrewListCell.swift
+//  CrewShortListTableViewCell.swift
 //  TMDB
 //
 //  Created by Докин Андрей (IOS) on 13.04.2021.
@@ -10,21 +10,23 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class CrewListCell: UITableViewCell {
+class CrewShortListTableViewCell: UITableViewCell {
     
 //    MARK: - Properties
     let disposeBag = DisposeBag()
-    let dataSource = CrewListDataSource.dataSource()
-    var viewModel: CrewListViewModel! {
+    let dataSource = CreditShortListDataSource.dataSource()
+    var viewModel: CreditShortListViewModel! {
         didSet {
             configure(with: viewModel)
         }
     }
     
-    lazy var crewListCollectionView: CastAndCrewListCollectionView = {
-        let collectionView = CastAndCrewListCollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInRowOrColumn: 3, scrollDirection: .horizontal, view: self))
-        collectionView.register(CrewCell.self, forCellWithReuseIdentifier: String(describing: CrewCell.self))
+    lazy var crewListCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInRowOrColumn: 3, scrollDirection: .horizontal, view: self))
+        collectionView.register(CrewCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: CrewCollectionViewCell.self))
         collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
+        collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -43,14 +45,10 @@ class CrewListCell: UITableViewCell {
     }
     
 //    MARK: - Methods
-    fileprivate func configure(with vm: CrewListViewModel) {
-        vm.sectionedItems.map { (sections) -> [CrewCellViewModelSection] in
-            sections.map {
-                $0.items.append(CrewCellViewModel($0.items.last!))
-                return $0
-            }
-        }
-        .asDriver(onErrorJustReturn: []).drive(crewListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+    fileprivate func configure(with vm: CreditShortListViewModel) {
+        vm.sectionedItems.asDriver(onErrorJustReturn: []).drive(crewListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        crewListCollectionView.rx.modelSelected(CreditCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.selectedItem).disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {

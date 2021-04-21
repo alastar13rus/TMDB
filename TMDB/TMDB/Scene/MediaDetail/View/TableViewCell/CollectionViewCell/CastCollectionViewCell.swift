@@ -1,16 +1,16 @@
 //
-//  CrewCell.swift
+//  CastCollectionViewCell.swift
 //  TMDB
 //
-//  Created by Докин Андрей (IOS) on 13.04.2021.
+//  Created by Докин Андрей (IOS) on 11.04.2021.
 //
 
 import UIKit
 
-class CrewCell: UICollectionViewCell {
+class CastCollectionViewCell: UICollectionViewCell {
     
 //    MARK: - Properties
-    var viewModel: CrewCellViewModel! {
+    var viewModel: CastCellViewModel! {
         didSet {
             configure(with: viewModel)
         }
@@ -29,15 +29,13 @@ class CrewCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let jobLabel: UILabel = {
+    let characterLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        label.font = UIFont.italicSystemFont(ofSize: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -69,9 +67,9 @@ class CrewCell: UICollectionViewCell {
     
     
 //    MARK: - Methods
-    fileprivate func configure(with vm: CrewCellViewModel) {
+    fileprivate func configure(with vm: CastCellViewModel) {
         nameLabel.text = vm.name
-        jobLabel.text = vm.job
+        characterLabel.text = vm.character
         
         self.profileImageView.layer.opacity = 0
         UIView.animate(withDuration: 1.0) {
@@ -87,6 +85,7 @@ class CrewCell: UICollectionViewCell {
                 }
             }
         }
+        
     }
     
     fileprivate func setupUI() {
@@ -97,8 +96,8 @@ class CrewCell: UICollectionViewCell {
         addSubview(activityIndicatorView)
         addSubview(profileImageView)
         addSubview(nameLabel)
-        addSubview(jobLabel)
-
+        addSubview(characterLabel)
+        
     }
     
     fileprivate func setupConstraints() {
@@ -112,15 +111,15 @@ class CrewCell: UICollectionViewCell {
             profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             profileImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             profileImageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            
+
             nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor),
             nameLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             nameLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            
-            jobLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
-            jobLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            jobLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            jobLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+
+            characterLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
+            characterLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
+            characterLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            characterLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             
         ])
     }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct CrewModel: Decodable, Hashable {
     let adult: Bool
@@ -32,9 +33,15 @@ struct CrewModel: Decodable, Hashable {
         case creditID = "credit_id"
         case department
         case job
-
     }
-    
-    
-    
+}
+
+extension CrewModel: IdentifiableType {
+    var identity: Int { return id }
+}
+
+extension CrewModel: Comparable {
+    static func < (lhs: CrewModel, rhs: CrewModel) -> Bool {
+        return lhs.popularity < rhs.popularity
+    }
 }
