@@ -74,16 +74,6 @@ class TVDetailCellViewModelMultipleSectionTest: XCTestCase {
         XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvStatus(vm: tvStatusCellViewModel))
     }
     
-    func test_initCreatorsSection() {
-        
-        let sectionItem: TVDetailCellViewModelMultipleSection.SectionItem = .tvCreators(vm: creatorWithPhotoCellViewModel)
-        let sut: TVDetailCellViewModelMultipleSection = .tvCreatorsSection(title: Title.tvCreatorWithPhoto.rawValue, items: [sectionItem])
-        XCTAssertEqual(sut.identity, Title.tvCreatorWithPhoto.rawValue)
-        XCTAssertEqual(sut.title, Title.tvCreatorWithPhoto.rawValue)
-        XCTAssertEqual(sectionItem.identity, "2")
-        XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvCreators(vm: creatorWithPhotoCellViewModel))
-    }
-    
     func test_initCastListSection() {
         
         let sectionItem: TVDetailCellViewModelMultipleSection.SectionItem = .tvCastList(vm: castListViewModel)
@@ -95,6 +85,17 @@ class TVDetailCellViewModelMultipleSectionTest: XCTestCase {
         XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvCastList(vm: castListViewModel))
     }
     
+    func test_initCrewListSection() {
+        
+        let sectionItem: TVDetailCellViewModelMultipleSection.SectionItem = .tvCrewList(vm: crewListViewModel)
+        let sut: TVDetailCellViewModelMultipleSection = .tvCrewListSection(title: Title.tvCrewList.rawValue, items: [.tvCrewList(vm: crewListViewModel)])
+        
+        XCTAssertEqual(sut.identity, Title.tvCrewList.rawValue)
+        XCTAssertEqual(sut.title, Title.tvCrewList.rawValue)
+        XCTAssertEqual(sectionItem.identity, "crewList")
+        XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvCrewList(vm: crewListViewModel))
+    }
+    
 //    MARK: - Helpers
     
     enum Title: String {
@@ -102,19 +103,21 @@ class TVDetailCellViewModelMultipleSectionTest: XCTestCase {
         case tvOverview
         case tvRuntime
         case tvGenres
-        case tvCreatorWithPhoto
         case tvCastList
+        case tvCrewList
         case tvStatus
     }
     
-    var castList: [CastModel] = [
-        .init(adult: false, gender: 1, id: 1, knownForDepartment: "", name: "", originalName: "", popularity: 0, profilePath: nil, character: "", creditID: "", order: 1)
-    ]
+    var castModel = CastModel(adult: false, gender: 1, id: 1, knownForDepartment: "", name: "", originalName: "", popularity: 0, profilePath: nil, character: "", creditID: "", order: 1)
     
-    var creator = CreatorModel(id: 2, creditID: "", name: "", gender: 2, profilePath: nil)
+    lazy var castList = [castModel]
+    
+    var crewModel = CrewModel(adult: false, gender: 2, id: 2, knownForDepartment: "", name: "", originalName: "", popularity: 0, profilePath: nil, creditID: "", department: "", job: "")
+    
+    lazy var crewList = [crewModel]
     
     var tvDetail: TVDetailModel {
-        TVDetailModel(backdropPath: nil, createdBy: [creator], episodeRunTime: [0], firstAirDate: "", genres: [], homepage: "", id: 2, inProduction: false, languages: [], lastAirDate: "", lastEpisodeToAir: TVEpisodeModel(), name: "", networks: [], numberOfEpisodes: 0, numberOfSeasons: 0, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: nil, productionCompanies: [], seasons: [], status: "", tagline: "", type: "", voteAverage: 0, voteCount: 0, credits: MediaCreditList(cast: castList, crew: []))
+        TVDetailModel(backdropPath: nil, createdBy: [], episodeRunTime: [0], firstAirDate: "", genres: [], homepage: "", id: 2, inProduction: false, languages: [], lastAirDate: "", lastEpisodeToAir: TVEpisodeModel(), name: "", networks: [], numberOfEpisodes: 0, numberOfSeasons: 0, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: nil, productionCompanies: [], seasons: [], status: "", tagline: "", type: "", voteAverage: 0, voteCount: 0, credits: MediaCreditList(cast: castList, crew: crewList))
     }
     
     var tvPosterWrapperCellViewModel: TVPosterWrapperCellViewModel { TVPosterWrapperCellViewModel(tvDetail) }
@@ -122,8 +125,13 @@ class TVDetailCellViewModelMultipleSectionTest: XCTestCase {
     var tvRuntimeCellViewModel: TVRuntimeCellViewModel { TVRuntimeCellViewModel(tvDetail) }
     var tvStatusCellViewModel: MediaStatusCellViewModel { MediaStatusCellViewModel(tvDetail) }
     var genresCellViewModel: GenresCellViewModel { GenresCellViewModel(tvDetail) }
-    var creatorWithPhotoCellViewModel: CreatorWithPhotoCellViewModel { CreatorWithPhotoCellViewModel(creator) }
-        
-    var castListViewModel: CastListViewModel { CastListViewModel(title: Title.tvCastList.rawValue, items: tvDetail.credits!.cast.map { CastCellViewModel($0) })}
+    
+    var castListViewModel: CreditShortListViewModel {
+        CreditShortListViewModel(title: Title.tvCastList.rawValue, items: [.cast(vm: CastCellViewModel(castModel))], coordinator: nil, networkManager: nil, mediaID: "1399", creditType: .cast)
+    }
+    
+    var crewListViewModel: CreditShortListViewModel {
+        CreditShortListViewModel(title: Title.tvCrewList.rawValue, items: [.crew(vm: CrewCellViewModel(crewModel))], coordinator: nil, networkManager: nil, mediaID: "1399", creditType: .cast)
+    }
     
 }

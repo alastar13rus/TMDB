@@ -15,8 +15,8 @@ enum TVDetailCellViewModelMultipleSection {
     case tvOverviewSection(title: String, items: [SectionItem])
     case tvRuntimeSection(title: String, items: [SectionItem])
     case tvGenresSection(title: String, items: [SectionItem])
-    case tvCreatorsSection(title: String, items: [SectionItem])
     case tvCastListSection(title: String, items: [SectionItem])
+    case tvCrewListSection(title: String, items: [SectionItem])
     case tvStatusSection(title: String, items: [SectionItem])
 
     enum SectionItem: IdentifiableType, Equatable {
@@ -25,8 +25,8 @@ enum TVDetailCellViewModelMultipleSection {
         case tvOverview(vm: MediaOverviewCellViewModel)
         case tvRuntime(vm: TVRuntimeCellViewModel)
         case tvGenres(vm: GenresCellViewModel)
-        case tvCreators(vm: CreatorWithPhotoCellViewModel)
-        case tvCastList(vm: CastListViewModel)
+        case tvCastList(vm: CreditShortListViewModel)
+        case tvCrewList(vm: CreditShortListViewModel)
         case tvStatus(vm: MediaStatusCellViewModel)
 
 
@@ -36,8 +36,8 @@ enum TVDetailCellViewModelMultipleSection {
             case .tvOverview(let vm): return vm.id
             case .tvRuntime(let vm): return vm.id
             case .tvGenres(let vm): return vm.id
-            case .tvCreators(let vm): return vm.id
             case .tvCastList(_): return "castList"
+            case .tvCrewList(_): return "crewList"
             case .tvStatus(let vm): return vm.id
             }
         }
@@ -60,8 +60,8 @@ extension TVDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         case .tvOverviewSection(let title, _): return title
         case .tvRuntimeSection(let title, _): return title
         case .tvGenresSection(let title, _): return title
-        case .tvCreatorsSection(let title, _): return title
         case .tvCastListSection(let title, _): return title
+        case .tvCrewListSection(let title, _): return title
         case .tvStatusSection(let title, _): return title
 
         }
@@ -73,8 +73,8 @@ extension TVDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         case .tvOverviewSection(let title, _): return title
         case .tvRuntimeSection(let title, _): return title
         case .tvGenresSection(let title, _): return title
-        case .tvCreatorsSection(let title, _): return title
         case .tvCastListSection(let title, _): return title
+        case .tvCrewListSection(let title, _): return title
         case .tvStatusSection(let title, _): return title
         }
     }
@@ -85,8 +85,8 @@ extension TVDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         case .tvOverviewSection(_, let items): return items
         case .tvRuntimeSection(_, let items): return items
         case .tvGenresSection(_, let items): return items
-        case .tvCreatorsSection(_, let items): return items
         case .tvCastListSection(_, let items): return items
+        case .tvCrewListSection(_, let items): return items
         case .tvStatusSection(_, let items): return items
         }
     }
@@ -97,8 +97,8 @@ extension TVDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         case .tvOverviewSection(_, _): self = original
         case .tvRuntimeSection(_, _): self = original
         case .tvGenresSection(_, _): self = original
-        case .tvCreatorsSection(_, _): self = original
         case .tvCastListSection(_, _): self = original
+        case .tvCrewListSection(_, _): self = original
         case .tvStatusSection(_, _): self = original
         }
     }

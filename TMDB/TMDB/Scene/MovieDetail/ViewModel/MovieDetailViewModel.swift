@@ -42,17 +42,19 @@ class MovieDetailViewModel: DetailViewModelType {
         self.networkManager = networkManager
         self.detailID = detailID
         
+        setupOutput()
+    }
+    
+//    MARK: - Methods
+    
+    func setupOutput() {
         fetch { [weak self] (movieDetail) in
             guard let self = self else { return }
             
             let sections = self.configureSections(from: movieDetail)
             self.output.sectionedItems.accept(sections)
-            
         }
-        
     }
-    
-//    MARK: - Methods
     
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
         self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits]))) { (result: Result<MovieDetailModel, Error>) in
@@ -92,13 +94,13 @@ class MovieDetailViewModel: DetailViewModelType {
         let sections = [MovieDetailCellViewModelMultipleSection]()
         
         return sections
-            .buildSections(withModel: model, andAction: self.configureMoviePosterWrapperSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureMovieOverviewSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureMovieRuntimeSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureMovieGenresSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureMovieStatusSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureMovieCrewListSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureMovieCastListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMoviePosterWrapperSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieOverviewSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieRuntimeSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieGenresSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieStatusSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieCrewListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieCastListSection(withModel:sections:))
         
     }
     
@@ -176,11 +178,21 @@ class MovieDetailViewModel: DetailViewModelType {
         var sections = sections
         
         
-        if let crewList = model.credits?.crew.filter { $0.profilePath != nil }.toUnique().prefix(10), !crewList.isEmpty {
+        if let crewList = model.credits?.crew.filter { $0.profilePath != nil }.toUnique().sorted(by: >).prefix(10), !crewList.isEmpty {
             let title = "Создатели"
             
+            let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                crewList.map { .crew(vm: CrewCellViewModel($0)) }
+            
+            let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .crew))]
+            
+            let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+                .movieCrewList(vm: CreditShortListViewModel(title: title, items: crewSection + showMoreSection, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .crew))
+            ]
+            
             let movieCrewListSection: MovieDetailCellViewModelMultipleSection =
-                .movieCrewListSection(title: title, items: [.movieCrewList(vm: CrewListViewModel(title: title, items: crewList.map { CrewCellViewModel($0) }))])
+                .movieCrewListSection(title: title, items: items)
             
             sections.append(movieCrewListSection)
         }
@@ -194,8 +206,18 @@ class MovieDetailViewModel: DetailViewModelType {
         if let castList = model.credits?.cast.prefix(10), !castList.isEmpty {
             let title = "Актеры"
             
+            let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                castList.map { .cast(vm: CastCellViewModel($0)) }
+            
+            let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .cast))]
+            
+            let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+                .movieCastList(vm: CreditShortListViewModel(title: title, items: castSection + showMoreSection, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .cast))
+            ]
+            
             let movieCastListSection: MovieDetailCellViewModelMultipleSection =
-                .movieCastListSection(title: title, items: [.movieCastList(vm: CastListViewModel(title: title, items: castList.map { CastCellViewModel($0) }))])
+                .movieCastListSection(title: title, items: items)
             
             sections.append(movieCastListSection)
         }
@@ -204,12 +226,4 @@ class MovieDetailViewModel: DetailViewModelType {
     
     
     
-}
-
-extension Array where Array.Element == CrewModel {
-    fileprivate func toUnique() -> [CrewModel] {
-        var crewListDict = [Int:CrewModel]()
-        self.enumerated().forEach { crewListDict[$0.element.id] = $0.element }
-        return crewListDict.map { $0.value }
-    }
 }

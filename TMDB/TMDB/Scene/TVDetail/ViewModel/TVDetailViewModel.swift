@@ -43,17 +43,19 @@ class TVDetailViewModel: DetailViewModelType {
         self.networkManager = networkManager
         self.detailID = detailID
         
+        setupOutput()
+    }
+    
+//    MARK: - Methods
+    
+    func setupOutput() {
         fetch { [weak self] (tvDetail) in
             guard let self = self else { return }
             
             let sections = self.configureSections(from: tvDetail)
             self.output.sectionedItems.accept(sections)
-            
         }
-        
     }
-    
-//    MARK: - Methods
     
     func fetch(completion: @escaping (TVDetailModel) -> Void) {
         self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.credits]))) { (result: Result<TVDetailModel, Error>) in
@@ -93,13 +95,13 @@ class TVDetailViewModel: DetailViewModelType {
         let sections = [TVDetailCellViewModelMultipleSection]()
         
         return sections
-            .buildSections(withModel: model, andAction: self.configureTVPosterWrapperSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureTVOverviewSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureTVRuntimeSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureTVGenresSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureTVStatusSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureTVCreatorsSection(withModel:sections:))
-            .buildSections(withModel: model, andAction: self.configureTVCastListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVPosterWrapperSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVOverviewSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVRuntimeSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVGenresSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVStatusSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVCrewListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVCastListSection(withModel:sections:))
         
     }
     
@@ -172,18 +174,28 @@ class TVDetailViewModel: DetailViewModelType {
         return sections
     }
     
-    fileprivate func configureTVCreatorsSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
-        
+    fileprivate func configureTVCrewListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+
         var sections = sections
         
-        if !model.createdBy.isEmpty {
+        
+        if let crewList = model.credits?.crew.filter { $0.profilePath != nil }.toUnique().prefix(10), !crewList.isEmpty {
+            let title = "Создатели"
             
-            let tvCreatorsSection: TVDetailCellViewModelMultipleSection =
-                .tvCreatorsSection(
-                    title: "Создатели",
-                    items: model.createdBy.map { .tvCreators(vm: CreatorWithPhotoCellViewModel($0)) })
+            let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                crewList.map { .crew(vm: CrewCellViewModel($0)) }
             
-            sections.append(tvCreatorsSection)
+            let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .crew))]
+            
+            let items: [TVDetailCellViewModelMultipleSection.SectionItem] = [
+                .tvCrewList(vm: CreditShortListViewModel(title: title, items: crewSection + showMoreSection, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .crew))
+            ]
+            
+            let tvCrewListSection: TVDetailCellViewModelMultipleSection =
+                .tvCrewListSection(title: title, items: items)
+            
+            sections.append(tvCrewListSection)
         }
         return sections
     }
@@ -192,24 +204,25 @@ class TVDetailViewModel: DetailViewModelType {
         
         var sections = sections
         
-        if let castList = model.credits?.cast, !castList.isEmpty {
+        if let castList = model.credits?.cast.prefix(10), !castList.isEmpty {
             let title = "Актеры"
+            
+            let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                castList.map { .cast(vm: CastCellViewModel($0)) }
+            
+            let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
+                [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .cast))]
+            
+            let items: [TVDetailCellViewModelMultipleSection.SectionItem] = [
+                .tvCastList(vm: CreditShortListViewModel(title: title, items: castSection + showMoreSection, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .cast))
+            ]
+            
             let tvCastListSection: TVDetailCellViewModelMultipleSection =
-                .tvCastListSection(title: title, items: [.tvCastList(vm: CastListViewModel(title: title, items: castList.map { CastCellViewModel($0) }))])
+                .tvCastListSection(title: title, items: items)
             
             sections.append(tvCastListSection)
         }
         return sections
     }
     
-}
-
-extension Array where Array.Element: AnimatableSectionModelType {
-    
-    func buildSections<T, U: MediaDetailProtocol>(withModel model: U,
-                             andAction action: ((U, [T]) -> [T])) -> [T] {
-        guard let self = self as? [T] else { return [] }
-        return action(model, self as [T])
-    }
-
 }

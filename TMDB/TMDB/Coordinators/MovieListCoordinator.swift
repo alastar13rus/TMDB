@@ -27,6 +27,15 @@ class MovieListCoordinator: NavigationCoordinator {
         (_, _, _) = factory(with: detailID, vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
     }
     
+    func toCreditList(with detailID: String, params: [String: String]) {
+        (_, _, _) = factory(with: detailID, vmType: CreditListViewModel.self, vcType: CreditListViewController.self, params: params)
+    }
+    
+    func toPeople(with peopleID: String) {
+        let peopleListCoordinator = PeopleListCoordinator(navigationController: navigationController)
+        peopleListCoordinator.toDetail(with: peopleID)
+    }
+    
 }
 
 

@@ -44,18 +44,18 @@ struct TVDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
                 
-            case .tvCreators(let vm):
-                let cell = CreatorWithPhotoCell()
-                cell.viewModel = vm
-                return cell
-                
             case .tvStatus(let vm):
                 let cell = MediaStatusCell()
                 cell.viewModel = vm
                 return cell
-            
+                
             case .tvCastList(let vm):
-                let cell = CastListCell()
+                let cell = CastShortListTableViewCell()
+                cell.viewModel = vm
+                return cell
+                
+            case .tvCrewList(let vm):
+                let cell = CrewShortListTableViewCell()
                 cell.viewModel = vm
                 return cell
             }
@@ -65,8 +65,8 @@ struct TVDetailDataSource: DataSourceProtocol {
             switch dataSource[section] {
             case .tvRuntimeSection(let title, _),
                  .tvGenresSection(let title, _),
-                 .tvCreatorsSection(let title, _),
                  .tvCastListSection(let title, _),
+                 .tvCrewListSection(let title, _),
                  .tvStatusSection(let title, _):
                 return title
             default:

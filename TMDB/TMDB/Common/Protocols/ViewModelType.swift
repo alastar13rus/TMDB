@@ -27,3 +27,8 @@ protocol DetailViewModelType: ViewModelType {
     
     init(with detailID: String, networkManager: NetworkManagerProtocol)
 }
+
+protocol DetailWithParamViewModelType: ViewModelType {
+    
+    init(with detailID: String, networkManager: NetworkManagerProtocol, params: [String:String])
+}

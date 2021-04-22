@@ -20,12 +20,7 @@ struct CrewListDataSource: DataSourceProtocol {
             deleteAnimation: .automatic)
         
         let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            if dataSource[indexPath].id == 999999 {
-///            Вставить ячейку "Показать еще" в конец коллекции
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowMoreCell.self), for: indexPath) as! ShowMoreCell
-                return cell
-            }
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CrewCell.self), for: indexPath) as? CrewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CrewCollectionViewCell.self), for: indexPath) as? CrewCollectionViewCell else { return UICollectionViewCell() }
             cell.viewModel = item
             return cell
         }
