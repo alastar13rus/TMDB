@@ -15,10 +15,10 @@ class TVDetailViewModelTest: XCTestCase {
         
         XCTAssertEqual(viewModel.detailID, "100")
         
-        let expectaition = self.expectation(description: #function)
+        let expectation = self.expectation(description: #function)
         
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
-            expectaition.fulfill()
+            expectation.fulfill()
         }
         
         waitForExpectations(timeout: 3, handler: nil)
