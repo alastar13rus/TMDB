@@ -39,12 +39,13 @@ class CreditListViewModel: DetailWithParamViewModelType {
     
     let networkManager: NetworkManagerProtocol
     weak var coordinator: Coordinator?
+    let disposeBag = DisposeBag()
     
     let input = Input()
     let output = Output()
     
     struct Input {
-        
+        let selectedItem = PublishRelay<CreditListViewModelMultipleSection.SectionItem>()
     }
     
     struct Output {
@@ -66,9 +67,60 @@ class CreditListViewModel: DetailWithParamViewModelType {
         self.networkManager = networkManager
         
         setupOutput()
+        subscribing()
     }
     
 //    MARK: - Methods
+    fileprivate func subscribing() {
+        self.input.selectedItem.subscribe(onNext: {
+            if let coordinator = self.coordinator as? MovieListCoordinator {
+                self.routingWithMovieCoordinator(coordinator: coordinator, item: $0)
+            } else if let coordinator = self.coordinator as? TVListCoordinator {
+                self.routingWithTVCoordinator(coordinator: coordinator, item: $0)
+            } else {
+                return
+            }
+            
+        }).disposed(by: disposeBag)
+    }
+    
+    fileprivate func routingWithMovieCoordinator(coordinator: MovieListCoordinator, item: CreditListViewModelMultipleSection.SectionItem) {
+        switch item {
+        case .cast(let vm):
+            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
+                coordinator.toPeople(with: peopleID)
+            }
+        case .crew(let vm):
+            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
+                coordinator.toPeople(with: peopleID)
+            }
+        }
+    }
+    
+    fileprivate func routingWithTVCoordinator(coordinator: TVListCoordinator, item: CreditListViewModelMultipleSection.SectionItem) {
+        switch item {
+        case .cast(let vm):
+            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
+                coordinator.toPeople(with: peopleID)
+            }
+        case .crew(let vm):
+            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
+                coordinator.toPeople(with: peopleID)
+            }
+        }
+    }
+    
+    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
+            networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
+                switch result {
+                case .success(let creditDetail):
+                    let peopleID = "\(creditDetail.person.id)"
+                    completion(peopleID)
+                case .failure: break
+                }
+            })
+    }
+    
     private func fetch(completion: @escaping (CreditListResponse) -> Void) {
         networkManager.request(api) { (result: Result<CreditListResponse, Error>) in
             switch result {
@@ -107,7 +159,7 @@ class CreditListViewModel: DetailWithParamViewModelType {
                 
                 let items = response.crew
                     .map {
-                        CrewCombinedModel(adult: $0.adult, gender: $0.gender, id: $0.id, knownForDepartment: $0.knownForDepartment, name: $0.name, originalName: $0.originalName, popularity: $0.popularity, profilePath: $0.profilePath, creditID: $0.creditID, jobs: (jobs[$0.id]?.joined(separator: ", "))!)
+                        GroupedCrewModel(adult: $0.adult, gender: $0.gender, id: $0.id, knownForDepartment: $0.knownForDepartment, name: $0.name, originalName: $0.originalName, popularity: $0.popularity, profilePath: $0.profilePath, creditID: $0.creditID, jobs: jobs[$0.id]!.joined(separator: ", "))
                     }
                     .toUnique()
                     .sorted(by: >)

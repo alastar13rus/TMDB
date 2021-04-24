@@ -82,9 +82,18 @@ extension PeopleDetailViewController: BindableType {
             switch self.dataSource[$0] {
             case .bio: return true
             default: return false
-            } }.subscribe(onNext: { self.toggleCell($0) }).disposed(by: disposeBag)
-    }
+            }
+        }.subscribe(onNext: { self.toggleCell($0) }).disposed(by: disposeBag)
+        
+        peopleDetailTableView.rx.modelSelected(PeopleDetailCellViewModelMultipleSection.SectionItem.self)
+            .compactMap { item -> CreditInMediaViewModel? in
+                switch item {
+                case .cast(let vm): return vm
+                default: return nil
+                }
+            }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
     
+    }
 }
 
 extension PeopleDetailViewController: UITableViewDelegate { }
@@ -112,8 +121,8 @@ extension PeopleDetailViewController {
             case .short: return 200
             }
         case .bestMedia: return 200
-        case .movie: return 200
-        case .tv: return 200
+        case .cast: return 100
+        case .crew: return 100
         }
     }
     
@@ -129,8 +138,8 @@ extension PeopleDetailViewController {
             case .short: return 200
             }
         case .bestMedia: return 200
-        case .movie: return 200
-        case .tv: return 200
+        case .cast: return 100
+        case .crew: return 100
         }
     }
     
@@ -140,8 +149,8 @@ extension PeopleDetailViewController {
         case .imageListSection: return 0
         case .bioSection: return 40
         case .bestMediaSection: return 40
-        case .movieSection: return 40
-        case .tvSection: return 40
+        case .castSection: return 40
+        case .crewSection: return 40
         }
     }
     

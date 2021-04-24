@@ -113,7 +113,8 @@
 		BB4928D2262F40DA00DD325E /* PeopleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4928D1262F40DA00DD325E /* PeopleImageCell.swift */; };
 		BB4928D8262F436000DD325E /* PeopleImageListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4928D7262F436000DD325E /* PeopleImageListDataSource.swift */; };
 		BB4928E22630574800DD325E /* CrewCombinedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4928E12630574800DD325E /* CrewCombinedCellViewModel.swift */; };
-		BB4928E62630DBEA00DD325E /* CrewCombineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4928E52630DBE900DD325E /* CrewCombineModel.swift */; };
+		BB4928E62630DBEA00DD325E /* GroupedCrewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4928E52630DBE900DD325E /* GroupedCrewModel.swift */; };
+		BB492908263374B900DD325E /* CreditInMediaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB492907263374B900DD325E /* CreditInMediaTableViewCell.swift */; };
 		BB4C7C242607CF9C0022EAFD /* MediaListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4C7C232607CF9C0022EAFD /* MediaListViewModelTest.swift */; };
 		BB7ED5DD2628D79A00FE5659 /* CreditListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */; };
 		BB7ED5E32628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */; };
@@ -288,7 +289,8 @@
 		BB4928D1262F40DA00DD325E /* PeopleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleImageCell.swift; sourceTree = "<group>"; };
 		BB4928D7262F436000DD325E /* PeopleImageListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleImageListDataSource.swift; sourceTree = "<group>"; };
 		BB4928E12630574800DD325E /* CrewCombinedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCombinedCellViewModel.swift; sourceTree = "<group>"; };
-		BB4928E52630DBE900DD325E /* CrewCombineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCombineModel.swift; sourceTree = "<group>"; };
+		BB4928E52630DBE900DD325E /* GroupedCrewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedCrewModel.swift; sourceTree = "<group>"; };
+		BB492907263374B900DD325E /* CreditInMediaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditInMediaTableViewCell.swift; sourceTree = "<group>"; };
 		BB4C7C232607CF9C0022EAFD /* MediaListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListViewModelTest.swift; sourceTree = "<group>"; };
 		BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModel.swift; sourceTree = "<group>"; };
 		BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModelMultipleSection.swift; sourceTree = "<group>"; };
@@ -397,7 +399,7 @@
 				BB0AC605261F230B00CFA11B /* CreatorModel.swift */,
 				BB0AC6D8262313AA00CFA11B /* CastModel.swift */,
 				BB0AC6DC262314CA00CFA11B /* CrewModel.swift */,
-				BB4928E52630DBE900DD325E /* CrewCombineModel.swift */,
+				BB4928E52630DBE900DD325E /* GroupedCrewModel.swift */,
 				BB0AC60B261F4AFE00CFA11B /* GenreModel.swift */,
 				BB0AC611261F4B3A00CFA11B /* LanguageModel.swift */,
 				BB0AC615261F4B5300CFA11B /* CompanyModel.swift */,
@@ -761,6 +763,7 @@
 			children = (
 				BB4928AB262E419700DD325E /* CreditInMediaCell.swift */,
 				BB4928B5262F014400DD325E /* ReusableHeaderView.swift */,
+				BB492907263374B900DD325E /* CreditInMediaTableViewCell.swift */,
 			);
 			path = CreditInMedia;
 			sourceTree = "<group>";
@@ -1285,6 +1288,7 @@
 				BB0AC7672624EB9100CFA11B /* MovieRuntimeCell.swift in Sources */,
 				BB0AC79A2625114700CFA11B /* CrewCollectionViewCell.swift in Sources */,
 				BB7ED637262C764900FE5659 /* PeopleDetailCellViewModelMultipleSection.swift in Sources */,
+				BB492908263374B900DD325E /* CreditInMediaTableViewCell.swift in Sources */,
 				BB0AC5D7261F139600CFA11B /* TVDetailModel.swift in Sources */,
 				BB0AC7442624E34D00CFA11B /* MovieDetailViewController.swift in Sources */,
 				BB492887262CB7AB00DD325E /* Array+Extensions.swift in Sources */,
@@ -1367,7 +1371,7 @@
 				BB7ED645262C9BC800FE5659 /* PeopleBioCellViewModel.swift in Sources */,
 				BBAA91B72602A8270095DB27 /* MediaTableViewCell.swift in Sources */,
 				BB4928C0262F2F9E00DD325E /* PeopleImageListViewModel.swift in Sources */,
-				BB4928E62630DBEA00DD325E /* CrewCombineModel.swift in Sources */,
+				BB4928E62630DBEA00DD325E /* GroupedCrewModel.swift in Sources */,
 				BB492899262DDACD00DD325E /* CreditInMediaViewModel.swift in Sources */,
 				BB0AC64026207D4400CFA11B /* MediaDetailTableView.swift in Sources */,
 				BB4928D2262F40DA00DD325E /* PeopleImageCell.swift in Sources */,

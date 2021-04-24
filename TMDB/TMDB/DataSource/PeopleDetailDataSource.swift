@@ -34,12 +34,12 @@ struct PeopleDetailDataSource: DataSourceProtocol {
                 let cell = PeopleBioCell()
                 cell.viewModel = vm
                 return cell
-            case .movie(let vm):
-                let cell = PeopleMovieCell()
+            case .cast(let vm):
+                let cell = CreditInMediaTableViewCell()
                 cell.viewModel = vm
                 return cell
-            case .tv(let vm):
-                let cell = PeopleTVCell()
+            case .crew(let vm):
+                let cell = CreditInMediaTableViewCell()
                 cell.viewModel = vm
                 return cell
             }
@@ -51,8 +51,8 @@ struct PeopleDetailDataSource: DataSourceProtocol {
             case .imageListSection: return nil
             case .bioSection(let title, _): return title
             case .bestMediaSection(let title, _): return title
-            case .movieSection(let title, _): return title
-            case .tvSection(let title, _): return title
+            case .castSection(let title, _): return title
+            case .crewSection(let title, _): return title
 
                 
             }

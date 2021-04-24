@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 struct PeopleCombinedCreditList: Decodable {
     
@@ -26,7 +27,7 @@ struct CastInMediaModel: Decodable {
     let name: String?
     let mediaType: MediaType
     let posterPath: String?
-    let first_air_date: String?
+    let firstAirDate: String?
     let voteAverage: Float
     let voteCount: Int
     let character: String
@@ -50,7 +51,7 @@ struct CastInMediaModel: Decodable {
         case name
         case mediaType = "media_type"
         case posterPath = "poster_path"
-        case first_air_date = "first_air_date"
+        case firstAirDate = "first_air_date"
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
         case character
@@ -85,7 +86,7 @@ struct CrewInMediaModel: Decodable {
     let name: String?
     let mediaType: MediaType
     let posterPath: String?
-    let first_air_date: String?
+    let firstAirDate: String?
     let voteAverage: Float
     let voteCount: Int
     let backdropPath: String?
@@ -110,7 +111,7 @@ struct CrewInMediaModel: Decodable {
         case name
         case mediaType = "media_type"
         case posterPath = "poster_path"
-        case first_air_date = "first_air_date"
+        case firstAirDate = "first_air_date"
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
         case backdropPath = "backdrop_path"
@@ -123,7 +124,33 @@ struct CrewInMediaModel: Decodable {
         case adult
     }
 }
-/**
 
- 
- */
+struct GroupedCreditInMediaModel: Decodable, IdentifiableType, Comparable {
+    
+    let id: Int
+    let posterPath: String?
+    let mediaTitle: String
+    let mediaType: MediaType
+    let credit: String
+    let voteAverage: Float
+    let releaseDate: String?
+    let firstAirDate: String?
+   
+    var releaseYear: String {
+        switch mediaType {
+        case .movie:
+            guard let releaseDate = releaseDate else { return "" }
+            return "\(releaseDate.prefix(4))"
+        case .tv:
+            guard let firstAirDate = firstAirDate else { return "" }
+            return "\(firstAirDate.prefix(4))"
+        }
+    }
+    
+    
+    var identity: Int { return id }
+
+    static func < (lhs: GroupedCreditInMediaModel, rhs: GroupedCreditInMediaModel) -> Bool {
+        return lhs.voteAverage < rhs.voteAverage
+    }
+}

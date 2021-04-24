@@ -22,7 +22,7 @@ class PeopleDetailViewModel: DetailViewModelType {
     let output = Output()
     
     struct Input {
-        let sectionTypeDidChange = BehaviorRelay<Void>(value: ())
+        let selectedMedia = PublishRelay<CreditInMediaViewModel>()
     }
     
     struct Output {
@@ -35,11 +35,23 @@ class PeopleDetailViewModel: DetailViewModelType {
     required init(with detailID: String, networkManager: NetworkManagerProtocol) {
         self.detailID = detailID
         self.networkManager = networkManager
+
+        self.setupInput()
+        self.setupOutput()
         
-        setupOutput()
     }
     
 //    MARK: - Methods
+    
+    fileprivate func setupInput() {
+        input.selectedMedia.subscribe(onNext: {
+            guard let coordinator = self.coordinator as? PeopleListCoordinator else { return }
+            switch $0.mediaType {
+            case .movie: coordinator.toMovieDetail(with: $0.id)
+            case .tv: coordinator.toTVDetail(with: $0.id)
+            }
+        }).disposed(by: disposeBag)
+    }
     
     fileprivate func setupOutput() {
         self.fetch { [weak self] (peopleDetail) in
@@ -69,7 +81,9 @@ class PeopleDetailViewModel: DetailViewModelType {
             .buildSection(withModel: model, andAction: configureImageListSection(with:sections:))
             .buildSection(withModel: model, andAction: configureBioSection(with:sections:))
             .buildSection(withModel: model, andAction: configureBestMediaSection(with:sections:))
-        
+            .buildSection(withModel: model, andAction: configureCastSection(with:sections:))
+            .buildSection(withModel: model, andAction: configureCrewSection(with:sections:))
+
     }
     
     fileprivate func configureProfileWrapperSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
@@ -113,31 +127,146 @@ class PeopleDetailViewModel: DetailViewModelType {
         
         guard let cast = model.combinedCredits?.cast, let crew = model.combinedCredits?.crew else { return sections }
         
-        let castInMovie: [CreditInMediaCellViewModelMultipleSection.SectionItem] = cast.filter { $0.mediaType.rawValue == MediaType.movie.rawValue }.map { .creditInMovie(vm: CreditInMediaViewModel($0)) }
+        var credits = [Int: [String]]()
         
-        let crewInMovie: [CreditInMediaCellViewModelMultipleSection.SectionItem] = crew.filter { $0.mediaType.rawValue == MediaType.movie.rawValue }.map { .creditInMovie(vm: CreditInMediaViewModel($0)) }
+        cast.forEach { (castModel) in
+            if credits.index(forKey: castModel.id) != nil {
+                credits[castModel.id]!.append(castModel.character)
+            } else {
+                credits[castModel.id] = [castModel.character]
+            }
+        }
         
-        let castInTV: [CreditInMediaCellViewModelMultipleSection.SectionItem] = cast.filter { $0.mediaType.rawValue == MediaType.tv.rawValue }.map { .creditInTV(vm: CreditInMediaViewModel($0)) }
+        crew.forEach { (crewModel) in
+            if credits.index(forKey: crewModel.id) != nil {
+                credits[crewModel.id]!.append(crewModel.job)
+            } else {
+                credits[crewModel.id] = [crewModel.job]
+            }
+        }
+
+        let groupedCredit =
+            cast.map {
+                GroupedCreditInMediaModel(
+                    id: $0.id,
+                    posterPath: $0.posterPath,
+                    mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
+                    mediaType: $0.mediaType,
+                    credit: credits[$0.id]!.joined(separator: ", "),
+                    voteAverage: $0.voteAverage,
+                    releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
+                    firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
+                    )
+                
+            } +
+            crew.map {
+                GroupedCreditInMediaModel(
+                    id: $0.id,
+                    posterPath: $0.posterPath,
+                    mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
+                    mediaType: $0.mediaType,
+                    credit: credits[$0.id]!.joined(separator: ", "),
+                    voteAverage: $0.voteAverage,
+                    releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
+                    firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
+                    )
+                
+            }
         
-        let crewInTV: [CreditInMediaCellViewModelMultipleSection.SectionItem] = crew.filter { $0.mediaType.rawValue == MediaType.tv.rawValue }.map { .creditInTV(vm: CreditInMediaViewModel($0)) }
+        let creditInMovie: [CreditInMediaCellViewModelMultipleSection.SectionItem] = groupedCredit.filter { $0.mediaType.rawValue == MediaType.movie.rawValue }.toUnique().sorted(by: >).prefix(5).map { .creditInMovie(vm: CreditInMediaViewModel($0)) }
         
+        let creditInTV: [CreditInMediaCellViewModelMultipleSection.SectionItem] = groupedCredit.filter { $0.mediaType.rawValue == MediaType.tv.rawValue }.toUnique().sorted(by: >).prefix(5).map { .creditInTV(vm: CreditInMediaViewModel($0)) }
         
-        let movieSectionItems: [CreditInMediaCellViewModelMultipleSection.SectionItem] = Array(Array(Set(castInMovie + crewInMovie)).sorted(by: >).prefix(5))
-        
-        let tvSectionItems: [CreditInMediaCellViewModelMultipleSection.SectionItem] = Array(Array(Set(castInTV + crewInTV)).sorted(by: >).prefix(5))
+        let movieSectionItems: [CreditInMediaCellViewModelMultipleSection.SectionItem] = creditInMovie.sorted(by: >)
+        let tvSectionItems: [CreditInMediaCellViewModelMultipleSection.SectionItem] = creditInTV.sorted(by: >)
         
         let bestMediaSection: PeopleDetailCellViewModelMultipleSection = .bestMediaSection(
             title: title,
             items:
                 [
-                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator))
+                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, parentVM: self))
                 ]
         )
         
-        sections.append(bestMediaSection)
+        if (!bestMediaSection.items.isEmpty) { sections.append(bestMediaSection) }
         return sections
     }
     
+    fileprivate func configureCastSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+        let title = "Актер"
+        var sections = sections
+        
+        guard let cast = model.combinedCredits?.cast, !cast.isEmpty else { return sections }
+        
+        var credits = [Int: [String]]()
+        
+        cast.forEach { (castModel) in
+            if credits.index(forKey: castModel.id) != nil {
+                credits[castModel.id]!.append(castModel.character)
+            } else {
+                credits[castModel.id] = [castModel.character]
+            }
+        }
+        
+        let groupedCastItems: [PeopleDetailCellViewModelMultipleSection.SectionItem] =
+            cast.map {
+                GroupedCreditInMediaModel(
+                    id: $0.id,
+                    posterPath: $0.posterPath,
+                    mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
+                    mediaType: $0.mediaType,
+                    credit: credits[$0.id]!.joined(separator: ", "),
+                    voteAverage: $0.voteAverage,
+                    releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
+                    firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
+                    )
+                
+            }.toUnique().sorted(by: >).map { PeopleDetailCellViewModelMultipleSection.SectionItem.cast(vm: CreditInMediaViewModel($0)) }
+        
+        let castSection: PeopleDetailCellViewModelMultipleSection = .castSection(title: title, items: groupedCastItems)
+        
+        if !castSection.items.isEmpty { sections.append(castSection) }
+        return sections
     
     
+    }
+    
+    fileprivate func configureCrewSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+        let title = "Создатель"
+        var sections = sections
+        
+        guard let crew = model.combinedCredits?.crew, !crew.isEmpty else { return sections }
+        
+        var credits = [Int: [String]]()
+        
+        crew.forEach { (crewModel) in
+            if credits.index(forKey: crewModel.id) != nil {
+                credits[crewModel.id]!.append(crewModel.job)
+            } else {
+                credits[crewModel.id] = [crewModel.job]
+            }
+        }
+        
+        let groupedCrewItems: [PeopleDetailCellViewModelMultipleSection.SectionItem] =
+            crew.map {
+                GroupedCreditInMediaModel(
+                    id: $0.id,
+                    posterPath: $0.posterPath,
+                    mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
+                    mediaType: $0.mediaType,
+                    credit: credits[$0.id]!.joined(separator: ", "),
+                    voteAverage: $0.voteAverage,
+                    releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
+                    firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
+                    )
+                
+            }.toUnique().sorted(by: >).map { PeopleDetailCellViewModelMultipleSection.SectionItem.crew(vm: CreditInMediaViewModel($0)) }
+        
+        let crewSection: PeopleDetailCellViewModelMultipleSection = .crewSection(title: title, items: groupedCrewItems)
+        
+        if !crewSection.items.isEmpty { sections.append(crewSection) }
+        return sections
+    
+    
+    }
 }

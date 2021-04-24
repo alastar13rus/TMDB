@@ -10,13 +10,15 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class PeopleBestMediaListViewModel: AnimatableSectionModelType {
+class PeopleBestMediaListViewModel<T: DetailViewModelType>: AnimatableSectionModelType {
     
     //    MARK: - Properties
     let title: String
     let items: [CreditInMediaCellViewModelMultipleSection.SectionItem]
-    weak var coordinator: Coordinator?
+    weak var parentVM: T?
     let dataSource = BestCreditInMediaListDataSource.dataSource()
+    let disposeBag = DisposeBag()
+    let selectedMedia = PublishRelay<CreditInMediaViewModel>()
     
     var sectionedItems: Observable<[CreditInMediaCellViewModelMultipleSection]> {
         
@@ -32,7 +34,11 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         let movieSection: CreditInMediaCellViewModelMultipleSection = .creditInMovieSection(title: "Фильмы", items: movieItems)
         let tvSection: CreditInMediaCellViewModelMultipleSection = .creditInTVSection(title: "Сериалы", items: tvItems)
         
-        return .just([movieSection, tvSection])
+        var sections = [CreditInMediaCellViewModelMultipleSection]()
+        if !movieItems.isEmpty { sections.append(movieSection) }
+        if !tvItems.isEmpty { sections.append(tvSection) }
+        
+        return .just(sections)
                      
         }
         
@@ -47,13 +53,22 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?) {
+    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], parentVM: T?) {
         self.init(title: title, items: items)
-        self.coordinator = coordinator
+        self.parentVM = parentVM
+        subscribing()
     }
-        
-
+    
+//    MARK: - Methods
+    fileprivate func subscribing() {
+        self.selectedMedia.subscribe(onNext: {
+            guard let parentVM = self.parentVM as? PeopleDetailViewModel else { return }
+            parentVM.input.selectedMedia.accept($0)
+        }).disposed(by: disposeBag)
     }
+    
+    
+}
 
 extension PeopleBestMediaListViewModel: IdentifiableType {
     var identity: String { return title }

@@ -1,5 +1,5 @@
 //
-//  CrewCombineModel.swift
+//  GroupedCrewModel.swift
 //  TMDB
 //
 //  Created by Докин Андрей (IOS) on 22.04.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import RxDataSources
 
-struct CrewCombinedModel: Decodable, Hashable {
+struct GroupedCrewModel: Decodable, Hashable {
     let adult: Bool
     let gender: Int
     let id: Int
@@ -21,12 +21,12 @@ struct CrewCombinedModel: Decodable, Hashable {
     let jobs: String
 }
 
-extension CrewCombinedModel: IdentifiableType {
+extension GroupedCrewModel: IdentifiableType {
     var identity: Int { return id }
 }
 
-extension CrewCombinedModel: Comparable {
-    static func < (lhs: CrewCombinedModel, rhs: CrewCombinedModel) -> Bool {
+extension GroupedCrewModel: Comparable {
+    static func < (lhs: GroupedCrewModel, rhs: GroupedCrewModel) -> Bool {
         return lhs.popularity < rhs.popularity
     }
 }

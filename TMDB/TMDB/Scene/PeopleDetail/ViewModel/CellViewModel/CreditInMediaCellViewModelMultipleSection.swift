@@ -31,13 +31,13 @@ enum CreditInMediaCellViewModelMultipleSection {
         static func < (lhs: SectionItem, rhs: SectionItem) -> Bool {
             switch (lhs, rhs) {
             case (.creditInMovie(let lhsVM), .creditInTV(let rhsVM)):
-                return lhsVM.popularity < rhsVM.popularity
+                return lhsVM.voteAverage < rhsVM.voteAverage
             case (.creditInTV(let lhsVM), .creditInMovie(let rhsVM)):
-                return lhsVM.popularity < rhsVM.popularity
+                return lhsVM.voteAverage < rhsVM.voteAverage
             case (.creditInMovie(let lhsVM), .creditInMovie(let rhsVM)):
-                return lhsVM.popularity < rhsVM.popularity
+                return lhsVM.voteAverage < rhsVM.voteAverage
             case (.creditInTV(let lhsVM), .creditInTV(let rhsVM)):
-                return lhsVM.popularity < rhsVM.popularity
+                return lhsVM.voteAverage < rhsVM.voteAverage
             }
         }
         

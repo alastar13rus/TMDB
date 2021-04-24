@@ -32,7 +32,13 @@ class TVListCoordinator:  NavigationCoordinator {
     }
     
     func toPeople(with peopleID: String) {
-        let peopleListCoordinator = PeopleListCoordinator(navigationController: navigationController)
+        guard let peopleListCoordinator = parentCoordinator as? PeopleListCoordinator else {
+            let peopleListCoordinator = PeopleListCoordinator(navigationController: navigationController)
+            store(peopleListCoordinator)
+            peopleListCoordinator.toDetail(with: peopleID)
+            return
+        }
+        
         peopleListCoordinator.toDetail(with: peopleID)
     }
     

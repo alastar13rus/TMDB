@@ -68,7 +68,8 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
     
 //    MARK: - Methods
     fileprivate func subscribing() {
-        self.selectedItem.subscribe(onNext: {
+        self.selectedItem.subscribe(onNext: {  [weak self] in
+            guard let self = self else { return }
             if let coordinator = self.coordinator as? MovieListCoordinator {
                 self.routingWithMovieCoordinator(coordinator: coordinator, item: $0)
             } else if let coordinator = self.coordinator as? TVListCoordinator {

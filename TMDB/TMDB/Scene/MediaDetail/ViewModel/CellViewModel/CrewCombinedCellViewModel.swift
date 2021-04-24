@@ -47,7 +47,7 @@ class CrewCombinedCellViewModel {
     
 //    MARK: - Init
     
-    init(_ model: CrewCombinedModel) {
+    init(_ model: GroupedCrewModel) {
         self.gender = model.gender
         self.id = model.id
         self.name = model.name

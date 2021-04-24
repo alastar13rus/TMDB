@@ -64,6 +64,8 @@ extension CreditListViewController: BindableType {
         viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(creditListTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
         viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
+        
+        creditListTableView.rx.modelSelected(CreditListViewModelMultipleSection.SectionItem.self).bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
     }
     
 }

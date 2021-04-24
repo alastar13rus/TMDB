@@ -11,9 +11,10 @@ struct CreditInMediaViewModel: Hashable {
     
     let id: String
     let mediaTitle: String
+    let mediaType: MediaType
     let mediaPosterPath: String?
     let credit: String
-    let popularity: Float
+    let voteAverage: Float
     
     func mediaPosterImageView(completion: @escaping (Data?) -> Void) {
         guard let posterPath = mediaPosterPath else { completion(nil); return }
@@ -31,7 +32,8 @@ extension CreditInMediaViewModel {
         self.id = "\(model.id)"
         self.mediaPosterPath = model.posterPath
         self.credit = model.character
-        self.popularity = model.popularity
+        self.voteAverage = model.voteAverage
+        self.mediaType = model.mediaType
         
         switch model.mediaType {
         case .movie: self.mediaTitle = model.title!
@@ -46,11 +48,31 @@ extension CreditInMediaViewModel {
         self.id = "\(model.id)"
         self.mediaPosterPath = model.posterPath
         self.credit = model.job
-        self.popularity = model.popularity
+        self.voteAverage = model.voteAverage
+        self.mediaType = model.mediaType
         
         switch model.mediaType {
         case .movie: self.mediaTitle = model.title!
         case .tv: self.mediaTitle = model.name!
         }
+    }
+}
+
+extension CreditInMediaViewModel {
+    init(_ model: GroupedCreditInMediaModel) {
+        
+        self.id = "\(model.id)"
+        self.mediaPosterPath = model.posterPath
+        self.credit = model.credit
+        self.voteAverage = model.voteAverage
+        self.mediaType = model.mediaType
+         
+        if !model.releaseYear.isEmpty {
+            self.mediaTitle = "\(model.mediaTitle) (\(model.releaseYear))"
+        } else {
+            self.mediaTitle = model.mediaTitle
+        }
+        
+        
     }
 }

@@ -141,7 +141,7 @@ class MediaListViewModel: GeneralViewModelType {
                     completion(fetchedMedia)
                     self.output.isFetching.accept(false)
                     
-                case .failure(let error): completion([]); break
+                case .failure: completion([]); break
                 }
             }
         case .tv(_):
@@ -157,7 +157,7 @@ class MediaListViewModel: GeneralViewModelType {
                     completion(fetchedMedia)
                     self.output.isFetching.accept(false)
                     
-                case .failure(let error): completion([]); break
+                case .failure: completion([]); break
                 }
             }
         }
