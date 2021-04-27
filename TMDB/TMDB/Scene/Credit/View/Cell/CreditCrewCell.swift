@@ -76,20 +76,26 @@ class CreditCrewCell: UITableViewCell {
         nameLabel.text = vm.name
         jobLabel.text = vm.jobs
         
-        vm.profileImageData { [weak self] (imageData) in
-            guard let self = self else { return }
-            self.activityIndicatorView.stopAnimating()
+        vm.profileImageData { [weak self] (data) in
             
-            if imageData == nil {
-                self.profileImageView.image = #imageLiteral(resourceName: "man").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
-            } else {
-                self.profileImageView.image = UIImage(data: imageData!)
+            vm.profileImageData { [weak self] (imageData) in
+                guard let self = self else { return }
+                self.activityIndicatorView.stopAnimating()
+                
+                if imageData == nil {
+                    self.profileImageView.contentMode = .scaleAspectFit
+                    self.profileImageView.image = GenderFactory.buildImage(withGender: vm.gender)
+                } else {
+                    self.profileImageView.contentMode = .scaleAspectFill
+                    self.profileImageView.image = UIImage(data: imageData!)
+                }
             }
         }
     }
     
     fileprivate func setupUI() {
         self.selectionStyle = .none
+        self.accessoryType = .disclosureIndicator
     }
     
     fileprivate func setupHierarhy() {

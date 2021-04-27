@@ -20,7 +20,7 @@ enum PeopleDetailCellViewModelMultipleSection {
         case profileWrapper(vm: PeopleProfileWrapperCellViewModel)
         case imageList(vm: PeopleImageListViewModel)
         case bio(vm: PeopleBioCellViewModel)
-        case bestMedia(vm: PeopleBestMediaListViewModel<PeopleDetailViewModel>)
+        case bestMedia(vm: PeopleBestMediaListViewModel)
         case cast(vm: CreditInMediaViewModel)
         case crew(vm: CreditInMediaViewModel)
         

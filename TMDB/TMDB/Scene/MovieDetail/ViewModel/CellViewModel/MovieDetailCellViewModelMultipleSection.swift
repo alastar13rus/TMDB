@@ -19,6 +19,7 @@ enum MovieDetailCellViewModelMultipleSection {
     case movieCrewListSection(title: String, items: [SectionItem])
     case movieCastListSection(title: String, items: [SectionItem])
     case movieStatusSection(title: String, items: [SectionItem])
+    case movieRecommendationListSection(title: String, items: [SectionItem])
 
     enum SectionItem: IdentifiableType, Equatable {
         
@@ -29,6 +30,7 @@ enum MovieDetailCellViewModelMultipleSection {
         case movieCrewList(vm: CreditShortListViewModel)
         case movieCastList(vm: CreditShortListViewModel)
         case movieStatus(vm: MediaStatusCellViewModel)
+        case movieRecommendationList(vm: MediaRecommendationListViewModel)
 
         
         var identity: String {
@@ -37,9 +39,10 @@ enum MovieDetailCellViewModelMultipleSection {
             case .movieOverview(let vm): return vm.id
             case .movieRuntime(let vm): return vm.id
             case .movieGenres(let vm): return vm.id
-            case .movieCrewList(_): return "crewList"
-            case .movieCastList(_): return "castList"
+            case .movieCrewList: return "crewList"
+            case .movieCastList: return "castList"
             case .movieStatus(let vm): return vm.id
+            case .movieRecommendationList: return "recommendationList"
             }
         }
         
@@ -65,6 +68,7 @@ extension MovieDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         case .movieCrewListSection(let title, _): return title
         case .movieCastListSection(let title, _): return title
         case .movieStatusSection(let title, _): return title
+        case .movieRecommendationListSection(let title, _): return title
 
         }
     }
@@ -79,6 +83,7 @@ extension MovieDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         case .movieCrewListSection(let title, _): return title
         case .movieCastListSection(let title, _): return title
         case .movieStatusSection(let title, _): return title
+        case .movieRecommendationListSection(let title, _): return title
         }
     }
     
@@ -92,19 +97,21 @@ extension MovieDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         case .movieCrewListSection(_, let items): return items
         case .movieCastListSection(_, let items): return items
         case .movieStatusSection(_, let items): return items
+        case .movieRecommendationListSection(_, let items): return items
         }
     }
     
     init(original: MovieDetailCellViewModelMultipleSection, items: [Item]) {
         switch original {
-        case .moviePosterWrapperSection(_, _): self = original
-        case .movieOverviewSection(_, _): self = original
-        case .movieRuntimeSection(_, _): self = original
-        case .movieGenresSection(_, _): self = original
-        case .movieCreatorsSection(_, _): self = original
-        case .movieCrewListSection(_, _): self = original
-        case .movieCastListSection(_, _): self = original
-        case .movieStatusSection(_, _): self = original
+        case .moviePosterWrapperSection: self = original
+        case .movieOverviewSection: self = original
+        case .movieRuntimeSection: self = original
+        case .movieGenresSection: self = original
+        case .movieCreatorsSection: self = original
+        case .movieCrewListSection: self = original
+        case .movieCastListSection: self = original
+        case .movieStatusSection: self = original
+        case .movieRecommendationListSection: self = original
         }
     }
     

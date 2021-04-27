@@ -12,21 +12,19 @@ class MediaCellViewModel {
     
     var id: String = ""
     var title: String = ""
+    var mediaType: MediaType = .movie
     var overview: String = ""
     var voteAverage: CGFloat = 0.0
     var posterPath: String? = nil
     
-    var posterAbsolutePath: URL? {
-        return ImageURL.poster(.w154, posterPath).fullURL
-    }
-    
     func posterImageData(completion: @escaping (Data?) -> Void) {
-        guard let url = posterAbsolutePath else { return }
-        url.downloadImageData { imageData in
+        guard let posterPath = posterPath else { completion(nil); return }
+        guard let posterAbsoluteURL = ImageURL.poster(.w154, posterPath).fullURL else { completion(nil); return }
+        
+        posterAbsoluteURL.downloadImageData { (imageData) in
             completion(imageData)
         }
     }
-    
 }
 
 extension MediaCellViewModel: IdentifiableType {
@@ -52,6 +50,7 @@ extension MediaCellViewModel {
         self.init()
         self.id = String(model.id)
         self.title = model.title
+        self.mediaType = .movie
         self.overview = model.overview
         self.voteAverage = CGFloat(model.voteAverage * 10)
         self.posterPath = model.posterPath
@@ -66,6 +65,7 @@ extension MediaCellViewModel {
         self.init()
         self.id = String(model.id)
         self.title = model.name
+        self.mediaType = .tv
         self.overview = model.overview
         self.voteAverage = CGFloat(model.voteAverage * 10)
         self.posterPath = model.posterPath

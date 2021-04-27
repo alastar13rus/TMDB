@@ -12,7 +12,7 @@ struct CreatorModel: Decodable {
     let id: Int
     let creditID: String
     let name: String
-    let gender: Int
+    let gender: Int?
     let profilePath: String?
     
     enum CodingKeys: String, CodingKey {

@@ -15,7 +15,7 @@ struct MovieDetailModel: MovieDetailProtocol {
     let backdropPath: String?
     let budget: Double
     let genres: [GenreModel]
-    let homepage: String
+    let homepage: String?
     let id: Int
     let originalLanguage: String
     let originalTitle: String
@@ -35,6 +35,7 @@ struct MovieDetailModel: MovieDetailProtocol {
     let voteCount: Int
     let video: Bool
     let credits: MediaCreditList?
+    let recommendations: MediaListResponse<MovieModel>?
     
     enum CodingKeys: String, CodingKey {
 
@@ -62,6 +63,7 @@ struct MovieDetailModel: MovieDetailProtocol {
         case voteCount = "vote_count"
         case video
         case credits
+        case recommendations
     }
 }
 

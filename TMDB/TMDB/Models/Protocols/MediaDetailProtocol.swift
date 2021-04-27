@@ -20,7 +20,8 @@ protocol MediaDetailProtocol: Decodable {
     var status: String { get }
     var tagline: String { get }
     var voteAverage: Float { get }
-    var voteCount: Int {get }
+    var voteCount: Int { get }
+    var credits: MediaCreditList? { get }
     
 }
 

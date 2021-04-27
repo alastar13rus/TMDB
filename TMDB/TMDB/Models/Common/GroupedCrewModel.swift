@@ -12,7 +12,7 @@ struct GroupedCrewModel: Decodable, Hashable {
     let adult: Bool
     let gender: Int
     let id: Int
-    let knownForDepartment: String
+    let knownForDepartment: String?
     let name: String
     let originalName: String
     let popularity: Float

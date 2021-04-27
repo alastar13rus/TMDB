@@ -73,12 +73,22 @@ class CreditCastCell: UITableViewCell {
     
 //    MARK: - Methods
     fileprivate func configure(with vm: CastCellViewModel) {
-        
         vm.profileImageData { [weak self] (data) in
-            guard let self = self, let imageData = data else { return }
-            self.activityIndicatorView.stopAnimating()
-            self.profileImageView.image = UIImage(data: imageData)
+            
+            vm.profileImageData { [weak self] (imageData) in
+                guard let self = self else { return }
+                self.activityIndicatorView.stopAnimating()
+                
+                if imageData == nil {
+                    self.profileImageView.contentMode = .scaleAspectFit
+                    self.profileImageView.image = GenderFactory.buildImage(withGender: vm.gender)
+                } else {
+                    self.profileImageView.contentMode = .scaleAspectFill
+                    self.profileImageView.image = UIImage(data: imageData!)
+                }
+            }
         }
+        
         nameLabel.text = vm.name
         characterLabel.text = vm.character
         
@@ -87,6 +97,7 @@ class CreditCastCell: UITableViewCell {
     
     fileprivate func setupUI() {
         self.selectionStyle = .none
+        self.accessoryType = .disclosureIndicator
     }
     
     fileprivate func setupHierarhy() {

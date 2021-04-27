@@ -81,8 +81,17 @@ extension MovieDetailViewController: BindableType {
             self.navigationItem.standardAppearance?.backgroundColor = .white
             
             guard let imageData = imageData else {
-                self.navigationItem.scrollEdgeAppearance?.backgroundImage = #imageLiteral(resourceName: "movieTab").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
-                self.navigationItem.compactAppearance?.backgroundImage =  #imageLiteral(resourceName: "movieTab").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                self.navigationItem.scrollEdgeAppearance?.backgroundColor = .white
+                self.navigationItem.compactAppearance?.backgroundColor = .white
+                self.navigationItem.scrollEdgeAppearance?.largeTitleTextAttributes = [
+                    .foregroundColor: UIColor.darkText,
+                    .font: UIFont.boldSystemFont(ofSize: 24),
+                ]
+                self.navigationItem.compactAppearance?.largeTitleTextAttributes = [
+                    .foregroundColor: UIColor.darkText,
+                    .font: UIFont.boldSystemFont(ofSize: 24),
+                ]
+                self.navigationItem.compactAppearance?.backgroundColor = .white
                 return
             }
             self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
@@ -95,21 +104,21 @@ extension MovieDetailViewController: BindableType {
 extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .moviePosterWrapper(_): return tableView.bounds.height
+        case .moviePosterWrapper: return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
-        case .movieRuntime(_), .movieStatus(_): return 40
+        case .movieCastList, .movieCrewList, .movieRecommendationList: return tableView.bounds.width / 2 + 24
+        case .movieRuntime, .movieStatus: return 40
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .moviePosterWrapper(_): return tableView.bounds.height
+        case .moviePosterWrapper: return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .movieCastList(_), .movieCrewList(_): return tableView.bounds.width / 2 + 24
-        case .movieRuntime(_), .movieStatus(_): return 40
+        case .movieCastList, .movieCrewList, .movieRecommendationList: return tableView.bounds.width / 2 + 24
+        case .movieRuntime, .movieStatus: return 40
         }
     }
     
@@ -120,7 +129,8 @@ extension MovieDetailViewController: UITableViewDelegate {
              .movieCreatorsSection(_, _),
              .movieCastListSection(_, _),
              .movieCrewListSection(_, _),
-             .movieStatusSection(_, _):
+             .movieStatusSection(_, _),
+             .movieRecommendationListSection(_, _):
             return 40
         default:
             return 0

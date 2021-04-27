@@ -77,6 +77,8 @@ extension PeopleDetailViewController: BindableType {
         peopleDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
         viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(peopleDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        viewModel.output.name.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
                 
         peopleDetailTableView.rx.itemSelected.filter {
             switch self.dataSource[$0] {
@@ -89,6 +91,7 @@ extension PeopleDetailViewController: BindableType {
             .compactMap { item -> CreditInMediaViewModel? in
                 switch item {
                 case .cast(let vm): return vm
+                case .crew(let vm): return vm
                 default: return nil
                 }
             }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
@@ -106,8 +109,8 @@ extension PeopleDetailViewController {
             var cellHeight: CGFloat = 0;
             cellHeight += tableView.calculateCellHeight(withContent: vm.name, font: .boldSystemFont(ofSize: 18))
             cellHeight += tableView.calculateCellHeight(withContent: vm.job, font: .italicSystemFont(ofSize: 14))
-            cellHeight += tableView.calculateCellHeight(withContent: vm.placeAndBirthday, font: .systemFont(ofSize: 16))
-            if let deathday = vm.deathday {
+            cellHeight += tableView.calculateCellHeight(withContent: vm.placeAndBirthdayText, font: .systemFont(ofSize: 16))
+            if let deathday = vm.deathdayText {
                 cellHeight += tableView.calculateCellHeight(withContent: deathday, font: .systemFont(ofSize: 16))
             }
 //            cellHeight += CGFloat(5 * 12)

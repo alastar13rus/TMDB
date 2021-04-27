@@ -58,6 +58,11 @@ struct MovieDetailDataSource: DataSourceProtocol {
                 let cell = CrewShortListTableViewCell()
                 cell.viewModel = vm
                 return cell
+                
+            case .movieRecommendationList(let vm):
+                let cell = MediaRecommendationListTableViewCell()
+                cell.viewModel = vm
+                return cell
             }
         }
         
@@ -68,7 +73,8 @@ struct MovieDetailDataSource: DataSourceProtocol {
                  .movieCreatorsSection(let title, _),
                  .movieCastListSection(let title, _),
                  .movieCrewListSection(let title, _),
-                 .movieStatusSection(let title, _):
+                 .movieStatusSection(let title, _),
+                 .movieRecommendationListSection(let title, _):
                 return title
             default:
                 return nil

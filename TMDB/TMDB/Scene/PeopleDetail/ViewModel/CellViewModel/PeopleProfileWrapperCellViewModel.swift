@@ -15,12 +15,13 @@ struct PeopleProfileWrapperCellViewModel {
     let placeOfBirth: String?
     let birthday: String?
     let deathday: String?
+    let gender: Int
     let castList: [CastInMediaModel]?
     let crewList: [CrewInMediaModel]?
     
     let profilePath: String?
     
-    var placeAndBirthday: String {
+    var placeAndBirthdayText: String {
         switch (birthday, placeOfBirth) {
         case (.some(let birthday), .some(let placeOfBirth)):
             return toRussianDate(from: birthday) + ", " + placeOfBirth
@@ -30,6 +31,14 @@ struct PeopleProfileWrapperCellViewModel {
             return placeOfBirth
         case (.none, .none):
             return ""
+        }
+    }
+    
+    var deathdayText: String? {
+        if let deathday = deathday {
+            return toRussianDate(from: deathday)
+        } else {
+            return nil
         }
     }
     
@@ -64,6 +73,7 @@ struct PeopleProfileWrapperCellViewModel {
         self.profilePath = model.profilePath
         self.castList = model.combinedCredits?.cast
         self.crewList = model.combinedCredits?.crew
+        self.gender = model.gender
     }
     
     fileprivate func toRussianDate(from dateString: String) -> String {

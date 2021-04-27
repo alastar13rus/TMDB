@@ -96,7 +96,7 @@ class MediaTableViewCell: UITableViewCell {
                 self.posterImageView.layer.opacity = 1
                 
                 guard let imageData = imageData else {
-                    self.posterImageView.image = #imageLiteral(resourceName: "man").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                    self.posterImageView.image = #imageLiteral(resourceName: "moviePlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                     return
                 }
 

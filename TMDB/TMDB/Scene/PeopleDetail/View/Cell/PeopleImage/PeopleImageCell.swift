@@ -16,7 +16,7 @@ class PeopleImageCell: UICollectionViewCell {
         }
     }
     
-    let imageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
@@ -41,14 +41,17 @@ class PeopleImageCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView.image = nil
+        profileImageView.image = nil
     }
     
 //    MARK: - Methods
     fileprivate func configure(with vm: PeopleImageCellViewModel) {
         vm.profileImageData { [weak self] (data) in
-            guard let self = self, let imageData = data else { return }
-            self.imageView.image = UIImage(data: imageData)
+            
+            vm.profileImageData { [weak self] (imageData) in
+                guard let self = self else { return }
+                self.profileImageView.image = UIImage(data: imageData!)
+            }
         }
     }
     
@@ -57,15 +60,15 @@ class PeopleImageCell: UICollectionViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(imageView)
+        addSubview(profileImageView)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            imageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            imageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            profileImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            profileImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
+            profileImageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
         ])
         
     }

@@ -30,7 +30,6 @@ class PeopleImageCellViewModel {
             guard let imageData = data else { completion(nil); return }
             completion(imageData)
         }
-        
     }
 }
 

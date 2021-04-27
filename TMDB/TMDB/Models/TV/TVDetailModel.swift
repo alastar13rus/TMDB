@@ -19,7 +19,7 @@ struct TVDetailModel: TVDetailProtocol {
     let episodeRunTime: [Int]
     let firstAirDate: String
     let genres: [GenreModel]
-    let homepage: String
+    let homepage: String?
     let id: Int
     let inProduction: Bool
     let languages: [LanguageModel]
@@ -43,6 +43,7 @@ struct TVDetailModel: TVDetailProtocol {
     let voteAverage: Float
     let voteCount: Int
     let credits: MediaCreditList?
+    let recommendations: MediaListResponse<TVModel>?
     
     enum CodingKeys: String, CodingKey {
 
@@ -75,6 +76,7 @@ struct TVDetailModel: TVDetailProtocol {
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
         case credits
+        case recommendations
     }
 }
 

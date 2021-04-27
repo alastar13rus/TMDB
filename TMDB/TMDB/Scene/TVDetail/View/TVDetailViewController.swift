@@ -104,33 +104,36 @@ extension TVDetailViewController: BindableType {
 extension TVDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .tvPosterWrapper(_): return tableView.bounds.height
+        case .tvPosterWrapper: return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .tvCastList(_): return tableView.bounds.width / 2 + 24
-        case .tvCrewList(_): return tableView.bounds.width / 2 + 24
-        case .tvRuntime(_), .tvStatus(_): return 40
+        case .tvCastList: return tableView.bounds.width / 2 + 24
+        case .tvCrewList: return tableView.bounds.width / 2 + 24
+        case .tvRecommendationList: return tableView.bounds.width / 2 + 24
+        case .tvRuntime, .tvStatus: return 40
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .tvPosterWrapper(_): return tableView.bounds.height
+        case .tvPosterWrapper: return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .tvCastList(_): return tableView.bounds.width / 2 + 24
-        case .tvCrewList(_): return tableView.bounds.width / 2 + 24
-        case .tvRuntime(_), .tvStatus(_): return 40
+        case .tvCastList: return tableView.bounds.width / 2 + 24
+        case .tvCrewList: return tableView.bounds.width / 2 + 24
+        case .tvRecommendationList: return tableView.bounds.width / 2 + 24
+        case .tvRuntime, .tvStatus: return 40
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch dataSource[section] {
-        case .tvRuntimeSection(_, _),
-             .tvGenresSection(_, _),
-             .tvCastListSection(_, _),
-             .tvCrewListSection(_, _),
-             .tvStatusSection(_, _):
+        case .tvRuntimeSection,
+             .tvGenresSection,
+             .tvCastListSection,
+             .tvCrewListSection,
+             .tvStatusSection,
+             .tvRecommendationListSection:
             return 40
         default:
             return 0

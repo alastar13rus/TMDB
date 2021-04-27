@@ -57,6 +57,7 @@ class PeopleDetailViewModel: DetailViewModelType {
         self.fetch { [weak self] (peopleDetail) in
             guard let self = self else { return }
             let sections = self.configureSections(from: peopleDetail)
+            self.output.name.accept(peopleDetail.name)
             self.output.sectionedItems.accept(sections)
         }
     }
@@ -98,7 +99,7 @@ class PeopleDetailViewModel: DetailViewModelType {
     
     fileprivate func configureImageListSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
         let title = "Фото"
-        guard var images = model.images?.profiles else { return sections }
+        guard var images = model.images?.profiles, !images.isEmpty else { return sections }
         images.removeFirst()
         guard !images.isEmpty else { return sections }
         var sections = sections
@@ -130,10 +131,11 @@ class PeopleDetailViewModel: DetailViewModelType {
         var credits = [Int: [String]]()
         
         cast.forEach { (castModel) in
+            guard let character = castModel.character else { return }
             if credits.index(forKey: castModel.id) != nil {
-                credits[castModel.id]!.append(castModel.character)
+                credits[castModel.id]!.append(character)
             } else {
-                credits[castModel.id] = [castModel.character]
+                credits[castModel.id] = [character]
             }
         }
         
@@ -146,7 +148,7 @@ class PeopleDetailViewModel: DetailViewModelType {
         }
 
         let groupedCredit =
-            cast.map {
+            cast.filter { $0.character != nil }.map {
                 GroupedCreditInMediaModel(
                     id: $0.id,
                     posterPath: $0.posterPath,
@@ -184,7 +186,7 @@ class PeopleDetailViewModel: DetailViewModelType {
             title: title,
             items:
                 [
-                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, parentVM: self))
+                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator, networkManager: networkManager))
                 ]
         )
         
@@ -201,15 +203,16 @@ class PeopleDetailViewModel: DetailViewModelType {
         var credits = [Int: [String]]()
         
         cast.forEach { (castModel) in
+            guard let character = castModel.character else { return }
             if credits.index(forKey: castModel.id) != nil {
-                credits[castModel.id]!.append(castModel.character)
+                credits[castModel.id]!.append(character)
             } else {
-                credits[castModel.id] = [castModel.character]
+                credits[castModel.id] = [character]
             }
         }
         
         let groupedCastItems: [PeopleDetailCellViewModelMultipleSection.SectionItem] =
-            cast.map {
+            cast.filter { $0.character != nil }.map {
                 GroupedCreditInMediaModel(
                     id: $0.id,
                     posterPath: $0.posterPath,

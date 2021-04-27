@@ -58,6 +58,11 @@ struct TVDetailDataSource: DataSourceProtocol {
                 let cell = CrewShortListTableViewCell()
                 cell.viewModel = vm
                 return cell
+            
+            case .tvRecommendationList(let vm):
+                let cell = MediaRecommendationListTableViewCell()
+                cell.viewModel = vm
+                return cell
             }
         }
         
@@ -67,7 +72,8 @@ struct TVDetailDataSource: DataSourceProtocol {
                  .tvGenresSection(let title, _),
                  .tvCastListSection(let title, _),
                  .tvCrewListSection(let title, _),
-                 .tvStatusSection(let title, _):
+                 .tvStatusSection(let title, _),
+                 .tvRecommendationListSection(let title, _):
                 return title
             default:
                 return nil

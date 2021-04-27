@@ -82,13 +82,23 @@ class PeopleProfileWrapperCell: UITableViewCell {
     fileprivate func configure(with vm: PeopleProfileWrapperCellViewModel) {
         nameLabel.text = vm.name
         jobLabel.text = vm.job
-        birthdayLabel.text = vm.placeAndBirthday
-        deathdayLabel.text = vm.deathday
+        birthdayLabel.text = vm.placeAndBirthdayText
+        deathdayLabel.text = vm.deathdayText
         
         vm.profileImageData { [weak self] (data) in
-            guard let self = self, let imageData = data else { return }
-            self.activityIndicatorView.stopAnimating()
-            self.profileImageView.image = UIImage(data: imageData)
+            
+            vm.profileImageData { [weak self] (imageData) in
+                guard let self = self else { return }
+                self.activityIndicatorView.stopAnimating()
+                
+                if imageData == nil {
+                    self.profileImageView.contentMode = .scaleAspectFit
+                    self.profileImageView.image = GenderFactory.buildImage(withGender: vm.gender)
+                } else {
+                    self.profileImageView.contentMode = .scaleAspectFill
+                    self.profileImageView.image = UIImage(data: imageData!)
+                }
+            }
         }
     }
     

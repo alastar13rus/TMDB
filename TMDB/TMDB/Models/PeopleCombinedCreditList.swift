@@ -30,7 +30,7 @@ struct CastInMediaModel: Decodable {
     let firstAirDate: String?
     let voteAverage: Float
     let voteCount: Int
-    let character: String
+    let character: String?
     let backdropPath: String?
     let popularity: Float
     let creditID: String

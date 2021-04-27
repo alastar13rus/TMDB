@@ -10,15 +10,17 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class PeopleBestMediaListViewModel<T: DetailViewModelType>: AnimatableSectionModelType {
+class PeopleBestMediaListViewModel: AnimatableSectionModelType {
     
     //    MARK: - Properties
     let title: String
     let items: [CreditInMediaCellViewModelMultipleSection.SectionItem]
-    weak var parentVM: T?
+    
+    weak var coordinator: Coordinator?
+    weak var networkManager: NetworkManagerProtocol?
     let dataSource = BestCreditInMediaListDataSource.dataSource()
     let disposeBag = DisposeBag()
-    let selectedMedia = PublishRelay<CreditInMediaViewModel>()
+    let selectedCredit = PublishRelay<CreditInMediaCellViewModelMultipleSection.SectionItem>()
     
     var sectionedItems: Observable<[CreditInMediaCellViewModelMultipleSection]> {
         
@@ -53,17 +55,23 @@ class PeopleBestMediaListViewModel<T: DetailViewModelType>: AnimatableSectionMod
         self.items = items
     }
     
-    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], parentVM: T?) {
+    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?) {
         self.init(title: title, items: items)
-        self.parentVM = parentVM
+        self.coordinator = coordinator
+        self.networkManager = networkManager
         subscribing()
     }
     
 //    MARK: - Methods
     fileprivate func subscribing() {
-        self.selectedMedia.subscribe(onNext: {
-            guard let parentVM = self.parentVM as? PeopleDetailViewModel else { return }
-            parentVM.input.selectedMedia.accept($0)
+        self.selectedCredit.subscribe(onNext: { [weak self] in
+            guard let self = self, let coordinator = self.coordinator as? PeopleListCoordinator else { return }
+            switch $0 {
+            case .creditInMovie(let vm):
+                coordinator.toMovieDetail(with: vm.id)
+            case .creditInTV(let vm):
+                coordinator.toTVDetail(with: vm.id)
+            }
         }).disposed(by: disposeBag)
     }
     

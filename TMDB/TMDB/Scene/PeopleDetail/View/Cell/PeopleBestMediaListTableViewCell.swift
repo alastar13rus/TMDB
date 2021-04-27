@@ -12,7 +12,7 @@ import RxDataSources
 class PeopleBestMediaListTableViewCell: UITableViewCell {
     
 //    MARK: - Properties
-    var viewModel: PeopleBestMediaListViewModel<PeopleDetailViewModel>! {
+    var viewModel: PeopleBestMediaListViewModel! {
         didSet {
             configure(with: viewModel)
         }
@@ -50,16 +50,10 @@ class PeopleBestMediaListTableViewCell: UITableViewCell {
     
     
 //    MARK: - Methods
-    fileprivate func configure(with vm: PeopleBestMediaListViewModel<PeopleDetailViewModel>) {
+    fileprivate func configure(with vm: PeopleBestMediaListViewModel) {
         viewModel.sectionedItems.asDriver(onErrorJustReturn: []).drive(creditInMediaListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
-        creditInMediaListCollectionView.rx.modelSelected(CreditInMediaCellViewModelMultipleSection.SectionItem.self)
-            .compactMap { item -> CreditInMediaViewModel? in
-            switch item {
-            case .creditInMovie(let vm): return vm
-            case .creditInTV(let vm): return vm
-            }
-        }.bind(to: viewModel.selectedMedia).disposed(by: disposeBag)
+        creditInMediaListCollectionView.rx.modelSelected(CreditInMediaCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.selectedCredit).disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {

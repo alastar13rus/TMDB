@@ -15,6 +15,7 @@ class MovieDetailViewModel: DetailViewModelType {
     let networkManager: NetworkManagerProtocol
     let detailID: String
     weak var coordinator: Coordinator?
+    let disposeBag = DisposeBag()
     
     
 //    MARK: - Input
@@ -46,6 +47,17 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
 //    MARK: - Methods
+
+    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
+            networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
+                switch result {
+                case .success(let creditDetail):
+                    let peopleID = "\(creditDetail.person.id)"
+                    completion(peopleID)
+                case .failure: break
+                }
+            })
+    }
     
     func setupOutput() {
         fetch { [weak self] (movieDetail) in
@@ -57,7 +69,7 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits]))) { (result: Result<MovieDetailModel, Error>) in
+        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations]))) { (result: Result<MovieDetailModel, Error>) in
             
             switch result {
             case .success(let movieDetail):
@@ -101,6 +113,7 @@ class MovieDetailViewModel: DetailViewModelType {
             .buildSection(withModel: model, andAction: self.configureMovieStatusSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieCrewListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieCastListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieRecommendationListSection(withModel:sections:))
         
     }
     
@@ -124,6 +137,7 @@ class MovieDetailViewModel: DetailViewModelType {
     fileprivate func configureMovieOverviewSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
+        guard !model.overview.isEmpty else { return sections }
         
         let movieOverviewSection: MovieDetailCellViewModelMultipleSection =
             .moviePosterWrapperSection(
@@ -174,55 +188,92 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
     fileprivate func configureMovieCrewListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
-
+        
         var sections = sections
+        let crewCount = model.credits?.crew.count ?? 0
+        let limit = 10
+        let title = "Создатели"
+        
+        guard let crewList = model.credits?.crew.toUnique().sorted(by: >).prefix(limit), !crewList.isEmpty else { return sections }
         
         
-        if let crewList = model.credits?.crew.filter { $0.profilePath != nil }.toUnique().sorted(by: >).prefix(10), !crewList.isEmpty {
-            let title = "Создатели"
-            
-            let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
-                crewList.map { .crew(vm: CrewCellViewModel($0)) }
-            
-            let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
-                [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .crew))]
-            
-            let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-                .movieCrewList(vm: CreditShortListViewModel(title: title, items: crewSection + showMoreSection, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .crew))
-            ]
-            
-            let movieCrewListSection: MovieDetailCellViewModelMultipleSection =
-                .movieCrewListSection(title: title, items: items)
-            
-            sections.append(movieCrewListSection)
-        }
+        let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
+            crewList.map { .crew(vm: CrewCellViewModel($0)) }
+        
+        let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
+            [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .crew))]
+        
+        var items = [CreditCellViewModelMultipleSection.SectionItem]()
+        items.append(contentsOf: crewSection)
+        if crewCount > limit { items.append(contentsOf: showMoreSection) }
+        
+        let movieCrewListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+            .movieCrewList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .crew))
+        ]
+        
+        let movieCrewListSection: MovieDetailCellViewModelMultipleSection =
+            .movieCrewListSection(title: title, items: movieCrewListSectionItems)
+        
+        sections.append(movieCrewListSection)
+        
         return sections
     }
     
     fileprivate func configureMovieCastListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
+        let castCount = model.credits?.cast.count ?? 0
+        let limit = 10
+        let title = "Актеры"
         
-        if let castList = model.credits?.cast.prefix(10), !castList.isEmpty {
-            let title = "Актеры"
-            
-            let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
-                castList.map { .cast(vm: CastCellViewModel($0)) }
-            
-            let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
-                [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .cast))]
-            
-            let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-                .movieCastList(vm: CreditShortListViewModel(title: title, items: castSection + showMoreSection, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .cast))
-            ]
-            
-            let movieCastListSection: MovieDetailCellViewModelMultipleSection =
-                .movieCastListSection(title: title, items: items)
-            
-            sections.append(movieCastListSection)
-        }
+        guard let castList = model.credits?.cast.prefix(limit), !castList.isEmpty else { return sections }
+        
+        
+        let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
+            castList.map { .cast(vm: CastCellViewModel($0)) }
+        
+        let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
+            [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .cast))]
+        
+        var items = [CreditCellViewModelMultipleSection.SectionItem]()
+        items.append(contentsOf: castSection)
+        if castCount > limit { items.append(contentsOf: showMoreSection) }
+        
+        let movieCastListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+            .movieCastList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .cast))
+        ]
+        
+        let movieCastListSection: MovieDetailCellViewModelMultipleSection =
+            .movieCastListSection(title: title, items: movieCastListSectionItems)
+        
+        sections.append(movieCastListSection)
+        
         return sections
     }
+    
+    fileprivate func configureMovieRecommendationListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+        
+        var sections = sections
+        let limit = 10
+        let title = "Рекомендации"
+        
+        guard let recommendationList = model.recommendations?.results.prefix(limit), !recommendationList.isEmpty else { return sections }
+        
+        let recommendationSection: [MediaCellViewModel] =
+            recommendationList.map { MediaCellViewModel($0) }
+        
+        let movieRecommendationListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+            .movieRecommendationList(vm: MediaRecommendationListViewModel(title: title, items: recommendationSection, coordinator: coordinator, networkManager: networkManager))
+        ]
+        
+        let movieRecommendationListSection: MovieDetailCellViewModelMultipleSection =
+            .movieRecommendationListSection(title: title, items: movieRecommendationListSectionItems)
+        
+        sections.append(movieRecommendationListSection)
+        
+        return sections
+    }
+    
     
     
     

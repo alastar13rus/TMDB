@@ -54,13 +54,10 @@ class MoviePosterWrapperCell: UITableViewCell {
         
         vm.posterImageData { [weak self] imageData in
             guard let self = self else { return }
-//            self.posterWrapperView.posterImageView.layer.opacity = 0
-//            UIView.animate(withDuration: 0.2) {
-//                self.posterWrapperView.posterImageView.layer.opacity = 1
             self.activityIndicatorView.stopAnimating()
             
             guard let imageData = imageData else {
-                self.posterWrapperView.posterImageView.image = #imageLiteral(resourceName: "man").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                self.posterWrapperView.posterImageView.image = #imageLiteral(resourceName: "moviePlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                 return
             }
 

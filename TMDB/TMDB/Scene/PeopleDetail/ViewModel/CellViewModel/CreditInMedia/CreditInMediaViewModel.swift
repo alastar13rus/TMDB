@@ -31,7 +31,7 @@ extension CreditInMediaViewModel {
         
         self.id = "\(model.id)"
         self.mediaPosterPath = model.posterPath
-        self.credit = model.character
+        self.credit = model.character ?? ""
         self.voteAverage = model.voteAverage
         self.mediaType = model.mediaType
         

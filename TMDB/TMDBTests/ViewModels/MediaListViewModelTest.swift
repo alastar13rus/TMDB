@@ -18,7 +18,7 @@ class MediaListViewModelTest: XCTestCase {
         
         sut.currentPage = 3
         sut.input.selectedSegmentIndex.accept(0)
-        sut.screen = .movie(MediaListDataSource.Screen.movieListInfo)
+        sut.screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo)
 
         XCTAssertEqual(sut.movieEndpoint, .topRated(page: 1))
 
@@ -28,7 +28,7 @@ class MediaListViewModelTest: XCTestCase {
         XCTAssertEqual(sut.movieEndpoint, .popular(page: 1))
         
         
-        sut.screen = .tv(MediaListDataSource.Screen.tvListInfo)
+        sut.screen = .tv(MediaListTableViewDataSource.Screen.tvListInfo)
 
         sut.currentPage = 6
         sut.input.selectedSegmentIndex.accept(2)

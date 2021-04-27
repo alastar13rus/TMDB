@@ -1,5 +1,5 @@
 //
-//  MediaListDataSource.swift
+//  MediaListTableViewDataSource.swift
 //  TMDB
 //
 //  Created by Докин Андрей (IOS) on 17.03.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import RxDataSources
 
-struct MediaListDataSource {
+struct MediaListTableViewDataSource {
     
     typealias DataSource = RxTableViewSectionedAnimatedDataSource<MediaCellViewModelMultipleSection>
     
@@ -55,7 +55,7 @@ struct MediaListDataSource {
         static let movieListInfo = MovieListInfo()
         static let tvListInfo = TVListInfo()
     
-        static func == (lhs: MediaListDataSource.Screen, rhs: MediaListDataSource.Screen) -> Bool {
+        static func == (lhs: MediaListTableViewDataSource.Screen, rhs: MediaListTableViewDataSource.Screen) -> Bool {
             switch (lhs, rhs) {
             case (.movie(let lhsInfo), .movie(let rhsInfo)):
                 return lhsInfo.title == rhsInfo.title && lhsInfo.categories == rhsInfo.categories

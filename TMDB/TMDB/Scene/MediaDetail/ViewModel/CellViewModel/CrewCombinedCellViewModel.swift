@@ -43,7 +43,7 @@ class CrewCombinedCellViewModel {
     let profilePath: String?
     let creditID: String
     let jobs: String
-    let knownForDepartment: String
+    let knownForDepartment: String?
     
 //    MARK: - Init
     

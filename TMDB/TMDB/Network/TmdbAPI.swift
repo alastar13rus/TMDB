@@ -215,6 +215,7 @@ enum TmdbAPI: API {
         case video
         case images
         case combinedCredits = "combined_credits"
+        case recommendations
     }
     
     

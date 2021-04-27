@@ -17,10 +17,10 @@ class MediaListViewModel: GeneralViewModelType {
     weak var coordinator: Coordinator? {
         didSet {
             if coordinator is MovieListCoordinator {
-                screen = .movie(MediaListDataSource.Screen.movieListInfo)
+                screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo)
             }
             if coordinator is TVListCoordinator {
-                screen = .tv(MediaListDataSource.Screen.tvListInfo)
+                screen = .tv(MediaListTableViewDataSource.Screen.tvListInfo)
             }
         }
     }
@@ -38,15 +38,15 @@ class MediaListViewModel: GeneralViewModelType {
         actualThresholdNumberOfCells < requiredThresholdNumberOfCells
     }
     
-    var screen: MediaListDataSource.Screen = .movie(MediaListDataSource.Screen.movieListInfo) {
+    var screen: MediaListTableViewDataSource.Screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo) {
         didSet {
             switch screen {
             case .movie(_):
-                output.title = BehaviorRelay<String>(value: MediaListDataSource.Screen.movieListInfo.title)
-                output.categories = BehaviorRelay<[String]>(value: MediaListDataSource.Screen.movieListInfo.categories)
+                output.title = BehaviorRelay<String>(value: MediaListTableViewDataSource.Screen.movieListInfo.title)
+                output.categories = BehaviorRelay<[String]>(value: MediaListTableViewDataSource.Screen.movieListInfo.categories)
             case .tv(_):
-                output.title = BehaviorRelay<String>(value: MediaListDataSource.Screen.tvListInfo.title)
-                output.categories = BehaviorRelay<[String]>(value: MediaListDataSource.Screen.tvListInfo.categories)
+                output.title = BehaviorRelay<String>(value: MediaListTableViewDataSource.Screen.tvListInfo.title)
+                output.categories = BehaviorRelay<[String]>(value: MediaListTableViewDataSource.Screen.tvListInfo.categories)
             }
             
         }

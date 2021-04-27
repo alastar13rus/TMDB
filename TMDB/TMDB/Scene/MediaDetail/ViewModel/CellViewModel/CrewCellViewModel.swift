@@ -44,7 +44,7 @@ class CrewCellViewModel {
     let creditID: String
     let department: String
     let job: String
-    let knownForDepartment: String
+    let knownForDepartment: String?
     
 //    MARK: - Init
     
