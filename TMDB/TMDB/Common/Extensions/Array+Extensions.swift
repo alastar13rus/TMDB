@@ -16,6 +16,12 @@ extension Array where Array.Element: AnimatableSectionModelType {
         return action(model, self as [T])
     }
 
+    func buildSection<T, U: Decodable, V>(withModel model: U,
+                                          andAction action: ((U, [T], V) -> [T]), param: V) -> [T] {
+        guard let self = self as? [T] else { return [] }
+        return action(model, self as [T], param)
+    }
+
 }
 
 extension Array where Array.Element: (Decodable & IdentifiableType) {

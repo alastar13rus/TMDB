@@ -22,7 +22,7 @@ class CastShortListTableViewCell: UITableViewCell {
     }
     
     lazy var castListCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInRowOrColumn: 3, scrollDirection: .horizontal, view: self))
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, cellDimension: .portrait, view: self))
         collectionView.register(CastCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: CastCollectionViewCell.self))
         collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
         collectionView.isUserInteractionEnabled = true

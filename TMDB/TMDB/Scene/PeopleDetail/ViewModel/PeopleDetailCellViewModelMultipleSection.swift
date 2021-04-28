@@ -18,7 +18,7 @@ enum PeopleDetailCellViewModelMultipleSection {
 
     enum SectionItem: IdentifiableType, Equatable {
         case profileWrapper(vm: PeopleProfileWrapperCellViewModel)
-        case imageList(vm: PeopleImageListViewModel)
+        case imageList(vm: ImageListViewModel)
         case bio(vm: PeopleBioCellViewModel)
         case bestMedia(vm: PeopleBestMediaListViewModel)
         case cast(vm: CreditInMediaViewModel)

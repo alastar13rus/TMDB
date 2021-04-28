@@ -107,9 +107,10 @@ extension TVDetailViewController: UITableViewDelegate {
         case .tvPosterWrapper: return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
+        case .tvImageList: return tableView.bounds.width / 3
         case .tvCastList: return tableView.bounds.width / 2 + 24
         case .tvCrewList: return tableView.bounds.width / 2 + 24
-        case .tvRecommendationList: return tableView.bounds.width / 2 + 24
+        case .tvCompilationList: return tableView.bounds.width / 2 + 24
         case .tvRuntime, .tvStatus: return 40
         }
     }
@@ -119,21 +120,23 @@ extension TVDetailViewController: UITableViewDelegate {
         case .tvPosterWrapper: return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
+        case .tvImageList: return tableView.bounds.width / 3
         case .tvCastList: return tableView.bounds.width / 2 + 24
         case .tvCrewList: return tableView.bounds.width / 2 + 24
-        case .tvRecommendationList: return tableView.bounds.width / 2 + 24
+        case .tvCompilationList: return tableView.bounds.width / 2 + 24
         case .tvRuntime, .tvStatus: return 40
         }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch dataSource[section] {
-        case .tvRuntimeSection,
+        case .tvImageListSection,
+             .tvRuntimeSection,
              .tvGenresSection,
              .tvCastListSection,
              .tvCrewListSection,
              .tvStatusSection,
-             .tvRecommendationListSection:
+             .tvCompilationListSection:
             return 40
         default:
             return 0

@@ -1,5 +1,5 @@
 //
-//  MediaRecommendationListViewModel.swift
+//  MediaCompilationListViewModel.swift
 //  TMDB
 //
 //  Created by Докин Андрей (IOS) on 27.04.2021.
@@ -10,11 +10,12 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class MediaRecommendationListViewModel: AnimatableSectionModelType {
+class MediaCompilationListViewModel: AnimatableSectionModelType {
     
 //    MARK: - Properties
     let title: String
     let items: [MediaCellViewModel]
+    var mediaListType: MediaListType = .recommendation
     let disposedBag = DisposeBag()
     weak var coordinator: Coordinator?
     weak var networkManager: NetworkManagerProtocol?
@@ -44,7 +45,7 @@ class MediaRecommendationListViewModel: AnimatableSectionModelType {
     
     
 //    MARK: - Init
-    required init(original: MediaRecommendationListViewModel, items: [MediaCellViewModel]) {
+    required init(original: MediaCompilationListViewModel, items: [MediaCellViewModel]) {
         self.title = original.title
         self.items = items
     }
@@ -54,11 +55,12 @@ class MediaRecommendationListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [MediaCellViewModel], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?) {
+    convenience init(title: String, items: [MediaCellViewModel], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaListType: MediaListType) {
         self.init(title: title, items: items)
         
         self.coordinator = coordinator
         self.networkManager = networkManager
+        self.mediaListType = mediaListType
         subscribing()
     }
     
@@ -80,12 +82,12 @@ class MediaRecommendationListViewModel: AnimatableSectionModelType {
 
 }
 
-extension MediaRecommendationListViewModel: IdentifiableType {
+extension MediaCompilationListViewModel: IdentifiableType {
     var identity: String { return title }
 }
 
-extension MediaRecommendationListViewModel: Equatable {
-    static func == (lhs: MediaRecommendationListViewModel, rhs: MediaRecommendationListViewModel) -> Bool {
+extension MediaCompilationListViewModel: Equatable {
+    static func == (lhs: MediaCompilationListViewModel, rhs: MediaCompilationListViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

@@ -7,16 +7,16 @@
 
 import UIKit
 
-class PeopleImageCell: UICollectionViewCell {
+class ImageCell: UICollectionViewCell {
     
 //    MARK: - Properties
-    var viewModel: PeopleImageCellViewModel! {
+    var viewModel: ImageCellViewModel! {
         didSet {
             configure(with: viewModel)
         }
     }
     
-    let profileImageView: UIImageView = {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
@@ -41,16 +41,16 @@ class PeopleImageCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        profileImageView.image = nil
+        imageView.image = nil
     }
     
 //    MARK: - Methods
-    fileprivate func configure(with vm: PeopleImageCellViewModel) {
-        vm.profileImageData { [weak self] (data) in
+    fileprivate func configure(with vm: ImageCellViewModel) {
+        vm.imageData { [weak self] (data) in
             
-            vm.profileImageData { [weak self] (imageData) in
+            vm.imageData { [weak self] (imageData) in
                 guard let self = self else { return }
-                self.profileImageView.image = UIImage(data: imageData!)
+                self.imageView.image = UIImage(data: imageData!)
             }
         }
     }
@@ -60,15 +60,15 @@ class PeopleImageCell: UICollectionViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(profileImageView)
+        addSubview(imageView)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
-            profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            profileImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            profileImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            profileImageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            imageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
+            imageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
         ])
         
     }

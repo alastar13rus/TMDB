@@ -36,6 +36,8 @@ struct MovieDetailModel: MovieDetailProtocol {
     let video: Bool
     let credits: MediaCreditList?
     let recommendations: MediaListResponse<MovieModel>?
+    let similar: MediaListResponse<MovieModel>?
+    let images: MediaImageList?
     
     enum CodingKeys: String, CodingKey {
 
@@ -64,6 +66,8 @@ struct MovieDetailModel: MovieDetailProtocol {
         case video
         case credits
         case recommendations
+        case similar
+        case images
     }
 }
 

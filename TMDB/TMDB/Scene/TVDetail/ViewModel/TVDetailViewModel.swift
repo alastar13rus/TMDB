@@ -58,7 +58,7 @@ class TVDetailViewModel: DetailViewModelType {
     }
     
     func fetch(completion: @escaping (TVDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations]))) { (result: Result<TVDetailModel, Error>) in
+        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations, .similar, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<TVDetailModel, Error>) in
             
             switch result {
             case .success(let tvDetail):
@@ -96,13 +96,15 @@ class TVDetailViewModel: DetailViewModelType {
         
         return sections
             .buildSection(withModel: model, andAction: self.configureTVPosterWrapperSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVImageListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVOverviewSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVRuntimeSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVGenresSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVStatusSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVCrewListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVCastListSection(withModel:sections:))
-            .buildSection(withModel: model, andAction: self.configureTVRecommendationListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureTVCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.recommendation)
+            .buildSection(withModel: model, andAction: self.configureTVCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.similar)
         
     }
     
@@ -121,7 +123,21 @@ class TVDetailViewModel: DetailViewModelType {
 
         return sections
     }
-
+    
+    fileprivate func configureTVImageListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+        let title = "Фото"
+        guard var images = model.images?.backdrops, !images.isEmpty else { return sections }
+        images.removeFirst()
+        guard !images.isEmpty else { return sections }
+        var sections = sections
+        
+        let items: [TVDetailCellViewModelMultipleSection.SectionItem] = [.tvImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop) }))]
+        
+        let imageListSection: TVDetailCellViewModelMultipleSection = .tvImageListSection(title: title, items: items)
+        
+        sections.append(imageListSection)
+        return sections
+    }
     
     fileprivate func configureTVOverviewSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
         
@@ -240,25 +256,32 @@ class TVDetailViewModel: DetailViewModelType {
         return sections
     }
     
-    fileprivate func configureTVRecommendationListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVCompilationListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection], mediaListType: MediaListType) -> [TVDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let limit = 10
-        let title = "Рекомендации"
+        let title = mediaListType.title
+        var tvList = [TVModel]()
         
-        guard let recommendationList = model.recommendations?.results.prefix(limit), !recommendationList.isEmpty else { return sections }
+        switch mediaListType {
+        case .recommendation:
+            guard let list = model.recommendations?.results.prefix(limit), !list.isEmpty else { return sections }
+            tvList = Array(list)
+        case .similar:
+            guard let list = model.similar?.results.prefix(limit), !list.isEmpty else { return sections }
+            tvList = Array(list)
+        }
         
-        let recommendationSection: [MediaCellViewModel] =
-            recommendationList.map { MediaCellViewModel($0) }
+        let section: [MediaCellViewModel] = tvList.map { MediaCellViewModel($0) }
         
-        let tvRecommendationListSectionItems: [TVDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvRecommendationList(vm: MediaRecommendationListViewModel(title: title, items: recommendationSection, coordinator: coordinator, networkManager: networkManager))
+        let tvListSectionItems: [TVDetailCellViewModelMultipleSection.SectionItem] = [
+            .tvCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, networkManager: networkManager, mediaListType: mediaListType))
         ]
         
-        let tvRecommendationListSection: TVDetailCellViewModelMultipleSection =
-            .tvRecommendationListSection(title: title, items: tvRecommendationListSectionItems)
+        let tvListSection: TVDetailCellViewModelMultipleSection =
+            .tvCompilationListSection(title: title, items: tvListSectionItems)
         
-        sections.append(tvRecommendationListSection)
+        sections.append(tvListSection)
         
         return sections
     }

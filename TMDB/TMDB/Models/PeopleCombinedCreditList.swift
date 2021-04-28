@@ -67,11 +67,6 @@ struct CastInMediaModel: Decodable {
     
 }
 
-enum MediaType: String, Decodable {
-    case movie
-    case tv
-}
-
 struct CrewInMediaModel: Decodable {
     
     let id: Int

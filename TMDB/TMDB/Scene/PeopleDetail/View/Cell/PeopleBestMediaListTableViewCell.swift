@@ -22,7 +22,7 @@ class PeopleBestMediaListTableViewCell: UITableViewCell {
     let disposeBag = DisposeBag()
     
     lazy var creditInMediaListCollectionView: UICollectionView = {
-        let layout = CollectionViewLayout(countItemsInRowOrColumn: 3, scrollDirection: .horizontal, view: self)
+        let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, cellDimension: .portrait, view: self)
         layout.headerReferenceSize.width = 50
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CreditInMediaCell.self, forCellWithReuseIdentifier: String(describing: CreditInMediaCell.self))

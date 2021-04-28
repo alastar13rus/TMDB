@@ -9,11 +9,6 @@ import Foundation
 import RxSwift
 import RxRelay
 
-enum CreditType: String {
-    case cast
-    case crew
-}
-
 class CreditListViewModel: DetailWithParamViewModelType {
     
 //    MARK: - Properties

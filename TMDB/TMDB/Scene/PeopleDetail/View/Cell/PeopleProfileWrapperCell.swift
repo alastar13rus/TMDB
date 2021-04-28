@@ -125,7 +125,7 @@ class PeopleProfileWrapperCell: UITableViewCell {
             
             profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             profileImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
-//            profileImageView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, constant: -24),
+//            imageView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, constant: -24),
             profileImageView.heightAnchor.constraint(equalToConstant: 176),
             profileImageView.widthAnchor.constraint(equalTo: profileImageView.heightAnchor, multiplier: 3 / 4),
             

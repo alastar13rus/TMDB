@@ -29,6 +29,11 @@ struct MovieDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
                 
+            case .movieImageList(let vm):
+                let cell = ImageListTableViewCell(withImageType: .backdrop)
+                cell.viewModel = vm
+                return cell
+                
             case .movieOverview(let vm):
                 let cell = MediaOverviewCell()
                 cell.viewModel = vm
@@ -59,8 +64,8 @@ struct MovieDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
                 
-            case .movieRecommendationList(let vm):
-                let cell = MediaRecommendationListTableViewCell()
+            case .movieCompilationList(let vm):
+                let cell = MediaCompilationListTableViewCell()
                 cell.viewModel = vm
                 return cell
             }
@@ -74,7 +79,7 @@ struct MovieDetailDataSource: DataSourceProtocol {
                  .movieCastListSection(let title, _),
                  .movieCrewListSection(let title, _),
                  .movieStatusSection(let title, _),
-                 .movieRecommendationListSection(let title, _):
+                 .movieCompilationListSection(let title, _):
                 return title
             default:
                 return nil

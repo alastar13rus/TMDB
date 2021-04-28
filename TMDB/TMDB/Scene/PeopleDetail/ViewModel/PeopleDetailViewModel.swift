@@ -63,7 +63,7 @@ class PeopleDetailViewModel: DetailViewModelType {
     }
     
     fileprivate func fetch(completion: @escaping (PeopleDetailModel) -> Void) {
-        networkManager.request(TmdbAPI.people(.details(personID: detailID, appendToResponse: [.combinedCredits, .images]))) { (result: Result<PeopleDetailModel, Error>) in
+        networkManager.request(TmdbAPI.people(.details(personID: detailID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<PeopleDetailModel, Error>) in
             switch result {
             case .success(let peopleDetail):
                 completion(peopleDetail)
@@ -79,7 +79,7 @@ class PeopleDetailViewModel: DetailViewModelType {
         
         return sections
             .buildSection(withModel: model, andAction: configureProfileWrapperSection(with:sections:))
-            .buildSection(withModel: model, andAction: configureImageListSection(with:sections:))
+            .buildSection(withModel: model, andAction: configureImageListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: configureBioSection(with:sections:))
             .buildSection(withModel: model, andAction: configureBestMediaSection(with:sections:))
             .buildSection(withModel: model, andAction: configureCastSection(with:sections:))
@@ -97,14 +97,14 @@ class PeopleDetailViewModel: DetailViewModelType {
         return sections
     }
     
-    fileprivate func configureImageListSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+    fileprivate func configureImageListSection(withModel model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
         let title = "Фото"
         guard var images = model.images?.profiles, !images.isEmpty else { return sections }
         images.removeFirst()
         guard !images.isEmpty else { return sections }
         var sections = sections
         
-        let items: [PeopleDetailCellViewModelMultipleSection.SectionItem] = [.imageList(vm: PeopleImageListViewModel(title: title, items: images.map { PeopleImageCellViewModel($0) }))]
+        let items: [PeopleDetailCellViewModelMultipleSection.SectionItem] = [.imageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .profile) }))]
         
         let imageListSection: PeopleDetailCellViewModelMultipleSection = .imageListSection(title: title, items: items)
         

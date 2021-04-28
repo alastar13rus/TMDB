@@ -44,6 +44,8 @@ struct TVDetailModel: TVDetailProtocol {
     let voteCount: Int
     let credits: MediaCreditList?
     let recommendations: MediaListResponse<TVModel>?
+    let similar: MediaListResponse<TVModel>?
+    let images: MediaImageList?
     
     enum CodingKeys: String, CodingKey {
 
@@ -77,6 +79,8 @@ struct TVDetailModel: TVDetailProtocol {
         case voteCount = "vote_count"
         case credits
         case recommendations
+        case similar
+        case images
     }
 }
 

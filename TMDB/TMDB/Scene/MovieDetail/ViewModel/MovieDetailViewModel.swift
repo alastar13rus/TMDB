@@ -69,7 +69,7 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations]))) { (result: Result<MovieDetailModel, Error>) in
+        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations, .similar, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<MovieDetailModel, Error>) in
             
             switch result {
             case .success(let movieDetail):
@@ -107,13 +107,15 @@ class MovieDetailViewModel: DetailViewModelType {
         
         return sections
             .buildSection(withModel: model, andAction: self.configureMoviePosterWrapperSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieImageListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieOverviewSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieRuntimeSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieGenresSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieStatusSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieCrewListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieCastListSection(withModel:sections:))
-            .buildSection(withModel: model, andAction: self.configureMovieRecommendationListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.recommendation)
+            .buildSection(withModel: model, andAction: self.configureMovieCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.similar)
         
     }
     
@@ -132,7 +134,21 @@ class MovieDetailViewModel: DetailViewModelType {
 
         return sections
     }
-
+    
+    fileprivate func configureMovieImageListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+        let title = "Фото"
+        guard var images = model.images?.posters, !images.isEmpty else { return sections }
+        images.removeFirst()
+        guard !images.isEmpty else { return sections }
+        var sections = sections
+        
+        let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [.movieImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop) }))]
+        
+        let imageListSection: MovieDetailCellViewModelMultipleSection = .movieImageListSection(title: title, items: items)
+        
+        sections.append(imageListSection)
+        return sections
+    }
     
     fileprivate func configureMovieOverviewSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
@@ -251,30 +267,34 @@ class MovieDetailViewModel: DetailViewModelType {
         return sections
     }
     
-    fileprivate func configureMovieRecommendationListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieCompilationListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection], mediaListType: MediaListType) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let limit = 10
-        let title = "Рекомендации"
+        let title = mediaListType.title
+        var movieList = [MovieModel]()
         
-        guard let recommendationList = model.recommendations?.results.prefix(limit), !recommendationList.isEmpty else { return sections }
+        switch mediaListType {
+        case .recommendation:
+            guard let list = model.recommendations?.results.prefix(limit), !list.isEmpty else { return sections }
+            movieList = Array(list)
+        case .similar:
+            guard let list = model.similar?.results.prefix(limit), !list.isEmpty else { return sections }
+            movieList = Array(list)
+        }
         
-        let recommendationSection: [MediaCellViewModel] =
-            recommendationList.map { MediaCellViewModel($0) }
+        let section: [MediaCellViewModel] = movieList.map { MediaCellViewModel($0) }
         
-        let movieRecommendationListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieRecommendationList(vm: MediaRecommendationListViewModel(title: title, items: recommendationSection, coordinator: coordinator, networkManager: networkManager))
+        let movieListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+            .movieCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, networkManager: networkManager, mediaListType: mediaListType))
         ]
         
-        let movieRecommendationListSection: MovieDetailCellViewModelMultipleSection =
-            .movieRecommendationListSection(title: title, items: movieRecommendationListSectionItems)
+        let movieListSection: MovieDetailCellViewModelMultipleSection =
+            .movieCompilationListSection(title: title, items: movieListSectionItems)
         
-        sections.append(movieRecommendationListSection)
+        sections.append(movieListSection)
         
         return sections
     }
-    
-    
-    
     
 }

@@ -23,7 +23,7 @@ struct PeopleDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
             case .imageList(let vm):
-                let cell = PeopleImageListTableViewCell()
+                let cell = ImageListTableViewCell(withImageType: .profile)
                 cell.viewModel = vm
                 return cell
             case .bestMedia(let vm):

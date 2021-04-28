@@ -22,6 +22,7 @@ protocol MediaDetailProtocol: Decodable {
     var voteAverage: Float { get }
     var voteCount: Int { get }
     var credits: MediaCreditList? { get }
+    var images: MediaImageList? { get }
     
 }
 

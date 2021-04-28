@@ -107,7 +107,7 @@ extension MovieDetailViewController: UITableViewDelegate {
         case .moviePosterWrapper: return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .movieCastList, .movieCrewList, .movieRecommendationList: return tableView.bounds.width / 2 + 24
+        case .movieImageList, .movieCastList, .movieCrewList, .movieCompilationList: return tableView.bounds.width / 2 + 24
         case .movieRuntime, .movieStatus: return 40
         }
     }
@@ -117,7 +117,7 @@ extension MovieDetailViewController: UITableViewDelegate {
         case .moviePosterWrapper: return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .movieCastList, .movieCrewList, .movieRecommendationList: return tableView.bounds.width / 2 + 24
+        case .movieImageList, .movieCastList, .movieCrewList, .movieCompilationList: return tableView.bounds.width / 2 + 24
         case .movieRuntime, .movieStatus: return 40
         }
     }
@@ -130,7 +130,7 @@ extension MovieDetailViewController: UITableViewDelegate {
              .movieCastListSection(_, _),
              .movieCrewListSection(_, _),
              .movieStatusSection(_, _),
-             .movieRecommendationListSection(_, _):
+             .movieCompilationListSection(_, _):
             return 40
         default:
             return 0

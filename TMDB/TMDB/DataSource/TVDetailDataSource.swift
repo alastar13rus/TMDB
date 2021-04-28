@@ -29,6 +29,11 @@ struct TVDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
                 
+            case .tvImageList(let vm):
+                let cell = ImageListTableViewCell(withImageType: .backdrop)
+                cell.viewModel = vm
+                return cell
+                
             case .tvOverview(let vm):
                 let cell = MediaOverviewCell()
                 cell.viewModel = vm
@@ -59,8 +64,8 @@ struct TVDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
             
-            case .tvRecommendationList(let vm):
-                let cell = MediaRecommendationListTableViewCell()
+            case .tvCompilationList(let vm):
+                let cell = MediaCompilationListTableViewCell()
                 cell.viewModel = vm
                 return cell
             }
@@ -73,7 +78,7 @@ struct TVDetailDataSource: DataSourceProtocol {
                  .tvCastListSection(let title, _),
                  .tvCrewListSection(let title, _),
                  .tvStatusSection(let title, _),
-                 .tvRecommendationListSection(let title, _):
+                 .tvCompilationListSection(let title, _):
                 return title
             default:
                 return nil

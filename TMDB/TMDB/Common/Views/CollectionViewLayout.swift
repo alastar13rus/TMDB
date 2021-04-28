@@ -10,10 +10,10 @@ import UIKit
 class CollectionViewLayout: UICollectionViewFlowLayout {
     
     //    MARK: - Init
-    init(countItemsInRowOrColumn: Int, scrollDirection: UICollectionView.ScrollDirection, view: UIView) {
+    init(countItemsInScrollDirection: Int, scrollDirection: UICollectionView.ScrollDirection, cellDimension: CellDimension, view: UIView) {
         super.init()
         
-        configure(countItemsInRowOrColumn: countItemsInRowOrColumn, scrollDirection: scrollDirection, view: view)
+        configure(countItemsInRowOrColumn: countItemsInScrollDirection, scrollDirection: scrollDirection, cellDimension: cellDimension, view: view)
     }
     
     required init?(coder: NSCoder) {
@@ -21,7 +21,7 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
         }
         
     //    MARK: - Methods
-    private func configure(countItemsInRowOrColumn: Int, scrollDirection: UICollectionView.ScrollDirection, view: UIView) {
+    private func configure(countItemsInRowOrColumn: Int, scrollDirection: UICollectionView.ScrollDirection, cellDimension: CellDimension, view: UIView) {
         self.scrollDirection = scrollDirection
         let minimumInteritemSpacing: CGFloat = 12
         let sectionInset: UIEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
@@ -36,9 +36,21 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
             itemWidth = view.bounds.width / CGFloat(countItemsInRowOrColumn)
             
         case .horizontal:
-            itemWidth =
-                (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
-            itemHeight = itemWidth * 1.6
+            switch cellDimension {
+            case .landscape:
+                itemWidth =
+                    (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
+                itemHeight = itemWidth / 1.6
+            case .portrait:
+                itemWidth =
+                    (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
+                itemHeight = itemWidth * 1.6
+            default:
+                itemWidth =
+                    (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
+                itemHeight = itemWidth
+            }
+            
         @unknown default:
             fatalError("Неизвестное значение параметра scrollDirection")
         }

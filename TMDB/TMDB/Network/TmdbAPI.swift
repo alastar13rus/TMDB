@@ -46,7 +46,7 @@ enum TmdbAPI: API {
                 return "/3/movie/now_playing"
             case .upcoming:
                 return "/3/movie/upcoming"
-            case .details(let mediaID, _):
+            case .details(let mediaID, _, _):
                 return "/3/movie/" + mediaID
             case .recommendations(let mediaID):
                 return "/3/movie/" + mediaID + "/recommendations"
@@ -65,7 +65,7 @@ enum TmdbAPI: API {
                 return "/3/tv/on_the_air"
             case .airingToday:
                 return "/3/tv/airing_today"
-            case .details(let mediaID, _):
+            case .details(let mediaID, _, _):
                 return "/3/tv/" + mediaID
             case .recommendations(let mediaID):
                 return "/3/tv/" + mediaID + "/recommendations"
@@ -75,7 +75,7 @@ enum TmdbAPI: API {
             
         case .people(let endpoint):
             switch endpoint {
-            case .details(let personID, _):
+            case .details(let personID, _, _):
                 return "/3/person/" + personID
             }
             
@@ -104,10 +104,12 @@ enum TmdbAPI: API {
                     URLQueryItem(name: "page", value: String(page)),
                 ]
                 
-            case .details(_, let appendToResponse):
-                let appendString = appendToResponse.map { $0.rawValue }.joined(separator: ",")
+            case .details(_, let appendToResponse, let includeImageLanguage):
+                let appendToResponseString = appendToResponse.map { $0.rawValue }.joined(separator: ",")
+                let includeImageLanguageString = includeImageLanguage.map { $0.rawValue }.joined(separator: ",")
                 return [
-                    URLQueryItem(name: "append_to_response", value: appendString),
+                    URLQueryItem(name: "append_to_response", value: appendToResponseString),
+                    URLQueryItem(name: "include_image_language", value: includeImageLanguageString),
                     URLQueryItem(name: "language", value: Language.ru.rawValue),
                     URLQueryItem(name: "api_key", value: Self.apiKey),
                 ]
@@ -137,10 +139,12 @@ enum TmdbAPI: API {
                     URLQueryItem(name: "page", value: String(page)),
                 ]
                 
-            case .details(_, let appendToResponse):
-                let appendString = appendToResponse.map { $0.rawValue }.joined(separator: ",")
+            case .details(_, let appendToResponse, let includeImageLanguage):
+                let appendToResponseString = appendToResponse.map { $0.rawValue }.joined(separator: ",")
+                let includeImageLanguageString = includeImageLanguage.map { $0.rawValue }.joined(separator: ",")
                 return [
-                    URLQueryItem(name: "append_to_response", value: appendString),
+                    URLQueryItem(name: "append_to_response", value: appendToResponseString),
+                    URLQueryItem(name: "include_image_language", value: includeImageLanguageString),
                     URLQueryItem(name: "language", value: Language.ru.rawValue),
                     URLQueryItem(name: "api_key", value: Self.apiKey),
                 ]
@@ -158,10 +162,12 @@ enum TmdbAPI: API {
             
         case .people(let endpoint):
             switch endpoint {
-            case .details(_, let appendToResponse):
-                let appendString = appendToResponse.map { $0.rawValue }.joined(separator: ",")
+            case .details(_, let appendToResponse, let includeImageLanguage):
+                let appendToResponseString = appendToResponse.map { $0.rawValue }.joined(separator: ",")
+                let includeImageLanguageString = includeImageLanguage.map { $0.rawValue }.joined(separator: ",")
                 return [
-                    URLQueryItem(name: "append_to_response", value: appendString),
+                    URLQueryItem(name: "append_to_response", value: appendToResponseString),
+                    URLQueryItem(name: "include_image_language", value: includeImageLanguageString),
                     URLQueryItem(name: "language", value: Language.ru.rawValue),
                     URLQueryItem(name: "api_key", value: Self.apiKey)
                 ]
@@ -184,7 +190,7 @@ enum TmdbAPI: API {
         case popular(page: Int)
         case nowPlaying(page: Int)
         case upcoming(page: Int)
-        case details(mediaID: String, appendToResponse: [AppendToResponse])
+        case details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage])
         case recommendations(mediaID: String)
         case credits(mediaID: String)
         
@@ -196,14 +202,14 @@ enum TmdbAPI: API {
         case popular(page: Int)
         case onTheAir(page: Int)
         case airingToday(page: Int)
-        case details(mediaID: String, appendToResponse: [AppendToResponse])
+        case details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage])
         case recommendations(mediaID: String)
         case credits(mediaID: String)
         
     }
     
     enum PeopleEndpoint {
-        case details(personID: String, appendToResponse: [AppendToResponse])
+        case details(personID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage])
     }
     
     enum CreditEndpoint {
@@ -216,6 +222,12 @@ enum TmdbAPI: API {
         case images
         case combinedCredits = "combined_credits"
         case recommendations
+        case similar
+    }
+    
+    enum IncludeImageLanguage: String {
+        case ru
+        case null
     }
     
     
