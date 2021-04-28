@@ -8,11 +8,11 @@
 import UIKit
 import RxDataSources
 
-class ImageCellViewModel {
+struct ImageCellViewModel {
     
 //    MARK: - Properties
     let filePath: String
-    let imageType: ImageType
+    private (set) var imageType: ImageType
     
     
 //    MARK: - Init
@@ -35,24 +35,54 @@ extension ImageCellViewModel: Equatable {
 
 extension ImageCellViewModel {
     
+    mutating func changeImageType(to imageType: ImageType) {
+        self.imageType = imageType
+    }
+    
     func imageData(completion: @escaping (Data?) -> Void) {
         var imageFullURL: URL?
         switch imageType {
-        case .profile:
-            guard let fullURL = ImageURL.profile(.w185, filePath).fullURL else {
-                completion(nil); return
+        case .profile(let size):
+            switch size {
+            case .small:
+                guard let fullURL = ImageURL.profile(.w185, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
+            default:
+                guard let fullURL = ImageURL.profile(.original, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
             }
-            imageFullURL = fullURL
-        case .poster:
-            guard let fullURL = ImageURL.poster(.w185, filePath).fullURL else {
-                completion(nil); return
+            
+        case .poster(let size):
+            switch size {
+            case .small:
+                guard let fullURL = ImageURL.poster(.w185, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
+            default:
+                guard let fullURL = ImageURL.poster(.original, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
             }
-            imageFullURL = fullURL
-        case .backdrop:
-            guard let fullURL = ImageURL.backdrop(.w300, filePath).fullURL else {
-                completion(nil); return
+            
+        case .backdrop(let size):
+            switch size {
+            case .small:
+                guard let fullURL = ImageURL.backdrop(.w300, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
+            default:
+                guard let fullURL = ImageURL.backdrop(.original, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
             }
-            imageFullURL = fullURL
         default: break
         }
         

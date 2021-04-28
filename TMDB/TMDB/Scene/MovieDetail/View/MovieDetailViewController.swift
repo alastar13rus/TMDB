@@ -107,7 +107,10 @@ extension MovieDetailViewController: UITableViewDelegate {
         case .moviePosterWrapper: return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .movieImageList, .movieCastList, .movieCrewList, .movieCompilationList: return tableView.bounds.width / 2 + 24
+        case .movieImageList: return tableView.bounds.width / 3
+        case .movieCrewList: return tableView.bounds.width / 2 + 24
+        case .movieCastList: return tableView.bounds.width / 2 + 24
+        case .movieCompilationList: return tableView.bounds.width / 2 + 24
         case .movieRuntime, .movieStatus: return 40
         }
     }
@@ -117,7 +120,10 @@ extension MovieDetailViewController: UITableViewDelegate {
         case .moviePosterWrapper: return tableView.bounds.height
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .movieImageList, .movieCastList, .movieCrewList, .movieCompilationList: return tableView.bounds.width / 2 + 24
+        case .movieImageList: return tableView.bounds.width / 3
+        case .movieCrewList: return tableView.bounds.width / 2 + 24
+        case .movieCastList: return tableView.bounds.width / 2 + 24
+        case .movieCompilationList: return tableView.bounds.width / 2 + 24
         case .movieRuntime, .movieStatus: return 40
         }
     }

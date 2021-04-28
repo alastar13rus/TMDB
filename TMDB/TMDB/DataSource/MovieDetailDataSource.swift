@@ -30,7 +30,7 @@ struct MovieDetailDataSource: DataSourceProtocol {
                 return cell
                 
             case .movieImageList(let vm):
-                let cell = ImageListTableViewCell(withImageType: .backdrop)
+                let cell = ImageListTableViewCell(withImageType: .backdrop(size: .small))
                 cell.viewModel = vm
                 return cell
                 

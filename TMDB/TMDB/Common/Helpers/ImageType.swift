@@ -8,9 +8,14 @@
 import Foundation
 
 enum ImageType {
-    case backdrop
-    case logo
-    case poster
-    case profile
-    case still
+    case backdrop(size: Size)
+    case logo(size: Size)
+    case poster(size: Size)
+    case profile(size: Size)
+    case still(size: Size)
+    
+    enum Size {
+        case small
+        case big
+    }
 }

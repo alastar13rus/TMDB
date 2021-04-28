@@ -54,6 +54,15 @@ class PeopleListCoordinator: NavigationCoordinator {
         tvListCoordinator.toDetail(with: detailID)
     }
     
+    func toImageFullScreen(withImageCellViewModel imageCellViewModel: ImageCellViewModel, contentForm: ContentForm) {
+        let fullScreenViewController = FullScreenViewController()
+        let fullScreenViewModel = FullScreenViewModel(withImageCellViewModel: imageCellViewModel, contentForm: contentForm)
+        fullScreenViewModel.coordinator = self
+        fullScreenViewController.viewModel = fullScreenViewModel
+        
+        navigationController.present(fullScreenViewController, animated: true, completion: nil)
+    }
+    
     
     
     

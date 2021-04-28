@@ -1,5 +1,5 @@
 //
-//  PeopleImageListDataSource.swift
+//  ImageListDataSource.swift
 //  TMDB
 //
 //  Created by Докин Андрей (IOS) on 20.04.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import RxDataSources
 
-struct PeopleImageListDataSource: DataSourceProtocol {
+struct ImageListDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<ImageCellViewModelMultipleSection>
     

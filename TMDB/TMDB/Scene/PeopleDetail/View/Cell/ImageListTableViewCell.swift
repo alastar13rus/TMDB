@@ -18,14 +18,14 @@ class ImageListTableViewCell: UITableViewCell {
         }
     }
     var imageType: ImageType?
-    let dataSource = PeopleImageListDataSource.dataSource()
+    let dataSource = ImageListDataSource.dataSource()
     let disposeBag = DisposeBag()
     
     lazy var imageListCollectionView: UICollectionView = { [weak self] in
         guard let self = self else { return UICollectionView() }
         switch self.imageType {
         case .profile:
-            let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, cellDimension: .portrait, view: self)
+            let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self)
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.register(ImageCell.self, forCellWithReuseIdentifier: String(describing: ImageCell.self))
             collectionView.backgroundColor = .white
@@ -33,7 +33,7 @@ class ImageListTableViewCell: UITableViewCell {
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             return collectionView
         case .backdrop:
-            let layout = CollectionViewLayout(countItemsInScrollDirection: 2, scrollDirection: .horizontal, cellDimension: .landscape, view: self)
+            let layout = CollectionViewLayout(countItemsInScrollDirection: 2, scrollDirection: .horizontal, contentForm: .landscape, view: self)
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
             collectionView.register(ImageCell.self, forCellWithReuseIdentifier: String(describing: ImageCell.self))
             collectionView.backgroundColor = .white
@@ -58,6 +58,8 @@ class ImageListTableViewCell: UITableViewCell {
 //    MARK: - Methods
     fileprivate func configure(with vm: ImageListViewModel) {
         viewModel.sectionedItems.asDriver(onErrorJustReturn: []).drive(imageListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        imageListCollectionView.rx.modelSelected(ImageCellViewModel.self).bind(to: vm.selectedItem).disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {

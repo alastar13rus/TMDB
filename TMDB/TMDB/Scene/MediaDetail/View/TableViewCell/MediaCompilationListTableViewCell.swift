@@ -21,7 +21,7 @@ class MediaCompilationListTableViewCell: UITableViewCell {
     }
     
     lazy var mediaCompilationListCollectionView: UICollectionView = {
-        let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, cellDimension: .portrait, view: self)
+        let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(MediaCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: MediaCollectionViewCell.self))
         collectionView.backgroundColor = .white

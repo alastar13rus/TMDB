@@ -30,7 +30,7 @@ struct TVDetailDataSource: DataSourceProtocol {
                 return cell
                 
             case .tvImageList(let vm):
-                let cell = ImageListTableViewCell(withImageType: .backdrop)
+                let cell = ImageListTableViewCell(withImageType: .backdrop(size: .small))
                 cell.viewModel = vm
                 return cell
                 

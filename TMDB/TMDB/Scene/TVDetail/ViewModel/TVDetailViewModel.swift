@@ -131,7 +131,7 @@ class TVDetailViewModel: DetailViewModelType {
         guard !images.isEmpty else { return sections }
         var sections = sections
         
-        let items: [TVDetailCellViewModelMultipleSection.SectionItem] = [.tvImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop) }))]
+        let items: [TVDetailCellViewModelMultipleSection.SectionItem] = [.tvImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) }, coordinator: coordinator, contentForm: .landscape))]
         
         let imageListSection: TVDetailCellViewModelMultipleSection = .tvImageListSection(title: title, items: items)
         

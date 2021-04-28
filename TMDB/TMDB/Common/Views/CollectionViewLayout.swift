@@ -10,10 +10,10 @@ import UIKit
 class CollectionViewLayout: UICollectionViewFlowLayout {
     
     //    MARK: - Init
-    init(countItemsInScrollDirection: Int, scrollDirection: UICollectionView.ScrollDirection, cellDimension: CellDimension, view: UIView) {
+    init(countItemsInScrollDirection: Int, scrollDirection: UICollectionView.ScrollDirection, contentForm: ContentForm, view: UIView) {
         super.init()
         
-        configure(countItemsInRowOrColumn: countItemsInScrollDirection, scrollDirection: scrollDirection, cellDimension: cellDimension, view: view)
+        configure(countItemsInRowOrColumn: countItemsInScrollDirection, scrollDirection: scrollDirection, contentForm: contentForm, view: view)
     }
     
     required init?(coder: NSCoder) {
@@ -21,7 +21,7 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
         }
         
     //    MARK: - Methods
-    private func configure(countItemsInRowOrColumn: Int, scrollDirection: UICollectionView.ScrollDirection, cellDimension: CellDimension, view: UIView) {
+    private func configure(countItemsInRowOrColumn: Int, scrollDirection: UICollectionView.ScrollDirection, contentForm: ContentForm, view: UIView) {
         self.scrollDirection = scrollDirection
         let minimumInteritemSpacing: CGFloat = 12
         let sectionInset: UIEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
@@ -36,7 +36,7 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
             itemWidth = view.bounds.width / CGFloat(countItemsInRowOrColumn)
             
         case .horizontal:
-            switch cellDimension {
+            switch contentForm {
             case .landscape:
                 itemWidth =
                     (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
