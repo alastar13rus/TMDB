@@ -69,6 +69,8 @@ enum TmdbAPI: API {
                 return "/3/tv/" + mediaID
             case .recommendations(let mediaID):
                 return "/3/tv/" + mediaID + "/recommendations"
+            case .aggregateCredits(let mediaID):
+                return "/3/tv/" + mediaID + "/aggregate_credits"
             case .credits(let mediaID):
                 return "/3/tv/" + mediaID + "/credits"
             }
@@ -153,6 +155,11 @@ enum TmdbAPI: API {
                     URLQueryItem(name: "language", value: Language.ru.rawValue),
                     URLQueryItem(name: "api_key", value: Self.apiKey),
                 ]
+            case .aggregateCredits:
+                return [
+                    URLQueryItem(name: "language", value: Language.ru.rawValue),
+                    URLQueryItem(name: "api_key", value: Self.apiKey),
+                ]
             case .credits:
                 return [
                     URLQueryItem(name: "language", value: Language.ru.rawValue),
@@ -204,8 +211,9 @@ enum TmdbAPI: API {
         case airingToday(page: Int)
         case details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage])
         case recommendations(mediaID: String)
+        case aggregateCredits(mediaID: String)
         case credits(mediaID: String)
-        
+
     }
     
     enum PeopleEndpoint {
@@ -217,6 +225,7 @@ enum TmdbAPI: API {
     }
     
     enum AppendToResponse: String {
+        case aggregateCredits = "aggregate_credits"
         case credits
         case video
         case images

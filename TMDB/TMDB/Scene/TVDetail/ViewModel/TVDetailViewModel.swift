@@ -58,7 +58,7 @@ class TVDetailViewModel: DetailViewModelType {
     }
     
     func fetch(completion: @escaping (TVDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations, .similar, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<TVDetailModel, Error>) in
+        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.aggregateCredits, .recommendations, .similar, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<TVDetailModel, Error>) in
             
             switch result {
             case .success(let tvDetail):
@@ -126,9 +126,7 @@ class TVDetailViewModel: DetailViewModelType {
     
     fileprivate func configureTVImageListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
         let title = "Фото"
-        guard var images = model.images?.backdrops, !images.isEmpty else { return sections }
-        images.removeFirst()
-        guard !images.isEmpty else { return sections }
+        guard let images = model.images?.backdrops, !images.isEmpty else { return sections }
         var sections = sections
         
         let items: [TVDetailCellViewModelMultipleSection.SectionItem] = [.tvImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) }, coordinator: coordinator, contentForm: .landscape))]
@@ -195,64 +193,64 @@ class TVDetailViewModel: DetailViewModelType {
     fileprivate func configureTVCrewListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
         
         var sections = sections
-        let crewCount = model.credits?.crew.count ?? 0
+        let crewCount = model.aggregateCredits?.crew.count ?? 0
         let limit = 10
-        let title = "Создатели"
+        let title = "Съемочная группа"
         
-        guard let crewList = model.credits?.crew.toUnique().sorted(by: >).prefix(limit), !crewList.isEmpty else { return sections }
+        guard let crewList = model.aggregateCredits?.crew.sorted(by: >).prefix(limit), !crewList.isEmpty else { return sections }
         
         
         let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
-            crewList.map { .crew(vm: CrewCellViewModel($0)) }
+            crewList.map { .tvAggregateCrew(vm: TVAggregateCrewCellViewModel($0)) }
         
         let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
             [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .crew))]
-        
+
         var items = [CreditCellViewModelMultipleSection.SectionItem]()
         items.append(contentsOf: crewSection)
         if crewCount > limit { items.append(contentsOf: showMoreSection) }
-        
+
         let tvCrewListSectionItems: [TVDetailCellViewModelMultipleSection.SectionItem] = [
             .tvCrewList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .crew))
         ]
-        
+
         let tvCrewListSection: TVDetailCellViewModelMultipleSection =
             .tvCrewListSection(title: title, items: tvCrewListSectionItems)
-        
+
         sections.append(tvCrewListSection)
-        
+
         return sections
     }
     
     fileprivate func configureTVCastListSection(withModel model: TVDetailModel, sections: [TVDetailCellViewModelMultipleSection]) -> [TVDetailCellViewModelMultipleSection] {
         
         var sections = sections
-        let castCount = model.credits?.cast.count ?? 0
+        let castCount = model.aggregateCredits?.cast.count ?? 0
         let limit = 10
         let title = "Актеры"
         
-        guard let castList = model.credits?.cast.prefix(limit), !castList.isEmpty else { return sections }
+        guard let castList = model.aggregateCredits?.cast.sorted(by: >).prefix(limit), !castList.isEmpty else { return sections }
         
         
         let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
-            castList.map { .cast(vm: CastCellViewModel($0)) }
+            castList.map { .tvAggregateCast(vm: TVAggregateCastCellViewModel($0)) }
         
         let showMoreSection: [CreditCellViewModelMultipleSection.SectionItem] =
             [.showMore(vm: ShowMoreCellViewModel(title: "Показать еще", type: .cast))]
-        
+
         var items = [CreditCellViewModelMultipleSection.SectionItem]()
         items.append(contentsOf: castSection)
         if castCount > limit { items.append(contentsOf: showMoreSection) }
-        
+
         let tvCastListSectionItems: [TVDetailCellViewModelMultipleSection.SectionItem] = [
             .tvCastList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .cast))
         ]
-        
+
         let tvCastListSection: TVDetailCellViewModelMultipleSection =
-            .tvCastListSection(title: title, items: tvCastListSectionItems)
-        
+            .tvCrewListSection(title: title, items: tvCastListSectionItems)
+
         sections.append(tvCastListSection)
-        
+
         return sections
     }
     

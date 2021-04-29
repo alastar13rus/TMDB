@@ -28,9 +28,9 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
         var showMoreItems = [CreditCellViewModelMultipleSection.SectionItem]()
         items.forEach {
             switch $0 {
-            case .cast(_): castItems.append($0)
-            case .crew(_): crewItems.append($0)
-            case .showMore(_): showMoreItems.append($0)
+            case .cast, .tvAggregateCast: castItems.append($0)
+            case .crew, .tvAggregateCrew: crewItems.append($0)
+            case .showMore: showMoreItems.append($0)
             }
         }
         let castSection: CreditCellViewModelMultipleSection = .castSection(title: title, items: castItems)
@@ -84,52 +84,51 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
     fileprivate func routingWithMovieCoordinator(coordinator: MovieListCoordinator, item: CreditCellViewModelMultipleSection.SectionItem) {
         switch item {
         case .cast(let vm):
-            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
-                coordinator.toPeople(with: peopleID)
-            }
+            coordinator.toPeople(with: vm.id)
         case .crew(let vm):
-            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
-                coordinator.toPeople(with: peopleID)
-            }
+            coordinator.toPeople(with: vm.id)
         case .showMore(let vm):
             coordinator.toCreditList(
                 with: self.mediaID,
                 params: [
                     String(describing: CreditType.self): vm.type.rawValue,
+                    String(describing: MediaType.self): MediaType.movie.rawValue,
                     String(describing: Coordinator.self): String(describing: MovieListCoordinator.self)
                 ])
+        default: break
         }
     }
     
     fileprivate func routingWithTVCoordinator(coordinator: TVListCoordinator, item: CreditCellViewModelMultipleSection.SectionItem) {
         switch item {
         case .cast(let vm):
-            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
-                coordinator.toPeople(with: peopleID)
-            }
+            coordinator.toPeople(with: vm.id)
+        case .tvAggregateCast(let vm):
+            coordinator.toPeople(with: vm.id)
         case .crew(let vm):
-            self.fetchPeopleID(with: vm.creditID) { (peopleID) in
-                coordinator.toPeople(with: peopleID)
-            }
+            coordinator.toPeople(with: vm.id)
+        case .tvAggregateCrew(let vm):
+            coordinator.toPeople(with: vm.id)
         case .showMore(let vm):
             coordinator.toCreditList(
                 with: self.mediaID,
                 params: [
                     String(describing: CreditType.self): vm.type.rawValue,
+                    String(describing: MediaType.self): MediaType.tv.rawValue,
                     String(describing: Coordinator.self): String(describing: TVListCoordinator.self)
                 ])
         }
     }
     
-    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
-            networkManager?.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
-                switch result {
-                case .success(let creditDetail):
-                    let peopleID = "\(creditDetail.person.id)"
-                    completion(peopleID)
-                case .failure: break
-                }
-            })
-    }
+//    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
+//            networkManager?.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
+//                switch result {
+//                case .success(let creditDetail):
+//                    let peopleID = "\(creditDetail.person.id)"
+//                    completion(peopleID)
+//                case .failure: break
+//                }
+//            })
+//    }
     
 }

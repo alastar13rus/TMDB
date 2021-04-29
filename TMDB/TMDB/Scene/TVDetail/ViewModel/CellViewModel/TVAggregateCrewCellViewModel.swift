@@ -1,8 +1,8 @@
 //
-//  CrewCombinedCellViewModel.swift
+//  TVAggregateCrewCellViewModel.swift
 //  TMDB
 //
-//  Created by Докин Андрей (IOS) on 21.04.2021.
+//  Created by Докин Андрей (IOS) on 29.04.2021.
 //
 
 import Foundation
@@ -10,30 +10,30 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-class CrewCombinedCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Equatable {
+class TVAggregateCrewCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Equatable {
     
     var identity: String { self.title }
     let title: String
-    var items: [CrewCombinedCellViewModel]
+    var items: [TVAggregateCrewCellViewModel]
     
-    init(title: String, items: [CrewCombinedCellViewModel]) {
+    init(title: String, items: [TVAggregateCrewCellViewModel]) {
         self.title = title
         self.items = items
     }
     
-    required init(original: CrewCombinedCellViewModelSection, items: [CrewCombinedCellViewModel]) {
+    required init(original: TVAggregateCrewCellViewModelSection, items: [TVAggregateCrewCellViewModel]) {
         self.title = original.title
         self.items = items
         
     }
     
-    static func ==(lhs: CrewCombinedCellViewModelSection, rhs: CrewCombinedCellViewModelSection) -> Bool {
+    static func ==(lhs: TVAggregateCrewCellViewModelSection, rhs: TVAggregateCrewCellViewModelSection) -> Bool {
         return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
 }
 
-class CrewCombinedCellViewModel {
+class TVAggregateCrewCellViewModel {
     
 //    MARK: - Properties
     let gender: Int
@@ -41,21 +41,27 @@ class CrewCombinedCellViewModel {
     let name: String
     let popularity: Float
     let profilePath: String?
-    let creditID: String
+    let department: String
     let jobs: String
     let knownForDepartment: String?
+    let totalEpisodeCount: Int
+    
+    var totalEpisodeCountText: String {
+        totalEpisodeCount.correctlyEnding(withWord: "эпизод")
+    }
     
 //    MARK: - Init
     
-    init(_ model: GroupedCrewModel) {
+    init(_ model: TVAggregateCrewModel) {
         self.gender = model.gender
         self.id = "\(model.id)"
         self.name = model.name
         self.popularity = model.popularity
         self.profilePath = model.profilePath
         self.knownForDepartment = model.knownForDepartment
-        self.creditID = model.creditID
-        self.jobs = model.jobs
+        self.jobs = model.jobs.filter { !$0.job.isEmpty }.map { $0.job }.joined(separator: ", ")
+        self.department = model.department
+        self.totalEpisodeCount = model.totalEpisodeCount
     }
     
 //    MARK: - Methods
@@ -79,12 +85,12 @@ class CrewCombinedCellViewModel {
     
 }
 
-extension CrewCombinedCellViewModel: IdentifiableType, Equatable {
+extension TVAggregateCrewCellViewModel: IdentifiableType, Equatable {
     
-    var identity: String { self.creditID }
+    var identity: String { return "\(self.id)" }
     
-    static func ==(lhs: CrewCombinedCellViewModel, rhs: CrewCombinedCellViewModel) -> Bool {
-        return lhs.creditID == rhs.creditID
+    static func ==(lhs: TVAggregateCrewCellViewModel, rhs: TVAggregateCrewCellViewModel) -> Bool {
+        return lhs.identity == rhs.identity
     }
     
 }

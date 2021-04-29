@@ -24,6 +24,7 @@ class CastShortListTableViewCell: UITableViewCell {
     lazy var castListCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self))
         collectionView.register(CastCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: CastCollectionViewCell.self))
+        collectionView.register(TVAggregateCastCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: TVAggregateCastCollectionViewCell.self))
         collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
         collectionView.isUserInteractionEnabled = true
         collectionView.allowsSelection = true

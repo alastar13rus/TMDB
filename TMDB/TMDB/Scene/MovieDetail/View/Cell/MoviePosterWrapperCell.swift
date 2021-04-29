@@ -57,10 +57,12 @@ class MoviePosterWrapperCell: UITableViewCell {
             self.activityIndicatorView.stopAnimating()
             
             guard let imageData = imageData else {
-                self.posterWrapperView.posterImageView.image = #imageLiteral(resourceName: "moviePlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                self.posterWrapperView.posterImageView.contentMode = .scaleAspectFit
+                self.posterWrapperView.posterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                 return
             }
-
+            
+            self.posterWrapperView.posterImageView.contentMode = .scaleAspectFill
             self.posterWrapperView.posterImageView.image = UIImage(data: imageData)
 //            }
         }

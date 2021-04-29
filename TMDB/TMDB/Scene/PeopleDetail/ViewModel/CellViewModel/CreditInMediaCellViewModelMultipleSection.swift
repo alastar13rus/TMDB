@@ -12,7 +12,7 @@ enum CreditInMediaCellViewModelMultipleSection {
     case creditInMovieSection(title: String, items: [SectionItem])
     case creditInTVSection(title: String, items: [SectionItem])
     
-    enum SectionItem: IdentifiableType, Equatable, Comparable, Hashable {
+    enum SectionItem: IdentifiableType, Equatable, Comparable {
         
         case creditInMovie(vm: CreditInMediaViewModel)
         case creditInTV(vm: CreditInMediaViewModel)

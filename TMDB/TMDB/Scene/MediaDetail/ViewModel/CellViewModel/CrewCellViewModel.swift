@@ -37,7 +37,7 @@ class CrewCellViewModel {
     
 //    MARK: - Properties
     let gender: Int
-    let id: Int
+    let id: String
     let name: String
     let popularity: Float
     let profilePath: String?
@@ -50,7 +50,7 @@ class CrewCellViewModel {
     
     init(_ model: CrewModel) {
         self.gender = model.gender
-        self.id = model.id
+        self.id = "\(model.id)"
         self.name = model.name
         self.popularity = model.popularity
         self.profilePath = model.profilePath

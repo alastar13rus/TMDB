@@ -24,6 +24,7 @@ class CrewShortListTableViewCell: UITableViewCell {
     lazy var crewListCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self))
         collectionView.register(CrewCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: CrewCollectionViewCell.self))
+        collectionView.register(TVAggregateCrewCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: TVAggregateCrewCollectionViewCell.self))
         collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false

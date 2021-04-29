@@ -42,6 +42,7 @@ struct TVDetailModel: TVDetailProtocol {
     let type: String
     let voteAverage: Float
     let voteCount: Int
+    let aggregateCredits: TVAggregateCreditList?
     let credits: MediaCreditList?
     let recommendations: MediaListResponse<TVModel>?
     let similar: MediaListResponse<TVModel>?
@@ -77,6 +78,7 @@ struct TVDetailModel: TVDetailProtocol {
         case type
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+        case aggregateCredits = "aggregate_credits"
         case credits
         case recommendations
         case similar

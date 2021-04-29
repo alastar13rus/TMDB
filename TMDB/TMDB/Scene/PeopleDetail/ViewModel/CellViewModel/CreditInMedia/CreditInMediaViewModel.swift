@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreditInMediaViewModel: Hashable {
+struct CreditInMediaViewModel {
     
     let id: String
     let mediaTitle: String
@@ -72,7 +72,5 @@ extension CreditInMediaViewModel {
         } else {
             self.mediaTitle = model.mediaTitle
         }
-        
-        
     }
 }

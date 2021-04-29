@@ -20,8 +20,6 @@ class CreditListViewController: UIViewController {
     lazy var creditListTableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
-        tableView.register(CreditCastCell.self, forCellReuseIdentifier: String(describing: CreditCastCell.self))
-        tableView.register(CreditCrewCell.self, forCellReuseIdentifier: String(describing: CreditCrewCell.self))
         tableView.tableFooterView = UIView()
         
         tableView.translatesAutoresizingMaskIntoConstraints = false

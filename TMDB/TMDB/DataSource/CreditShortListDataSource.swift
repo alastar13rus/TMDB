@@ -25,8 +25,16 @@ struct CreditShortListDataSource: DataSourceProtocol {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CastCollectionViewCell.self), for: indexPath) as? CastCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
                 return cell
+            case .tvAggregateCast(let vm):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVAggregateCastCollectionViewCell.self), for: indexPath) as? TVAggregateCastCollectionViewCell else { return UICollectionViewCell() }
+                cell.viewModel = vm
+                return cell
             case .crew(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CrewCollectionViewCell.self), for: indexPath) as? CrewCollectionViewCell else { return UICollectionViewCell() }
+                cell.viewModel = vm
+                return cell
+            case .tvAggregateCrew(let vm):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVAggregateCrewCollectionViewCell.self), for: indexPath) as? TVAggregateCrewCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
                 return cell
             case .showMore(let vm):

@@ -107,7 +107,7 @@ extension TVDetailViewController: UITableViewDelegate {
         case .tvPosterWrapper: return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .tvImageList: return tableView.bounds.width / 3
+        case .tvImageList: return tableView.bounds.width / 3 + 24
         case .tvCastList: return tableView.bounds.width / 2 + 24
         case .tvCrewList: return tableView.bounds.width / 2 + 24
         case .tvCompilationList: return tableView.bounds.width / 2 + 24
@@ -120,7 +120,7 @@ extension TVDetailViewController: UITableViewDelegate {
         case .tvPosterWrapper: return tableView.bounds.height
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .tvImageList: return tableView.bounds.width / 3
+        case .tvImageList: return tableView.bounds.width / 3 + 24
         case .tvCastList: return tableView.bounds.width / 2 + 24
         case .tvCrewList: return tableView.bounds.width / 2 + 24
         case .tvCompilationList: return tableView.bounds.width / 2 + 24
@@ -130,8 +130,7 @@ extension TVDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch dataSource[section] {
-        case .tvImageListSection,
-             .tvRuntimeSection,
+        case .tvRuntimeSection,
              .tvGenresSection,
              .tvCastListSection,
              .tvCrewListSection,

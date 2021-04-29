@@ -137,9 +137,7 @@ class MovieDetailViewModel: DetailViewModelType {
     
     fileprivate func configureMovieImageListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         let title = "Фото"
-        guard var images = model.images?.backdrops, !images.isEmpty else { return sections }
-        images.removeFirst()
-        guard !images.isEmpty else { return sections }
+        guard let images = model.images?.backdrops, !images.isEmpty else { return sections }
         var sections = sections
         
         let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [.movieImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) }, coordinator: coordinator, contentForm: .landscape))]
@@ -208,7 +206,7 @@ class MovieDetailViewModel: DetailViewModelType {
         var sections = sections
         let crewCount = model.credits?.crew.count ?? 0
         let limit = 10
-        let title = "Создатели"
+        let title = "Съемочная группа"
         
         guard let crewList = model.credits?.crew.toUnique().sorted(by: >).prefix(limit), !crewList.isEmpty else { return sections }
         
