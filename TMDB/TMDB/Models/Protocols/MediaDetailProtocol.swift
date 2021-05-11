@@ -20,8 +20,11 @@ protocol MediaDetailProtocol: Decodable {
     var status: String { get }
     var tagline: String { get }
     var voteAverage: Float { get }
-    var voteCount: Int {get }
-    
+    var voteCount: Int { get }
+    var credits: MediaCreditList? { get }
+    var images: MediaImageList? { get }
+    var videos: VideoList? { get }
+
 }
 
 protocol MovieDetailProtocol: MediaDetailProtocol {
@@ -49,7 +52,7 @@ protocol TVDetailProtocol: MediaDetailProtocol {
     var inProduction: Bool { get }
     var languages: [LanguageModel] { get }
     var lastAirDate: String { get }
-    var lastEpisodeToAir: TVEpisodeModel { get }
+    var lastEpisodeToAir: TVEpisodeDetailModel { get }
     var name: String { get }
     var networks: [TVNetworkModel] { get }
     var numberOfEpisodes: Int { get }

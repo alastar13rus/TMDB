@@ -67,7 +67,13 @@ class CreditInMediaCell: UICollectionViewCell {
         creditLabel.text = vm.credit
         
         vm.mediaPosterImageView { [weak self] (data) in
-            guard let self = self, let imageData = data else { return }
+            guard let self = self else { return }
+            guard let imageData = data else {
+                self.mediaPosterImageView.contentMode = .scaleAspectFit
+                self.mediaPosterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                return
+            }
+            self.mediaPosterImageView.contentMode = .scaleAspectFill
             self.mediaPosterImageView.image = UIImage(data: imageData)
         }
     }

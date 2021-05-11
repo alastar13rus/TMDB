@@ -22,11 +22,9 @@ class PeopleDetailViewController: UIViewController {
     lazy var peopleDetailTableView: UITableView = {
         let tableView = UITableView()
         tableView.tableFooterView = UIView()
-//        tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
-        
     }()
     
 //    MARK: - Lifecycle
@@ -77,14 +75,26 @@ extension PeopleDetailViewController: BindableType {
         peopleDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
         viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(peopleDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        viewModel.output.name.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
                 
         peopleDetailTableView.rx.itemSelected.filter {
             switch self.dataSource[$0] {
             case .bio: return true
             default: return false
-            } }.subscribe(onNext: { self.toggleCell($0) }).disposed(by: disposeBag)
-    }
+            }
+        }.subscribe(onNext: { self.toggleCell($0) }).disposed(by: disposeBag)
+        
+        peopleDetailTableView.rx.modelSelected(PeopleDetailCellViewModelMultipleSection.SectionItem.self)
+            .compactMap { item -> CreditInMediaViewModel? in
+                switch item {
+                case .cast(let vm): return vm
+                case .crew(let vm): return vm
+                default: return nil
+                }
+            }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
     
+    }
 }
 
 extension PeopleDetailViewController: UITableViewDelegate { }
@@ -95,13 +105,13 @@ extension PeopleDetailViewController {
         switch dataSource[indexPath] {
         case .profileWrapper(let vm):
             var cellHeight: CGFloat = 0;
-            cellHeight += tableView.calculateCellHeight(withContent: vm.name, font: .boldSystemFont(ofSize: 18))
-            cellHeight += tableView.calculateCellHeight(withContent: vm.job, font: .italicSystemFont(ofSize: 14))
-            cellHeight += tableView.calculateCellHeight(withContent: vm.placeAndBirthday, font: .systemFont(ofSize: 16))
-            if let deathday = vm.deathday {
-                cellHeight += tableView.calculateCellHeight(withContent: deathday, font: .systemFont(ofSize: 16))
+            cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.name, font: .boldSystemFont(ofSize: 18))
+            cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.job, font: .italicSystemFont(ofSize: 14))
+            cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.placeAndBirthdayText, font: .systemFont(ofSize: 16))
+            if let deathday = vm.deathdayText {
+                cellHeight += tableView.calculateCellHeightWithImage(withContent: deathday, font: .systemFont(ofSize: 16))
             }
-//            cellHeight += CGFloat(5 * 12)
+
             return cellHeight > 200 ? cellHeight : 200
         case .imageList: return 200
         case .bio(let vm):
@@ -112,26 +122,13 @@ extension PeopleDetailViewController {
             case .short: return 200
             }
         case .bestMedia: return 200
-        case .movie: return 200
-        case .tv: return 200
+        case .cast: return 100
+        case .crew: return 100
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch dataSource[indexPath] {
-        case .profileWrapper: return 200
-        case .imageList: return 200
-        case .bio(let vm):
-            switch bioSectionType {
-            case .full:
-                let cellHeight = tableView.calculateCellHeight(withContent: vm.bio, font: .systemFont(ofSize: 16))
-                return cellHeight > 200 ? cellHeight : 200
-            case .short: return 200
-            }
-        case .bestMedia: return 200
-        case .movie: return 200
-        case .tv: return 200
-        }
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -140,8 +137,8 @@ extension PeopleDetailViewController {
         case .imageListSection: return 0
         case .bioSection: return 40
         case .bestMediaSection: return 40
-        case .movieSection: return 40
-        case .tvSection: return 40
+        case .castSection: return 40
+        case .crewSection: return 40
         }
     }
     

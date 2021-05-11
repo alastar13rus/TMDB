@@ -18,7 +18,7 @@ class GenresCellViewModelTest: XCTestCase {
             GenreModel(id: 1, name: "Комедия"),
         ]
         
-        let movieDetail = MovieDetailModel(adult: false, backdropPath: nil, budget: 0, genres: genreModelList, homepage: "", id: 0, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: nil, productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "", title: "", voteAverage: 0, voteCount: 0, video: false, credits: nil)
+        let movieDetail = MovieDetailModel(adult: false, backdropPath: nil, budget: 0, genres: genreModelList, homepage: "", id: 0, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: nil, productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "", title: "", voteAverage: 0, voteCount: 0, video: false, credits: nil, recommendations: nil, similar: nil,images: nil, videos: nil)
         
         let genresCellViewModel = GenresCellViewModel(movieDetail)
         

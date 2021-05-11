@@ -19,11 +19,19 @@ struct CreditListDataSource {
         let configureCell: DataSource.ConfigureCell = { (dataSource, tableView, indexPath, item) -> UITableViewCell in
             switch dataSource[indexPath] {
             case .cast(let vm):
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CreditCastCell.self), for: indexPath) as? CreditCastCell else { return UITableViewCell() }
+                let cell = CreditCastTableViewCell()
+                cell.viewModel = vm
+                return cell
+            case .tvAggregateCast(let vm):
+                let cell = CreditTVAggregateCastTableViewCell()
                 cell.viewModel = vm
                 return cell
             case .crew(let vm):
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CreditCrewCell.self), for: indexPath) as? CreditCrewCell else { return UITableViewCell() }
+                let cell = CreditCrewTableViewCell()
+                cell.viewModel = vm
+                return cell
+            case .tvAggregateCrew(let vm):
+                let cell = CreditTVAggregateCrewTableViewCell()
                 cell.viewModel = vm
                 return cell
             }

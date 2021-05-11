@@ -16,7 +16,7 @@ class MediaListViewController: UIViewController {
     //    MARK: - Property
         var viewModel: MediaListViewModel!
         var disposeBag = DisposeBag()
-        var mediaListDataSource = MediaListDataSource.dataSource()
+        var mediaListDataSource = MediaListTableViewDataSource.dataSource()
         var displayIndexPaths = [IndexPath]()
         
         var categoryListSegmentedControl = SegmentedControl()

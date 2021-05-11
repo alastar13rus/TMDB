@@ -15,8 +15,12 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
     //    MARK: - Properties
     let title: String
     let items: [CreditInMediaCellViewModelMultipleSection.SectionItem]
+    
     weak var coordinator: Coordinator?
+    weak var networkManager: NetworkManagerProtocol?
     let dataSource = BestCreditInMediaListDataSource.dataSource()
+    let disposeBag = DisposeBag()
+    let selectedCredit = PublishRelay<CreditInMediaCellViewModelMultipleSection.SectionItem>()
     
     var sectionedItems: Observable<[CreditInMediaCellViewModelMultipleSection]> {
         
@@ -32,7 +36,11 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         let movieSection: CreditInMediaCellViewModelMultipleSection = .creditInMovieSection(title: "Фильмы", items: movieItems)
         let tvSection: CreditInMediaCellViewModelMultipleSection = .creditInTVSection(title: "Сериалы", items: tvItems)
         
-        return .just([movieSection, tvSection])
+        var sections = [CreditInMediaCellViewModelMultipleSection]()
+        if !movieItems.isEmpty { sections.append(movieSection) }
+        if !tvItems.isEmpty { sections.append(tvSection) }
+        
+        return .just(sections)
                      
         }
         
@@ -47,13 +55,28 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?) {
+    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?) {
         self.init(title: title, items: items)
         self.coordinator = coordinator
+        self.networkManager = networkManager
+        subscribing()
     }
-        
-
+    
+//    MARK: - Methods
+    fileprivate func subscribing() {
+        self.selectedCredit.subscribe(onNext: { [weak self] in
+            guard let self = self, let coordinator = self.coordinator as? PeopleListCoordinator else { return }
+            switch $0 {
+            case .creditInMovie(let vm):
+                coordinator.toMovieDetail(with: vm.id)
+            case .creditInTV(let vm):
+                coordinator.toTVDetail(with: vm.id)
+            }
+        }).disposed(by: disposeBag)
     }
+    
+    
+}
 
 extension PeopleBestMediaListViewModel: IdentifiableType {
     var identity: String { return title }

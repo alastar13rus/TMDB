@@ -22,7 +22,7 @@ class PeopleBestMediaListTableViewCell: UITableViewCell {
     let disposeBag = DisposeBag()
     
     lazy var creditInMediaListCollectionView: UICollectionView = {
-        let layout = CollectionViewLayout(countItemsInRowOrColumn: 3, scrollDirection: .horizontal, view: self)
+        let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self)
         layout.headerReferenceSize.width = 50
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CreditInMediaCell.self, forCellWithReuseIdentifier: String(describing: CreditInMediaCell.self))
@@ -52,6 +52,8 @@ class PeopleBestMediaListTableViewCell: UITableViewCell {
 //    MARK: - Methods
     fileprivate func configure(with vm: PeopleBestMediaListViewModel) {
         viewModel.sectionedItems.asDriver(onErrorJustReturn: []).drive(creditInMediaListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        creditInMediaListCollectionView.rx.modelSelected(CreditInMediaCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.selectedCredit).disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {

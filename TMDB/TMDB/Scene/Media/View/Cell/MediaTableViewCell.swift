@@ -96,10 +96,12 @@ class MediaTableViewCell: UITableViewCell {
                 self.posterImageView.layer.opacity = 1
                 
                 guard let imageData = imageData else {
-                    self.posterImageView.image = #imageLiteral(resourceName: "man").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                    self.posterImageView.contentMode = .scaleAspectFit
+                    self.posterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                     return
                 }
-
+                
+                self.posterImageView.contentMode = .scaleAspectFill
                 self.posterImageView.image = UIImage(data: imageData)
             }
         }

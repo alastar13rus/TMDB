@@ -23,7 +23,7 @@ class MediaListDataSourceTest: XCTestCase {
             
         ]
         
-        XCTAssertEqual(viewModel.screen, .movie(MediaListDataSource.Screen.movieListInfo))
+        XCTAssertEqual(viewModel.screen, .movie(MediaListTableViewDataSource.Screen.movieListInfo))
         
         viewModel.output.sectionedItems.accept([
             .movieSection(title: "Фильмы", items: items)
@@ -55,7 +55,7 @@ class MediaListDataSourceTest: XCTestCase {
             
         ]
         
-        XCTAssertEqual(viewModel.screen, .tv(MediaListDataSource.Screen.tvListInfo))
+        XCTAssertEqual(viewModel.screen, .tv(MediaListTableViewDataSource.Screen.tvListInfo))
         
         viewModel.output.sectionedItems.accept([
             .tvSection(title: "Сериалы", items: items)

@@ -18,7 +18,7 @@ class TVPosterWrapperCellViewModelTest: XCTestCase {
             XCTAssertEqual(tvPosterWrapperCellViewModel.title, "Title")
             XCTAssertEqual(tvPosterWrapperCellViewModel.tagline, "Winter is coming")
             XCTAssertEqual(tvPosterWrapperCellViewModel.voteAverage, 100)
-        XCTAssertEqual(tvPosterWrapperCellViewModel.posterAbsolutePath, ImageURL.poster(.w500, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg").fullURL)
+        XCTAssertEqual(tvPosterWrapperCellViewModel.posterPath, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg")
         XCTAssertEqual(tvPosterWrapperCellViewModel.backdropPath,  "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg")
             XCTAssertEqual(tvPosterWrapperCellViewModel.releaseYear, "2020 - 2022")
         
@@ -51,8 +51,11 @@ class TVPosterWrapperCellViewModelTest: XCTestCase {
     }
     
 //    MARK: - Helpers
-    let tvDetail = TVDetailModel(backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", createdBy: [], episodeRunTime: [60], firstAirDate: "2020-01-01", genres: [], homepage: "", id: 1, inProduction: false, languages: [], lastAirDate: "2022-03-05", lastEpisodeToAir: TVEpisodeModel(), name: "Title", networks: [], numberOfEpisodes: 5, numberOfSeasons: 6, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCompanies: [], seasons: [], status: "", tagline: "Winter is coming", type: "", voteAverage: 10, voteCount: 0, credits: nil)
+    
+    let tvEpisodeDetailModel = TVEpisodeDetailModel(airDate: nil, episodeNumber: 0, id: 1, name: "", overview: "", seasonNumber: 0, stillPath: nil, voteAverage: 0, voteCount: 0, credits: nil, images: nil, videos: nil)
+    
+    lazy var tvDetail = TVDetailModel(backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", createdBy: [], episodeRunTime: [60], firstAirDate: "2020-01-01", genres: [], homepage: "", id: 1, inProduction: false, languages: [], lastAirDate: "2022-03-05", lastEpisodeToAir: tvEpisodeDetailModel, name: "Title", networks: [], numberOfEpisodes: 5, numberOfSeasons: 6, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCompanies: [], seasons: [], status: "", tagline: "Winter is coming", type: "", voteAverage: 10, voteCount: 0, aggregateCredits: nil, credits: nil, recommendations: nil, similar: nil, images: nil, videos: nil)
     
     
-    let tvDetail2 = TVDetailModel(backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", createdBy: [], episodeRunTime: [60], firstAirDate: "2021-02-02", genres: [], homepage: "", id: 2, inProduction: false, languages: [], lastAirDate: "2023-07-13", lastEpisodeToAir: TVEpisodeModel(), name: "Title 2", networks: [], numberOfEpisodes: 5, numberOfSeasons: 6, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCompanies: [], seasons: [], status: "", tagline: "Winter is coming", type: "", voteAverage: 10, voteCount: 0, credits: nil)
+    lazy var tvDetail2 = TVDetailModel(backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", createdBy: [], episodeRunTime: [60], firstAirDate: "2021-02-02", genres: [], homepage: "", id: 2, inProduction: false, languages: [], lastAirDate: "2023-07-13", lastEpisodeToAir: tvEpisodeDetailModel, name: "Title 2", networks: [], numberOfEpisodes: 5, numberOfSeasons: 6, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCompanies: [], seasons: [], status: "", tagline: "Winter is coming", type: "", voteAverage: 10, voteCount: 0, aggregateCredits: nil, credits: nil, recommendations: nil, similar: nil, images: nil, videos: nil)
 }

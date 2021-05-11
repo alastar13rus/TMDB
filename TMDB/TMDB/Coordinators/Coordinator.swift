@@ -23,6 +23,7 @@ extension Coordinator {
     
     func store(_ coordinator: Coordinator) {
         childCoordinators[coordinator.identifier] = coordinator
+        coordinator.parentCoordinator = self
     }
     
     func free(_ coordinator: Coordinator) {

@@ -15,7 +15,6 @@ class MediaCellViewModelTest: XCTestCase {
         
         XCTAssertEqual(mediaCellViewModel.identity, "1")
         XCTAssertEqual(mediaCellViewModel.posterPath, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg")
-        XCTAssertEqual(mediaCellViewModel.posterAbsolutePath, ImageURL.poster(.w154, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg").fullURL)
         
         let expectation = self.expectation(description: #function)
         
@@ -35,7 +34,6 @@ class MediaCellViewModelTest: XCTestCase {
         
         XCTAssertEqual(mediaCellViewModel.identity, "2")
         XCTAssertEqual(mediaCellViewModel.posterPath, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg")
-        XCTAssertEqual(mediaCellViewModel.posterAbsolutePath, ImageURL.poster(.w154, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg").fullURL)
         
         let expectation = self.expectation(description: #function)
         

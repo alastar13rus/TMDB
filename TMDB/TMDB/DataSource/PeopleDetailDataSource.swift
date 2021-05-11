@@ -19,11 +19,11 @@ struct PeopleDetailDataSource: DataSourceProtocol {
         let configureCell: DataSource.ConfigureCell = { (dataSource, tableView, indexPath, item) -> UITableViewCell in
             switch dataSource[indexPath] {
             case .profileWrapper(let vm):
-                let cell = PeopleProfileWrapperCell()
+                let cell = PeopleProfileWrapperTableViewCell()
                 cell.viewModel = vm
                 return cell
             case .imageList(let vm):
-                let cell = PeopleImageListTableViewCell()
+                let cell = ImageListTableViewCell(withImageType: .profile(size: .small))
                 cell.viewModel = vm
                 return cell
             case .bestMedia(let vm):
@@ -31,15 +31,15 @@ struct PeopleDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
             case .bio(let vm):
-                let cell = PeopleBioCell()
+                let cell = PeopleBioTableViewCell()
                 cell.viewModel = vm
                 return cell
-            case .movie(let vm):
-                let cell = PeopleMovieCell()
+            case .cast(let vm):
+                let cell = CreditInMediaTableViewCell()
                 cell.viewModel = vm
                 return cell
-            case .tv(let vm):
-                let cell = PeopleTVCell()
+            case .crew(let vm):
+                let cell = CreditInMediaTableViewCell()
                 cell.viewModel = vm
                 return cell
             }
@@ -51,8 +51,8 @@ struct PeopleDetailDataSource: DataSourceProtocol {
             case .imageListSection: return nil
             case .bioSection(let title, _): return title
             case .bestMediaSection(let title, _): return title
-            case .movieSection(let title, _): return title
-            case .tvSection(let title, _): return title
+            case .castSection(let title, _): return title
+            case .crewSection(let title, _): return title
 
                 
             }

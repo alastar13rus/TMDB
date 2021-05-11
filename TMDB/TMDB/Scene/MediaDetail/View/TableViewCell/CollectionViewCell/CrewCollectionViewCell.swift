@@ -73,16 +73,17 @@ class CrewCollectionViewCell: UICollectionViewCell {
         nameLabel.text = vm.name
         jobLabel.text = vm.job
         
-        self.profileImageView.layer.opacity = 0
-        UIView.animate(withDuration: 1.0) {
-            self.profileImageView.layer.opacity = 1
+        vm.profileImageData { [weak self] (data) in
+            
             vm.profileImageData { [weak self] (imageData) in
                 guard let self = self else { return }
                 self.activityIndicatorView.stopAnimating()
                 
                 if imageData == nil {
-                    self.profileImageView.image = #imageLiteral(resourceName: "man").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+                    self.profileImageView.contentMode = .scaleAspectFit
+                    self.profileImageView.image = GenderFactory.buildImage(withGender: vm.gender)
                 } else {
+                    self.profileImageView.contentMode = .scaleAspectFill
                     self.profileImageView.image = UIImage(data: imageData!)
                 }
             }
@@ -110,6 +111,7 @@ class CrewCollectionViewCell: UICollectionViewCell {
             activityIndicatorView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
             
             profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            profileImageView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor, multiplier: 0.8),
             profileImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             profileImageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
             
