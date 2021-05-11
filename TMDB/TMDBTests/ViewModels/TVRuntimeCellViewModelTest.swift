@@ -48,7 +48,10 @@ class TVRuntimeCellViewModelTest: XCTestCase {
     
     
 //    MARK: - Helpers
-    let model60 = TVDetailModel(
+    
+    let tvEpisodeDetailModel = TVEpisodeDetailModel(airDate: nil, episodeNumber: 0, id: 1, name: "", overview: "", seasonNumber: 0, stillPath: nil, voteAverage: 0, voteCount: 0, credits: nil, images: nil, videos: nil)
+    
+    lazy var model60 = TVDetailModel(
         backdropPath: nil,
         createdBy: [],
         episodeRunTime: [60],
@@ -59,7 +62,7 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         inProduction: false,
         languages: [],
         lastAirDate: "2022-21-31",
-        lastEpisodeToAir: TVEpisodeModel(),
+        lastEpisodeToAir: tvEpisodeDetailModel,
         name: "Игра Престолов",
         networks: [],
         numberOfEpisodes: 73,
@@ -77,9 +80,14 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         type: "",
         voteAverage: 10,
         voteCount: 100,
-        credits: nil)
+        aggregateCredits: nil,
+        credits: nil,
+        recommendations: nil,
+        similar: nil,
+        images: nil,
+        videos: nil)
     
-    let model35 = TVDetailModel(
+    lazy var model35 = TVDetailModel(
         backdropPath: nil,
         createdBy: [],
         episodeRunTime: [35],
@@ -90,7 +98,7 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         inProduction: false,
         languages: [],
         lastAirDate: "2022-21-31",
-        lastEpisodeToAir: TVEpisodeModel(),
+        lastEpisodeToAir: tvEpisodeDetailModel,
         name: "Игра Престолов",
         networks: [],
         numberOfEpisodes: 73,
@@ -108,9 +116,14 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         type: "",
         voteAverage: 10,
         voteCount: 100,
-        credits: nil)
+        aggregateCredits: nil,
+        credits: nil,
+        recommendations: nil,
+        similar: nil,
+        images: nil,
+        videos: nil)
     
-    let model180 = TVDetailModel(
+    lazy var model180 = TVDetailModel(
         backdropPath: nil,
         createdBy: [],
         episodeRunTime: [180],
@@ -121,7 +134,7 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         inProduction: false,
         languages: [],
         lastAirDate: "2022-21-31",
-        lastEpisodeToAir: TVEpisodeModel(),
+        lastEpisodeToAir: tvEpisodeDetailModel,
         name: "Игра Престолов",
         networks: [],
         numberOfEpisodes: 73,
@@ -139,9 +152,14 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         type: "",
         voteAverage: 10,
         voteCount: 100,
-        credits: nil)
+        aggregateCredits: nil,
+        credits: nil,
+        recommendations: nil,
+        similar: nil,
+        images: nil,
+        videos: nil)
     
-    let model125 = TVDetailModel(
+    lazy var model125 = TVDetailModel(
         backdropPath: nil,
         createdBy: [],
         episodeRunTime: [125],
@@ -152,7 +170,7 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         inProduction: false,
         languages: [],
         lastAirDate: "2022-21-31",
-        lastEpisodeToAir: TVEpisodeModel(),
+        lastEpisodeToAir: tvEpisodeDetailModel,
         name: "Игра Престолов",
         networks: [],
         numberOfEpisodes: 73,
@@ -170,6 +188,11 @@ class TVRuntimeCellViewModelTest: XCTestCase {
         type: "",
         voteAverage: 10,
         voteCount: 100,
-        credits: nil)
+        aggregateCredits: nil,
+        credits: nil,
+        recommendations: nil,
+        similar: nil,
+        images: nil,
+        videos: nil)
     
 }

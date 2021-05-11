@@ -21,7 +21,7 @@ struct PeopleDetailModel: Decodable {
     let placeOfBirth: String?
     let profilePath: String?
     let adult: Bool
-    let imdb_id: String
+    let imdb_id: String?
     let homepage: String?
     let combinedCredits: PeopleCombinedCreditList?
     let images: PeopleImageList?

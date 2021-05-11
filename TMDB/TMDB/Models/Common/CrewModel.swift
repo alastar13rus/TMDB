@@ -8,11 +8,11 @@
 import Foundation
 import RxDataSources
 
-struct CrewModel: Decodable, Hashable {
+struct CrewModel: Decodable {
     let adult: Bool
     let gender: Int
     let id: Int
-    let knownForDepartment: String
+    let knownForDepartment: String?
     let name: String
     let originalName: String
     let popularity: Float
@@ -20,6 +20,10 @@ struct CrewModel: Decodable, Hashable {
     let creditID: String
     let department: String
     let job: String
+    
+    var departmentOrder: Int {
+        DepartmentHelper.order(by: department)
+    }
     
     enum CodingKeys: String, CodingKey {
         case adult
@@ -42,6 +46,6 @@ extension CrewModel: IdentifiableType {
 
 extension CrewModel: Comparable {
     static func < (lhs: CrewModel, rhs: CrewModel) -> Bool {
-        return lhs.popularity < rhs.popularity
+        return lhs.departmentOrder > rhs.departmentOrder
     }
 }

@@ -16,11 +16,15 @@ enum CreditListViewModelMultipleSection {
     enum SectionItem: IdentifiableType, Equatable {
         case cast(vm: CastCellViewModel)
         case crew(vm: CrewCombinedCellViewModel)
+        case tvAggregateCast(vm: AggregateCastCellViewModel)
+        case tvAggregateCrew(vm: AggregateCrewCellViewModel)
         
         var identity: String {
             switch self {
             case .cast(let vm): return "\(vm.id)"
             case .crew(let vm): return "\(vm.id)"
+            case .tvAggregateCast(let vm): return "\(vm.id)"
+            case .tvAggregateCrew(let vm): return "\(vm.id)"
             }
         }
         

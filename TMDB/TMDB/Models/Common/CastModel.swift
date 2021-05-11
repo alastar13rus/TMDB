@@ -40,3 +40,9 @@ struct CastModel: Decodable {
 extension CastModel: IdentifiableType {
     var identity: Int { return id }
 }
+
+extension CastModel: Comparable {
+    static func < (lhs: CastModel, rhs: CastModel) -> Bool {
+        return lhs.order < rhs.order
+    }
+}

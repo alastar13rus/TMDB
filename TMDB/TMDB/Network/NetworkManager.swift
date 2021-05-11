@@ -21,7 +21,7 @@ class NetworkManager: NetworkManagerProtocol {
             
             
             guard let url = components.url else { return }
-
+print(url)
             let request = URLRequest(url: url)
             let session = URLSession(configuration: .default)
             
@@ -34,7 +34,7 @@ class NetworkManager: NetworkManagerProtocol {
                 guard error == nil else { return }
                 guard response != nil else { return }
                 guard let data = data else { return }
-//                let responseObject = try! JSONDecoder().decode(T.self, from: data)
+                let responseObject = try! JSONDecoder().decode(T.self, from: data)
                 do {
                     let responseObject = try JSONDecoder().decode(T.self, from: data)
                     

@@ -59,6 +59,7 @@ extension MediaCellViewModelMultipleSection: AnimatableSectionModelType, Equatab
         }
     }
     
+    
 }
 
 extension MediaCellViewModelMultipleSection: IdentifiableType {

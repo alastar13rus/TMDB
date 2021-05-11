@@ -81,7 +81,7 @@ class MovieDetailCellViewModelMultipleSectionTest: XCTestCase {
         
         XCTAssertEqual(sut.identity, Title.movieCrewList.rawValue)
         XCTAssertEqual(sut.title, Title.movieCrewList.rawValue)
-        XCTAssertEqual(sectionItem.identity, "crewList")
+        XCTAssertEqual(sectionItem.identity, CreditType.crew.rawValue)
         XCTAssertEqual(sut.items.first, MovieDetailCellViewModelMultipleSection.SectionItem.movieCrewList(vm: crewListViewModel))
     }
     
@@ -92,7 +92,7 @@ class MovieDetailCellViewModelMultipleSectionTest: XCTestCase {
         
         XCTAssertEqual(sut.identity, Title.movieCastList.rawValue)
         XCTAssertEqual(sut.title, Title.movieCastList.rawValue)
-        XCTAssertEqual(sectionItem.identity, "castList")
+        XCTAssertEqual(sectionItem.identity, CreditType.cast.rawValue)
         XCTAssertEqual(sut.items.first, MovieDetailCellViewModelMultipleSection.SectionItem.movieCastList(vm: castListViewModel))
     }
     
@@ -117,11 +117,7 @@ class MovieDetailCellViewModelMultipleSectionTest: XCTestCase {
     lazy var crewList = [crewModel]
     
     var movieDetail: MovieDetailModel {
-        MovieDetailModel(adult: false, backdropPath: nil, budget: 0, genres: [], homepage: "", id: 1, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: nil, productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 60, spokenLanguages: [], status: "", tagline: "", title: "", voteAverage: 10, voteCount: 10, video: false, credits: MediaCreditList(cast: castList, crew: crewList))
-    }
-    
-    var tvDetail: TVDetailModel {
-        TVDetailModel(backdropPath: nil, createdBy: [], episodeRunTime: [0], firstAirDate: "", genres: [], homepage: "", id: 1, inProduction: false, languages: [], lastAirDate: "", lastEpisodeToAir: TVEpisodeModel(), name: "", networks: [], numberOfEpisodes: 0, numberOfSeasons: 0, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: nil, productionCompanies: [], seasons: [], status: "", tagline: "", type: "", voteAverage: 0, voteCount: 0, credits: nil)
+        MovieDetailModel(adult: false, backdropPath: nil, budget: 0, genres: [], homepage: "", id: 1, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: nil, productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 60, spokenLanguages: [], status: "", tagline: "", title: "", voteAverage: 10, voteCount: 10, video: false, credits: MediaCreditList(cast: castList, crew: crewList), recommendations: nil, similar: nil, images: nil, videos: nil)
     }
     
     var moviePosterWrapperCellViewModel: MoviePosterWrapperCellViewModel { MoviePosterWrapperCellViewModel(movieDetail) }

@@ -10,7 +10,7 @@ target 'TMDB' do
   pod 'RxCocoa'
   pod 'RxRelay'
   pod 'RxDataSources'
-
+  pod 'youtube-ios-player-helper'
 end
 
 target 'TMDBTests' do

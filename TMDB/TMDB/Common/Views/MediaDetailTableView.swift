@@ -13,10 +13,10 @@ class MediaDetailTableView: UITableView {
         super.init(frame: frame, style: style)
         
         self.separatorColor = .clear
-        self.allowsSelection = false
+//        self.allowsSelection = false
         self.tableFooterView = UIView()
         self.showsVerticalScrollIndicator = false
-        self.translatesAutoresizingMaskIntoConstraints = false
+//        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {

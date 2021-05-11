@@ -17,24 +17,28 @@ enum CreditCellViewModelMultipleSection {
     enum SectionItem: IdentifiableType, Equatable {
         case cast(vm: CastCellViewModel)
         case crew(vm: CrewCellViewModel)
+        case aggregateCast(vm: AggregateCastCellViewModel)
+        case aggregateCrew(vm: AggregateCrewCellViewModel)
         case showMore(vm: ShowMoreCellViewModel)
         
         var identity: String {
             switch self {
             case .cast(let vm): return "\(vm.id)"
             case .crew(let vm): return "\(vm.id)"
+            case .aggregateCast(let vm): return "\(vm.id)"
+            case .aggregateCrew(let vm): return "\(vm.id)"
             case .showMore(let vm): return vm.title
             }
         }
         
         static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
             switch (lhs, rhs) {
-            case (.cast(_), .crew(_)), (.crew(_), .cast(_)): return false
-            case (.cast(_), .showMore(_)), (.showMore(_), .cast(_)): return false
-            case (.crew(_), .showMore(_)), (.showMore(_), .crew(_)): return false
             case (.cast(let lhsVM), .cast(let rhsVM)): return lhsVM == rhsVM
             case (.crew(let lhsVM), .crew(let rhsVM)): return lhsVM == rhsVM
+            case (.aggregateCast(let lhsVM), .aggregateCast(let rhsVM)): return lhsVM == rhsVM
+            case (.aggregateCrew(let lhsVM), .aggregateCrew(let rhsVM)): return lhsVM == rhsVM
             case (.showMore(let lhsVM), .showMore(let rhsVM)): return lhsVM == rhsVM
+            default: return false
             }
         }
     }
