@@ -10,7 +10,7 @@ import UIKit
 class TVAggregateCrewCollectionViewCell: UICollectionViewCell {
     
 //    MARK: - Properties
-    var viewModel: TVAggregateCrewCellViewModel! {
+    var viewModel: AggregateCrewCellViewModel! {
         didSet {
             configure(with: viewModel)
         }
@@ -69,7 +69,7 @@ class TVAggregateCrewCollectionViewCell: UICollectionViewCell {
     
     
 //    MARK: - Methods
-    fileprivate func configure(with vm: TVAggregateCrewCellViewModel) {
+    fileprivate func configure(with vm: AggregateCrewCellViewModel) {
         nameLabel.text = vm.name
         jobsLabel.text = vm.jobs
         

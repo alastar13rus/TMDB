@@ -7,6 +7,45 @@
 
 import UIKit
 
+protocol ToPeopleRoutable: NavigationCoordinator {
+    func toPeople(with: String)
+    func toCreditList(with: String, params: [String: String])
+}
+
+extension ToPeopleRoutable {
+    
+    func toPeople(with peopleID: String) {
+        guard let peopleListCoordinator = parentCoordinator as? PeopleListCoordinator else {
+            let peopleListCoordinator = PeopleListCoordinator(navigationController: navigationController)
+            store(peopleListCoordinator)
+            peopleListCoordinator.toDetail(with: peopleID)
+            return
+        }
+        
+        peopleListCoordinator.toDetail(with: peopleID)
+    }
+    
+    func toCreditList(with detailID: String, params: [String: String]) {
+        (_, _, _) = factory(with: detailID, vmType: CreditListViewModel.self, vcType: CreditListViewController.self, params: params)
+    }
+}
+
+protocol ToImageFullScreenRoutable: NavigationCoordinator {
+    func toImageFullScreen(withImageCellViewModel imageCellViewModel: ImageCellViewModel, contentForm: ContentForm)
+}
+
+extension ToImageFullScreenRoutable {
+    
+    func toImageFullScreen(withImageCellViewModel imageCellViewModel: ImageCellViewModel, contentForm: ContentForm) {
+        let fullScreenViewController = FullScreenViewController()
+        let fullScreenViewModel = FullScreenViewModel(withImageCellViewModel: imageCellViewModel, contentForm: contentForm)
+        fullScreenViewModel.coordinator = self
+        fullScreenViewController.viewModel = fullScreenViewModel
+        
+        navigationController.present(fullScreenViewController, animated: true, completion: nil)
+    }
+}
+
 class PeopleListCoordinator: NavigationCoordinator {
     
 //    MARK: - Properties
@@ -53,20 +92,7 @@ class PeopleListCoordinator: NavigationCoordinator {
         }
         tvListCoordinator.toDetail(with: detailID)
     }
-    
-    func toImageFullScreen(withImageCellViewModel imageCellViewModel: ImageCellViewModel, contentForm: ContentForm) {
-        let fullScreenViewController = FullScreenViewController()
-        let fullScreenViewModel = FullScreenViewModel(withImageCellViewModel: imageCellViewModel, contentForm: contentForm)
-        fullScreenViewModel.coordinator = self
-        fullScreenViewController.viewModel = fullScreenViewModel
-        
-        navigationController.present(fullScreenViewController, animated: true, completion: nil)
-    }
-    
-    
-    
-    
-    
-    
-    
 }
+
+//  MARK: - extension ToImageFullScreenRoutable
+extension PeopleListCoordinator: ToImageFullScreenRoutable { }

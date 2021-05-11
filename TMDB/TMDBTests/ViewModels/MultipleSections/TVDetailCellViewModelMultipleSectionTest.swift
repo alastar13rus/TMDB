@@ -76,24 +76,24 @@ class TVDetailCellViewModelMultipleSectionTest: XCTestCase {
     
     func test_initCastListSection() {
         
-        let sectionItem: TVDetailCellViewModelMultipleSection.SectionItem = .tvCastList(vm: castListViewModel)
-        let sut: TVDetailCellViewModelMultipleSection = .tvCastListSection(title: Title.tvCastList.rawValue, items: [.tvCastList(vm: castListViewModel)])
+        let sectionItem: TVDetailCellViewModelMultipleSection.SectionItem = .tvCastShortList(vm: castListViewModel)
+        let sut: TVDetailCellViewModelMultipleSection = .tvCastShortListSection(title: Title.tvCastList.rawValue, items: [.tvCastShortList(vm: castListViewModel)])
         
         XCTAssertEqual(sut.identity, Title.tvCastList.rawValue)
         XCTAssertEqual(sut.title, Title.tvCastList.rawValue)
-        XCTAssertEqual(sectionItem.identity, "castList")
-        XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvCastList(vm: castListViewModel))
+        XCTAssertEqual(sectionItem.identity, CreditType.cast.rawValue)
+        XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvCastShortList(vm: castListViewModel))
     }
     
     func test_initCrewListSection() {
         
-        let sectionItem: TVDetailCellViewModelMultipleSection.SectionItem = .tvCrewList(vm: crewListViewModel)
-        let sut: TVDetailCellViewModelMultipleSection = .tvCrewListSection(title: Title.tvCrewList.rawValue, items: [.tvCrewList(vm: crewListViewModel)])
+        let sectionItem: TVDetailCellViewModelMultipleSection.SectionItem = .tvCrewShortList(vm: crewListViewModel)
+        let sut: TVDetailCellViewModelMultipleSection = .tvCrewShortListSection(title: Title.tvCrewList.rawValue, items: [.tvCrewShortList(vm: crewListViewModel)])
         
         XCTAssertEqual(sut.identity, Title.tvCrewList.rawValue)
         XCTAssertEqual(sut.title, Title.tvCrewList.rawValue)
-        XCTAssertEqual(sectionItem.identity, "crewList")
-        XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvCrewList(vm: crewListViewModel))
+        XCTAssertEqual(sectionItem.identity, CreditType.crew.rawValue)
+        XCTAssertEqual(sut.items.first, TVDetailCellViewModelMultipleSection.SectionItem.tvCrewShortList(vm: crewListViewModel))
     }
     
 //    MARK: - Helpers
@@ -116,8 +116,10 @@ class TVDetailCellViewModelMultipleSectionTest: XCTestCase {
     
     lazy var crewList = [crewModel]
     
+    let tvEpisodeDetailModel = TVEpisodeDetailModel(airDate: nil, episodeNumber: 0, id: 1, name: "", overview: "", seasonNumber: 0, stillPath: nil, voteAverage: 0, voteCount: 0, credits: nil, images: nil, videos: nil)
+    
     var tvDetail: TVDetailModel {
-        TVDetailModel(backdropPath: nil, createdBy: [], episodeRunTime: [0], firstAirDate: "", genres: [], homepage: "", id: 2, inProduction: false, languages: [], lastAirDate: "", lastEpisodeToAir: TVEpisodeModel(), name: "", networks: [], numberOfEpisodes: 0, numberOfSeasons: 0, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: nil, productionCompanies: [], seasons: [], status: "", tagline: "", type: "", voteAverage: 0, voteCount: 0, credits: MediaCreditList(cast: castList, crew: crewList))
+        TVDetailModel(backdropPath: nil, createdBy: [], episodeRunTime: [0], firstAirDate: "", genres: [], homepage: "", id: 2, inProduction: false, languages: [], lastAirDate: "", lastEpisodeToAir: tvEpisodeDetailModel, name: "", networks: [], numberOfEpisodes: 0, numberOfSeasons: 0, originCountry: [], originalLanguage: "", originalName: "", overview: "", popularity: 0, posterPath: nil, productionCompanies: [], seasons: [], status: "", tagline: "", type: "", voteAverage: 0, voteCount: 0, aggregateCredits: nil, credits: MediaCreditList(cast: castList, crew: crewList), recommendations: nil, similar: nil, images: nil, videos: nil)
     }
     
     var tvPosterWrapperCellViewModel: TVPosterWrapperCellViewModel { TVPosterWrapperCellViewModel(tvDetail) }
@@ -131,7 +133,7 @@ class TVDetailCellViewModelMultipleSectionTest: XCTestCase {
     }
     
     var crewListViewModel: CreditShortListViewModel {
-        CreditShortListViewModel(title: Title.tvCrewList.rawValue, items: [.crew(vm: CrewCellViewModel(crewModel))], coordinator: nil, networkManager: nil, mediaID: "1399", creditType: .cast)
+        CreditShortListViewModel(title: Title.tvCrewList.rawValue, items: [.crew(vm: CrewCellViewModel(crewModel))], coordinator: nil, networkManager: nil, mediaID: "1399", creditType: .crew)
     }
     
 }

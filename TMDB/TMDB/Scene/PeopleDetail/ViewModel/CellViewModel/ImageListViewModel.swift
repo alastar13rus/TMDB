@@ -16,7 +16,7 @@ class ImageListViewModel: AnimatableSectionModelType {
     let title: String
     let items: [ImageCellViewModel]
     
-    weak var coordinator: Coordinator?
+    weak var coordinator: ToImageFullScreenRoutable?
     var contentForm: ContentForm = .portrait
     let disposeBag = DisposeBag()
     
@@ -39,7 +39,7 @@ class ImageListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [ImageCellViewModel], coordinator: Coordinator?, contentForm: ContentForm) {
+    convenience init(title: String, items: [ImageCellViewModel], coordinator: ToImageFullScreenRoutable?, contentForm: ContentForm) {
         self.init(title: title, items: items)
         self.coordinator = coordinator
         self.contentForm = contentForm
@@ -51,16 +51,7 @@ class ImageListViewModel: AnimatableSectionModelType {
     fileprivate func subscribe() {
         selectedItem.subscribe(onNext: { [weak self] vm in
             guard let self = self, let coordinator = self.coordinator else { return }
-            switch coordinator {
-            case let coordinator as MovieListCoordinator:
-                coordinator.toImageFullScreen(withImageCellViewModel: vm, contentForm: self.contentForm)
-            case let coordinator as TVListCoordinator:
-                coordinator.toImageFullScreen(withImageCellViewModel: vm, contentForm: self.contentForm)
-            case let coordinator as PeopleListCoordinator:
-                coordinator.toImageFullScreen(withImageCellViewModel: vm, contentForm: self.contentForm)
-            default:
-                return
-            }
+            coordinator.toImageFullScreen(withImageCellViewModel: vm, contentForm: self.contentForm)
         }).disposed(by: disposeBag)
     }
 }

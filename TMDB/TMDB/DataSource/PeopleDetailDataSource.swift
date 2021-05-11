@@ -19,7 +19,7 @@ struct PeopleDetailDataSource: DataSourceProtocol {
         let configureCell: DataSource.ConfigureCell = { (dataSource, tableView, indexPath, item) -> UITableViewCell in
             switch dataSource[indexPath] {
             case .profileWrapper(let vm):
-                let cell = PeopleProfileWrapperCell()
+                let cell = PeopleProfileWrapperTableViewCell()
                 cell.viewModel = vm
                 return cell
             case .imageList(let vm):
@@ -31,7 +31,7 @@ struct PeopleDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
             case .bio(let vm):
-                let cell = PeopleBioCell()
+                let cell = PeopleBioTableViewCell()
                 cell.viewModel = vm
                 return cell
             case .cast(let vm):

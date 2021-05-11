@@ -23,15 +23,7 @@ class TVDetailViewController: UIViewController {
         return tableView
     }()
     
-    let blurView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .dark)
-        let view = UIVisualEffectView(effect: blurEffect)
-        return view
-    }()
-    
-    
     lazy var appearance = NavigationBarAppearance(barAppearance: .init())
-    
     
 //    MARK: - Lifecycle
     override func viewDidLoad() {
@@ -98,47 +90,57 @@ extension TVDetailViewController: BindableType {
             self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
         }).disposed(by: disposeBag)
         
+        tvDetailTableView.rx.modelSelected(TVDetailCellViewModelMultipleSection.SectionItem.self)
+            .filter { if case .tvTrailerButton = $0 { return true } else { return false } }
+            .bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        
     }
 }
 
 extension TVDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .tvPosterWrapper: return tableView.bounds.height
+        case .tvPosterWrapper:
+            return tableView.bounds.height
+        case .tvTrailerButton: return 64
         case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
         case .tvImageList: return tableView.bounds.width / 3 + 24
-        case .tvCastList: return tableView.bounds.width / 2 + 24
-        case .tvCrewList: return tableView.bounds.width / 2 + 24
+        case .tvCastShortList: return tableView.bounds.width / 2 + 24
+        case .tvCrewShortList: return tableView.bounds.width / 2 + 24
+        case .tvSeasonShortList: return 200
         case .tvCompilationList: return tableView.bounds.width / 2 + 24
         case .tvRuntime, .tvStatus: return 40
         }
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch dataSource[indexPath] {
-        case .tvPosterWrapper: return tableView.bounds.height
-        case .tvOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
-        case .tvGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
-        case .tvImageList: return tableView.bounds.width / 3 + 24
-        case .tvCastList: return tableView.bounds.width / 2 + 24
-        case .tvCrewList: return tableView.bounds.width / 2 + 24
-        case .tvCompilationList: return tableView.bounds.width / 2 + 24
-        case .tvRuntime, .tvStatus: return 40
-        }
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch dataSource[section] {
         case .tvRuntimeSection,
              .tvGenresSection,
-             .tvCastListSection,
-             .tvCrewListSection,
+             .tvCastShortListSection,
+             .tvCrewShortListSection,
+             .tvSeasonShortListSection,
              .tvStatusSection,
              .tvCompilationListSection:
             return 40
         default:
             return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        switch dataSource[section] {
+        case .tvSeasonShortListSection(let title, _):
+            let headerView = TVSeasonShortListSectionHeaderView(title: title, numberOfSeasons: viewModel.output.numberOfSeasons.value)
+            headerView.showTVSeasonListButtonPressed.rx.tap.map { _ in () }.bind(to: viewModel.input.showTVSeasonListButtonPressed)
+            return headerView
+        default:
+            return nil
         }
     }
 }

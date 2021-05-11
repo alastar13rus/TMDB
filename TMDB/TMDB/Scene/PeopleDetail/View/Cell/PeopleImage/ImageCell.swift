@@ -50,7 +50,14 @@ class ImageCell: UICollectionViewCell {
             
             vm.imageData { [weak self] (imageData) in
                 guard let self = self else { return }
-                self.imageView.image = UIImage(data: imageData!)
+                
+                if imageData == nil {
+                    self.imageView.contentMode = .scaleAspectFit
+                    self.imageView.image = #imageLiteral(resourceName: "mediaPlaceholder")
+                } else {
+                    self.imageView.contentMode = .scaleAspectFill
+                    self.imageView.image = UIImage(data: imageData!)
+                }
             }
         }
     }

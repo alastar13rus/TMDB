@@ -22,7 +22,7 @@ struct CrewModel: Decodable {
     let job: String
     
     var departmentOrder: Int {
-        Department.order(by: department)
+        DepartmentHelper.order(by: department)
     }
     
     enum CodingKeys: String, CodingKey {

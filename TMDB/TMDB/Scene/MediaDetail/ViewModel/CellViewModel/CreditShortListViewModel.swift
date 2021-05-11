@@ -18,6 +18,8 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
     weak var coordinator: Coordinator?
     var networkManager: NetworkManagerProtocol?
     var mediaID = ""
+    var seasonNumber = ""
+    var episodeNumber = ""
     var creditType: CreditType = .cast
     let disposeBag = DisposeBag()
 
@@ -28,8 +30,8 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
         var showMoreItems = [CreditCellViewModelMultipleSection.SectionItem]()
         items.forEach {
             switch $0 {
-            case .cast, .tvAggregateCast: castItems.append($0)
-            case .crew, .tvAggregateCrew: crewItems.append($0)
+            case .cast, .aggregateCast: castItems.append($0)
+            case .crew, .aggregateCrew: crewItems.append($0)
             case .showMore: showMoreItems.append($0)
             }
         }
@@ -56,6 +58,70 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
         self.items = items
     }
     
+//    MARK: - Methods
+    fileprivate func subscribing() {
+        self.selectedItem.subscribe(onNext: {  [weak self] in
+            guard let self = self else { return }
+            
+            switch self.coordinator {
+            case let coordinator as MovieListCoordinator:
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
+                
+            case let coordinator as TVListCoordinator:
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
+                
+            case let coordinator as TVSeasonListCoordinator:
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
+                
+            case let coordinator as TVEpisodeListCoordinator:
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
+                
+            default: break
+            }
+            
+            
+        }).disposed(by: disposeBag)
+    }
+}
+
+//  MARK: - extension
+extension CreditShortListViewModel {
+    
+    fileprivate func routingWithCoordinator<T: ToPeopleRoutable>(coordinator: T, item: CreditCellViewModelMultipleSection.SectionItem) {
+        switch item {
+        case .cast(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .aggregateCast(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .crew(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .aggregateCrew(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .showMore(let vm):
+            var params: [String: String] = [
+                String(describing: CreditType.self): vm.type.rawValue,
+                String(describing: Coordinator.self): String(describing: T.self)
+            ]
+            
+            switch coordinator {
+            case is MovieListCoordinator:
+                params[String(describing: MediaType.self)] = MediaType.movie.rawValue
+            case is TVListCoordinator:
+                params[String(describing: MediaType.self)] = MediaType.tv.rawValue
+            case is TVSeasonListCoordinator:
+                params[String(describing: MediaType.self)] = MediaType.tv.rawValue
+                params["seasonNumber"] = seasonNumber
+            default: break
+            }
+            
+            coordinator.toCreditList( with: self.mediaID, params: params)
+        }
+    }
+    
+}
+
+extension CreditShortListViewModel {
+    
     convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaID: String, creditType: CreditType) {
         self.init(title: title, items: items)
         self.coordinator = coordinator
@@ -65,70 +131,33 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
         
         subscribing()
     }
+}
+
+extension CreditShortListViewModel {
     
-//    MARK: - Methods
-    fileprivate func subscribing() {
-        self.selectedItem.subscribe(onNext: {  [weak self] in
-            guard let self = self else { return }
-            if let coordinator = self.coordinator as? MovieListCoordinator {
-                self.routingWithMovieCoordinator(coordinator: coordinator, item: $0)
-            } else if let coordinator = self.coordinator as? TVListCoordinator {
-                self.routingWithTVCoordinator(coordinator: coordinator, item: $0)
-            } else {
-                return
-            }
-            
-        }).disposed(by: disposeBag)
+    convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaID: String, seasonNumber: String, creditType: CreditType) {
+        self.init(title: title, items: items)
+        self.coordinator = coordinator
+        self.mediaID = mediaID
+        self.seasonNumber = seasonNumber
+        self.creditType = creditType
+        self.networkManager = networkManager
+        
+        subscribing()
     }
+}
+
+extension CreditShortListViewModel {
     
-    fileprivate func routingWithMovieCoordinator(coordinator: MovieListCoordinator, item: CreditCellViewModelMultipleSection.SectionItem) {
-        switch item {
-        case .cast(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .crew(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .showMore(let vm):
-            coordinator.toCreditList(
-                with: self.mediaID,
-                params: [
-                    String(describing: CreditType.self): vm.type.rawValue,
-                    String(describing: MediaType.self): MediaType.movie.rawValue,
-                    String(describing: Coordinator.self): String(describing: MovieListCoordinator.self)
-                ])
-        default: break
-        }
+    convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaID: String, seasonNumber: String, episodeNumber: String, creditType: CreditType) {
+        self.init(title: title, items: items)
+        self.coordinator = coordinator
+        self.mediaID = mediaID
+        self.seasonNumber = seasonNumber
+        self.episodeNumber = episodeNumber
+        self.creditType = creditType
+        self.networkManager = networkManager
+        
+        subscribing()
     }
-    
-    fileprivate func routingWithTVCoordinator(coordinator: TVListCoordinator, item: CreditCellViewModelMultipleSection.SectionItem) {
-        switch item {
-        case .cast(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .tvAggregateCast(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .crew(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .tvAggregateCrew(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .showMore(let vm):
-            coordinator.toCreditList(
-                with: self.mediaID,
-                params: [
-                    String(describing: CreditType.self): vm.type.rawValue,
-                    String(describing: MediaType.self): MediaType.tv.rawValue,
-                    String(describing: Coordinator.self): String(describing: TVListCoordinator.self)
-                ])
-        }
-    }
-    
-//    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
-//            networkManager?.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
-//                switch result {
-//                case .success(let creditDetail):
-//                    let peopleID = "\(creditDetail.person.id)"
-//                    completion(peopleID)
-//                case .failure: break
-//                }
-//            })
-//    }
-    
 }

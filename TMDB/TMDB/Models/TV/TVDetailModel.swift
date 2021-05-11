@@ -10,7 +10,7 @@ import RxDataSources
 
 struct TVDetailModel: TVDetailProtocol {
     
-    typealias TVEpisodeProtocol = TVEpisodeModel
+    typealias TVEpisodeProtocol = TVEpisodeDetailModel
     typealias TVNetworkProtocol = TVNetworkModel
     typealias TVSeasonProtocol = TVSeasonModel
     
@@ -24,7 +24,7 @@ struct TVDetailModel: TVDetailProtocol {
     let inProduction: Bool
     let languages: [LanguageModel]
     let lastAirDate: String
-    let lastEpisodeToAir: TVEpisodeModel
+    let lastEpisodeToAir: TVEpisodeDetailModel
     let name: String
     let networks: [TVNetworkModel]
     let numberOfEpisodes: Int
@@ -47,6 +47,7 @@ struct TVDetailModel: TVDetailProtocol {
     let recommendations: MediaListResponse<TVModel>?
     let similar: MediaListResponse<TVModel>?
     let images: MediaImageList?
+    let videos: VideoList?
     
     enum CodingKeys: String, CodingKey {
 
@@ -83,6 +84,7 @@ struct TVDetailModel: TVDetailProtocol {
         case recommendations
         case similar
         case images
+        case videos
     }
 }
 

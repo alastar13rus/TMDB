@@ -16,8 +16,8 @@ enum CreditListViewModelMultipleSection {
     enum SectionItem: IdentifiableType, Equatable {
         case cast(vm: CastCellViewModel)
         case crew(vm: CrewCombinedCellViewModel)
-        case tvAggregateCast(vm: TVAggregateCastCellViewModel)
-        case tvAggregateCrew(vm: TVAggregateCrewCellViewModel)
+        case tvAggregateCast(vm: AggregateCastCellViewModel)
+        case tvAggregateCrew(vm: AggregateCrewCellViewModel)
         
         var identity: String {
             switch self {

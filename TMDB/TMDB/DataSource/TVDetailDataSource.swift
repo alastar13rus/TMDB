@@ -25,7 +25,7 @@ struct TVDetailDataSource: DataSourceProtocol {
             switch dataSource[indexPath] {
             
             case .tvPosterWrapper(let vm):
-                let cell = TVPosterWrapperCell()
+                let cell = TVPosterWrapperTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
@@ -34,33 +34,43 @@ struct TVDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
                 
+            case .tvTrailerButton(let vm):
+                let cell = ButtonTableViewCell()
+                cell.viewModel = vm
+                return cell
+                
             case .tvOverview(let vm):
-                let cell = MediaOverviewCell()
+                let cell = MediaOverviewTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
             case .tvRuntime(let vm):
-                let cell = TVRuntimeCell()
+                let cell = TVRuntimeTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
             case .tvGenres(let vm):
-                let cell = GenresCell()
+                let cell = GenresTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
             case .tvStatus(let vm):
-                let cell = MediaStatusCell()
+                let cell = MediaStatusTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
-            case .tvCastList(let vm):
+            case .tvCastShortList(let vm):
                 let cell = CastShortListTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
-            case .tvCrewList(let vm):
+            case .tvCrewShortList(let vm):
                 let cell = CrewShortListTableViewCell()
+                cell.viewModel = vm
+                return cell
+                
+            case .tvSeasonShortList(let vm):
+                let cell = TVSeasonShortListTableViewCell()
                 cell.viewModel = vm
                 return cell
             
@@ -75,8 +85,8 @@ struct TVDetailDataSource: DataSourceProtocol {
             switch dataSource[section] {
             case .tvRuntimeSection(let title, _),
                  .tvGenresSection(let title, _),
-                 .tvCastListSection(let title, _),
-                 .tvCrewListSection(let title, _),
+                 .tvCastShortListSection(let title, _),
+                 .tvCrewShortListSection(let title, _),
                  .tvStatusSection(let title, _),
                  .tvCompilationListSection(let title, _):
                 return title

@@ -25,7 +25,7 @@ struct MovieDetailDataSource: DataSourceProtocol {
             switch dataSource[indexPath] {
             
             case .moviePosterWrapper(let vm):
-                let cell = MoviePosterWrapperCell()
+                let cell = MoviePosterWrapperTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
@@ -34,23 +34,28 @@ struct MovieDetailDataSource: DataSourceProtocol {
                 cell.viewModel = vm
                 return cell
                 
+            case .movieTrailerButton(let vm):
+                let cell = ButtonTableViewCell()
+                cell.viewModel = vm
+                return cell
+                
             case .movieOverview(let vm):
-                let cell = MediaOverviewCell()
+                let cell = MediaOverviewTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
             case .movieRuntime(let vm):
-                let cell = MovieRuntimeCell()
+                let cell = MovieRuntimeTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
             case .movieGenres(let vm):
-                let cell = GenresCell()
+                let cell = GenresTableViewCell()
                 cell.viewModel = vm
                 return cell
                 
             case .movieStatus(let vm):
-                let cell = MediaStatusCell()
+                let cell = MediaStatusTableViewCell()
                 cell.viewModel = vm
                 return cell
                 

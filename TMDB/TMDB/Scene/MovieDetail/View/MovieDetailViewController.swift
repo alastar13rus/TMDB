@@ -97,6 +97,10 @@ extension MovieDetailViewController: BindableType {
             self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
             self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
         }).disposed(by: disposeBag)
+        
+        movieDetailTableView.rx.modelSelected(MovieDetailCellViewModelMultipleSection.SectionItem.self)
+            .filter { if case .movieTrailerButton = $0 { return true } else { return false } }
+            .bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
     }
     
 }
@@ -105,6 +109,7 @@ extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
         case .moviePosterWrapper: return tableView.bounds.height
+        case .movieTrailerButton: return 64
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
         case .movieImageList: return tableView.bounds.width / 3 + 24
@@ -118,6 +123,7 @@ extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
         case .moviePosterWrapper: return tableView.bounds.height
+        case .movieTrailerButton: return 64
         case .movieOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .movieGenres(let vm): return tableView.calculateCellHeight(withContent: vm.genres, font: .boldSystemFont(ofSize: 14))
         case .movieImageList: return tableView.bounds.width / 3 + 24

@@ -9,16 +9,19 @@ import UIKit
 
 class MovieListCoordinator: NavigationCoordinator {
     
+//    MARK: - Properties
     var identifier = UUID()
     var childCoordinators = [UUID : Coordinator]()
     var parentCoordinator: Coordinator?
     
     let navigationController: UINavigationController
     
+//    MARK: - Init
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
     
+//    MARK: - Methods
     func start() {
         (_, _, _) = factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
     }
@@ -27,38 +30,21 @@ class MovieListCoordinator: NavigationCoordinator {
         (_, _, _) = factory(with: detailID, vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
     }
     
-    func toCreditList(with detailID: String, params: [String: String]) {
-        (_, _, _) = factory(with: detailID, vmType: CreditListViewModel.self, vcType: CreditListViewController.self, params: params)
+    func toTrailerList(with detailID: String, params: [String: String]) {
+        (_, _, _) = factory(with: detailID, vmType: MediaTrailerListViewModel.self, vcType: MediaTrailerListViewController.self, params: params)
     }
-    
-    func toPeople(with peopleID: String) {
-        guard let peopleListCoordinator = parentCoordinator as? PeopleListCoordinator else {
-            let peopleListCoordinator = PeopleListCoordinator(navigationController: navigationController)
-            store(peopleListCoordinator)
-            peopleListCoordinator.toDetail(with: peopleID)
-            return
-        }
-        
-        peopleListCoordinator.toDetail(with: peopleID)
-    }
-    
-    func toImageFullScreen(withImageCellViewModel imageCellViewModel: ImageCellViewModel, contentForm: ContentForm) {
-        let fullScreenViewController = FullScreenViewController()
-        let fullScreenViewModel = FullScreenViewModel(withImageCellViewModel: imageCellViewModel, contentForm: contentForm)
-        fullScreenViewModel.coordinator = self
-        fullScreenViewController.viewModel = fullScreenViewModel
-        
-        navigationController.present(fullScreenViewController, animated: true, completion: nil)
-    }
-    
 }
 
-
-
+//  MARK: - extension Equatable
 extension MovieListCoordinator : Equatable {
+    
     static func == (lhs: MovieListCoordinator, rhs: MovieListCoordinator) -> Bool {
         return lhs.identifier == rhs.identifier
     }
-    
-    
 }
+
+//  MARK: - extension ToPeopleRoutable
+extension MovieListCoordinator: ToPeopleRoutable { }
+
+//  MARK: - extension ToImageFullScreenRoutable
+extension MovieListCoordinator: ToImageFullScreenRoutable { }

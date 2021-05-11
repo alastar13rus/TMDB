@@ -104,6 +104,8 @@ class PeopleDetailViewModel: DetailViewModelType {
         guard !images.isEmpty else { return sections }
         var sections = sections
         
+        guard let coordinator = coordinator as? ToImageFullScreenRoutable else { return sections }
+        
         let items: [PeopleDetailCellViewModelMultipleSection.SectionItem] = [.imageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .profile(size: .small)) }, coordinator: coordinator, contentForm: .portrait))]
         
         let imageListSection: PeopleDetailCellViewModelMultipleSection = .imageListSection(title: title, items: items)

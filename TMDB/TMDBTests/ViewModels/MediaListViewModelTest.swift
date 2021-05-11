@@ -242,7 +242,7 @@ extension TmdbAPI.MovieEndpoint: Equatable {
             switch (lhs, rhs) {
             case (.credits(let lhsMediaID) , .credits(let rhsMediaID)):
                 return lhsMediaID == rhsMediaID
-            case (.details(let lhsMediaID) , .details(let rhsMediaID)):
+            case (.details(let lhsMediaID, _, _) , .details(let rhsMediaID, _, _)):
                 return lhsMediaID == rhsMediaID
             case (.nowPlaying(let lhsPage) , .nowPlaying(let rhsPage)):
                 return lhsPage == rhsPage
@@ -265,7 +265,7 @@ extension TmdbAPI.TVEndpoint: Equatable {
             switch (lhs, rhs) {
             case (.credits(let lhsMediaID) , .credits(let rhsMediaID)):
                 return lhsMediaID == rhsMediaID
-            case (.details(let lhsMediaID) , .details(let rhsMediaID)):
+            case (.details(let lhsMediaID, _, _) , .details(let rhsMediaID, _, _)):
                 return lhsMediaID == rhsMediaID
             case (.airingToday(let lhsPage) , .airingToday(let rhsPage)):
                 return lhsPage == rhsPage

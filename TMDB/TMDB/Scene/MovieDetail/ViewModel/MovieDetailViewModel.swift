@@ -21,7 +21,7 @@ class MovieDetailViewModel: DetailViewModelType {
 //    MARK: - Input
     
     struct Input {
-        
+        let selectedItem = PublishRelay<MovieDetailCellViewModelMultipleSection.SectionItem>()
     }
     
     let input = Input()
@@ -43,10 +43,24 @@ class MovieDetailViewModel: DetailViewModelType {
         self.networkManager = networkManager
         self.detailID = detailID
         
+        setupInput()
         setupOutput()
     }
     
 //    MARK: - Methods
+    
+    fileprivate func setupInput() {
+        input.selectedItem
+            .filter { if case .movieTrailerButton = $0 { return true } else { return false } }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self, let coordinator = self.coordinator as? MovieListCoordinator else { return }
+                
+                let params: [String: String] = [
+                    String(describing: MediaType.self): MediaType.movie.rawValue
+                ]
+                coordinator.toTrailerList(with: self.detailID, params: params)
+            }).disposed(by: disposeBag)
+    }
 
     fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
             networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
@@ -69,7 +83,7 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations, .similar, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<MovieDetailModel, Error>) in
+        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]))) { (result: Result<MovieDetailModel, Error>) in
             
             switch result {
             case .success(let movieDetail):
@@ -108,6 +122,7 @@ class MovieDetailViewModel: DetailViewModelType {
         return sections
             .buildSection(withModel: model, andAction: self.configureMoviePosterWrapperSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieImageListSection(withModel:sections:))
+            .buildSection(withModel: model, andAction: self.configureMovieTrailerButtonSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieOverviewSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieRuntimeSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieGenresSection(withModel:sections:))
@@ -140,10 +155,27 @@ class MovieDetailViewModel: DetailViewModelType {
         guard let images = model.images?.backdrops, !images.isEmpty else { return sections }
         var sections = sections
         
+        guard let coordinator = coordinator as? ToImageFullScreenRoutable else { return sections }
+        
         let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [.movieImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) }, coordinator: coordinator, contentForm: .landscape))]
         
         let imageListSection: MovieDetailCellViewModelMultipleSection = .movieImageListSection(title: title, items: items)
         
+        sections.append(imageListSection)
+        return sections
+    }
+    
+    fileprivate func configureMovieTrailerButtonSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+        let title = "Смотреть трейлеры"
+        guard let videos = model.videos?.results, !videos.isEmpty else { return sections }
+        var sections = sections
+
+        let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+            .movieTrailerButton(vm: ButtonCellViewModel(title: title, type: .trailer))
+        ]
+
+        let imageListSection: MovieDetailCellViewModelMultipleSection = .movieTrailerButtonSection(title: title, items: items)
+
         sections.append(imageListSection)
         return sections
     }

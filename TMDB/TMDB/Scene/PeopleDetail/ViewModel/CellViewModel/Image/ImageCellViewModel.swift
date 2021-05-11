@@ -83,9 +83,22 @@ extension ImageCellViewModel {
                 }
                 imageFullURL = fullURL
             }
+        
+        case .still(let size):
+            switch size {
+            case .small:
+                guard let fullURL = ImageURL.still(.w300, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
+            default:
+                guard let fullURL = ImageURL.still(.original, filePath).fullURL else {
+                    completion(nil); return
+                }
+                imageFullURL = fullURL
+            }
         default: break
         }
-        
         
         imageFullURL?.downloadImageData { (data) in
             guard let imageData = data else { completion(nil); return }

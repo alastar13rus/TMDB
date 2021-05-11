@@ -10,6 +10,8 @@ import Foundation
 enum ShowMoreCellType: String {
     case cast
     case crew
+    case tvSeason
+    case tvEpisode
 }
 
 class ShowMoreCellViewModel: Equatable {

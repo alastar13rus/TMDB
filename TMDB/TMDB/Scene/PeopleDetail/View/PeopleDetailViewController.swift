@@ -22,11 +22,9 @@ class PeopleDetailViewController: UIViewController {
     lazy var peopleDetailTableView: UITableView = {
         let tableView = UITableView()
         tableView.tableFooterView = UIView()
-//        tableView.allowsSelection = false
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
-        
     }()
     
 //    MARK: - Lifecycle
@@ -107,13 +105,13 @@ extension PeopleDetailViewController {
         switch dataSource[indexPath] {
         case .profileWrapper(let vm):
             var cellHeight: CGFloat = 0;
-            cellHeight += tableView.calculateCellHeight(withContent: vm.name, font: .boldSystemFont(ofSize: 18))
-            cellHeight += tableView.calculateCellHeight(withContent: vm.job, font: .italicSystemFont(ofSize: 14))
-            cellHeight += tableView.calculateCellHeight(withContent: vm.placeAndBirthdayText, font: .systemFont(ofSize: 16))
+            cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.name, font: .boldSystemFont(ofSize: 18))
+            cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.job, font: .italicSystemFont(ofSize: 14))
+            cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.placeAndBirthdayText, font: .systemFont(ofSize: 16))
             if let deathday = vm.deathdayText {
-                cellHeight += tableView.calculateCellHeight(withContent: deathday, font: .systemFont(ofSize: 16))
+                cellHeight += tableView.calculateCellHeightWithImage(withContent: deathday, font: .systemFont(ofSize: 16))
             }
-//            cellHeight += CGFloat(5 * 12)
+
             return cellHeight > 200 ? cellHeight : 200
         case .imageList: return 200
         case .bio(let vm):
@@ -130,20 +128,7 @@ extension PeopleDetailViewController {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch dataSource[indexPath] {
-        case .profileWrapper: return 200
-        case .imageList: return 200
-        case .bio(let vm):
-            switch bioSectionType {
-            case .full:
-                let cellHeight = tableView.calculateCellHeight(withContent: vm.bio, font: .systemFont(ofSize: 16))
-                return cellHeight > 200 ? cellHeight : 200
-            case .short: return 200
-            }
-        case .bestMedia: return 200
-        case .cast: return 100
-        case .crew: return 100
-        }
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

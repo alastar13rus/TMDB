@@ -18,7 +18,7 @@ class MoviePosterWrapperCellViewModelTest: XCTestCase {
             XCTAssertEqual(moviePosterWrapperCellViewModel.title, "Title")
             XCTAssertEqual(moviePosterWrapperCellViewModel.tagline, "Winter is coming")
             XCTAssertEqual(moviePosterWrapperCellViewModel.voteAverage, 100)
-        XCTAssertEqual(moviePosterWrapperCellViewModel.posterAbsolutePath, ImageURL.poster(.w500, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg").fullURL)
+        XCTAssertEqual(moviePosterWrapperCellViewModel.posterPath, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg")
         XCTAssertEqual(moviePosterWrapperCellViewModel.backdropPath,  "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg")
             XCTAssertEqual(moviePosterWrapperCellViewModel.releaseYear, "2020")
         
@@ -51,9 +51,9 @@ class MoviePosterWrapperCellViewModelTest: XCTestCase {
     }
     
 //    MARK: - Helpers
-    let movieDetail = MovieDetailModel(adult: false, backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", budget: 0, genres: [], homepage: "", id: 1, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCountries: [], productionCompanies: [], releaseDate: "2020-01-01", revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "Winter is coming", title: "Title", voteAverage: 10, voteCount: 0, video: false, credits: nil)
+    let movieDetail = MovieDetailModel(adult: false, backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", budget: 0, genres: [], homepage: "", id: 1, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCountries: [], productionCompanies: [], releaseDate: "2020-01-01", revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "Winter is coming", title: "Title", voteAverage: 10, voteCount: 0, video: false, credits: nil, recommendations: nil, similar: nil, images: nil, videos: nil)
     
-    let movieDetail2 = MovieDetailModel(adult: false, backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", budget: 0, genres: [], homepage: "", id: 1, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "Winter is coming", title: "Title", voteAverage: 10, voteCount: 0, video: false, credits: nil)
+    let movieDetail2 = MovieDetailModel(adult: false, backdropPath: "/iNh3BivHyg5sQRPP1KOkzguEX0H.jpg", budget: 0, genres: [], homepage: "", id: 1, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg", productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "Winter is coming", title: "Title", voteAverage: 10, voteCount: 0, video: false, credits: nil, recommendations: nil, similar: nil, images: nil, videos: nil)
     
 
 }

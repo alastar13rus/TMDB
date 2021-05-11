@@ -40,6 +40,14 @@ class ImageListTableViewCell: UITableViewCell {
             collectionView.showsHorizontalScrollIndicator = false
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             return collectionView
+        case .still:
+            let layout = CollectionViewLayout(countItemsInScrollDirection: 2, scrollDirection: .horizontal, contentForm: .landscape, view: self)
+            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: String(describing: ImageCell.self))
+            collectionView.backgroundColor = .white
+            collectionView.showsHorizontalScrollIndicator = false
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            return collectionView
         default: return UICollectionView()
         }
     }()

@@ -37,11 +37,8 @@ class MediaPosterWrapperView: UIView {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-//        label.text = "Game of Thrones rgree  ebetb errver er et jhfjegwjf hwrw wrkgnmrkwnvj wnrjvn wjrnv jenjv nwr nvkern vkjewnr jkner kjrnjg hjrw "
-//        label.text = "Game of Thrones"
         label.numberOfLines = 5
         label.textColor = .white
-//        label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -49,9 +46,7 @@ class MediaPosterWrapperView: UIView {
     
     let releaseYearLabel: UILabel = {
         let label = UILabel()
-//        label.text = "(2011)"
         label.textColor = .systemGray6
-//        label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -59,7 +54,6 @@ class MediaPosterWrapperView: UIView {
     
     let taglineLabel: UILabel = {
         let label = UILabel()
-//        label.text = "Зима близко"
         label.numberOfLines = 5
         label.textColor = .systemGray6
         label.textAlignment = .center
@@ -71,7 +65,6 @@ class MediaPosterWrapperView: UIView {
     let voteAverageCircleProgressBar: CircleProgressBar = {
         let view = CircleProgressBar()
         view.isAnimating = true
-//        view.progress = 99
         view.textColor = .white
         
         view.translatesAutoresizingMaskIntoConstraints = false

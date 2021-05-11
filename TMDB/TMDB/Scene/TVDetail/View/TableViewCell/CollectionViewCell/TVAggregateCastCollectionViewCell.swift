@@ -10,7 +10,7 @@ import UIKit
 class TVAggregateCastCollectionViewCell: UICollectionViewCell {
     
 //    MARK: - Properties
-    var viewModel: TVAggregateCastCellViewModel! {
+    var viewModel: AggregateCastCellViewModel! {
         didSet {
             configure(with: viewModel)
         }
@@ -67,7 +67,7 @@ class TVAggregateCastCollectionViewCell: UICollectionViewCell {
     
     
 //    MARK: - Methods
-    fileprivate func configure(with vm: TVAggregateCastCellViewModel) {
+    fileprivate func configure(with vm: AggregateCastCellViewModel) {
         nameLabel.text = vm.name
         rolesLabel.text = vm.roles
 

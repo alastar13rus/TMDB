@@ -11,9 +11,9 @@ import XCTest
 class TVDetailViewModelTest: XCTestCase {
     
     func test_init() {
-        let (_, viewModel, _) = tvListCoordinator.factory(with: "100", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
+        let (_, viewModel, _) = tvListCoordinator.factory(with: "1399", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
         
-        XCTAssertEqual(viewModel.detailID, "100")
+        XCTAssertEqual(viewModel.detailID, "1399")
         
         let expectation = self.expectation(description: #function)
         
@@ -26,7 +26,7 @@ class TVDetailViewModelTest: XCTestCase {
     }
     
     func test_fetch() {
-        let (_, viewModel, _) = tvListCoordinator.factory(with: "100", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
+        let (_, viewModel, _) = tvListCoordinator.factory(with: "1399", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
         
         var tvDetail: TVDetailModel?
         let expectation = self.expectation(description: #function)

@@ -13,10 +13,16 @@ class CreditListViewModel: DetailWithParamViewModelType {
     
 //    MARK: - Properties
     let detailID: String
+    let seasonNumber: String
+    let episodeNumber: String
     var api: TmdbAPI {
         switch params[String(describing: Coordinator.self)] {
         case String(describing: TVListCoordinator.self):
             return TmdbAPI.tv(.aggregateCredits(mediaID: detailID))
+        case String(describing: TVSeasonListCoordinator.self):
+            return TmdbAPI.tv(.seasonAggregateCredits(mediaID: detailID, seasonNumber: seasonNumber))
+        case String(describing: TVEpisodeListCoordinator.self):
+            return TmdbAPI.tv(.episodeCredits(mediaID: detailID, seasonNumber: seasonNumber, episodeNumber: episodeNumber))
         default:
             return TmdbAPI.movies(.credits(mediaID: detailID))
         }
@@ -69,6 +75,18 @@ class CreditListViewModel: DetailWithParamViewModelType {
             self.mediaType = .movie
         }
         
+        if let seasonNumber = params["seasonNumber"] {
+            self.seasonNumber = seasonNumber
+        } else {
+            self.seasonNumber = ""
+        }
+        
+        if let episodeNumber = params["episodeNumber"] {
+            self.episodeNumber = episodeNumber
+        } else {
+            self.episodeNumber = ""
+        }
+        
         self.networkManager = networkManager
         
         setupOutput()
@@ -81,16 +99,20 @@ class CreditListViewModel: DetailWithParamViewModelType {
             guard let self = self else { return }
             switch self.coordinator {
             case let coordinator as MovieListCoordinator:
-                self.routingWithMovieCoordinator(coordinator: coordinator, item: $0)
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
             case let coordinator as TVListCoordinator:
-                self.routingWithTVCoordinator(coordinator: coordinator, item: $0)
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
+            case let coordinator as TVSeasonListCoordinator:
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
+            case let coordinator as TVEpisodeListCoordinator:
+                self.routingWithCoordinator(coordinator: coordinator, item: $0)
             default: break
             }
             
         }).disposed(by: disposeBag)
     }
     
-    fileprivate func routingWithMovieCoordinator(coordinator: MovieListCoordinator, item: CreditListViewModelMultipleSection.SectionItem) {
+    fileprivate func routingWithCoordinator<T: ToPeopleRoutable>(coordinator: T, item: CreditListViewModelMultipleSection.SectionItem) {
         switch item {
         case .cast(let vm): coordinator.toPeople(with: vm.id)
         case .crew(let vm): coordinator.toPeople(with: vm.id)
@@ -98,27 +120,6 @@ class CreditListViewModel: DetailWithParamViewModelType {
         case .tvAggregateCrew(let vm): coordinator.toPeople(with: vm.id)
         }
     }
-    
-    fileprivate func routingWithTVCoordinator(coordinator: TVListCoordinator, item: CreditListViewModelMultipleSection.SectionItem) {
-        switch item {
-        case .cast(let vm): coordinator.toPeople(with: vm.id)
-        case .crew(let vm): coordinator.toPeople(with: vm.id)
-        case .tvAggregateCast(let vm): coordinator.toPeople(with: vm.id)
-        case .tvAggregateCrew(let vm): coordinator.toPeople(with: vm.id)
-            
-        }
-    }
-    
-//    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
-//            networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
-//                switch result {
-//                case .success(let creditDetail):
-//                    let peopleID = "\(creditDetail.person.id)"
-//                    completion(peopleID)
-//                case .failure: break
-//                }
-//            })
-//    }
     
     private func fetch<T: CreditListResponseProtocol & Decodable>(completion: @escaping (T) -> Void) {
         networkManager.request(api) { (result: Result<T, Error>) in
@@ -179,7 +180,7 @@ class CreditListViewModel: DetailWithParamViewModelType {
                 case .cast:
                         let title = "Актеры"
                         let items: [CreditListViewModelMultipleSection.SectionItem] =
-                            response.cast.map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCast(vm: TVAggregateCastCellViewModel($0)) }
+                            response.cast.map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCast(vm: AggregateCastCellViewModel($0)) }
                         self.output.sectionedItems.accept([
                             .castSection(title: title, items: items)
                         ])
@@ -188,7 +189,7 @@ class CreditListViewModel: DetailWithParamViewModelType {
                 case .crew:
                     let title = "Съемочная группа"
                 let items: [CreditListViewModelMultipleSection.SectionItem] =
-                    response.crew.sorted(by: >).map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCrew(vm: TVAggregateCrewCellViewModel($0)) }
+                    response.crew.sorted(by: >).map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCrew(vm: AggregateCrewCellViewModel($0)) }
                 self.output.sectionedItems.accept([
                     .crewSection(title: title, items: items)
                 ])

@@ -14,7 +14,7 @@ class FullScreenViewModel {
 //    MARK: - Properties
     let imageCellViewModel = ReplaySubject<ImageCellViewModel>.create(bufferSize: 1)
     let contentForm = ReplaySubject<ContentForm>.create(bufferSize: 1)
-    weak var coordinator: Coordinator?
+    weak var coordinator: (ToImageFullScreenRoutable & NavigationCoordinator)?
     
     
 //    MARK: - Init

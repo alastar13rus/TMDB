@@ -33,3 +33,11 @@ struct MediaImageList: Decodable {
     let backdrops: [ImageModel]
     let posters: [ImageModel]
 }
+
+struct TVSeasonImageList: Decodable {
+    let posters: [ImageModel]
+}
+
+struct TVEpisodeImageList: Decodable {
+    let stills: [ImageModel]
+}

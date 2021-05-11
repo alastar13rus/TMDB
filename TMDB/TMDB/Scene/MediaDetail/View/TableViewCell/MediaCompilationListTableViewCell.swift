@@ -48,11 +48,6 @@ class MediaCompilationListTableViewCell: UITableViewCell {
     fileprivate func configure(with vm: MediaCompilationListViewModel) {
         vm.sectionedItems.asDriver(onErrorJustReturn: []).drive(mediaCompilationListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
-        
-        mediaCompilationListCollectionView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).subscribe(onNext: { (item) in
-            print(item)
-        }).disposed(by: disposeBag)
-        
         mediaCompilationListCollectionView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).bind(to: vm.selectedItem).disposed(by: disposeBag)
     }
     

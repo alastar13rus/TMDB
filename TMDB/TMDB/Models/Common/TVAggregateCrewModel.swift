@@ -22,7 +22,7 @@ struct TVAggregateCrewModel: Decodable {
     let totalEpisodeCount: Int
     
     var departmentOrder: Int {
-        Department.order(by: department)
+        DepartmentHelper.order(by: department)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -65,7 +65,7 @@ extension TVAggregateCrewModel: Equatable {
 extension TVAggregateCrewModel: Comparable {
     static func < (lhs: TVAggregateCrewModel, rhs: TVAggregateCrewModel) -> Bool {
         return
-            lhs.departmentOrder > rhs.departmentOrder &&
+//            lhs.departmentOrder > rhs.departmentOrder &&
             lhs.totalEpisodeCount < rhs.totalEpisodeCount
     }
 }
