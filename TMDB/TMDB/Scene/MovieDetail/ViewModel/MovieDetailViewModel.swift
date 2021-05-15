@@ -8,8 +8,9 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
 
-class MovieDetailViewModel: DetailViewModelType {
+class MovieDetailViewModel {
     
 //    MARK: - Properties
     let networkManager: NetworkManagerProtocol
@@ -53,12 +54,12 @@ class MovieDetailViewModel: DetailViewModelType {
         input.selectedItem
             .filter { if case .movieTrailerButton = $0 { return true } else { return false } }
             .subscribe(onNext: { [weak self] _ in
-                guard let self = self, let coordinator = self.coordinator as? MovieListCoordinator else { return }
+                guard let self = self, let coordinator = self.coordinator as? MovieFlowCoordinator else { return }
                 
                 let params: [String: String] = [
                     String(describing: MediaType.self): MediaType.movie.rawValue
                 ]
-                coordinator.toTrailerList(with: self.detailID, params: params)
+                coordinator.toTrailerList(with: self.detailID, mediaType: .movie)
             }).disposed(by: disposeBag)
     }
 
@@ -254,7 +255,7 @@ class MovieDetailViewModel: DetailViewModelType {
         if crewCount > limit { items.append(contentsOf: showMoreSection) }
         
         let movieCrewListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCrewList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .crew))
+            .movieCrewList(vm: CreditShortListViewModel(title: title, items: items, creditType: .crew, mediaType: .movie, delegate: self))
         ]
         
         let movieCrewListSection: MovieDetailCellViewModelMultipleSection =
@@ -286,7 +287,7 @@ class MovieDetailViewModel: DetailViewModelType {
         if castCount > limit { items.append(contentsOf: showMoreSection) }
         
         let movieCastListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCastList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .cast))
+            .movieCastList(vm: CreditShortListViewModel(title: title, items: items, creditType: .cast, mediaType: .movie, delegate: self))
         ]
         
         let movieCastListSection: MovieDetailCellViewModelMultipleSection =
@@ -328,3 +329,12 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
 }
+
+extension MovieDetailViewModel: CreditShortListViewModelDelegate {
+    var creditShortListDelegateCoordinator: ToPeopleRoutable? { coordinator as? ToPeopleRoutable }
+    var mediaID: String { detailID }
+    var mediaType: MediaType { .movie }
+    var delegateSeasonNumber: String? { nil }
+    var delegateEpisodeNumber: String? { nil }
+}
+

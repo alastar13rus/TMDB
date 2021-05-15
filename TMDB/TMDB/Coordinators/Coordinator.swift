@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 protocol Coordinator: class {
     
@@ -37,47 +38,6 @@ extension Coordinator {
 }
 
 protocol NavigationCoordinator: Coordinator {
+    var container: Container { get }
     var navigationController: UINavigationController { get }
-}
-
-extension NavigationCoordinator {
-    
-    func factory<M: GeneralViewModelType, C: BindableType & UIViewController>(vmType: M.Type, vcType: C.Type) -> (coordinator: Self, viewModel: M, viewController: C) {
-        
-        let networkManager: NetworkManagerProtocol = NetworkManager()
-        
-        let viewController = C()
-        let viewModel = M(networkManager: networkManager)
-        viewModel.coordinator = self
-        viewController.bindViewModel(to: viewModel as! C.ViewModelType)
-        if (self.navigationController.viewControllers.isEmpty) {
-            self.navigationController.pushViewController(viewController, animated: true)
-        }
-        return (self, viewModel, viewController)
-    }
-    
-    func factory<M: DetailViewModelType, C: BindableType & UIViewController>(with detailID: String, vmType: M.Type, vcType: C.Type) -> (coordinator: Self, viewModel: M, viewController: C) {
-        
-        let networkManager: NetworkManagerProtocol = NetworkManager()
-        
-        let viewController = C()
-        let viewModel = M(with: detailID, networkManager: networkManager)
-        viewModel.coordinator = self
-        viewController.bindViewModel(to: viewModel as! C.ViewModelType)
-        self.navigationController.pushViewController(viewController, animated: true)
-        return (self, viewModel, viewController)
-    }
-    
-    func factory<M: DetailWithParamViewModelType, C: BindableType & UIViewController>(with detailID: String, vmType: M.Type, vcType: C.Type, params: [String:String]) -> (coordinator: Self, viewModel: M, viewController: C) {
-        
-        let networkManager: NetworkManagerProtocol = NetworkManager()
-        
-        let viewController = C()
-        let viewModel = M(with: detailID, networkManager: networkManager, params: params)
-        viewModel.coordinator = self
-        viewController.bindViewModel(to: viewModel as! C.ViewModelType)
-        self.navigationController.pushViewController(viewController, animated: true)
-        return (self, viewModel, viewController)
-    }
-    
 }

@@ -12,7 +12,7 @@ class MovieDetailDataSourceTest: XCTestCase {
     
     func test_dataSource() {
         
-        let coordinator = MovieListCoordinator(navigationController: UINavigationController())
+        let coordinator = MovieFlowCoordinator(navigationController: UINavigationController())
         let (_, viewModel, controller) = coordinator.factory(with: "761053", vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
         
         let movieDetailModel = MovieDetailModel(adult: false, backdropPath: nil, budget: 0, genres: [], homepage: "", id: 761053, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: nil, productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "", title: "Title 1", voteAverage: 0, voteCount: 0, video: false, credits: nil, recommendations: nil, similar: nil, images: nil, videos: nil)

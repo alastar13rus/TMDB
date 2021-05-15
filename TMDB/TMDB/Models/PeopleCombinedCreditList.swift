@@ -133,12 +133,9 @@ struct GroupedCreditInMediaModel: Decodable, IdentifiableType, Comparable {
    
     var releaseYear: String {
         switch mediaType {
-        case .movie:
+        case .movie, .tv, .tvSeason, .tvEpisode:
             guard let releaseDate = releaseDate else { return "" }
             return "\(releaseDate.prefix(4))"
-        case .tv:
-            guard let firstAirDate = firstAirDate else { return "" }
-            return "\(firstAirDate.prefix(4))"
         }
     }
     

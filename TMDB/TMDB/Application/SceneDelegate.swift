@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var appCoordinator: Coordinator?
-
+    var appFlowCoordinator: Coordinator?
+    var appDIContainer = AppDIContainer.shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
@@ -23,8 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = UITabBarController()
         
-        appCoordinator = AppCoordinator(window: window, tabBarController: tabBarController)
-        appCoordinator?.start()
+        appFlowCoordinator = AppFlowCoordinator(window: window, tabBarController: tabBarController, container: appDIContainer)
+        appFlowCoordinator?.start()
         
     }
 

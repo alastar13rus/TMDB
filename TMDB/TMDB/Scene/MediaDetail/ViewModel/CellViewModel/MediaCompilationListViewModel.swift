@@ -31,6 +31,7 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
                 movieItems = items.map { MediaCellViewModelMultipleSection.SectionItem.movie(vm: $0) }
             case .tv:
                 tvItems = items.map { MediaCellViewModelMultipleSection.SectionItem.tv(vm: $0) }
+            default: break
             }
         }
         
@@ -71,10 +72,10 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
             
             switch $0 {
             case .movie(let vm):
-                guard let coordinator = self.coordinator as? MovieListCoordinator else { return }
+                guard let coordinator = self.coordinator as? MovieFlowCoordinator else { return }
                 coordinator.toDetail(with: vm.id)
             case .tv(let vm):
-                guard let coordinator = self.coordinator as? TVListCoordinator else { return }
+                guard let coordinator = self.coordinator as? TVFlowCoordinator else { return }
                 coordinator.toDetail(with: vm.id)
             }
         }).disposed(by: disposedBag)

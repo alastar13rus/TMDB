@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 class TabBarCoordinator: Coordinator {
     
@@ -13,6 +14,7 @@ class TabBarCoordinator: Coordinator {
     var childCoordinators = [UUID : Coordinator]()
     var parentCoordinator: Coordinator?
     
+    let container: Container
     let window: UIWindow
     let items: [UINavigationController]
     let dataSource = TabBarControllerDataSource()
@@ -25,9 +27,10 @@ class TabBarCoordinator: Coordinator {
         return tabBarController
     }()
     
-    init(window: UIWindow) {
+    init(window: UIWindow, container: Container) {
         self.window = window
         self.items = dataSource.items
+        self.container = container
     }
     
     func start() {
@@ -37,18 +40,17 @@ class TabBarCoordinator: Coordinator {
     }
     
     public func showMovieTab() {
-        let movieListCoordinator = MovieListCoordinator(navigationController: items[0])
-        coordinate(to: movieListCoordinator)
+        let movieFlowCoordinator = MovieFlowCoordinator(navigationController: items[0], container: container)
+        coordinate(to: movieFlowCoordinator)
     }
     
     public func showTVTab() {
-        let tvListCoordinator = TVListCoordinator(navigationController: items[1])
-        coordinate(to: tvListCoordinator)
+        let tvFlowCoordinator = TVFlowCoordinator(navigationController: items[1], container: container)
+        coordinate(to: tvFlowCoordinator)
     }
     
     public func showFavoriteTab() {
-//        let favoriteListCoordinator = FavoriteListCoordinator(navigationController: items[2])
-//        coordinate(to: favoriteListCoordinator)
+        
     }
     
     

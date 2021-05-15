@@ -65,7 +65,7 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
 //    MARK: - Methods
     fileprivate func subscribing() {
         self.selectedCredit.subscribe(onNext: { [weak self] in
-            guard let self = self, let coordinator = self.coordinator as? PeopleListCoordinator else { return }
+            guard let self = self, let coordinator = self.coordinator as? PeopleFlowCoordinator else { return }
             switch $0 {
             case .creditInMovie(let vm):
                 coordinator.toMovieDetail(with: vm.id)

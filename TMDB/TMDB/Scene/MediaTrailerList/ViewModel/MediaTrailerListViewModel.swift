@@ -8,14 +8,17 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
 
-class MediaTrailerListViewModel: DetailWithParamViewModelType {
+class MediaTrailerListViewModel {
     
 //    MARK: - Properties
     weak var coordinator: Coordinator?
     let networkManager: NetworkManagerProtocol
     let disposeBag = DisposeBag()
     let mediaID: String
+    var seasonNumber: String = ""
+    var episodeNumber: String = ""
     let mediaType: MediaType
     var api: TmdbAPI {
         switch mediaType {
@@ -23,6 +26,10 @@ class MediaTrailerListViewModel: DetailWithParamViewModelType {
             return TmdbAPI.movies(.videos(mediaID: mediaID))
         case .tv:
             return TmdbAPI.tv(.videos(mediaID: mediaID))
+        case .tvSeason:
+            return TmdbAPI.tv(.seasonVideos(mediaID: mediaID, seasonNumber: seasonNumber))
+        case .tvEpisode:
+            return TmdbAPI.tv(.episodeVideos(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber))
         }
     }
     
@@ -38,19 +45,33 @@ class MediaTrailerListViewModel: DetailWithParamViewModelType {
     }
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol, params: [String : String]) {
+    init(with mediaID: String, mediaType: MediaType, networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
-        
-        self.mediaID = detailID
-        if let rawValue = params[String(describing: MediaType.self)], let mediaType = MediaType(rawValue: rawValue) {
-            self.mediaType = mediaType
-        } else {
-            self.mediaType = .movie
-        }
+        self.mediaID = mediaID
+        self.mediaType = mediaType
         
         setupOutput()
     }
     
+    init(with mediaID: String, mediaType: MediaType, seasonNumber: String, networkManager: NetworkManagerProtocol) {
+        self.networkManager = networkManager
+        self.mediaID = mediaID
+        self.mediaType = mediaType
+        self.seasonNumber = seasonNumber
+        
+        setupOutput()
+    }
+    
+    init(with mediaID: String, mediaType: MediaType, seasonNumber: String, episodeNumber: String, networkManager: NetworkManagerProtocol) {
+        self.networkManager = networkManager
+        self.mediaID = mediaID
+        self.mediaType = mediaType
+        self.seasonNumber = seasonNumber
+        self.episodeNumber = episodeNumber
+        
+        setupOutput()
+    }
+        
 //    MARK: - Methods
     fileprivate func setupOutput() {
         fetch { [weak self] (trailerList) in

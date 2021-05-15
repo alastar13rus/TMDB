@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EpisodeCreditList: Decodable {
+struct EpisodeCreditList: CreditListResponseProtocol, Decodable {
     
     let cast: [CastModel]
     let crew: [CrewModel]

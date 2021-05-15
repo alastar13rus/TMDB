@@ -12,7 +12,7 @@ class MediaListDataSourceTest: XCTestCase {
     
     func test_dataSourceWithMovies() {
         
-        let coordinator = MovieListCoordinator(navigationController: UINavigationController())
+        let coordinator = MovieFlowCoordinator(navigationController: UINavigationController())
         let (_, viewModel, controller) = coordinator.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
         
         let items: [MediaCellViewModelMultipleSection.SectionItem] = [
@@ -46,7 +46,7 @@ class MediaListDataSourceTest: XCTestCase {
     
     func test_dataSourceWithTV() {
         
-        let coordinator = TVListCoordinator(navigationController: UINavigationController())
+        let coordinator = TVFlowCoordinator(navigationController: UINavigationController())
         let (_, viewModel, controller) = coordinator.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
         
         let items: [MediaCellViewModelMultipleSection.SectionItem] = [

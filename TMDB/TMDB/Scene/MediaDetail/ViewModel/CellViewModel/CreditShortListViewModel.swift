@@ -10,16 +10,49 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
+protocol CreditShortListViewModelDelegate: class {
+    var creditShortListDelegateCoordinator: ToPeopleRoutable? { get }
+    var mediaID: String { get }
+    var mediaType: MediaType { get }
+    var delegateSeasonNumber: String? { get }
+    var delegateEpisodeNumber: String? { get }
+    func routing(item: CreditCellViewModelMultipleSection.SectionItem, creditType: CreditType)
+}
+
+extension CreditShortListViewModelDelegate {
+    func routing(item: CreditCellViewModelMultipleSection.SectionItem, creditType: CreditType) {
+        guard let coordinator = creditShortListDelegateCoordinator else { return }
+        switch item {
+        case .cast(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .aggregateCast(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .crew(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .aggregateCrew(let vm):
+            coordinator.toPeople(with: vm.id)
+        case .showMore:
+            switch coordinator {
+            case is MovieFlowCoordinator: coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: nil, episodeNumber: nil)
+            case is TVFlowCoordinator: coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: nil, episodeNumber: nil)
+            case is TVSeasonFlowCoordinator:
+                guard let seasonNumber = delegateSeasonNumber else { return }
+                coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: nil)
+            case is TVEpisodeFlowCoordinator:
+                guard let seasonNumber = delegateSeasonNumber, let episodeNumber = delegateEpisodeNumber else { return }
+                coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
+            default: break
+            }
+        }
+    }
+}
+
 class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
 
     var identity: String { return title }
     let title: String
     let items: [CreditCellViewModelMultipleSection.SectionItem]
-    weak var coordinator: Coordinator?
-    var networkManager: NetworkManagerProtocol?
-    var mediaID = ""
-    var seasonNumber = ""
-    var episodeNumber = ""
+    weak var delegate: CreditShortListViewModelDelegate?
     var creditType: CreditType = .cast
     let disposeBag = DisposeBag()
 
@@ -41,6 +74,7 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
         
         switch creditType {
         case .cast: return .just([castSection, showMoreSection])
+        case .guestStars: return .just([castSection, showMoreSection])
         case .crew: return .just([crewSection, showMoreSection])
         }
         
@@ -61,103 +95,19 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
 //    MARK: - Methods
     fileprivate func subscribing() {
         self.selectedItem.subscribe(onNext: {  [weak self] in
-            guard let self = self else { return }
-            
-            switch self.coordinator {
-            case let coordinator as MovieListCoordinator:
-                self.routingWithCoordinator(coordinator: coordinator, item: $0)
-                
-            case let coordinator as TVListCoordinator:
-                self.routingWithCoordinator(coordinator: coordinator, item: $0)
-                
-            case let coordinator as TVSeasonListCoordinator:
-                self.routingWithCoordinator(coordinator: coordinator, item: $0)
-                
-            case let coordinator as TVEpisodeListCoordinator:
-                self.routingWithCoordinator(coordinator: coordinator, item: $0)
-                
-            default: break
-            }
-            
-            
+            guard let self = self, let delegate = self.delegate else { return }
+            delegate.routing(item: $0, creditType: self.creditType)
         }).disposed(by: disposeBag)
     }
 }
 
-//  MARK: - extension
 extension CreditShortListViewModel {
     
-    fileprivate func routingWithCoordinator<T: ToPeopleRoutable>(coordinator: T, item: CreditCellViewModelMultipleSection.SectionItem) {
-        switch item {
-        case .cast(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .aggregateCast(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .crew(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .aggregateCrew(let vm):
-            coordinator.toPeople(with: vm.id)
-        case .showMore(let vm):
-            var params: [String: String] = [
-                String(describing: CreditType.self): vm.type.rawValue,
-                String(describing: Coordinator.self): String(describing: T.self)
-            ]
-            
-            switch coordinator {
-            case is MovieListCoordinator:
-                params[String(describing: MediaType.self)] = MediaType.movie.rawValue
-            case is TVListCoordinator:
-                params[String(describing: MediaType.self)] = MediaType.tv.rawValue
-            case is TVSeasonListCoordinator:
-                params[String(describing: MediaType.self)] = MediaType.tv.rawValue
-                params["seasonNumber"] = seasonNumber
-            default: break
-            }
-            
-            coordinator.toCreditList( with: self.mediaID, params: params)
-        }
-    }
-    
-}
-
-extension CreditShortListViewModel {
-    
-    convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaID: String, creditType: CreditType) {
+    convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], creditType: CreditType, mediaType: MediaType, delegate: CreditShortListViewModelDelegate?) {
         self.init(title: title, items: items)
-        self.coordinator = coordinator
-        self.mediaID = mediaID
+        self.delegate = delegate
         self.creditType = creditType
-        self.networkManager = networkManager
-        
-        subscribing()
-    }
-}
 
-extension CreditShortListViewModel {
-    
-    convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaID: String, seasonNumber: String, creditType: CreditType) {
-        self.init(title: title, items: items)
-        self.coordinator = coordinator
-        self.mediaID = mediaID
-        self.seasonNumber = seasonNumber
-        self.creditType = creditType
-        self.networkManager = networkManager
-        
-        subscribing()
-    }
-}
-
-extension CreditShortListViewModel {
-    
-    convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaID: String, seasonNumber: String, episodeNumber: String, creditType: CreditType) {
-        self.init(title: title, items: items)
-        self.coordinator = coordinator
-        self.mediaID = mediaID
-        self.seasonNumber = seasonNumber
-        self.episodeNumber = episodeNumber
-        self.creditType = creditType
-        self.networkManager = networkManager
-        
         subscribing()
     }
 }

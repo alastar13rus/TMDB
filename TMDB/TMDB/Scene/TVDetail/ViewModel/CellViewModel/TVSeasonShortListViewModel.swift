@@ -9,13 +9,30 @@ import Foundation
 import RxSwift
 import RxRelay
 
+protocol TVSeasonShortListViewModelDelegate: class {
+    var tvSeasonShortListDelegateCoordinator: ToSeasonRoutable? { get }
+    var mediaID: String { get }
+    func routing(item: TVSeasonCellViewModelMultipleSection.SectionItem)
+}
+
+extension TVSeasonShortListViewModelDelegate {
+    func routing(item: TVSeasonCellViewModelMultipleSection.SectionItem) {
+        guard let coordinator = tvSeasonShortListDelegateCoordinator else { return }
+        switch item {
+        case .season(let vm):
+            coordinator.toSeason(with: mediaID, seasonNumber: vm.seasonNumber)
+        case .showMore:
+            coordinator.toSeasonList(with: mediaID)
+        }
+    }
+}
+
 class TVSeasonShortListViewModel {
     
 //    MARK: - Properties
     let title: String
     let items: [TVSeasonCellViewModelMultipleSection.SectionItem]
-    let mediaID: String
-    weak var coordinator: Coordinator?
+    weak var tvSeasonShortListDelegate: TVSeasonShortListViewModelDelegate?
     let disposeBag = DisposeBag()
     
     
@@ -42,24 +59,18 @@ class TVSeasonShortListViewModel {
     let selectedItem = PublishRelay<TVSeasonCellViewModelMultipleSection.SectionItem>()
     
 //    MARK: - Init
-    init(title: String, items: [TVSeasonCellViewModelMultipleSection.SectionItem], mediaID: String, coordinator: Coordinator?) {
+    init(title: String, items: [TVSeasonCellViewModelMultipleSection.SectionItem], mediaID: String, delegate: TVSeasonShortListViewModelDelegate?) {
         self.title = title
         self.items = items
-        self.mediaID = mediaID
-        self.coordinator = coordinator
+        self.tvSeasonShortListDelegate = delegate
         
         subscribe()
     }
     
     fileprivate func subscribe() {
         selectedItem.subscribe(onNext: { [weak self] in
-            guard let self = self, let coordinator = self.coordinator as? TVListCoordinator else { return }
-            switch $0 {
-            case .season(let vm):
-                coordinator.toSeason(with: vm.seasonNumber, params: ["mediaID": self.mediaID])
-            case .showMore:
-                coordinator.toSeasonList(with: self.mediaID)
-            }
+            guard let self = self, let delegate = self.tvSeasonShortListDelegate else { return }
+            switch $0 { case .season, .showMore: delegate.routing(item: $0) }
         }).disposed(by: disposeBag)
     }
 }

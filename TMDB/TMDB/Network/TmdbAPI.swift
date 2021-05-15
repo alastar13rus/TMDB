@@ -80,11 +80,15 @@ enum TmdbAPI: API {
             case .seasonAggregateCredits(let mediaID, let seasonNumber):
                 return "/3/tv/" + mediaID + "/season/" + seasonNumber + "/aggregate_credits"
             case .episodeCredits(let mediaID, let seasonNumber, let episodeNumber):
-                return "/3/tv/" + mediaID + "/season/" + seasonNumber + "/episode" + episodeNumber + "/credits"
+                return "/3/tv/" + mediaID + "/season/" + seasonNumber + "/episode/" + episodeNumber + "/credits"
             case .credits(let mediaID):
                 return "/3/tv/" + mediaID + "/credits"
             case .videos(let mediaID):
                 return "/3/tv/" + mediaID + "/videos"
+            case .seasonVideos(let mediaID, let seasonNumber):
+                return "/3/tv/" + mediaID + "/season/" + seasonNumber + "/videos"
+            case .episodeVideos(let mediaID, let seasonNumber, let episodeNumber):
+                return "/3/tv/" + mediaID + "/season/" + seasonNumber + "/episode/" + episodeNumber + "/videos"
             }
             
         case .people(let endpoint):
@@ -224,6 +228,18 @@ enum TmdbAPI: API {
                     URLQueryItem(name: "language", value: Language.en.rawValue),
                     URLQueryItem(name: "api_key", value: Self.apiKey),
                 ]
+                
+            case .seasonVideos:
+                return [
+                    URLQueryItem(name: "language", value: Language.en.rawValue),
+                    URLQueryItem(name: "api_key", value: Self.apiKey),
+                ]
+                
+            case .episodeVideos:
+                return [
+                    URLQueryItem(name: "language", value: Language.en.rawValue),
+                    URLQueryItem(name: "api_key", value: Self.apiKey),
+                ]
             }
             
         case .people(let endpoint):
@@ -279,7 +295,10 @@ enum TmdbAPI: API {
         case episodeCredits(mediaID: String, seasonNumber: String, episodeNumber: String)
         
         case credits(mediaID: String)
+        
         case videos(mediaID: String)
+        case seasonVideos(mediaID: String, seasonNumber: String)
+        case episodeVideos(mediaID: String, seasonNumber: String, episodeNumber: String)
     }
     
     enum PeopleEndpoint {

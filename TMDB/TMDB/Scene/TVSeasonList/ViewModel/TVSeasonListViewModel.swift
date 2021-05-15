@@ -8,8 +8,9 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
 
-class TVSeasonListViewModel: DetailViewModelType {
+class TVSeasonListViewModel {
     
 //    MARK: - Properties
     let networkManager: NetworkManagerProtocol
@@ -21,7 +22,7 @@ class TVSeasonListViewModel: DetailViewModelType {
     let output = Output()
     
     struct Input {
-        
+        let selectedItem = PublishRelay<TVSeasonCellViewModelMultipleSection.SectionItem>()
     }
     
     struct Output {
@@ -30,14 +31,25 @@ class TVSeasonListViewModel: DetailViewModelType {
     
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol) {
+    required init(with mediaID: String, networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
-        self.mediaID = detailID
+        self.mediaID = mediaID
         
+        setupInput()
         setupOutput()
     }
     
 //    MARK: - Methods
+    fileprivate func setupInput() {
+        input.selectedItem.subscribe(onNext: { [weak self] in
+            guard let self = self, let coordinator = self.coordinator as? TVFlowCoordinator else { return }
+            switch $0 {
+            case .season(let vm): coordinator.toSeason(with: self.mediaID, seasonNumber: vm.seasonNumber)
+            default: break
+            }
+        }).disposed(by: disposeBag)
+    }
+    
     fileprivate func setupOutput() {
         fetch { [weak self] (tvDetail) in
             guard let self = self else { return }

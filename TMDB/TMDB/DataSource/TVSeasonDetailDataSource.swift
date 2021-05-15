@@ -62,7 +62,11 @@ struct TVSeasonDetailDataSource: DataSourceProtocol {
         }
         
         let titleForHeaderInSection: DataSource.TitleForHeaderInSection = { (dataSource, section) -> String? in
-            return nil
+            switch dataSource[section] {
+            case .tvSeasonCrewShortListSection(let title, _): return title
+            case .tvSeasonCastShortListSection(let title, _): return title
+            default: return nil
+            }
         }
         
         return DataSource(

@@ -8,8 +8,9 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
 
-class TVEpisodeListViewModel: DetailWithParamViewModelType {
+class TVEpisodeListViewModel {
     
 //    MARK: - Properties
     let networkManager: NetworkManagerProtocol
@@ -17,12 +18,12 @@ class TVEpisodeListViewModel: DetailWithParamViewModelType {
     weak var coordinator: Coordinator?
     
     let mediaID: String
-    var seasonNumber: String = ""
+    let seasonNumber: String
     let input = Input()
     let output = Output()
     
     struct Input {
-        
+        let selectedItem = PublishRelay<TVEpisodeCellViewModelMultipleSection.SectionItem>()
     }
     
     struct Output {
@@ -31,15 +32,26 @@ class TVEpisodeListViewModel: DetailWithParamViewModelType {
     
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol, params: [String: String]) {
+    required init(with mediaID: String, seasonNumber: String, networkManager: NetworkManagerProtocol) {
         self.networkManager = networkManager
-        self.mediaID = detailID
-        if let seasonNumber = params["seasonNumber"] { self.seasonNumber = seasonNumber }
+        self.mediaID = mediaID
+        self.seasonNumber = seasonNumber
         
+        setupInput()
         setupOutput()
     }
     
 //    MARK: - Methods
+    fileprivate func setupInput() {
+        input.selectedItem.subscribe(onNext: { [weak self] in
+            guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }
+            switch $0 {
+            case .episode(let vm): coordinator.toEpisode(with: self.mediaID, seasonNumber: vm.seasonNumber, episodeNumber: vm.episodeNumber)
+            default: break
+            }
+        }).disposed(by: disposeBag)
+    }
+    
     fileprivate func setupOutput() {
         fetch { [weak self] (tvSeasonDetail) in
             guard let self = self else { return }

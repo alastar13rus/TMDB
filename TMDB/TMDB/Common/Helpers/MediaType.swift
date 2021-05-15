@@ -10,4 +10,6 @@ import Foundation
 enum MediaType: String, Decodable {
     case movie
     case tv
+    case tvSeason
+    case tvEpisode
 }

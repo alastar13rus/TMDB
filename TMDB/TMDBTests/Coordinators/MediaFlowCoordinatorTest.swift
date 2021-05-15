@@ -1,5 +1,5 @@
 //
-//  MediaListCoordinatorTest.swift
+//  MediaFlowCoordinatorTest.swift
 //  TMDBTests
 //
 //  Created by Докин Андрей (IOS) on 17.03.2021.
@@ -8,17 +8,17 @@
 import XCTest
 @testable import TMDB
 
-class MediaListCoordinatorTest: XCTestCase {
+class MediaFlowCoordinatorTest: XCTestCase {
     
     func test_factory() {
         let (coordinator, viewModel, viewController) = sut.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
         
         XCTAssertEqual(viewController.viewModel, viewModel)
-        XCTAssertEqual(viewModel.coordinator as! MovieListCoordinator, coordinator)
+        XCTAssertEqual(viewModel.coordinator as! MovieFlowCoordinator, coordinator)
     }
     
 //    MARK: - Helpers
-    let sut = MovieListCoordinator(navigationController: UINavigationController())
+    let sut = MovieFlowCoordinator(navigationController: UINavigationController())
     
 }
 

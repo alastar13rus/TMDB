@@ -8,18 +8,19 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
 
-class MediaListViewModel: GeneralViewModelType {
+class MediaListViewModel {
     
 
 //    MARK: - Properties
     let networkManager: NetworkManagerProtocol
     weak var coordinator: Coordinator? {
         didSet {
-            if coordinator is MovieListCoordinator {
+            if coordinator is MovieFlowCoordinator {
                 screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo)
             }
-            if coordinator is TVListCoordinator {
+            if coordinator is TVFlowCoordinator {
                 screen = .tv(MediaListTableViewDataSource.Screen.tvListInfo)
             }
         }
@@ -247,11 +248,11 @@ class MediaListViewModel: GeneralViewModelType {
         }).disposed(by: disposeBag)
         
         input.selectedMedia.subscribe(onNext: { [weak self] (mediaCellViewModel: MediaCellViewModel) in
-            if let self = self, let coordinator = self.coordinator as? MovieListCoordinator {
+            if let self = self, let coordinator = self.coordinator as? MovieFlowCoordinator {
                 coordinator.toDetail(with: mediaCellViewModel.id)
             }
             
-            if let self = self, let coordinator = self.coordinator as? TVListCoordinator {
+            if let self = self, let coordinator = self.coordinator as? TVFlowCoordinator {
                 coordinator.toDetail(with: mediaCellViewModel.id)
             }
             

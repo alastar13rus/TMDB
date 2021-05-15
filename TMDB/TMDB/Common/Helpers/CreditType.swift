@@ -10,4 +10,5 @@ import Foundation
 enum CreditType: String {
     case cast
     case crew
+    case guestStars
 }

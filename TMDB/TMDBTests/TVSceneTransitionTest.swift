@@ -12,7 +12,7 @@ class TVSceneTransitionTest: XCTestCase {
     
     func test_tvListTransitionToTVDetail_navigationControllerState() {
         
-        let sut = spyTVListCoordinator.factory(vmType: SpyTVListViewModel.self, vcType: SpyTVListViewController.self)
+        let sut = spyTVFlowCoordinator.factory(vmType: SpyTVListViewModel.self, vcType: SpyTVListViewController.self)
         
         
         let expectation = self.expectation(description: #function)
@@ -35,7 +35,7 @@ class TVSceneTransitionTest: XCTestCase {
     
     func test_tvListTransitionToTVDetail_mediaIDIsEqualToTVDetailID() {
         
-        let sut = spyTVListCoordinator.factory(vmType: SpyTVListViewModel.self, vcType: SpyTVListViewController.self)
+        let sut = spyTVFlowCoordinator.factory(vmType: SpyTVListViewModel.self, vcType: SpyTVListViewController.self)
         
         
         let expectation = self.expectation(description: #function)
@@ -68,8 +68,8 @@ class TVSceneTransitionTest: XCTestCase {
     
     
 //    MARK: - Helpers
-    var spyTVListCoordinator = SpyTVListCoordinator(navigationController: UINavigationController())
-    class SpyTVListCoordinator: TVListCoordinator { }
+    var spyTVFlowCoordinator = SpyTVFlowCoordinator(navigationController: UINavigationController())
+    class SpyTVFlowCoordinator: TVFlowCoordinator { }
     class SpyTVListViewModel: MediaListViewModel { }
     class SpyTVListViewController: MediaListViewController { }
 
