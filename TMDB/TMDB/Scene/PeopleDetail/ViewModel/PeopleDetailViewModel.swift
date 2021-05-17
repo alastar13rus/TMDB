@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Domain
 
 class PeopleDetailViewModel {
     

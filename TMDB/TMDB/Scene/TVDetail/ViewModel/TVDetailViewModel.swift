@@ -10,6 +10,7 @@ import RxSwift
 import RxRelay
 import RxDataSources
 import Swinject
+import Domain
 
 class TVDetailViewModel {
     

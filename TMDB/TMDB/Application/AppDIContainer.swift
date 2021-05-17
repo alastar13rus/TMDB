@@ -7,6 +7,7 @@
 
 import Foundation
 import Swinject
+import Domain
 
 class AppDIContainer {
     static let shared: Container = {

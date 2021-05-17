@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import Swinject
+import Domain
 
 class MediaListViewModel {
     

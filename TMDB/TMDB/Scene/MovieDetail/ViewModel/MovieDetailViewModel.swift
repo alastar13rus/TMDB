@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import Swinject
+import Domain
 
 class MovieDetailViewModel {
     
@@ -64,7 +65,7 @@ class MovieDetailViewModel {
     }
 
     fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
-            networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
+        networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
                 switch result {
                 case .success(let creditDetail):
                     let peopleID = "\(creditDetail.person.id)"

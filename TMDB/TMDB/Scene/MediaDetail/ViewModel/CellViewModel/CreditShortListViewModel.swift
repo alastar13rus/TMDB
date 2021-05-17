@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxDataSources
+import Domain
 
 protocol CreditShortListViewModelDelegate: class {
     var creditShortListDelegateCoordinator: ToPeopleRoutable? { get }

@@ -7,6 +7,7 @@
 
 import UIKit
 import Swinject
+import Domain
 
 protocol ToPeopleRoutable: NavigationCoordinator {
     func toPeople(with: String)

@@ -7,6 +7,7 @@
 
 import UIKit
 import Swinject
+import Domain
 
 protocol ToSeasonRoutable: NavigationCoordinator {
     func toSeason(with mediaID: String, seasonNumber: String)
