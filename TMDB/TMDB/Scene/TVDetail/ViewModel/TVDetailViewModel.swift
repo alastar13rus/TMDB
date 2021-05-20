@@ -11,11 +11,12 @@ import RxRelay
 import RxDataSources
 import Swinject
 import Domain
+import NetworkPlatform
 
 class TVDetailViewModel {
     
 //    MARK: - Properties
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
     let detailID: String
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
@@ -44,8 +45,8 @@ class TVDetailViewModel {
     let output = Output()
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol) {
-        self.networkManager = networkManager
+    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
         self.detailID = detailID
         
         setupInput()
@@ -79,7 +80,9 @@ class TVDetailViewModel {
     }
     
     func fetch(completion: @escaping (TVDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.tv(.details(mediaID: detailID, appendToResponse: [.aggregateCredits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]))) { (result: Result<TVDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makeTVDetailUseCase()
+        useCase.details(mediaID: detailID, appendToResponse: [.aggregateCredits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { (result: Result<TVDetailModel, Error>) in
             
             switch result {
             case .success(let tvDetail):
@@ -345,7 +348,7 @@ class TVDetailViewModel {
         let section: [MediaCellViewModel] = tvList.map { MediaCellViewModel($0) }
         
         let tvListSectionItems: [TVDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, networkManager: networkManager, mediaListType: mediaListType))
+            .tvCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, useCaseProvider: useCaseProvider, mediaListType: mediaListType))
         ]
         
         let tvListSection: TVDetailCellViewModelMultipleSection =

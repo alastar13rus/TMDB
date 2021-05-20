@@ -21,7 +21,7 @@ public protocol MediaProtocol: Decodable, Comparable {
 }
 
 
-protocol MovieProtocol: MediaProtocol {
+public protocol MovieProtocol: MediaProtocol {
     var adult: Bool { get }
     var releaseDate: String { get }
     var genreIds: [Int] { get }
@@ -32,7 +32,7 @@ protocol MovieProtocol: MediaProtocol {
     
 }
 
-protocol TVProtocol: MediaProtocol {
+public protocol TVProtocol: MediaProtocol {
     
     var firstAirDate: String? { get }
     var originCountry: [String] { get }

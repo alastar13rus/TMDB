@@ -42,3 +42,13 @@ target 'Domain' do
 
 end
 
+target 'NetworkPlatform' do
+  use_frameworks!
+  pod 'Swinject'
+
+  target 'NetworkPlatformTests' do
+#    pod 'Swinject'
+  end
+
+end
+

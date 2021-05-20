@@ -8,6 +8,7 @@
 import Foundation
 import Swinject
 import Domain
+import NetworkPlatform
 
 class AppDIContainer {
     static let shared: Container = {
@@ -21,7 +22,25 @@ class AppDIContainer {
     
     fileprivate static func setupDI(_ container: Container) {
         
-        container.register(NetworkManagerProtocol.self) { _ in NetworkManager() }
+        container.register(NetworkPlatform.NetworkAgent.self) { _ in
+            return NetworkAgent()
+        }
+        
+        container.register(NetworkPlatform.NetworkProvider.self) { r in NetworkPlatform.NetworkProvider(network: r.resolve(NetworkPlatform.NetworkAgent.self)!) }
+        
+        
+        container.register(Domain.APIFactory.self) { r in
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            return NetworkPlatform.APIFactory(config)
+            
+        }
+        
+        container.register(Domain.UseCaseProvider.self) { r in
+            NetworkPlatform.UseCaseProvider(
+                networkProvider: r.resolve(NetworkPlatform.NetworkProvider.self)!,
+                apiFactory: r.resolve(Domain.APIFactory.self)!) }
+        
         
 //        MARK: - ViewControllers
         
@@ -46,7 +65,7 @@ class AppDIContainer {
         container.register(MediaListViewModel.self) { (r, coordinator: NavigationCoordinator) in
             let viewController = MediaListViewController()
             
-            let viewModel = MediaListViewModel(networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             if (coordinator.navigationController.viewControllers.isEmpty) {
@@ -58,7 +77,7 @@ class AppDIContainer {
         container.register(MovieDetailViewModel.self)  { (r, coordinator: MovieFlowCoordinator, detailID: String) in
             let viewController = MovieDetailViewController()
             
-            let viewModel = MovieDetailViewModel(with: detailID, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -68,7 +87,7 @@ class AppDIContainer {
         container.register(TVDetailViewModel.self)  { (r, coordinator: TVFlowCoordinator, detailID: String) in
             let viewController = TVDetailViewController()
             
-            let viewModel = TVDetailViewModel(with: detailID, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -78,7 +97,7 @@ class AppDIContainer {
         container.register(TVSeasonListViewModel.self)  { (r, coordinator: TVSeasonFlowCoordinator, mediaID: String) in
             let viewController = TVSeasonListViewController()
             
-            let viewModel = TVSeasonListViewModel(with: mediaID, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = TVSeasonListViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -88,7 +107,7 @@ class AppDIContainer {
         container.register(TVEpisodeListViewModel.self)  { (r, coordinator: TVEpisodeFlowCoordinator, mediaID: String, seasonNumber: String) in
             let viewController = TVEpisodeListViewController()
             
-            let viewModel = TVEpisodeListViewModel(with: mediaID, seasonNumber: seasonNumber, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = TVEpisodeListViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -98,7 +117,7 @@ class AppDIContainer {
         container.register(TVSeasonDetailViewModel.self)  { (r, coordinator: TVSeasonFlowCoordinator, mediaID: String, seasonNumber: String) in
             let viewController = TVSeasonDetailViewController()
             
-            let viewModel = TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -108,7 +127,7 @@ class AppDIContainer {
         container.register(TVEpisodeDetailViewModel.self)  { (r, coordinator: TVEpisodeFlowCoordinator, mediaID: String, seasonNumber: String, episodeNumber: String) in
             let viewController = TVEpisodeDetailViewController()
             
-            let viewModel = TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -118,7 +137,7 @@ class AppDIContainer {
         container.register(MediaTrailerListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType) in
             let viewController = MediaTrailerListViewController()
             
-            let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -128,7 +147,7 @@ class AppDIContainer {
         container.register(MediaTrailerListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, seasonNumber: String) in
             let viewController = MediaTrailerListViewController()
             
-            let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -138,7 +157,7 @@ class AppDIContainer {
         container.register(MediaTrailerListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, seasonNumber: String, episodeNumber: String) in
             let viewController = MediaTrailerListViewController()
             
-            let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -148,7 +167,7 @@ class AppDIContainer {
         container.register(CreditListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?) in
             let viewController = CreditListViewController()
             
-            let viewModel = CreditListViewModel(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = CreditListViewModel(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator  as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -158,7 +177,7 @@ class AppDIContainer {
         container.register(PeopleDetailViewModel.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
             let viewController = PeopleDetailViewController()
             
-            let viewModel = PeopleDetailViewModel(with: mediaID, networkManager: r.resolve(NetworkManagerProtocol.self)!)
+            let viewModel = PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)

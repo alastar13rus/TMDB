@@ -7,8 +7,6 @@
 
 import Foundation
 
-import RxDataSources
-
 public struct MovieDetailModel: MovieDetailProtocol {
     
     public let adult: Bool

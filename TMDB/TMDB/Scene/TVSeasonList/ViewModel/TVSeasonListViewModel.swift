@@ -14,7 +14,8 @@ import Domain
 class TVSeasonListViewModel {
     
 //    MARK: - Properties
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
+    
     let disposeBag = DisposeBag()
     weak var coordinator: Coordinator?
     
@@ -32,8 +33,9 @@ class TVSeasonListViewModel {
     
     
 //    MARK: - Init
-    required init(with mediaID: String, networkManager: NetworkManagerProtocol) {
-        self.networkManager = networkManager
+    required init(with mediaID: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
+        
         self.mediaID = mediaID
         
         setupInput()
@@ -71,7 +73,10 @@ class TVSeasonListViewModel {
     }
     
     fileprivate func fetch(completion: @escaping (TVDetailModel) -> Void) {
-        networkManager.request(TmdbAPI.tv(.details(mediaID: mediaID, appendToResponse: [], includeImageLanguage: []))) { (result: Result<TVDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makeTVDetailUseCase()
+        
+        useCase.details(mediaID: mediaID, appendToResponse: [], includeImageLanguage: []) { (result: Result<TVDetailModel, Error>) in
             switch result {
             case .success(let tvDetail):
                 completion(tvDetail)

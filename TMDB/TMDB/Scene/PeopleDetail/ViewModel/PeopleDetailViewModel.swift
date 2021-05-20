@@ -9,13 +9,16 @@ import Foundation
 import RxSwift
 import RxRelay
 import Domain
+import NetworkPlatform
 
 class PeopleDetailViewModel {
     
     
 //    MARK: - Properties
     let mediaID: String
-    let networkManager: NetworkManagerProtocol
+    
+    let useCaseProvider: Domain.UseCaseProvider
+    
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
     
@@ -33,9 +36,9 @@ class PeopleDetailViewModel {
     
     
 //    MARK: - Init
-    required init(with mediaID: String, networkManager: NetworkManagerProtocol) {
+    required init(with mediaID: String, useCaseProvider: Domain.UseCaseProvider) {
         self.mediaID = mediaID
-        self.networkManager = networkManager
+        self.useCaseProvider = useCaseProvider
 
         self.setupInput()
         self.setupOutput()
@@ -65,7 +68,9 @@ class PeopleDetailViewModel {
     }
     
     fileprivate func fetch(completion: @escaping (PeopleDetailModel) -> Void) {
-        networkManager.request(TmdbAPI.people(.details(personID: mediaID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<PeopleDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makePeopleDetailUseCase()
+        useCase.details(personID: mediaID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]) { (result: Result<PeopleDetailModel, Error>) in
             switch result {
             case .success(let peopleDetail):
                 completion(peopleDetail)
@@ -190,7 +195,7 @@ class PeopleDetailViewModel {
             title: title,
             items:
                 [
-                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator, networkManager: networkManager))
+                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator, useCaseProvider: useCaseProvider))
                 ]
         )
         

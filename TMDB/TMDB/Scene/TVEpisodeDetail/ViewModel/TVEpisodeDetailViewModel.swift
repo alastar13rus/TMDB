@@ -10,6 +10,7 @@ import RxSwift
 import RxRelay
 import Swinject
 import Domain
+import NetworkPlatform
 
 class TVEpisodeDetailViewModel {
     
@@ -18,7 +19,8 @@ class TVEpisodeDetailViewModel {
     let seasonNumber: String
     let episodeNumber: String
 
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
+    
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
     
@@ -39,11 +41,12 @@ class TVEpisodeDetailViewModel {
     
     
 //    MARK: - Init
-    required init(with mediaID: String, seasonNumber: String, episodeNumber: String, networkManager: NetworkManagerProtocol) {
+    required init(with mediaID: String, seasonNumber: String, episodeNumber: String, useCaseProvider: Domain.UseCaseProvider) {
         self.mediaID = mediaID
         self.seasonNumber = seasonNumber
         self.episodeNumber = episodeNumber
-        self.networkManager = networkManager
+        
+        self.useCaseProvider = useCaseProvider
 
         setupInput()
         setupOutput()
@@ -69,7 +72,9 @@ class TVEpisodeDetailViewModel {
     }
     
     fileprivate func fetch(completion: @escaping (TVEpisodeDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.tv(.episode(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, appendToResponse: [ .credits, .images, .videos ], includeImageLanguage: []))) { (result: Result<TVEpisodeDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makeTVEpisodeDetailUseCase()
+        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, appendToResponse: [.credits, .images, .videos], includeImageLanguage: []) { (result: Result<TVEpisodeDetailModel, Error>) in
             switch result {
             case .success(let tvEpisodeDetail):
                 completion(tvEpisodeDetail)

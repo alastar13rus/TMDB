@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import Domain
+import NetworkPlatform
 
 class CreditListViewModel {
     
@@ -16,8 +17,6 @@ class CreditListViewModel {
     let mediaID: String
     let seasonNumber: String?
     let episodeNumber: String?
-    
-    lazy var api: TmdbAPI = TmdbAPI.movies(.credits(mediaID: mediaID))
     
     var creditType: CreditType {
         didSet {
@@ -29,21 +28,10 @@ class CreditListViewModel {
     
     var mediaType: MediaType = .movie
     
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
+    
     weak var coordinator: Coordinator? {
         didSet {
-            switch coordinator {
-            case is TVFlowCoordinator:
-                api = TmdbAPI.tv(.aggregateCredits(mediaID: mediaID))
-            case is TVSeasonFlowCoordinator:
-                guard let seasonNumber = seasonNumber else { return }
-                api = TmdbAPI.tv(.seasonAggregateCredits(mediaID: mediaID, seasonNumber: seasonNumber))
-            case is TVEpisodeFlowCoordinator:
-                guard let seasonNumber = seasonNumber, let episodeNumber = episodeNumber else { return }
-                api = TmdbAPI.tv(.episodeCredits(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber))
-            default: break
-            }
-            
             setupOutput()
         }
     }
@@ -62,9 +50,9 @@ class CreditListViewModel {
     }
     
 //    MARK: - Init
-    init(with mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?, networkManager: NetworkManagerProtocol) {
+    init(with mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?, useCaseProvider: Domain.UseCaseProvider) {
         
-        self.networkManager = networkManager
+        self.useCaseProvider = useCaseProvider
         
         self.mediaID = mediaID
         self.creditType = creditType
@@ -103,14 +91,15 @@ class CreditListViewModel {
         }
     }
     
-    private func fetch<T: CreditListResponseProtocol & Decodable>(completion: @escaping (T) -> Void) {
-        networkManager.request(api) { (result: Result<T, Error>) in
-            switch result {
-            case .success(let response): completion(response)
-            case .failure: break
-            }
-        }
-    }
+//    private func fetch<T: CreditListResponseProtocol & Decodable>(completion: @escaping (T) -> Void) {
+//        let useCase = useCaseProvider.makeTVDetailUseCase()
+//        networkManager.request(api) { (result: Result<T, Error>) in
+//            switch result {
+//            case .success(let response): completion(response)
+//            case .failure: break
+//            }
+//        }
+//    }
     
     private func setupOutput() {
         
@@ -124,8 +113,13 @@ class CreditListViewModel {
     }
     
     private func fetchMovieCredits() {
-        fetch { [weak self] (response: CreditListResponse) in
+        
+        let useCase = useCaseProvider.makeMovieDetailUseCase()
+        useCase.credits(mediaID: mediaID) { [weak self] (result: Result<CreditListResponse, Error>) in
             guard let self = self else { return }
+            
+            guard case .success(let response) = result else { return }
+            
             switch self.creditType {
             case .cast:
                 let title = "Актеры"
@@ -168,8 +162,13 @@ class CreditListViewModel {
     }
     
     private func fetchTVCredits() {
-        fetch { [weak self] (response: TVAggregateCreditListResponse) in
+        
+        let useCase = useCaseProvider.makeTVDetailUseCase()
+        useCase.aggregateCredits(mediaID: mediaID) { [weak self] (result: Result<TVAggregateCreditListResponse, Error>) in
             guard let self = self else { return }
+            
+            guard case .success(let response) = result else { return }
+            
             switch self.creditType {
             case .cast:
                 let title = "Актеры"
@@ -195,8 +194,15 @@ class CreditListViewModel {
     }
     
     private func fetchTVSeasonCredits() {
-        fetch { [weak self] (response: TVAggregateCreditListResponse) in
+        
+        guard let seasonNumber = seasonNumber else { return }
+        
+        let useCase = useCaseProvider.makeTVSeasonDetailUseCase()
+        useCase.aggregateCredits(mediaID: mediaID, seasonNumber: seasonNumber) { [weak self] (result: Result<TVAggregateCreditListResponse, Error>) in
             guard let self = self else { return }
+            
+            guard case .success(let response) = result else { return }
+            
             switch self.creditType {
             case .cast:
                 let title = "Актеры"
@@ -223,8 +229,15 @@ class CreditListViewModel {
     }
     
     private func fetchTVEpisodeCredits() {
-        fetch { [weak self] (response: EpisodeCreditList) in
+    
+        guard let seasonNumber = seasonNumber, let episodeNumber = episodeNumber else { return }
+        let useCase = useCaseProvider.makeTVEpisodeDetailUseCase()
+        
+        useCase.credits(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber) { [weak self] (result: Result<EpisodeCreditList, Error>) in
             guard let self = self else { return }
+            
+            guard case .success(let response) = result else { return }
+            
             switch self.creditType {
             case .cast:
                 let title = "Актеры"

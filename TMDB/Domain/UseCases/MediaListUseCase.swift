@@ -7,7 +7,35 @@
 
 import Foundation
 
-protocol MediaListUseCase {
-    func fetchMediaList<T: MediaListResponseProtocol>(completion: @escaping (T) -> Void)
+public protocol MediaListUseCase: UseCase {
+    
+}
+
+
+public protocol MovieListUseCase: MediaListUseCase {
+    
+    func topRated(page: Int,
+                  completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void)
+    func popular(page: Int,
+                 completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void)
+    func nowPlaying(page: Int,
+                    completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void)
+    func upcoming(page: Int,
+                  completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void)
+    
+}
+
+
+
+public protocol TVListUseCase: MediaListUseCase {
+    
+    func topRated(page: Int,
+                  completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void)
+    func popular(page: Int,
+                 completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void)
+    func onTheAir(page: Int,
+                  completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void)
+    func airingToday(page: Int,
+                     completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void)
     
 }

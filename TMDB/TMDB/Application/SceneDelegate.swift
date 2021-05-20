@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var appFlowCoordinator: Coordinator?
-    var appDIContainer = AppDIContainer.shared
+    var container = AppDIContainer.shared
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let tabBarController = UITabBarController()
         
-        appFlowCoordinator = AppFlowCoordinator(window: window, tabBarController: tabBarController, container: appDIContainer)
+        appFlowCoordinator = AppFlowCoordinator(window: window, tabBarController: tabBarController, container: container)
         appFlowCoordinator?.start()
         
     }

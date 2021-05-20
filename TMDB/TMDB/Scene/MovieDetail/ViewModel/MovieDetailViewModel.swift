@@ -10,11 +10,13 @@ import RxSwift
 import RxRelay
 import Swinject
 import Domain
+import NetworkPlatform
 
 class MovieDetailViewModel {
     
 //    MARK: - Properties
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
+    
     let detailID: String
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
@@ -41,8 +43,8 @@ class MovieDetailViewModel {
     let output = Output()
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol) {
-        self.networkManager = networkManager
+    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
         self.detailID = detailID
         
         setupInput()
@@ -63,17 +65,6 @@ class MovieDetailViewModel {
                 coordinator.toTrailerList(with: self.detailID, mediaType: .movie)
             }).disposed(by: disposeBag)
     }
-
-    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
-        networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
-                switch result {
-                case .success(let creditDetail):
-                    let peopleID = "\(creditDetail.person.id)"
-                    completion(peopleID)
-                case .failure: break
-                }
-            })
-    }
     
     func setupOutput() {
         fetch { [weak self] (movieDetail) in
@@ -85,7 +76,9 @@ class MovieDetailViewModel {
     }
     
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]))) { (result: Result<MovieDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makeMovieDetailUseCase()
+        useCase.details(mediaID: mediaID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { (result: Result<MovieDetailModel, Error>) in
             
             switch result {
             case .success(let movieDetail):
@@ -318,7 +311,7 @@ class MovieDetailViewModel {
         let section: [MediaCellViewModel] = movieList.map { MediaCellViewModel($0) }
         
         let movieListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, networkManager: networkManager, mediaListType: mediaListType))
+            .movieCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, useCaseProvider: useCaseProvider, mediaListType: mediaListType))
         ]
         
         let movieListSection: MovieDetailCellViewModelMultipleSection =

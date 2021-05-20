@@ -7,8 +7,19 @@
 
 import Foundation
 
-protocol UseCaseProvider {
-    func makeMediaListUseCase() -> MediaListUseCase
-    func makeMovieDetailUseCase() -> MovieDetailUseCase
+public protocol UseCase { }
+
+public protocol UseCaseProvider {
     
+    var apiFactory: APIFactory { get }
+    
+    func makeMovieListUseCase() -> MovieListUseCase
+    func makeTVListUseCase() -> TVListUseCase
+    func makeMovieDetailUseCase() -> MovieDetailUseCase
+    func makeTVDetailUseCase() ->  TVDetailUseCase
+    func makeTVSeasonDetailUseCase() -> TVSeasonDetailUseCase
+    func makeTVEpisodeDetailUseCase() -> TVEpisodeDetailUseCase
+//    func makeCreditListUseCase() ->  CreditListUseCase
+    func makePeopleDetailUseCase() ->  PeopleDetailUseCase
+
 }

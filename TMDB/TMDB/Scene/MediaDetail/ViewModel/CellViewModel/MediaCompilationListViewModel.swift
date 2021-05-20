@@ -9,6 +9,8 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxDataSources
+import Domain
+import NetworkPlatform
 
 class MediaCompilationListViewModel: AnimatableSectionModelType {
     
@@ -18,8 +20,7 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
     var mediaListType: MediaListType = .recommendation
     let disposedBag = DisposeBag()
     weak var coordinator: Coordinator?
-    weak var networkManager: NetworkManagerProtocol?
-    
+
     var sectionedItems: Observable<[MediaCellViewModelMultipleSection]> {
         
         var movieItems = [MediaCellViewModelMultipleSection.SectionItem]()
@@ -56,11 +57,10 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [MediaCellViewModel], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaListType: MediaListType) {
+    convenience init(title: String, items: [MediaCellViewModel], coordinator: Coordinator?, useCaseProvider: Domain.UseCaseProvider?, mediaListType: MediaListType) {
         self.init(title: title, items: items)
         
         self.coordinator = coordinator
-        self.networkManager = networkManager
         self.mediaListType = mediaListType
         subscribing()
     }

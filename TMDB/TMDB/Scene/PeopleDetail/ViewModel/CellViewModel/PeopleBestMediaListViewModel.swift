@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxDataSources
+import Domain
 
 class PeopleBestMediaListViewModel: AnimatableSectionModelType {
     
@@ -17,7 +18,7 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
     let items: [CreditInMediaCellViewModelMultipleSection.SectionItem]
     
     weak var coordinator: Coordinator?
-    weak var networkManager: NetworkManagerProtocol?
+    
     let dataSource = BestCreditInMediaListDataSource.dataSource()
     let disposeBag = DisposeBag()
     let selectedCredit = PublishRelay<CreditInMediaCellViewModelMultipleSection.SectionItem>()
@@ -55,10 +56,10 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?) {
+    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, useCaseProvider: Domain.UseCaseProvider?) {
         self.init(title: title, items: items)
         self.coordinator = coordinator
-        self.networkManager = networkManager
+        
         subscribing()
     }
     
