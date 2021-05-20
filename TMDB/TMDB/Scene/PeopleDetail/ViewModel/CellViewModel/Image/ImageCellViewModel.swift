@@ -7,6 +7,7 @@
 
 import UIKit
 import RxDataSources
+import Domain
 
 struct ImageCellViewModel {
     

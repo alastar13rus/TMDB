@@ -14,7 +14,7 @@ class TabBarCoordinatorTest: XCTestCase {
         sut.start()
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators.first?.value is MovieListCoordinator)
+        XCTAssert(sut.childCoordinators.first?.value is MovieFlowCoordinator)
         
     }
     
@@ -22,7 +22,7 @@ class TabBarCoordinatorTest: XCTestCase {
         sut.showMovieTab()
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators.first?.value is MovieListCoordinator)
+        XCTAssert(sut.childCoordinators.first?.value is MovieFlowCoordinator)
         
     }
     
@@ -30,7 +30,7 @@ class TabBarCoordinatorTest: XCTestCase {
         sut.showTVTab()
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators.first?.value is TVListCoordinator)
+        XCTAssert(sut.childCoordinators.first?.value is TVFlowCoordinator)
         
     }
     
@@ -39,32 +39,32 @@ class TabBarCoordinatorTest: XCTestCase {
         sut.showMovieTab()
 
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators.first?.value is MovieListCoordinator)
+        XCTAssert(sut.childCoordinators.first?.value is MovieFlowCoordinator)
         
         sut.free(sut.childCoordinators.first!.value)
         sut.showTVTab()
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators.first?.value is TVListCoordinator)
+        XCTAssert(sut.childCoordinators.first?.value is TVFlowCoordinator)
         
         let removed = sut.childCoordinators.first { (key, value) -> Bool in
-            return value is TVListCoordinator
+            return value is TVFlowCoordinator
         }
         
         sut.free(removed!.value)
         sut.showMovieTab()
         
         XCTAssertEqual(sut.childCoordinators.count, 1)
-        XCTAssert(sut.childCoordinators.first?.value is MovieListCoordinator)
+        XCTAssert(sut.childCoordinators.first?.value is MovieFlowCoordinator)
         
         sut.showTVTab()
         
         XCTAssertEqual(sut.childCoordinators.count, 2)
         XCTAssert(sut.childCoordinators.contains(where: { (key, value) -> Bool in
-            return value is MovieListCoordinator
+            return value is MovieFlowCoordinator
         }))
         XCTAssert(sut.childCoordinators.contains(where: { (key, value) -> Bool in
-            return value is TVListCoordinator
+            return value is TVFlowCoordinator
         }))
         
     }

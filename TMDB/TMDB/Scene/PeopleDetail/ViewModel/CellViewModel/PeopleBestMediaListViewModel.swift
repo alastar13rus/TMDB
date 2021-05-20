@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxDataSources
+import Domain
 
 class PeopleBestMediaListViewModel: AnimatableSectionModelType {
     
@@ -17,7 +18,7 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
     let items: [CreditInMediaCellViewModelMultipleSection.SectionItem]
     
     weak var coordinator: Coordinator?
-    weak var networkManager: NetworkManagerProtocol?
+    
     let dataSource = BestCreditInMediaListDataSource.dataSource()
     let disposeBag = DisposeBag()
     let selectedCredit = PublishRelay<CreditInMediaCellViewModelMultipleSection.SectionItem>()
@@ -55,17 +56,17 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?) {
+    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, useCaseProvider: Domain.UseCaseProvider?) {
         self.init(title: title, items: items)
         self.coordinator = coordinator
-        self.networkManager = networkManager
+        
         subscribing()
     }
     
 //    MARK: - Methods
     fileprivate func subscribing() {
         self.selectedCredit.subscribe(onNext: { [weak self] in
-            guard let self = self, let coordinator = self.coordinator as? PeopleListCoordinator else { return }
+            guard let self = self, let coordinator = self.coordinator as? PeopleFlowCoordinator else { return }
             switch $0 {
             case .creditInMovie(let vm):
                 coordinator.toMovieDetail(with: vm.id)

@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxDataSources
+import Domain
 
 class CrewCombinedCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Equatable {
     

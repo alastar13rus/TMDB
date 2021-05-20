@@ -8,21 +8,28 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
+import Domain
 
-class MediaTrailerListViewModel: DetailWithParamViewModelType {
+class MediaTrailerListViewModel {
     
 //    MARK: - Properties
     weak var coordinator: Coordinator?
-    let networkManager: NetworkManagerProtocol
+    
+    let useCaseProvider: Domain.UseCaseProvider
+    
     let disposeBag = DisposeBag()
     let mediaID: String
+    var seasonNumber: String = ""
+    var episodeNumber: String = ""
     let mediaType: MediaType
-    var api: TmdbAPI {
+    
+    var useCase: Domain.UseCase {
         switch mediaType {
-        case .movie:
-            return TmdbAPI.movies(.videos(mediaID: mediaID))
-        case .tv:
-            return TmdbAPI.tv(.videos(mediaID: mediaID))
+        case .movie: return useCaseProvider.makeMovieDetailUseCase()
+        case .tv: return useCaseProvider.makeTVDetailUseCase()
+        case .tvSeason: return useCaseProvider.makeTVSeasonDetailUseCase()
+        case .tvEpisode: return useCaseProvider.makeTVEpisodeDetailUseCase()
         }
     }
     
@@ -38,19 +45,36 @@ class MediaTrailerListViewModel: DetailWithParamViewModelType {
     }
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol, params: [String : String]) {
-        self.networkManager = networkManager
-        
-        self.mediaID = detailID
-        if let rawValue = params[String(describing: MediaType.self)], let mediaType = MediaType(rawValue: rawValue) {
-            self.mediaType = mediaType
-        } else {
-            self.mediaType = .movie
-        }
+    init(with mediaID: String, mediaType: MediaType, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
+
+        self.mediaID = mediaID
+        self.mediaType = mediaType
         
         setupOutput()
     }
     
+    init(with mediaID: String, mediaType: MediaType, seasonNumber: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
+        
+        self.mediaID = mediaID
+        self.mediaType = mediaType
+        self.seasonNumber = seasonNumber
+        
+        setupOutput()
+    }
+    
+    init(with mediaID: String, mediaType: MediaType, seasonNumber: String, episodeNumber: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
+        
+        self.mediaID = mediaID
+        self.mediaType = mediaType
+        self.seasonNumber = seasonNumber
+        self.episodeNumber = episodeNumber
+        
+        setupOutput()
+    }
+        
 //    MARK: - Methods
     fileprivate func setupOutput() {
         fetch { [weak self] (trailerList) in
@@ -64,11 +88,27 @@ class MediaTrailerListViewModel: DetailWithParamViewModelType {
     }
     
     fileprivate func fetch(completion: @escaping (VideoList) -> Void) {
-        networkManager.request(api) { (response: Result<VideoList, Error>) in
-            switch response {
-            case .success(let trailerList):
-                completion(trailerList)
-            case .failure: break
+        
+        switch mediaType {
+        case .movie:
+            let useCase = useCaseProvider.makeMovieDetailUseCase()
+            useCase.videos(mediaID: mediaID) { (response: Result<VideoList, Error>) in
+                if case .success(let trailerList) = response { completion(trailerList) }
+            }
+        case .tv:
+            let useCase = useCaseProvider.makeTVDetailUseCase()
+            useCase.videos(mediaID: mediaID) { (response: Result<VideoList, Error>) in
+                if case .success(let trailerList) = response { completion(trailerList) }
+            }
+        case .tvSeason:
+            let useCase = useCaseProvider.makeTVSeasonDetailUseCase()
+            useCase.videos(mediaID: mediaID, seasonNumber: seasonNumber) { (response: Result<VideoList, Error>) in
+                if case .success(let trailerList) = response { completion(trailerList) }
+            }
+        case .tvEpisode:
+            let useCase = useCaseProvider.makeTVEpisodeDetailUseCase()
+            useCase.videos(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber) { (response: Result<VideoList, Error>) in
+                if case .success(let trailerList) = response { completion(trailerList) }
             }
         }
     }

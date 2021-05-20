@@ -11,7 +11,7 @@ import XCTest
 class MovieDetailViewModelTest: XCTestCase {
     
     func test_init() {
-        let (_, viewModel, _) = movieListCoordinator.factory(with: "761053", vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
+        let (_, viewModel, _) = movieFlowCoordinator.factory(with: "761053", vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
         
         XCTAssertEqual(viewModel.detailID, "761053")
         
@@ -26,7 +26,7 @@ class MovieDetailViewModelTest: XCTestCase {
     }
     
     func test_fetch() {
-        let (_, viewModel, _) = movieListCoordinator.factory(with: "556574", vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
+        let (_, viewModel, _) = movieFlowCoordinator.factory(with: "556574", vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
         
         var movieDetail: MovieDetailModel?
         let expectation = self.expectation(description: #function)
@@ -42,8 +42,8 @@ class MovieDetailViewModelTest: XCTestCase {
     
 
 //    MARK: - Helpers
-    var movieListCoordinator: MovieListCoordinator {
-        MovieListCoordinator(navigationController: UINavigationController())
+    var movieFlowCoordinator: MovieFlowCoordinator {
+        MovieFlowCoordinator(navigationController: UINavigationController())
     }
     
     

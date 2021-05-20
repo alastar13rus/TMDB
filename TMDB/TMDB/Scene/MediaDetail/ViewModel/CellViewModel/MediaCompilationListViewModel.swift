@@ -9,6 +9,8 @@ import Foundation
 import RxSwift
 import RxRelay
 import RxDataSources
+import Domain
+import NetworkPlatform
 
 class MediaCompilationListViewModel: AnimatableSectionModelType {
     
@@ -18,8 +20,7 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
     var mediaListType: MediaListType = .recommendation
     let disposedBag = DisposeBag()
     weak var coordinator: Coordinator?
-    weak var networkManager: NetworkManagerProtocol?
-    
+
     var sectionedItems: Observable<[MediaCellViewModelMultipleSection]> {
         
         var movieItems = [MediaCellViewModelMultipleSection.SectionItem]()
@@ -31,6 +32,7 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
                 movieItems = items.map { MediaCellViewModelMultipleSection.SectionItem.movie(vm: $0) }
             case .tv:
                 tvItems = items.map { MediaCellViewModelMultipleSection.SectionItem.tv(vm: $0) }
+            default: break
             }
         }
         
@@ -55,11 +57,10 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [MediaCellViewModel], coordinator: Coordinator?, networkManager: NetworkManagerProtocol?, mediaListType: MediaListType) {
+    convenience init(title: String, items: [MediaCellViewModel], coordinator: Coordinator?, useCaseProvider: Domain.UseCaseProvider?, mediaListType: MediaListType) {
         self.init(title: title, items: items)
         
         self.coordinator = coordinator
-        self.networkManager = networkManager
         self.mediaListType = mediaListType
         subscribing()
     }
@@ -71,10 +72,10 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
             
             switch $0 {
             case .movie(let vm):
-                guard let coordinator = self.coordinator as? MovieListCoordinator else { return }
+                guard let coordinator = self.coordinator as? MovieFlowCoordinator else { return }
                 coordinator.toDetail(with: vm.id)
             case .tv(let vm):
-                guard let coordinator = self.coordinator as? TVListCoordinator else { return }
+                guard let coordinator = self.coordinator as? TVFlowCoordinator else { return }
                 coordinator.toDetail(with: vm.id)
             }
         }).disposed(by: disposedBag)

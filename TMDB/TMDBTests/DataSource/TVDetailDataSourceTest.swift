@@ -12,7 +12,7 @@ class TVDetailDataSourceTest: XCTestCase {
     
     func test_dataSource() {
         
-        let coordinator = TVListCoordinator(navigationController: UINavigationController())
+        let coordinator = TVFlowCoordinator(navigationController: UINavigationController())
         let (_, viewModel, controller) = coordinator.factory(with: "1399", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
         
         let tvEpisodeDetailModel = TVEpisodeDetailModel(airDate: nil, episodeNumber: 0, id: 1, name: "", overview: "", seasonNumber: 0, stillPath: nil, voteAverage: 0, voteCount: 0, credits: nil, images: nil, videos: nil)

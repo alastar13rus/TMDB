@@ -59,6 +59,8 @@ extension TVSeasonDetailViewController: BindableType {
         
         viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvSeasonDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
+        tvSeasonDetailTableView.rx.modelSelected(TVSeasonDetailCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        
         viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 struct CreditInMediaViewModel {
     
@@ -38,6 +39,8 @@ extension CreditInMediaViewModel {
         switch model.mediaType {
         case .movie: self.mediaTitle = model.title!
         case .tv: self.mediaTitle = model.name!
+        case .tvSeason: self.mediaTitle = model.name!
+        case .tvEpisode: self.mediaTitle = model.name!
         }
     }
 }
@@ -54,6 +57,8 @@ extension CreditInMediaViewModel {
         switch model.mediaType {
         case .movie: self.mediaTitle = model.title!
         case .tv: self.mediaTitle = model.name!
+        case .tvSeason: self.mediaTitle = model.name!
+        case .tvEpisode: self.mediaTitle = model.name!
         }
     }
 }
