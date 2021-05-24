@@ -9,37 +9,50 @@ import XCTest
 import RxSwift
 import RxCocoa
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class MediaListViewModelTest: XCTestCase {
     
-    func test_didChangeSelectedSegmentIndex_changedMovieEndpointAndResetedCurrentPage() {
+    func test_didChangeSelectedSegmentIndex_changedMovieMethodAndResetedCurrentPage() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         
         sut.currentPage = 3
         sut.input.selectedSegmentIndex.accept(0)
         sut.screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo)
 
-        XCTAssertEqual(sut.movieEndpoint, .topRated(page: 1))
+        XCTAssertNotNil(sut.movieMethod)
 
         sut.currentPage = 5
         sut.input.selectedSegmentIndex.accept(1)
-
-        XCTAssertEqual(sut.movieEndpoint, .popular(page: 1))
         
+        XCTAssertNotNil(sut.movieMethod)
         
         sut.screen = .tv(MediaListTableViewDataSource.Screen.tvListInfo)
 
         sut.currentPage = 6
         sut.input.selectedSegmentIndex.accept(2)
-
-        XCTAssertEqual(sut.movieEndpoint, .nowPlaying(page: 1))
+        
+        XCTAssertNil(sut.movieMethod)
+        XCTAssertNotNil(sut.tvMethod)
         
         sut.currentPage = 7
         sut.input.selectedSegmentIndex.accept(3)
         
-        XCTAssertEqual(sut.tvEndpoint, .airingToday(page: 1))
-        
+        XCTAssertNil(sut.movieMethod)
+        XCTAssertNotNil(sut.tvMethod)
 
         let expectation = self.expectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -51,7 +64,18 @@ class MediaListViewModelTest: XCTestCase {
     
     func test_subscribeSelectedSegmentIndex_defaultSetupSelectedSegmentIndex_noFetchingMedia() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         
         sut.currentPage = 1
         
@@ -71,7 +95,18 @@ class MediaListViewModelTest: XCTestCase {
 
     func test_subscribeSelectedSegmentIndex_didChangeSelectedSegmentIndex_mediaIsReplacedWithANextMedia() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         
         sut.currentPage = 1
         sut.input.selectedSegmentIndex.accept(3)
@@ -92,7 +127,16 @@ class MediaListViewModelTest: XCTestCase {
 
     func test_subscribeWillDisplayCellIndex_emptyCurrentMovies_noFetchingMedia() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            return viewModel
+        }()
         
         let expectation = self.expectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -108,7 +152,18 @@ class MediaListViewModelTest: XCTestCase {
 
     func test_subscribeWillDisplayCellIndex_actualThresholdLessThanRequiredThreshold_startFetchingMedia() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         
         sut.currentPage = 2
         sut.numberOfMedia = 40
@@ -135,7 +190,18 @@ class MediaListViewModelTest: XCTestCase {
 
     func test_subscribeWillDisplayCellIndex_actualThresholdGreaterThanRequiredThreshold_noFetchingMedia() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         
         sut.currentPage = 1
         sut.numberOfMedia = 35
@@ -158,21 +224,33 @@ class MediaListViewModelTest: XCTestCase {
 
     func test_fetchMedia_paramIsFetchingEqualFalse_fetchingMedia() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         
         sut.output.isFetching.accept(false)
         var movies = [MediaCellViewModel]()
         XCTAssertEqual(sut.output.media.value.count, 0)
         
         let expectation = self.expectation(description: #function)
-
-        sut.testFetch { (fetchedMovies) in
+        
+        sut.fetch { (fetchedMovies) in
             XCTAssertEqual(movies.count, 0)
+            XCTAssertEqual(sut.output.isFetching.value, false)
             movies = fetchedMovies
-            XCTAssertEqual(sut.output.isFetching.value, true)
             expectation.fulfill()
         }
         XCTAssertEqual(movies.count, 0)
+        XCTAssertEqual(sut.output.isFetching.value, true)
 
         waitForExpectations(timeout: 10)
 
@@ -182,15 +260,25 @@ class MediaListViewModelTest: XCTestCase {
 
     func test_fetchMedia_paramIsFetchingEqualTrue_noFetchingMedia() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
-
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         sut.output.isFetching.accept(true)
         var media = [MediaCellViewModel]()
         XCTAssertEqual(sut.output.media.value.count, 0)
 
         let expectation = self.expectation(description: #function)
 
-        sut.testFetch { (fetchedMedia) in
+        sut.fetch { (fetchedMedia) in
             XCTAssertEqual(media.count, 0)
             media = fetchedMedia
             XCTAssertEqual(sut.output.isFetching.value, true)
@@ -206,7 +294,19 @@ class MediaListViewModelTest: XCTestCase {
     
     func test_subscribeIsRefreshing_whenIsRefreshingEqualTrue_thenFetchingMoviesAndResetParams() {
         
-        let sut = SpyMediaListViewModel(networkManager: NetworkManager())
+        
+        let sut: SpyMediaListViewModel = {
+            let network = NetworkAgent()
+            let networkProvider = NetworkProvider(network: network)
+            let appConfig = AppConfig()
+            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+            let apiFactory = APIFactory(config)
+            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            viewModel.coordinator = coordinator
+            return viewModel
+        }()
         sut.input.isRefreshing.accept(true)
         
         let expectation = self.expectation(description: #function)
@@ -227,58 +327,15 @@ class MediaListViewModelTest: XCTestCase {
 
 class SpyMediaListViewModel: MediaListViewModel { }
 
-extension SpyMediaListViewModel {
-    func testFetch(completion: @escaping ([MediaCellViewModel]) -> Void) {
-        self.fetch() { (media) in
-            completion(media)
-        }
-    }
-}
-
-let sut = SpyMediaListViewModel(networkManager: NetworkManager())
-
-extension TmdbAPI.MovieEndpoint: Equatable {
-    public static func ==(lhs: TmdbAPI.MovieEndpoint, rhs: TmdbAPI.MovieEndpoint) -> Bool {
-            switch (lhs, rhs) {
-            case (.credits(let lhsMediaID) , .credits(let rhsMediaID)):
-                return lhsMediaID == rhsMediaID
-            case (.details(let lhsMediaID, _, _) , .details(let rhsMediaID, _, _)):
-                return lhsMediaID == rhsMediaID
-            case (.nowPlaying(let lhsPage) , .nowPlaying(let rhsPage)):
-                return lhsPage == rhsPage
-            case (.popular(let lhsPage) , .popular(let rhsPage)):
-                return lhsPage == rhsPage
-            case (.recommendations(let lhsMediaID) , .recommendations(let rhsMediaID)):
-                return lhsMediaID == rhsMediaID
-            case (.topRated(let lhsPage) , .topRated(let rhsPage)):
-                return lhsPage == rhsPage
-            case (.upcoming(let lhsPage) , .upcoming(let rhsPage)):
-                return lhsPage == rhsPage
-            default:
-                return false
-            }
-        }
-}
-
-extension TmdbAPI.TVEndpoint: Equatable {
-    public static func ==(lhs: TmdbAPI.TVEndpoint, rhs: TmdbAPI.TVEndpoint) -> Bool {
-            switch (lhs, rhs) {
-            case (.credits(let lhsMediaID) , .credits(let rhsMediaID)):
-                return lhsMediaID == rhsMediaID
-            case (.details(let lhsMediaID, _, _) , .details(let rhsMediaID, _, _)):
-                return lhsMediaID == rhsMediaID
-            case (.airingToday(let lhsPage) , .airingToday(let rhsPage)):
-                return lhsPage == rhsPage
-            case (.popular(let lhsPage) , .popular(let rhsPage)):
-                return lhsPage == rhsPage
-            case (.recommendations(let lhsMediaID) , .recommendations(let rhsMediaID)):
-                return lhsMediaID == rhsMediaID
-            case (.topRated(let lhsPage) , .topRated(let rhsPage)):
-                return lhsPage == rhsPage
-            case (.onTheAir(let lhsPage) , .onTheAir(let rhsPage)):
-                return lhsPage == rhsPage
-            default:
-                return false
-            }
-        }
-}
+let sut: SpyMediaListViewModel = {
+    let network = NetworkAgent()
+    let networkProvider = NetworkProvider(network: network)
+    let appConfig = AppConfig()
+    let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
+    let apiFactory = APIFactory(config)
+    let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+    let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
+    let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+    viewModel.coordinator = coordinator
+    return viewModel
+}()

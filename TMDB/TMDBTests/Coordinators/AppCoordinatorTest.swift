@@ -7,6 +7,8 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class AppCoordinatorTest: XCTestCase {
     
@@ -42,8 +44,9 @@ class AppCoordinatorTest: XCTestCase {
     
     let window = UIWindow()
     let tabBarController = UITabBarController()
-    lazy var sut = AppFlowCoordinator(window: window, tabBarController: tabBarController)
-    lazy var spyTabBarCoordinator = SpyTabBarCoordinator(window: window)
+    let container = AppDIContainer.shared
+    lazy var sut = AppFlowCoordinator(window: window, tabBarController: tabBarController, container: container)
+    lazy var spyTabBarCoordinator = SpyTabBarCoordinator(window: window, container: container)
     
     public class SpyTabBarCoordinator: TabBarCoordinator {}
     

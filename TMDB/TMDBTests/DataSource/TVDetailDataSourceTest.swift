@@ -7,13 +7,16 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class TVDetailDataSourceTest: XCTestCase {
     
     func test_dataSource() {
         
-        let coordinator = TVFlowCoordinator(navigationController: UINavigationController())
-        let (_, viewModel, controller) = coordinator.factory(with: "1399", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
+        let container = AppDIContainer.shared
+        let coordinator = TVFlowCoordinator(navigationController: UINavigationController(), container: container)
+        let (viewController, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: coordinator, "1399")!
         
         let tvEpisodeDetailModel = TVEpisodeDetailModel(airDate: nil, episodeNumber: 0, id: 1, name: "", overview: "", seasonNumber: 0, stillPath: nil, voteAverage: 0, voteCount: 0, credits: nil, images: nil, videos: nil)
         
@@ -30,8 +33,8 @@ class TVDetailDataSourceTest: XCTestCase {
             .tvPosterWrapperSection(title: "Overview", items: [item2])
         ])
         
-        XCTAssertEqual(controller.dataSource[0].items.first?.identity, "123")
-        XCTAssertEqual(controller.dataSource[1].items.first?.identity, "456")
+        XCTAssertEqual(viewController.dataSource[0].items.first?.identity, "123")
+        XCTAssertEqual(viewController.dataSource[1].items.first?.identity, "456")
         
     }
     

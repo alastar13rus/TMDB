@@ -37,7 +37,7 @@ public final class NetworkAgent {
                 guard let data = data else { return }
                 
 //  FIXME: - оставил пока, пусть крашится
-                let responseObject = try! JSONDecoder().decode(T.self, from: data)
+                _ = try! JSONDecoder().decode(T.self, from: data)
                 
                 do {
                     let responseObject = try JSONDecoder().decode(T.self, from: data)

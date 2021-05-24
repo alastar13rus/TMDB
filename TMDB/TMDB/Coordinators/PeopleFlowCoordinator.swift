@@ -28,7 +28,7 @@ extension ToPeopleRoutable {
     }
     
     func toCreditList(with mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?) {
-        _ = container.resolve(CreditListViewModel.self, arguments: (self as NavigationCoordinator), mediaID, mediaType, creditType, seasonNumber, episodeNumber)
+        _ = container.resolve(Typealias.CreditListBundle.self, arguments: (self as NavigationCoordinator), mediaID, mediaType, creditType, seasonNumber, episodeNumber)
     }
 }
 

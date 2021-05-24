@@ -264,6 +264,7 @@
 		BB53D2AE264D2C62009D7FF3 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB53D2AD264D2C62009D7FF3 /* AppDIContainer.swift */; };
 		BB56DDF026565C1B00FC458D /* PeopleDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DDEF26565C1B00FC458D /* PeopleDetailAPI.swift */; };
 		BB56DE0D2656A4D400FC458D /* CreditDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DE0C2656A4D400FC458D /* CreditDetailAPI.swift */; };
+		BB56DE59265A4FD500FC458D /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DE58265A4FD500FC458D /* Typealias.swift */; };
 		BB7ED5DD2628D79A00FE5659 /* CreditListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */; };
 		BB7ED5E32628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */; };
 		BB7ED5E92628FEB500FE5659 /* CreditListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5E82628FEB500FE5659 /* CreditListViewController.swift */; };
@@ -644,6 +645,7 @@
 		BB53D2AD264D2C62009D7FF3 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		BB56DDEF26565C1B00FC458D /* PeopleDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailAPI.swift; sourceTree = "<group>"; };
 		BB56DE0C2656A4D400FC458D /* CreditDetailAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditDetailAPI.swift; sourceTree = "<group>"; };
+		BB56DE58265A4FD500FC458D /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
 		BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModel.swift; sourceTree = "<group>"; };
 		BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModelMultipleSection.swift; sourceTree = "<group>"; };
 		BB7ED5E82628FEB500FE5659 /* CreditListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewController.swift; sourceTree = "<group>"; };
@@ -775,6 +777,7 @@
 		BB0AC590261C5F7000CFA11B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				BB56DE57265A4FCA00FC458D /* Typealias */,
 				BB7ED5F2262992EA00FE5659 /* ViewModels */,
 				BB0AC6B5262245BE00CFA11B /* Protocols */,
 				BBAA91BA2602DF380095DB27 /* Helpers */,
@@ -1750,6 +1753,14 @@
 			path = CollectionViewCell;
 			sourceTree = "<group>";
 		};
+		BB56DE57265A4FCA00FC458D /* Typealias */ = {
+			isa = PBXGroup;
+			children = (
+				BB56DE58265A4FD500FC458D /* Typealias.swift */,
+			);
+			path = Typealias;
+			sourceTree = "<group>";
+		};
 		BB7ED5D62628D73700FE5659 /* Credit */ = {
 			isa = PBXGroup;
 			children = (
@@ -2685,6 +2696,7 @@
 				BB0AC637262072F100CFA11B /* TVDetailCellViewModelMultipleSection.swift in Sources */,
 				BB232B9626435001000CFC05 /* TVEpisodeOverviewCellViewModel.swift in Sources */,
 				BB232ACB263CE0AA000CFC05 /* TVSeasonListTableViewDataSource.swift in Sources */,
+				BB56DE59265A4FD500FC458D /* Typealias.swift in Sources */,
 				BB232B2926416607000CFC05 /* TVSeasonPosterWrapperTableViewCell.swift in Sources */,
 				BBAA918E2600E3320095DB27 /* BindableType.swift in Sources */,
 				BB0AC6842621F16B00CFA11B /* NavigationBarAppearance.swift in Sources */,

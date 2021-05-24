@@ -131,15 +131,19 @@ class MediaListViewModel {
         
         guard !output.isFetching.value else { completion([]); return }
         
+        self.output.isFetching.accept(true)
+        
         switch screen {
         
         case .movie:
+            self.output.isFetching.accept(true)
             movieMethod?(currentPage) { [weak self] (result: Result) in
                 guard let self = self else { return }
                 completion(self.handleMovie(result))
             }
             
         case .tv:
+            self.output.isFetching.accept(true)
             tvMethod?(currentPage) { [weak self] (result: Result) in
                 guard let self = self else { return }
                 completion(self.handleTV(result))
@@ -149,12 +153,10 @@ class MediaListViewModel {
 
 private func handleMovie(_ result: Result<MediaListResponse<MovieModel>, Error>) -> [MediaCellViewModel] {
     
-    self.output.isFetching.accept(true)
-    
+    output.isFetching.accept(false)
     switch result {
     case .success(let response):
         let fetchedMedia = response.results.map { MediaCellViewModel($0) }
-        self.output.isFetching.accept(false)
         return fetchedMedia
     case .failure: return []; break
     }
@@ -162,8 +164,6 @@ private func handleMovie(_ result: Result<MediaListResponse<MovieModel>, Error>)
 
 private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [MediaCellViewModel] {
     
-    self.output.isFetching.accept(true)
-    
     switch result {
     case .success(let response):
         let fetchedMedia = response.results.map { MediaCellViewModel($0) }
@@ -171,6 +171,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
         return fetchedMedia
     case .failure: return []; break
     }
+    output.isFetching.accept(false)
 }
     
     
