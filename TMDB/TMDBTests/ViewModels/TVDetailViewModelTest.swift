@@ -25,11 +25,11 @@ class TVDetailViewModelTest: XCTestCase {
         
         let expectation = self.expectation(description: #function)
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 10) {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 11, handler: nil)
         XCTAssertTrue(viewModel.output.sectionedItems.value.count > 0)
     }
     
@@ -48,11 +48,11 @@ class TVDetailViewModelTest: XCTestCase {
             tvDetail = fetchedTVDetail
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 11, handler: nil)
         XCTAssertNotNil(tvDetail)
     }
     
