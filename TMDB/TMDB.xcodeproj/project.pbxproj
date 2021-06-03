@@ -82,6 +82,8 @@
 		BB109FF2261B9A60008C50EE /* FavoriteFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB109FF1261B9A60008C50EE /* FavoriteFlowCoordinator.swift */; };
 		BB116A8B2666858C002C3A7B /* MediaFilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116A8A2666858C002C3A7B /* MediaFilterType.swift */; };
 		BB116AC4266840EA002C3A7B /* TVNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116AC3266840EA002C3A7B /* TVNetworkModel.swift */; };
+		BB116AD02668FD80002C3A7B /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116ACF2668FD80002C3A7B /* SearchAPI.swift */; };
+		BB116ADC2668FDB5002C3A7B /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116ADB2668FDB5002C3A7B /* NetworkProvider.swift */; };
 		BB232A5E263AFCAE000CFC05 /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB232A5D263AFCAE000CFC05 /* ButtonTableViewCell.swift */; };
 		BB232A62263AFD7E000CFC05 /* ButtonCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB232A61263AFD7E000CFC05 /* ButtonCellViewModel.swift */; };
 		BB232A71263B52E1000CFC05 /* MediaTrailerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB232A70263B52E1000CFC05 /* MediaTrailerListViewModel.swift */; };
@@ -186,7 +188,6 @@
 		BB2DA16C26524F1200ECAF80 /* NetworkPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB2DA15726524F1100ECAF80 /* NetworkPlatform.framework */; };
 		BB2DA16D26524F1200ECAF80 /* NetworkPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BB2DA15726524F1100ECAF80 /* NetworkPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BB2DA199265251BF00ECAF80 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB2D9FC4265087DC00ECAF80 /* Domain.framework */; };
-		BB2DA1A12652568C00ECAF80 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1A02652568C00ECAF80 /* NetworkProvider.swift */; };
 		BB2DA1AD2652573600ECAF80 /* NetworkAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1AC2652573600ECAF80 /* NetworkAgent.swift */; };
 		BB2DA1B3265257F100ECAF80 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA917325FFFA6D0095DB27 /* Endpoint.swift */; };
 		BB2DA1BE26525C9B00ECAF80 /* MovieDetailNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1BD26525C9B00ECAF80 /* MovieDetailNetwork.swift */; };
@@ -288,7 +289,6 @@
 		BB56DF802660F66C00FC458D /* SearchCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF7F2660F66C00FC458D /* SearchCategory.swift */; };
 		BB56DF8C2660F71400FC458D /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF8B2660F71400FC458D /* SearchUseCase.swift */; };
 		BB56DF932660F8D300FC458D /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF922660F8D300FC458D /* SearchUseCase.swift */; };
-		BB56DF9A2660F92900FC458D /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF992660F92900FC458D /* SearchAPI.swift */; };
 		BB56DFA32660F9EE00FC458D /* SearchNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFA22660F9EE00FC458D /* SearchNetwork.swift */; };
 		BB56DFAF2661006900FC458D /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFAE2661006900FC458D /* SearchAPI.swift */; };
 		BB56DFB6266102BC00FC458D /* PeopleListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFB5266102BC00FC458D /* PeopleListAPI.swift */; };
@@ -511,6 +511,8 @@
 		BB109FF1261B9A60008C50EE /* FavoriteFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteFlowCoordinator.swift; sourceTree = "<group>"; };
 		BB116A8A2666858C002C3A7B /* MediaFilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFilterType.swift; sourceTree = "<group>"; };
 		BB116AC3266840EA002C3A7B /* TVNetworkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVNetworkModel.swift; sourceTree = "<group>"; };
+		BB116ACF2668FD80002C3A7B /* SearchAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
+		BB116ADB2668FDB5002C3A7B /* NetworkProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
 		BB232A43263AD481000CFC05 /* DepartmentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepartmentHelper.swift; sourceTree = "<group>"; };
 		BB232A5D263AFCAE000CFC05 /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
 		BB232A61263AFD7E000CFC05 /* ButtonCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCellViewModel.swift; sourceTree = "<group>"; };
@@ -609,7 +611,6 @@
 		BB2DA16626524F1200ECAF80 /* NetworkPlatformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPlatformTests.swift; sourceTree = "<group>"; };
 		BB2DA16826524F1200ECAF80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB2DA1812652506700ECAF80 /* UseCaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseProvider.swift; sourceTree = "<group>"; };
-		BB2DA1A02652568C00ECAF80 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkProvider.swift; path = ../../../../../NetworkProvider.swift; sourceTree = "<group>"; };
 		BB2DA1AC2652573600ECAF80 /* NetworkAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAgent.swift; sourceTree = "<group>"; };
 		BB2DA1BD26525C9B00ECAF80 /* MovieDetailNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailNetwork.swift; sourceTree = "<group>"; };
 		BB2DA1D82652858900ECAF80 /* APIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFactory.swift; sourceTree = "<group>"; };
@@ -715,7 +716,6 @@
 		BB56DF7F2660F66C00FC458D /* SearchCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCategory.swift; sourceTree = "<group>"; };
 		BB56DF8B2660F71400FC458D /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
 		BB56DF922660F8D300FC458D /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
-		BB56DF992660F92900FC458D /* SearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchAPI.swift; path = ../../../../../SearchAPI.swift; sourceTree = "<group>"; };
 		BB56DFA22660F9EE00FC458D /* SearchNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNetwork.swift; sourceTree = "<group>"; };
 		BB56DFAE2661006900FC458D /* SearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
 		BB56DFB5266102BC00FC458D /* PeopleListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListAPI.swift; sourceTree = "<group>"; };
@@ -1669,7 +1669,7 @@
 		BB2DA19F2652567D00ECAF80 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA1A02652568C00ECAF80 /* NetworkProvider.swift */,
+				BB116ADB2668FDB5002C3A7B /* NetworkProvider.swift */,
 				BB2DA1AC2652573600ECAF80 /* NetworkAgent.swift */,
 			);
 			path = Network;
@@ -1709,7 +1709,7 @@
 				BB2DA3372653ACA400ECAF80 /* TVDetailAPI.swift */,
 				BB2DA33E2653ACBA00ECAF80 /* TVSeasonDetailAPI.swift */,
 				BB2DA3452653ACD900ECAF80 /* TVEpisodeDetailAPI.swift */,
-				BB56DF992660F92900FC458D /* SearchAPI.swift */,
+				BB116ACF2668FD80002C3A7B /* SearchAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2865,7 +2865,6 @@
 				BB2DA3382653ACA400ECAF80 /* TVDetailAPI.swift in Sources */,
 				BB2DA08E2651631D00ECAF80 /* TVAggregateCreditListResponse.swift in Sources */,
 				BB2DA0A52651631E00ECAF80 /* TVNetworkProtocol.swift in Sources */,
-				BB56DF9A2660F92900FC458D /* SearchAPI.swift in Sources */,
 				BB2D9FED2651563300ECAF80 /* MediaListUseCase.swift in Sources */,
 				BB2DA2D9265330E500ECAF80 /* TVEpisodeDetailUseCase.swift in Sources */,
 				BB2DA14E265192AF00ECAF80 /* ImageType.swift in Sources */,
@@ -2873,6 +2872,7 @@
 				BB2DA30A2653A7AB00ECAF80 /* APIFactory.swift in Sources */,
 				BB2DA0A72651631E00ECAF80 /* MediaListResponseProtocol.swift in Sources */,
 				BB2DA34D2653AD4500ECAF80 /* MovieDetailAPI.swift in Sources */,
+				BB116AD02668FD80002C3A7B /* SearchAPI.swift in Sources */,
 				BB2DA0992651631E00ECAF80 /* TVAggregateCrewModel.swift in Sources */,
 				BB2DA09F2651631E00ECAF80 /* GenreModel.swift in Sources */,
 				BB2DA3252653AC1400ECAF80 /* MovieListAPI.swift in Sources */,
@@ -2924,13 +2924,13 @@
 				BB2DA2A12653056100ECAF80 /* TVListUseCase.swift in Sources */,
 				BB56DFAF2661006900FC458D /* SearchAPI.swift in Sources */,
 				BB2DA23D2652B96100ECAF80 /* TVDetailAPI.swift in Sources */,
+				BB116ADC2668FDB5002C3A7B /* NetworkProvider.swift in Sources */,
 				BB2DA417265516FF00ECAF80 /* MovieDetailAPI.swift in Sources */,
 				BB2DA30326533D3D00ECAF80 /* TVEpisodeDetailNetwork.swift in Sources */,
 				BB56DFA32660F9EE00FC458D /* SearchNetwork.swift in Sources */,
 				BB56DF8C2660F71400FC458D /* SearchUseCase.swift in Sources */,
 				BB2DA2E9265338FF00ECAF80 /* TVSeasonDetailAPI.swift in Sources */,
 				BB2DA2E02653312D00ECAF80 /* TVDetailUseCase.swift in Sources */,
-				BB2DA1A12652568C00ECAF80 /* NetworkProvider.swift in Sources */,
 				BB56DF6C2660EA8200FC458D /* PeopleListNetwork.swift in Sources */,
 				BB2DA2172652B46600ECAF80 /* MovieListAPI.swift in Sources */,
 				BB2DA3192653A95D00ECAF80 /* PeopleDetailUseCase.swift in Sources */,
