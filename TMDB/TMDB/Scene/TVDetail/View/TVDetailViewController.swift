@@ -137,7 +137,7 @@ extension TVDetailViewController: UITableViewDelegate {
         switch dataSource[section] {
         case .tvSeasonShortListSection(let title, _):
             let headerView = TVSeasonShortListSectionHeaderView(title: title, numberOfSeasons: viewModel.output.numberOfSeasons.value)
-            headerView.showTVSeasonListButtonPressed.rx.tap.map { _ in () }.bind(to: viewModel.input.showTVSeasonListButtonPressed)
+            headerView.showTVSeasonListButtonPressed.rx.tap.map { _ in () }.bind(to: viewModel.input.showTVSeasonListButtonPressed).disposed(by: disposeBag)
             return headerView
         default:
             return nil

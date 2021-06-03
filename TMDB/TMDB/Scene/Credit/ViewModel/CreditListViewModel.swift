@@ -108,6 +108,7 @@ class CreditListViewModel {
         case .tv: fetchTVCredits()
         case .tvSeason: fetchTVSeasonCredits()
         case .tvEpisode: fetchTVEpisodeCredits()
+        default: break
         }
         
     }

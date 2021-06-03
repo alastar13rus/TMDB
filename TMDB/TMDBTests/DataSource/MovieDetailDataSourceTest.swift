@@ -7,13 +7,16 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class MovieDetailDataSourceTest: XCTestCase {
     
     func test_dataSource() {
         
-        let coordinator = MovieFlowCoordinator(navigationController: UINavigationController())
-        let (_, viewModel, controller) = coordinator.factory(with: "761053", vmType: MovieDetailViewModel.self, vcType: MovieDetailViewController.self)
+        let container = AppDIContainer.shared
+        let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: container)
+        let (viewController, viewModel, _) = container.resolve(Typealias.MovieDetailBundle.self, arguments: coordinator, "761053")!
         
         let movieDetailModel = MovieDetailModel(adult: false, backdropPath: nil, budget: 0, genres: [], homepage: "", id: 761053, originalLanguage: "", originalTitle: "", overview: "", popularity: 0, posterPath: nil, productionCountries: [], productionCompanies: [], releaseDate: nil, revenue: 0, runtime: 0, spokenLanguages: [], status: "", tagline: "", title: "Title 1", voteAverage: 0, voteCount: 0, video: false, credits: nil, recommendations: nil, similar: nil, images: nil, videos: nil)
         
@@ -28,8 +31,8 @@ class MovieDetailDataSourceTest: XCTestCase {
             .moviePosterWrapperSection(title: "Overview", items: [item2])
         ])
         
-        XCTAssertEqual(controller.dataSource[0].items.first?.identity, "761053")
-        XCTAssertEqual(controller.dataSource[1].items.first?.identity, "761054")
+        XCTAssertEqual(viewController.dataSource[0].items.first?.identity, "761053")
+        XCTAssertEqual(viewController.dataSource[1].items.first?.identity, "761054")
 
         
     }

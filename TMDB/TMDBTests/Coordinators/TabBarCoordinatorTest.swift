@@ -74,7 +74,7 @@ class TabBarCoordinatorTest: XCTestCase {
     
 //    MARK: - Helpers
     let sut: TabBarCoordinator = {
-        let coordinator = TabBarCoordinator(window: UIWindow())
+        let coordinator = TabBarCoordinator(window: UIWindow(), container: AppDIContainer.shared)
         return coordinator
     }()
     

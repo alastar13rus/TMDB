@@ -45,9 +45,9 @@ class TVSeasonListViewModel {
 //    MARK: - Methods
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: { [weak self] in
-            guard let self = self, let coordinator = self.coordinator as? TVFlowCoordinator else { return }
+            guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }
             switch $0 {
-            case .season(let vm): coordinator.toSeason(with: self.mediaID, seasonNumber: vm.seasonNumber)
+            case .season(let vm): coordinator.toDetail(with: self.mediaID, seasonNumber: vm.seasonNumber)
             default: break
             }
         }).disposed(by: disposeBag)

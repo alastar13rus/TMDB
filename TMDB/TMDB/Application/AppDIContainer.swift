@@ -42,7 +42,15 @@ class AppDIContainer {
                 apiFactory: r.resolve(Domain.APIFactory.self)!) }
         
         
-//        MARK: - ViewControllers
+        registerVC(with: container)
+        
+        registerVM(with: container)
+        
+        registerBundles(with: container)
+        
+    }
+    
+    fileprivate static func registerVC(with container: Container) {
         
         container.register(MovieDetailViewController.self) { _ in MovieDetailViewController() }
         container.register(TVDetailViewController.self) { _ in TVDetailViewController() }
@@ -58,131 +66,231 @@ class AppDIContainer {
         container.register(CreditListViewController.self) { _ in CreditListViewController() }
         container.register(MediaTrailerListViewController.self) { _ in MediaTrailerListViewController() }
         container.register(FullScreenViewController.self) { _ in FullScreenViewController() }
+    }
+    
+    fileprivate static func registerVM(with container: Container) {
         
-//        MARK: - ViewModels
-        
-        
-        container.register(MediaListViewModel.self) { (r, coordinator: NavigationCoordinator) in
-            let viewController = MediaListViewController()
-            
-            let viewModel = MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
-            viewModel.coordinator = coordinator as NavigationCoordinator
-            viewController.bindViewModel(to: viewModel)
-            if (coordinator.navigationController.viewControllers.isEmpty) {
-                coordinator.navigationController.pushViewController(viewController, animated: true)
-            }
-            return viewModel
+        container.register(MediaListViewModel.self) { r in
+            return MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
         }
         
-        container.register(MovieDetailViewModel.self)  { (r, coordinator: MovieFlowCoordinator, detailID: String) in
+        container.register(MovieDetailViewModel.self)  { (r, detailID: String) in
+            return MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(TVDetailViewModel.self)  { (r, detailID: String) in
+            return TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(TVSeasonListViewModel.self)  { (r, mediaID: String) in
+            return TVSeasonListViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(TVEpisodeListViewModel.self)  { (r, mediaID: String, seasonNumber: String) in
+            return TVEpisodeListViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(TVSeasonDetailViewModel.self)  { (r, mediaID: String, seasonNumber: String) in
+            return TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(TVEpisodeDetailViewModel.self)  { (r, mediaID: String, seasonNumber: String, episodeNumber: String) in
+            return TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(MediaTrailerListViewModel.self)  { (r, mediaID: String, mediaType: MediaType) in
+            return MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(MediaTrailerListViewModel.self)  { (r, mediaID: String, mediaType: MediaType, seasonNumber: String) in
+            return MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(MediaTrailerListViewModel.self)  { (r, mediaID: String, mediaType: MediaType, seasonNumber: String, episodeNumber: String) in
+            return MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(CreditListViewModel.self)  { (r, mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?) in
+            return CreditListViewModel(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+        }
+        
+        container.register(PeopleDetailViewModel.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
+            return PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+
+        }
+    }
+    
+    fileprivate static func registerBundles(with container: Container) {
+            
+            container.register(Typealias.MediaListBundle.self) { (r, coordinator: NavigationCoordinator) in
+                let viewController = MediaListViewController()
+                
+                let viewModel = MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+                viewModel.coordinator = coordinator as NavigationCoordinator
+                viewController.bindViewModel(to: viewModel)
+                if (coordinator.navigationController.viewControllers.isEmpty) {
+                    coordinator.navigationController.pushViewController(viewController, animated: true)
+                }
+                return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+            }
+        
+        container.register(Typealias.MovieDetailBundle.self)  { (r, coordinator: MovieFlowCoordinator, detailID: String) in
             let viewController = MovieDetailViewController()
             
             let viewModel = MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(TVDetailViewModel.self)  { (r, coordinator: TVFlowCoordinator, detailID: String) in
+        container.register(Typealias.TVDetailBundle.self)  { (r, coordinator: TVFlowCoordinator, detailID: String) in
             let viewController = TVDetailViewController()
             
             let viewModel = TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(TVSeasonListViewModel.self)  { (r, coordinator: TVSeasonFlowCoordinator, mediaID: String) in
+        container.register(Typealias.TVSeasonListBundle.self)  { (r, coordinator: TVSeasonFlowCoordinator, mediaID: String) in
             let viewController = TVSeasonListViewController()
             
             let viewModel = TVSeasonListViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(TVEpisodeListViewModel.self)  { (r, coordinator: TVEpisodeFlowCoordinator, mediaID: String, seasonNumber: String) in
+        container.register(Typealias.TVEpisodeListBundle.self)  { (r, coordinator: TVEpisodeFlowCoordinator, mediaID: String, seasonNumber: String) in
             let viewController = TVEpisodeListViewController()
             
             let viewModel = TVEpisodeListViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(TVSeasonDetailViewModel.self)  { (r, coordinator: TVSeasonFlowCoordinator, mediaID: String, seasonNumber: String) in
+        container.register(Typealias.TVSeasonDetailBundle.self)  { (r, coordinator: TVSeasonFlowCoordinator, mediaID: String, seasonNumber: String) in
             let viewController = TVSeasonDetailViewController()
             
             let viewModel = TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(TVEpisodeDetailViewModel.self)  { (r, coordinator: TVEpisodeFlowCoordinator, mediaID: String, seasonNumber: String, episodeNumber: String) in
+        container.register(Typealias.TVEpisodeDetailBundle.self)  { (r, coordinator: TVEpisodeFlowCoordinator, mediaID: String, seasonNumber: String, episodeNumber: String) in
             let viewController = TVEpisodeDetailViewController()
             
             let viewModel = TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(MediaTrailerListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType) in
+        container.register(Typealias.MediaTrailerListBundle.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType) in
             let viewController = MediaTrailerListViewController()
             
             let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(MediaTrailerListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, seasonNumber: String) in
+        container.register(Typealias.MediaTrailerListBundle.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, seasonNumber: String) in
             let viewController = MediaTrailerListViewController()
             
             let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(MediaTrailerListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, seasonNumber: String, episodeNumber: String) in
+        container.register(Typealias.MediaTrailerListBundle.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, seasonNumber: String, episodeNumber: String) in
             let viewController = MediaTrailerListViewController()
             
             let viewModel = MediaTrailerListViewModel(with: mediaID, mediaType: mediaType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(CreditListViewModel.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?) in
+        container.register(Typealias.CreditListBundle.self)  { (r, coordinator: NavigationCoordinator, mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?) in
             let viewController = CreditListViewController()
             
             let viewModel = CreditListViewModel(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator  as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
         
-        container.register(PeopleDetailViewModel.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
+        container.register(Typealias.PeopleDetailBundle.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
             let viewController = PeopleDetailViewController()
             
             let viewModel = PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
-            return viewModel
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
+        
+        container.register(Typealias.SearchBundle.self)  { (r, coordinator: SearchFlowCoordinator) in
+            let viewController = SearchViewController()
+            
+            let viewModel = SearchViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            if (coordinator.navigationController.viewControllers.isEmpty) {
+                coordinator.navigationController.pushViewController(viewController, animated: true)
+            }
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        container.register(Typealias.FilterOptionListMediaBundle.self)  { (r, coordinator: SearchFlowCoordinator, searchCategory: SearchCategory) in
+            let viewController = FilterOptionListMediaViewController()
+            
+            let viewModel = FilterOptionListMediaViewModel(searchCategory: searchCategory, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            coordinator.navigationController.pushViewController(viewController, animated: true)
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        container.register(Typealias.MediaFilteredListBundle.self)  { (r, coordinator: SearchFlowCoordinator, mediaType: MediaType, mediaFilterType: MediaFilterType) in
+            let viewController = MediaFilteredListViewController()
+            
+            let viewModel = MediaFilteredListViewModel(mediaType: mediaType, mediaFilterType: mediaFilterType, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            coordinator.navigationController.pushViewController(viewController, animated: true)
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        
         
         
     }

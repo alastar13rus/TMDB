@@ -7,7 +7,7 @@
 
 import XCTest
 @testable import TMDB
-
+@testable import Domain
 class TVRuntimeCellViewModelTest: XCTestCase {
     
     func test_initWithTVDetailModel_whenEpisodeRunTimeIs60Min_thenViewModelRuntimeTextContainsHoursCount() {

@@ -6,10 +6,10 @@ target 'TMDB' do
   use_frameworks!
 
   # Pods for TMDB
-#  pod 'RxSwift'
-#  pod 'RxCocoa'
-#  pod 'RxRelay'
-#  pod 'RxDataSources'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxRelay'
+  pod 'RxDataSources'
   pod 'youtube-ios-player-helper'
   pod 'Swinject'
   

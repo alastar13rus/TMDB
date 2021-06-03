@@ -6,21 +6,23 @@
 //
 
 import XCTest
+import Swinject
 @testable import TMDB
+@testable import Domain
 
 class MediaFlowCoordinatorTest: XCTestCase {
     
-    func test_factory() {
-        let (coordinator, viewModel, viewController) = sut.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
+    func test_bundle() {
+        let container = AppDIContainer.shared
+        let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: container)
+        let (viewController, viewModel, _) = container.resolve(Typealias.MediaListBundle.self, argument: coordinator as NavigationCoordinator)!
         
         XCTAssertEqual(viewController.viewModel, viewModel)
         XCTAssertEqual(viewModel.coordinator as! MovieFlowCoordinator, coordinator)
     }
-    
-//    MARK: - Helpers
-    let sut = MovieFlowCoordinator(navigationController: UINavigationController())
-    
 }
+
+//    MARK: - Helpers
 
 extension MediaListViewModel: Equatable {
     

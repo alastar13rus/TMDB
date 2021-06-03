@@ -59,15 +59,15 @@ class TVSeasonFlowCoordinator:  NavigationCoordinator {
     func start() { }
     
     func start(with mediaID: String) {
-        _ = container.resolve(TVSeasonListViewModel.self, arguments: self, mediaID)
+        _ = container.resolve(Typealias.TVSeasonListBundle.self, arguments: self, mediaID)
     }
     
     func toDetail(with mediaID: String, seasonNumber: String) {
-        _ = container.resolve(TVSeasonDetailViewModel.self, arguments: self, mediaID, seasonNumber)
+        _ = container.resolve(Typealias.TVSeasonDetailBundle.self, arguments: self, mediaID, seasonNumber)
     }
     
     func toTrailerList(with mediaID: String, mediaType: MediaType, seasonNumber: String) {
-        _ = container.resolve(MediaTrailerListViewModel.self, arguments: (self as NavigationCoordinator), mediaID, mediaType, seasonNumber)
+        _ = container.resolve(Typealias.MediaTrailerListBundle.self, arguments: (self as NavigationCoordinator), mediaID, mediaType, seasonNumber)
     }
     
     func toEpisodeList(with mediaID: String, seasonNumber: String) {

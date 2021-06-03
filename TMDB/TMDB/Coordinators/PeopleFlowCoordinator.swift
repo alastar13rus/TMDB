@@ -28,7 +28,7 @@ extension ToPeopleRoutable {
     }
     
     func toCreditList(with mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?) {
-        _ = container.resolve(CreditListViewModel.self, arguments: (self as NavigationCoordinator), mediaID, mediaType, creditType, seasonNumber, episodeNumber)
+        _ = container.resolve(Typealias.CreditListBundle.self, arguments: (self as NavigationCoordinator), mediaID, mediaType, creditType, seasonNumber, episodeNumber)
     }
 }
 
@@ -71,7 +71,7 @@ class PeopleFlowCoordinator: NavigationCoordinator {
     }
     
     func toDetail(with mediaID: String) {
-        _ = container.resolve(PeopleDetailViewModel.self, arguments: self, mediaID)
+        _ = container.resolve(Typealias.PeopleDetailBundle.self, arguments: self, mediaID)
     }
         
     func toMovieDetail(with mediaID: String) {

@@ -12,4 +12,5 @@ public enum MediaType: String, Decodable {
     case tv
     case tvSeason
     case tvEpisode
+    case person
 }

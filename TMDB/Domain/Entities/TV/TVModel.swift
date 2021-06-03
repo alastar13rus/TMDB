@@ -14,7 +14,7 @@ public struct TVModel: TVProtocol {
     public let name: String
     public let originalName: String
     public let id: Int
-    public let popularity: Float
+    public let popularity: Float?
     public let voteCount: Int
     public let posterPath: String?
     public let backdropPath: String?

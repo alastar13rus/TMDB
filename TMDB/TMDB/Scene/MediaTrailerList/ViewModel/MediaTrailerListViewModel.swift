@@ -30,6 +30,7 @@ class MediaTrailerListViewModel {
         case .tv: return useCaseProvider.makeTVDetailUseCase()
         case .tvSeason: return useCaseProvider.makeTVSeasonDetailUseCase()
         case .tvEpisode: return useCaseProvider.makeTVEpisodeDetailUseCase()
+        default: fatalError("UseCase create error")
         }
     }
     
@@ -110,6 +111,7 @@ class MediaTrailerListViewModel {
             useCase.videos(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber) { (response: Result<VideoList, Error>) in
                 if case .success(let trailerList) = response { completion(trailerList) }
             }
+        default: break
         }
     }
     

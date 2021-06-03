@@ -7,7 +7,8 @@
 
 import UIKit
 import Swinject
-import Domain
+@testable import Domain
+@testable import NetworkPlatform
 
 class TVFlowCoordinator:  NavigationCoordinator {
     
@@ -27,15 +28,15 @@ class TVFlowCoordinator:  NavigationCoordinator {
     
 //    MARK: - Methods
     func start() {
-        _ = container.resolve(MediaListViewModel.self, argument: (self as NavigationCoordinator))
+        _ = container.resolve(Typealias.MediaListBundle.self, argument: (self as NavigationCoordinator))
     }
     
     func toDetail(with detailID: String) {
-        _ = container.resolve(TVDetailViewModel.self, arguments: self, detailID)
+        _ = container.resolve(Typealias.TVDetailBundle.self, arguments: self, detailID)
     }
     
     func toTrailerList(with mediaID: String, mediaType: MediaType) {
-        _ = container.resolve(MediaTrailerListViewModel.self, arguments: (self as NavigationCoordinator), mediaID, mediaType)
+        _ = container.resolve(Typealias.MediaTrailerListBundle.self, arguments: (self as NavigationCoordinator), mediaID, mediaType)
     }
     
     func toSeasonList(with mediaID: String) {

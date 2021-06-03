@@ -10,7 +10,7 @@ import Foundation
 public protocol MediaProtocol: Decodable, Comparable {
     
     var id: Int { get }
-    var popularity: Float { get }
+    var popularity: Float? { get }
     var voteCount: Int { get }
     var posterPath: String? { get }
     var backdropPath: String? { get }
@@ -23,7 +23,7 @@ public protocol MediaProtocol: Decodable, Comparable {
 
 public protocol MovieProtocol: MediaProtocol {
     var adult: Bool { get }
-    var releaseDate: String { get }
+    var releaseDate: String? { get }
     var genreIds: [Int] { get }
     var id: Int { get }
     var originalTitle: String { get }

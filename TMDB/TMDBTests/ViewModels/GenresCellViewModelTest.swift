@@ -7,6 +7,8 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class GenresCellViewModelTest: XCTestCase {
  

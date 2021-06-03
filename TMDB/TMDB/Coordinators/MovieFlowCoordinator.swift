@@ -11,6 +11,18 @@ import Domain
 
 class MovieFlowCoordinator: NavigationCoordinator {
     
+    typealias MediaListBundle = (vc: MediaListViewController,
+                                 vm: MediaListViewModel,
+                                 c: MovieFlowCoordinator)
+    
+    typealias MovieDetailBundle = (vc: MovieDetailViewController,
+                                   vm: MovieDetailViewModel,
+                                   c: MovieFlowCoordinator)
+    
+    typealias MediaTrailerListBundle = (vc: MediaTrailerListViewController,
+                                        vm: MediaTrailerListViewModel,
+                                        c: MovieFlowCoordinator)
+    
 //    MARK: - Properties
     var identifier = UUID()
     var childCoordinators = [UUID : Coordinator]()
@@ -27,15 +39,15 @@ class MovieFlowCoordinator: NavigationCoordinator {
     
 //    MARK: - Methods
     func start() {
-        _ = container.resolve(MediaListViewModel.self, argument: (self as NavigationCoordinator))
+        _ = container.resolve(Typealias.MediaListBundle.self, argument: (self as NavigationCoordinator))
     }
     
     func toDetail(with detailID: String) {
-        _ = container.resolve(MovieDetailViewModel.self, arguments: self, detailID)
+        _ = container.resolve(Typealias.MovieDetailBundle.self, arguments: self, detailID)
     }
     
     func toTrailerList(with mediaID: String, mediaType: MediaType) {
-        _ = container.resolve(MediaTrailerListViewModel.self, arguments: (self as NavigationCoordinator), mediaID, mediaType)
+        _ = container.resolve(Typealias.MediaTrailerListBundle.self, arguments: (self as NavigationCoordinator), mediaID, mediaType)
     }
 }
 

@@ -19,7 +19,7 @@ class PeopleDetailViewModel {
     
     let useCaseProvider: Domain.UseCaseProvider
     
-    weak var coordinator: Coordinator?
+    weak var coordinator: NavigationCoordinator?
     let disposeBag = DisposeBag()
     
     let input = Input()

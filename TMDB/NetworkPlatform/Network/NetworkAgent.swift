@@ -26,7 +26,7 @@ public final class NetworkAgent {
             
             
             guard let url = components.url else { return }
-//            print(url)
+            print(url)
             let request = URLRequest(url: url)
             let session = URLSession(configuration: .default)
             
@@ -37,7 +37,7 @@ public final class NetworkAgent {
                 guard let data = data else { return }
                 
 //  FIXME: - оставил пока, пусть крашится
-                let responseObject = try! JSONDecoder().decode(T.self, from: data)
+                _ = try! JSONDecoder().decode(T.self, from: data)
                 
                 do {
                     let responseObject = try JSONDecoder().decode(T.self, from: data)
@@ -49,8 +49,7 @@ public final class NetworkAgent {
                     return
                 }
             }
-            
-            dataTask.resume()
+                        dataTask.resume()
         }
     }
 }

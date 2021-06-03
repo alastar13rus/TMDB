@@ -49,4 +49,13 @@ public final class APIFactory: Domain.APIFactory {
         return PeopleDetailAPI(config)
     }
     
+    public func makePeopleListAPI() -> Domain.PeopleListAPI {
+        return PeopleListAPI(config)
+    }
+    
+//    MARK: - TVPeopleFlow
+    public func makeSearchAPI() -> Domain.SearchAPI {
+        return SearchAPI(config)
+    }
+    
 }

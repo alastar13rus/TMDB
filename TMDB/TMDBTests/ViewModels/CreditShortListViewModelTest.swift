@@ -9,6 +9,7 @@ import XCTest
 import RxSwift
 import RxBlocking
 @testable import TMDB
+@testable import Domain
 
 class CreditShortListViewModelTest: XCTestCase {
     
@@ -17,10 +18,10 @@ class CreditShortListViewModelTest: XCTestCase {
         let title = "Показать еще"
         
         
-        let viewModel = CreditShortListViewModel(title: title, items: castItems, coordinator: nil, networkManager: nil, mediaID: "1399", creditType: .cast)
+        let viewModel = CreditShortListViewModel(title: title, items: castItems, creditType: .cast, mediaType: .movie, delegate: nil)
         
-        let viewModel2 = CreditShortListViewModel(title: title, items: crewItems, coordinator: nil, networkManager: nil, mediaID: "1399", creditType: .crew)
-        
+        let viewModel2 = CreditShortListViewModel(title: title, items: crewItems, creditType: .crew, mediaType: .movie, delegate: nil)
+
         viewModel.items.enumerated().forEach {
             switch $0.element {
             case .cast(let vm):
@@ -60,7 +61,7 @@ class CreditShortListViewModelTest: XCTestCase {
                     showMoreCrewSection
                 ]).toBlocking().first())
             
-            
+        default: break
         }
         
     }
@@ -109,6 +110,7 @@ class CreditShortListViewModelTest: XCTestCase {
                     showMoreCrewSection
                 ]).toBlocking().first())
             
+        default: break
             
         }
     }

@@ -11,14 +11,14 @@ public struct MovieModel: MovieProtocol {
     public var posterPath: String?
     public var adult: Bool
     public var overview: String
-    public var releaseDate: String
+    public var releaseDate: String?
     public var genreIds: [Int]
     public var id: Int
     public var originalTitle: String
     public var originalLanguage: String
     public var title: String
     public var backdropPath: String?
-    public var popularity: Float
+    public var popularity: Float?
     public var voteCount: Int
     public var video: Bool
     public var voteAverage: Float

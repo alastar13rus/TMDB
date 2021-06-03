@@ -15,5 +15,8 @@ public protocol APIFactory: class {
     func makeTVSeasonDetailAPI() -> TVSeasonDetailAPI
     func makeTVEpisodeDetailAPI() -> TVEpisodeDetailAPI
     func makePeopleDetailAPI() -> PeopleDetailAPI
+    func makePeopleListAPI() -> PeopleListAPI
 //    func makeCreditListAPI() -> CreditListAPI
+    func makeSearchAPI() -> SearchAPI
+
 }
