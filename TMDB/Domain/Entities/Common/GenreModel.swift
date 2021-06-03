@@ -9,5 +9,9 @@ import Foundation
 
 public struct GenreModel: Decodable {
     public let id: Int
-    public let name: String 
+    public let name: String
+}
+
+public struct GenreModelResponse: Decodable {
+    public let genres: [GenreModel]
 }

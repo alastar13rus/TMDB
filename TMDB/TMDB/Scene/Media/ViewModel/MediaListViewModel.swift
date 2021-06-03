@@ -16,7 +16,7 @@ class MediaListViewModel {
     
 
 //    MARK: - Properties
-    let useCaseProvider: Domain.UseCaseProvider
+    private let useCaseProvider: Domain.UseCaseProvider
     
     weak var coordinator: Coordinator? {
         didSet {
@@ -28,18 +28,13 @@ class MediaListViewModel {
             }
         }
     }
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
-    var currentPage = 1
-    var numberOfMedia = 0
-    var requiredThresholdNumberOfCells = 5
+    var state = State()
     
-    var actualThresholdNumberOfCells: Int {
-        abs(numberOfMedia - input.willDisplayCellIndex.value)
-    }
-    
-    var isRequiredNextFetching: Bool {
-        actualThresholdNumberOfCells < requiredThresholdNumberOfCells
+    struct State {
+        var currentPage = 1
+        var numberOfMedia = 0
     }
     
     var screen: MediaListTableViewDataSource.Screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo) {
@@ -60,7 +55,7 @@ class MediaListViewModel {
         }
     }
         
-    var useCase: Domain.MediaListUseCase?
+    private var useCase: Domain.MediaListUseCase?
     
     var movieMethod: ((Int, @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void) -> ())? {
         let index = self.input.selectedSegmentIndex.value
@@ -93,8 +88,8 @@ class MediaListViewModel {
             
             struct Input {
                 let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
-                let willDisplayCellIndex = BehaviorRelay<Int>(value: 0)
-                let isRefreshing = BehaviorRelay<Bool>(value: false)
+                let refreshItemsTrigger = PublishRelay<Void>()
+                let loadNextPageTrigger = PublishRelay<Void>()
                 let selectedMedia = PublishRelay<MediaCellViewModel>()
             }
             
@@ -107,10 +102,8 @@ class MediaListViewModel {
                 var title = BehaviorRelay<String>(value: "")
                 var categories = BehaviorRelay<[String]>(value: [])
                 let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
-                var media = BehaviorRelay<[MediaCellViewModel]>(value: [])
                 var sectionedItems = BehaviorRelay<[MediaCellViewModelMultipleSection]>(value: [])
                 let isFetching = BehaviorRelay<Bool>(value: false)
-                let isRefreshing = BehaviorRelay<Bool>(value: false)
             }
             
             var output = Output()
@@ -137,14 +130,14 @@ class MediaListViewModel {
         
         case .movie:
             self.output.isFetching.accept(true)
-            movieMethod?(currentPage) { [weak self] (result: Result) in
+            movieMethod?(state.currentPage) { [weak self] (result: Result) in
                 guard let self = self else { return }
                 completion(self.handleMovie(result))
             }
             
         case .tv:
             self.output.isFetching.accept(true)
-            tvMethod?(currentPage) { [weak self] (result: Result) in
+            tvMethod?(state.currentPage) { [weak self] (result: Result) in
                 guard let self = self else { return }
                 completion(self.handleTV(result))
             }
@@ -193,22 +186,20 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
         input.selectedSegmentIndex.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] index in
             guard let self = self else { return }
             
-            self.currentPage = 1
+            self.state.currentPage = 1
             self.fetch() { fetchedMedia in
                 _media.accept(fetchedMedia)
-                self.numberOfMedia = _media.value.count
+                self.state.numberOfMedia = _media.value.count
             }
             
         }).disposed(by: disposeBag)
         
-        input.willDisplayCellIndex.skip(1)
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
-            .filter { _ in self.isRequiredNextFetching && self.numberOfMedia > 0 }
-            .subscribe(onNext: { [weak self] (index) in
+        input.loadNextPageTrigger
+            .subscribe(onNext: { [weak self] _ in
                 
                 guard let self = self else { return }
                 
-                self.currentPage += 1
+                self.state.currentPage += 1
                 self.fetch() { fetchedMedia in
                     var currentMedia = _media.value
                     currentMedia.append(contentsOf: fetchedMedia)
@@ -221,7 +212,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
                         .map { newCurrentMedia.append($0) }
                     
                     _media.accept(newCurrentMedia)
-                    self.numberOfMedia = _media.value.count
+                    self.state.numberOfMedia = _media.value.count
                 }
                 
             }).disposed(by: disposeBag)
@@ -244,15 +235,15 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
             
         }).disposed(by: disposeBag)
         
-        input.isRefreshing.filter { $0 } .subscribe (onNext: { [weak self] _ in
+        input.refreshItemsTrigger.subscribe (onNext: { [weak self] _ in
             guard let self = self else { return }
             
-            self.currentPage = 1
+            self.state.currentPage = 1
             self.fetch() { fetchedMedia in
 //                _media.accept([])
                 _media.accept(fetchedMedia)
-                self.numberOfMedia = _media.value.count
-                self.output.isRefreshing.accept(false)
+                self.state.numberOfMedia = _media.value.count
+                self.output.isFetching.accept(false)
             }
         }).disposed(by: disposeBag)
         
@@ -269,8 +260,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
         
         self.output.title = _title
         self.output.categories = _categories
-        self.numberOfMedia = _media.value.count
-        self.output.media = _media
+        self.state.numberOfMedia = _media.value.count
         self.output.sectionedItems = _sectionedItems
         
     }

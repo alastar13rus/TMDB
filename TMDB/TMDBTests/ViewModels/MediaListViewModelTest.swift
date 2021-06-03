@@ -29,30 +29,34 @@ class MediaListViewModelTest: XCTestCase {
             return viewModel
         }()
         
-        sut.currentPage = 3
+        sut.state.currentPage = 3
         sut.input.selectedSegmentIndex.accept(0)
         sut.screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo)
 
         XCTAssertNotNil(sut.movieMethod)
+        XCTAssertEqual(sut.state.currentPage, 1)
 
-        sut.currentPage = 5
+        sut.state.currentPage = 5
         sut.input.selectedSegmentIndex.accept(1)
         
         XCTAssertNotNil(sut.movieMethod)
+        XCTAssertEqual(sut.state.currentPage, 1)
         
         sut.screen = .tv(MediaListTableViewDataSource.Screen.tvListInfo)
 
-        sut.currentPage = 6
+        sut.state.currentPage = 6
         sut.input.selectedSegmentIndex.accept(2)
         
         XCTAssertNil(sut.movieMethod)
         XCTAssertNotNil(sut.tvMethod)
+        XCTAssertEqual(sut.state.currentPage, 1)
         
-        sut.currentPage = 7
+        sut.state.currentPage = 7
         sut.input.selectedSegmentIndex.accept(3)
         
         XCTAssertNil(sut.movieMethod)
         XCTAssertNotNil(sut.tvMethod)
+        XCTAssertEqual(sut.state.currentPage, 1)
 
         let expectation = self.expectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -77,7 +81,7 @@ class MediaListViewModelTest: XCTestCase {
             return viewModel
         }()
         
-        sut.currentPage = 1
+        sut.state.currentPage = 1
         
         let expectation = self.expectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -85,10 +89,9 @@ class MediaListViewModelTest: XCTestCase {
         }
 
         waitForExpectations(timeout: 3)
-        XCTAssertEqual(sut.currentPage, 1)
-        XCTAssertEqual(sut.numberOfMedia, 0)
-        XCTAssertEqual(sut.output.media.value.count, 0)
-        XCTAssertEqual(sut.currentPage, 1)
+        XCTAssertEqual(sut.state.currentPage, 1)
+        XCTAssertEqual(sut.state.numberOfMedia, 0)
+        XCTAssertEqual(sut.state.currentPage, 1)
 
 
     }
@@ -108,7 +111,7 @@ class MediaListViewModelTest: XCTestCase {
             return viewModel
         }()
         
-        sut.currentPage = 1
+        sut.state.currentPage = 1
         sut.input.selectedSegmentIndex.accept(3)
         sut.input.selectedSegmentIndex.accept(2)
         sut.input.selectedSegmentIndex.accept(1)
@@ -119,13 +122,12 @@ class MediaListViewModelTest: XCTestCase {
         }
 
         waitForExpectations(timeout: 6)
-        XCTAssertEqual(sut.currentPage, 1)
-        XCTAssertEqual(sut.numberOfMedia, 20)
-        XCTAssertEqual(sut.output.media.value.count, 20)
+        XCTAssertEqual(sut.state.currentPage, 1)
+        XCTAssertEqual(sut.state.numberOfMedia, 20)
 
     }
 
-    func test_subscribeWillDisplayCellIndex_emptyCurrentMovies_noFetchingMedia() {
+    func test_subscribeLoadNextPageTrigger_emptyCurrentMovies_noFetchingMedia() {
         
         let sut: SpyMediaListViewModel = {
             let network = NetworkAgent()
@@ -144,51 +146,12 @@ class MediaListViewModelTest: XCTestCase {
         }
 
         waitForExpectations(timeout: 3)
-        XCTAssertEqual(sut.currentPage, 1)
-        XCTAssertEqual(sut.numberOfMedia, 0)
-        XCTAssertEqual(sut.output.media.value.count, 0)
+        XCTAssertEqual(sut.state.currentPage, 1)
+        XCTAssertEqual(sut.state.numberOfMedia, 0)
 
     }
 
-    func test_subscribeWillDisplayCellIndex_actualThresholdLessThanRequiredThreshold_startFetchingMedia() {
-        
-        let sut: SpyMediaListViewModel = {
-            let network = NetworkAgent()
-            let networkProvider = NetworkProvider(network: network)
-            let appConfig = AppConfig()
-            let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
-            let apiFactory = APIFactory(config)
-            let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
-            let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
-            viewModel.coordinator = coordinator
-            return viewModel
-        }()
-        
-        sut.currentPage = 2
-        sut.numberOfMedia = 40
-        let fakeStartNumberOfMovies = sut.numberOfMedia
-        sut.requiredThresholdNumberOfCells = 5
-        sut.input.willDisplayCellIndex.accept(37)
-
-        XCTAssertEqual(sut.actualThresholdNumberOfCells, sut.numberOfMedia - sut.input.willDisplayCellIndex.value)
-        XCTAssertTrue(sut.isRequiredNextFetching)
-            
-        let expectation = self.expectation(description: #function)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            expectation.fulfill()
-        }
-
-        waitForExpectations(timeout: 3)
-        XCTAssertEqual(sut.currentPage, 3)
-
-        XCTAssertEqual(sut.numberOfMedia + fakeStartNumberOfMovies, 60)
-        XCTAssertEqual(sut.output.media.value.count + fakeStartNumberOfMovies, 60)
-        XCTAssertEqual(sut.output.sectionedItems.value[0].items.count + fakeStartNumberOfMovies, 60)
-
-    }
-
-    func test_subscribeWillDisplayCellIndex_actualThresholdGreaterThanRequiredThreshold_noFetchingMedia() {
+    func test_subscribeLoadNextPageTrigger_startFetchingMedia() {
         
         let sut: SpyMediaListViewModel = {
             let network = NetworkAgent()
@@ -203,22 +166,19 @@ class MediaListViewModelTest: XCTestCase {
             return viewModel
         }()
         
-        sut.currentPage = 1
-        sut.numberOfMedia = 35
-        sut.requiredThresholdNumberOfCells = 5
-        sut.input.willDisplayCellIndex.accept(28)
-        
-        XCTAssertEqual(sut.actualThresholdNumberOfCells, sut.numberOfMedia - sut.input.willDisplayCellIndex.value)
-        XCTAssertFalse(sut.isRequiredNextFetching)
-        
+        sut.state.currentPage = 2
+        sut.state.numberOfMedia = 40
+        sut.input.loadNextPageTrigger.accept(Void())
+
         let expectation = self.expectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
         }
 
         waitForExpectations(timeout: 3)
-        XCTAssertEqual(sut.currentPage, 1)
-        XCTAssertEqual(sut.numberOfMedia, 35)
+        XCTAssertEqual(sut.state.currentPage, 3)
+
+        XCTAssertEqual(sut.state.numberOfMedia, sut.output.sectionedItems.value[0].items.count)
 
     }
 
@@ -239,7 +199,7 @@ class MediaListViewModelTest: XCTestCase {
         
         sut.output.isFetching.accept(false)
         var movies = [MediaCellViewModel]()
-        XCTAssertEqual(sut.output.media.value.count, 0)
+        XCTAssertEqual(sut.state.numberOfMedia, 0)
         
         let expectation = self.expectation(description: #function)
         
@@ -274,7 +234,7 @@ class MediaListViewModelTest: XCTestCase {
         }()
         sut.output.isFetching.accept(true)
         var media = [MediaCellViewModel]()
-        XCTAssertEqual(sut.output.media.value.count, 0)
+        XCTAssertEqual(sut.state.numberOfMedia, 0)
 
         let expectation = self.expectation(description: #function)
 
@@ -292,7 +252,7 @@ class MediaListViewModelTest: XCTestCase {
         XCTAssertEqual(media.count, 0)
     }
     
-    func test_subscribeIsRefreshing_whenIsRefreshingEqualTrue_thenFetchingMoviesAndResetParams() {
+    func test_subscribeRefreshItemsTrigger_fetchingMoviesAndResetParams() {
         
         
         let sut: SpyMediaListViewModel = {
@@ -307,7 +267,7 @@ class MediaListViewModelTest: XCTestCase {
             viewModel.coordinator = coordinator
             return viewModel
         }()
-        sut.input.isRefreshing.accept(true)
+        sut.input.refreshItemsTrigger.accept(Void())
         
         let expectation = self.expectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -315,9 +275,9 @@ class MediaListViewModelTest: XCTestCase {
         }
         
         waitForExpectations(timeout: 3)
-        XCTAssertEqual(sut.output.media.value.count, 20)
-        XCTAssertEqual(sut.currentPage, 1)
-        XCTAssertEqual(sut.output.isRefreshing.value, false)
+        XCTAssertEqual(sut.state.numberOfMedia, 20)
+        XCTAssertEqual(sut.state.currentPage, 1)
+        XCTAssertEqual(sut.output.isFetching.value, false)
     }
     
 }

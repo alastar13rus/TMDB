@@ -53,4 +53,12 @@ public final class UseCaseProvider: Domain.UseCaseProvider {
 //        return CreditListUseCase(network: <#T##CreditListNetwork#>)
 //    }
     
+    public func makePeopleListUseCase() ->  Domain.PeopleListUseCase {
+        return PeopleListUseCase(networkProvider.makePeopleListNetwork(), apiFactory.makePeopleListAPI() as! PeopleListAPI)
+    }
+    
+    public func makeSearchUseCase() ->  Domain.SearchUseCase {
+        return SearchUseCase(networkProvider.makeSearchNetwork(), apiFactory.makeSearchAPI() as! SearchAPI)
+    }
+    
 }

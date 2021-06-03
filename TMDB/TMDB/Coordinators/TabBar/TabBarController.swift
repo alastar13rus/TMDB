@@ -19,6 +19,7 @@ extension TabBarController: UITabBarControllerDelegate {
         switch item.tag {
         case 0: coordinator?.showMovieTab()
         case 1: coordinator?.showTVTab()
+        case 2: coordinator?.showSearchTab()
 //        case 2: coordinator?.showFavoriteTab()
         default: break
         }

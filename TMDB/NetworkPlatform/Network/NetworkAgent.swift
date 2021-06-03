@@ -26,7 +26,7 @@ public final class NetworkAgent {
             
             
             guard let url = components.url else { return }
-//            print(url)
+            print(url)
             let request = URLRequest(url: url)
             let session = URLSession(configuration: .default)
             
@@ -49,8 +49,7 @@ public final class NetworkAgent {
                     return
                 }
             }
-            
-            dataTask.resume()
+                        dataTask.resume()
         }
     }
 }

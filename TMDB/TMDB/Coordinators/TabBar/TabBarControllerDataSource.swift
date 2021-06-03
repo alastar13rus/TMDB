@@ -12,6 +12,7 @@ class TabBarControllerDataSource {
         UINavigationController(),
         UINavigationController(),
         UINavigationController(),
+        UINavigationController(),
     ]
     
     init() {
@@ -23,6 +24,13 @@ class TabBarControllerDataSource {
         self.items[1].navigationItem.largeTitleDisplayMode = .always
         self.items[1].tabBarItem = .init(title: "Сериалы", image: #imageLiteral(resourceName: "tvTab"), tag: 1)
         
-        self.items[2].tabBarItem = .init(title: "Избранное", image: #imageLiteral(resourceName: "favoriteTab"), tag: 2)
+        self.items[2].navigationBar.prefersLargeTitles = true
+        self.items[2].navigationItem.largeTitleDisplayMode = .always
+        self.items[2].tabBarItem = .init(title: "Поиск", image: #imageLiteral(resourceName: "searchTab"), tag: 2)
+        
+        self.items[3].navigationBar.prefersLargeTitles = true
+        self.items[3].navigationItem.largeTitleDisplayMode = .always
+        self.items[3].tabBarItem = .init(title: "Избранное", image: #imageLiteral(resourceName: "favoriteTab"), tag: 3)
+        
     }
 }

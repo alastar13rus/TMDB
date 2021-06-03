@@ -41,6 +41,7 @@ extension CreditInMediaViewModel {
         case .tv: self.mediaTitle = model.name!
         case .tvSeason: self.mediaTitle = model.name!
         case .tvEpisode: self.mediaTitle = model.name!
+        default: fatalError("CreditInMediaViewModel ini error")
         }
     }
 }
@@ -59,6 +60,7 @@ extension CreditInMediaViewModel {
         case .tv: self.mediaTitle = model.name!
         case .tvSeason: self.mediaTitle = model.name!
         case .tvEpisode: self.mediaTitle = model.name!
+        default: fatalError("CreditInMediaViewModel ini error")
         }
     }
 }

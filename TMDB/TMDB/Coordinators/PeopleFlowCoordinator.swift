@@ -71,7 +71,7 @@ class PeopleFlowCoordinator: NavigationCoordinator {
     }
     
     func toDetail(with mediaID: String) {
-        _ = container.resolve(PeopleDetailViewModel.self, arguments: self, mediaID)
+        _ = container.resolve(Typealias.PeopleDetailBundle.self, arguments: self, mediaID)
     }
         
     func toMovieDetail(with mediaID: String) {

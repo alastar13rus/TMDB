@@ -2,7 +2,7 @@
 //  MediaTableViewCell.swift
 //  TMDB
 //
-//  Created by Докин Андрей (IOS) on 18.03.2021.
+//  Created by Докин Андрей (IOS) on 112.03.2021.
 //
 
 import UIKit
@@ -109,7 +109,7 @@ class MediaTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        self.selectionStyle = .none
+        selectionStyle = .none
     }
     
     private func setupHierarhy() {
@@ -121,13 +121,13 @@ class MediaTableViewCell: UITableViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
-            posterImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 8),
-            posterImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            posterImageView.heightAnchor.constraint(equalTo: posterImageView.widthAnchor, multiplier: 1.5),
+            posterImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
+            posterImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
+            posterImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            posterImageView.widthAnchor.constraint(equalTo: posterImageView.heightAnchor, multiplier: 3 / 4),
             
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
-            titleLabel.leftAnchor.constraint(equalTo: posterImageView.rightAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
+            titleLabel.leftAnchor.constraint(equalTo: posterImageView.rightAnchor, constant: 12),
             
             overviewLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 16),
             overviewLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
@@ -135,8 +135,8 @@ class MediaTableViewCell: UITableViewCell {
             overviewLabel.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor),
             
             voteAverageCircleProgressBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            voteAverageCircleProgressBar.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -8),
-            voteAverageCircleProgressBar.leftAnchor.constraint(greaterThanOrEqualTo: titleLabel.rightAnchor, constant: 8),
+            voteAverageCircleProgressBar.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
+            voteAverageCircleProgressBar.leftAnchor.constraint(greaterThanOrEqualTo: titleLabel.rightAnchor, constant: 12),
             voteAverageCircleProgressBar.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             voteAverageCircleProgressBar.widthAnchor.constraint(equalToConstant: 50),
             

@@ -254,6 +254,45 @@ class AppDIContainer {
             
             return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
+        
+        container.register(Typealias.SearchBundle.self)  { (r, coordinator: SearchFlowCoordinator) in
+            let viewController = SearchViewController()
+            
+            let viewModel = SearchViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            if (coordinator.navigationController.viewControllers.isEmpty) {
+                coordinator.navigationController.pushViewController(viewController, animated: true)
+            }
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        container.register(Typealias.FilterOptionListMediaBundle.self)  { (r, coordinator: SearchFlowCoordinator, searchCategory: SearchCategory) in
+            let viewController = FilterOptionListMediaViewController()
+            
+            let viewModel = FilterOptionListMediaViewModel(searchCategory: searchCategory, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            coordinator.navigationController.pushViewController(viewController, animated: true)
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        container.register(Typealias.MediaFilteredListBundle.self)  { (r, coordinator: SearchFlowCoordinator, mediaType: MediaType, mediaFilterType: MediaFilterType) in
+            let viewController = MediaFilteredListViewController()
+            
+            let viewModel = MediaFilteredListViewModel(mediaType: mediaType, mediaFilterType: mediaFilterType, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            coordinator.navigationController.pushViewController(viewController, animated: true)
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        
+        
+        
     }
         
 }

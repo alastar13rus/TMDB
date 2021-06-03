@@ -18,4 +18,14 @@ struct Typealias {
     typealias MediaTrailerListBundle = (MediaTrailerListViewController, MediaTrailerListViewModel, NavigationCoordinator)
     typealias CreditListBundle = (CreditListViewController, CreditListViewModel, NavigationCoordinator)
     typealias PeopleDetailBundle = (PeopleDetailViewController, PeopleDetailViewModel, PeopleFlowCoordinator)
+    
+//    MARK: - Search
+    typealias SearchBundle = (SearchViewController, SearchViewModel, SearchFlowCoordinator)
+    typealias FilterOptionListMediaBundle = (FilterOptionListMediaViewController, FilterOptionListMediaViewModel, SearchFlowCoordinator)
+    typealias MediaListByYearBundle = (MediaFilteredListViewController, MediaFilteredListViewModel, SearchFlowCoordinator)
+    typealias MediaFilteredListBundle = (MediaFilteredListViewController, MediaFilteredListViewModel, SearchFlowCoordinator)
+
+    
+
+    
 }

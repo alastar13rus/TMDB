@@ -135,6 +135,7 @@ public struct GroupedCreditInMediaModel: Decodable, Identifiable, Comparable {
         case .movie, .tv, .tvSeason, .tvEpisode:
             guard let releaseDate = releaseDate else { return "" }
             return "\(releaseDate.prefix(4))"
+        default: return ""
         }
     }
     
