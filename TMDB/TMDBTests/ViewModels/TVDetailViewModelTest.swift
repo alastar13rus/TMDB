@@ -14,11 +14,6 @@ class TVDetailViewModelTest: XCTestCase {
     
     func test_init() {
         
-        var container: Container { AppDIContainer.shared }
-        var tvFlowCoordinator: TVFlowCoordinator {
-            TVFlowCoordinator(navigationController: UINavigationController(), container: container)
-        }
-        
         let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
         
         XCTAssertEqual(viewModel.detailID, "1399")
@@ -35,25 +30,24 @@ class TVDetailViewModelTest: XCTestCase {
     
     func test_fetch() {
         
-        var container: Container { AppDIContainer.shared }
-        var tvFlowCoordinator: TVFlowCoordinator {
-            TVFlowCoordinator(navigationController: UINavigationController(), container: container)
-        }
-        
         let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
         
         var tvDetail: TVDetailModel?
         let expectation = self.expectation(description: #function)
         viewModel.fetch { (fetchedTVDetail) in
             tvDetail = fetchedTVDetail
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             expectation.fulfill()
         }
         
         waitForExpectations(timeout: 11, handler: nil)
         XCTAssertNotNil(tvDetail)
+    }
+    
+//    MARK: - Helpers
+    
+    var container: Container { AppDIContainer.shared }
+    var tvFlowCoordinator: TVFlowCoordinator {
+        TVFlowCoordinator(navigationController: UINavigationController(), container: container)
     }
     
 }
