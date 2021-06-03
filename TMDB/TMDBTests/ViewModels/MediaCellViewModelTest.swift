@@ -22,6 +22,17 @@ class MediaCellViewModelTest: XCTestCase {
         XCTAssertEqual(mediaCellViewModel.voteAverage, 20)
         XCTAssertEqual(mediaCellViewModel.posterPath, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg")
         
+        let expectation = self.expectation(description: #function)
+        
+        var imageData: Data?
+        mediaCellViewModel.posterImageData { (data) in
+            imageData = data
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+        XCTAssertNotNil(UIImage(data: imageData!))
+
     }
     
     func test_initWithTVModel() {
@@ -35,6 +46,17 @@ class MediaCellViewModelTest: XCTestCase {
         XCTAssertEqual(mediaCellViewModel.voteAverage, 50)
         XCTAssertEqual(mediaCellViewModel.posterPath, "/yvmKPlTIi0xdcFQIFcQKQJcI63W.jpg")
         
+        let expectation = self.expectation(description: #function)
+        
+        var imageData: Data?
+        mediaCellViewModel.posterImageData { (data) in
+            imageData = data
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 10, handler: nil)
+        XCTAssertNotNil(UIImage(data: imageData!))
+
     }
     
     

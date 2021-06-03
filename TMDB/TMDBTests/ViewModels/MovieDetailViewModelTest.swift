@@ -19,12 +19,12 @@ class MovieDetailViewModelTest: XCTestCase {
         
         let expectaition = self.expectation(description: #function)
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 3) {
             expectaition.fulfill()
         }
         
-        waitForExpectations(timeout: 6, handler: nil)
-        XCTAssert(viewModel.output.sectionedItems.value.count > 0)
+        waitForExpectations(timeout: 10, handler: nil)
+        XCTAssertTrue(viewModel.output.sectionedItems.value.count > 0)
     }
     
     func test_fetch() {
@@ -37,7 +37,7 @@ class MovieDetailViewModelTest: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 6, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
         XCTAssertNotNil(movieDetail)
     }
     
