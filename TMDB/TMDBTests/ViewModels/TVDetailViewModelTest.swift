@@ -13,6 +13,12 @@ import XCTest
 class TVDetailViewModelTest: XCTestCase {
     
     func test_init() {
+        
+        var container: Container { AppDIContainer.shared }
+        var tvFlowCoordinator: TVFlowCoordinator {
+            TVFlowCoordinator(navigationController: UINavigationController(), container: container)
+        }
+        
         let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
         
         XCTAssertEqual(viewModel.detailID, "1399")
@@ -24,10 +30,16 @@ class TVDetailViewModelTest: XCTestCase {
         }
         
         waitForExpectations(timeout: 3, handler: nil)
-        XCTAssert(viewModel.output.sectionedItems.value.count > 0)
+        XCTAssertTrue(viewModel.output.sectionedItems.value.count > 0)
     }
     
     func test_fetch() {
+        
+        var container: Container { AppDIContainer.shared }
+        var tvFlowCoordinator: TVFlowCoordinator {
+            TVFlowCoordinator(navigationController: UINavigationController(), container: container)
+        }
+        
         let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
         
         var tvDetail: TVDetailModel?
@@ -43,16 +55,6 @@ class TVDetailViewModelTest: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
         XCTAssertNotNil(tvDetail)
     }
-    
-    
-
-//    MARK: - Helpers
-    var container: Container { AppDIContainer.shared }
-    var tvFlowCoordinator: TVFlowCoordinator {
-        TVFlowCoordinator(navigationController: UINavigationController(), container: container)
-    }
-    
-    
     
 }
 
