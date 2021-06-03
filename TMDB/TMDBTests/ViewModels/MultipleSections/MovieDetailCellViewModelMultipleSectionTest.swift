@@ -7,6 +7,8 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class MovieDetailCellViewModelMultipleSectionTest: XCTestCase {
     
@@ -126,12 +128,16 @@ class MovieDetailCellViewModelMultipleSectionTest: XCTestCase {
     var movieStatusCellViewModel: MediaStatusCellViewModel { MediaStatusCellViewModel(movieDetail) }
     var genresCellViewModel: GenresCellViewModel { GenresCellViewModel(movieDetail) }
     
+    var container = AppDIContainer.shared
+    lazy var movieDetailViewModel: MovieDetailViewModel = container.resolve(MovieDetailViewModel.self, argument: "550")!
+    
+    
     var castListViewModel: CreditShortListViewModel {
-        CreditShortListViewModel(title: Title.movieCastList.rawValue, items: [.cast(vm: CastCellViewModel(castModel))], coordinator: nil, networkManager: nil, mediaID: "550", creditType: .cast)
+        CreditShortListViewModel(title: Title.movieCastList.rawValue, items: [.cast(vm: CastCellViewModel(castModel))], creditType: .cast, mediaType: .movie, delegate: movieDetailViewModel)
     }
     
     var crewListViewModel: CreditShortListViewModel {
-        CreditShortListViewModel(title: Title.movieCrewList.rawValue, items: [.crew(vm: CrewCellViewModel(crewModel))], coordinator: nil, networkManager: nil, mediaID: "550", creditType: .crew)
+        CreditShortListViewModel(title: Title.movieCrewList.rawValue, items: [.crew(vm: CrewCellViewModel(crewModel))], creditType: .crew, mediaType: .movie, delegate: movieDetailViewModel)
     }
     
 }

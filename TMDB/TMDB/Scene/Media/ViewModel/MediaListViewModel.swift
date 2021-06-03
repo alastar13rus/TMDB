@@ -8,90 +8,88 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
+import Domain
+import NetworkPlatform
 
-class MediaListViewModel: GeneralViewModelType {
+class MediaListViewModel {
     
 
 //    MARK: - Properties
-    let networkManager: NetworkManagerProtocol
+    private let useCaseProvider: Domain.UseCaseProvider
+    
     weak var coordinator: Coordinator? {
         didSet {
-            if coordinator is MovieListCoordinator {
+            if coordinator is MovieFlowCoordinator {
                 screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo)
             }
-            if coordinator is TVListCoordinator {
+            if coordinator is TVFlowCoordinator {
                 screen = .tv(MediaListTableViewDataSource.Screen.tvListInfo)
             }
         }
     }
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
-    var currentPage = 1
-    var numberOfMedia = 0
-    var requiredThresholdNumberOfCells = 5
+    var state = State()
     
-    var actualThresholdNumberOfCells: Int {
-        abs(numberOfMedia - input.willDisplayCellIndex.value)
-    }
-    
-    var isRequiredNextFetching: Bool {
-        actualThresholdNumberOfCells < requiredThresholdNumberOfCells
+    struct State {
+        var currentPage = 1
+        var numberOfMedia = 0
     }
     
     var screen: MediaListTableViewDataSource.Screen = .movie(MediaListTableViewDataSource.Screen.movieListInfo) {
         didSet {
             switch screen {
-            case .movie(_):
+            case .movie:
                 output.title = BehaviorRelay<String>(value: MediaListTableViewDataSource.Screen.movieListInfo.title)
                 output.categories = BehaviorRelay<[String]>(value: MediaListTableViewDataSource.Screen.movieListInfo.categories)
-            case .tv(_):
+                
+                useCase = useCaseProvider.makeMovieListUseCase()
+            case .tv:
                 output.title = BehaviorRelay<String>(value: MediaListTableViewDataSource.Screen.tvListInfo.title)
                 output.categories = BehaviorRelay<[String]>(value: MediaListTableViewDataSource.Screen.tvListInfo.categories)
+                
+                useCase = useCaseProvider.makeTVListUseCase()
             }
             
         }
     }
+        
+    private var useCase: Domain.MediaListUseCase?
     
-    var movieEndpoint: TmdbAPI.MovieEndpoint {
+    var movieMethod: ((Int, @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void) -> ())? {
         let index = self.input.selectedSegmentIndex.value
         
-        switch index {
-        case 0:
-            return .topRated(page: currentPage)
-        case 1:
-            return .popular(page: currentPage)
-        case 2:
-            return .nowPlaying(page: currentPage)
-        case 3:
-            return .upcoming(page: currentPage)
-        default:
-            return .topRated(page: currentPage)
-        }
+        guard let useCase = useCase as? Domain.MovieListUseCase else { return nil }
+        
+            switch index {
+            case 0: return useCase.topRated(page:completion:)
+            case 1: return useCase.popular(page:completion:)
+            case 2: return useCase.nowPlaying(page:completion:)
+            case 3: return useCase.upcoming(page:completion:)
+            default: return useCase.topRated(page:completion:)
+            }
     }
     
-    var tvEndpoint: TmdbAPI.TVEndpoint {
+    var tvMethod: ((Int, @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void) -> ())? {
         let index = self.input.selectedSegmentIndex.value
         
-        switch index {
-        case 0:
-            return .topRated(page: currentPage)
-        case 1:
-            return .popular(page: currentPage)
-        case 2:
-            return .onTheAir(page: currentPage)
-        case 3:
-            return .airingToday(page: currentPage)
-        default:
-            return .topRated(page: currentPage)
-        }
+        guard let useCase = useCase as? Domain.TVListUseCase else { return nil }
+            switch index {
+            case 0: return useCase.topRated(page:completion:)
+            case 1: return useCase.popular(page:completion:)
+            case 2: return useCase.onTheAir(page:completion:)
+            case 3: return useCase.airingToday(page:completion:)
+            default: return useCase.topRated(page:completion:)
+            }
     }
     
 //    MARK: - Inputs
             
             struct Input {
                 let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
-                let willDisplayCellIndex = BehaviorRelay<Int>(value: 0)
-                let isRefreshing = BehaviorRelay<Bool>(value: false)
+                let refreshItemsTrigger = PublishRelay<Void>()
+                let loadNextPageTrigger = PublishRelay<Void>()
                 let selectedMedia = PublishRelay<MediaCellViewModel>()
             }
             
@@ -104,17 +102,15 @@ class MediaListViewModel: GeneralViewModelType {
                 var title = BehaviorRelay<String>(value: "")
                 var categories = BehaviorRelay<[String]>(value: [])
                 let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
-                var media = BehaviorRelay<[MediaCellViewModel]>(value: [])
                 var sectionedItems = BehaviorRelay<[MediaCellViewModelMultipleSection]>(value: [])
                 let isFetching = BehaviorRelay<Bool>(value: false)
-                let isRefreshing = BehaviorRelay<Bool>(value: false)
             }
             
             var output = Output()
     
 //    MARK: - Init
-    required init(networkManager: NetworkManagerProtocol) {
-        self.networkManager = networkManager
+    required init(useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
         
         self.setupOutput()
 //        self.setupInput()
@@ -123,46 +119,53 @@ class MediaListViewModel: GeneralViewModelType {
     
     
     //    MARK: - Methods
+    
     public func fetch(completion: @escaping ([MediaCellViewModel]) -> Void) {
         
         guard !output.isFetching.value else { completion([]); return }
         
-        switch self.screen {
-        case .movie(_):
-            self.networkManager.request(TmdbAPI.movies(self.movieEndpoint)) { [weak self] (result: Result<MediaListResponse<MovieModel>, Error>) in
-                
-                guard let self = self else { completion([]); return }
-                
-                self.output.isFetching.accept(true)
-                
-                switch result {
-                case .success(let response):
-                    let fetchedMedia = response.results.map { MediaCellViewModel($0) }
-                    completion(fetchedMedia)
-                    self.output.isFetching.accept(false)
-                    
-                case .failure: completion([]); break
-                }
+        self.output.isFetching.accept(true)
+        
+        switch screen {
+        
+        case .movie:
+            self.output.isFetching.accept(true)
+            movieMethod?(state.currentPage) { [weak self] (result: Result) in
+                guard let self = self else { return }
+                completion(self.handleMovie(result))
             }
-        case .tv(_):
-            self.networkManager.request(TmdbAPI.tv(self.tvEndpoint)) { [weak self] (result: Result<MediaListResponse<TVModel>, Error>) in
-                
-                guard let self = self else { completion([]); return }
-                
-                self.output.isFetching.accept(true)
-                
-                switch result {
-                case .success(let response):
-                    let fetchedMedia = response.results.map { MediaCellViewModel($0) }
-                    completion(fetchedMedia)
-                    self.output.isFetching.accept(false)
-                    
-                case .failure: completion([]); break
-                }
+            
+        case .tv:
+            self.output.isFetching.accept(true)
+            tvMethod?(state.currentPage) { [weak self] (result: Result) in
+                guard let self = self else { return }
+                completion(self.handleTV(result))
             }
         }
-        
     }
+
+private func handleMovie(_ result: Result<MediaListResponse<MovieModel>, Error>) -> [MediaCellViewModel] {
+    
+    output.isFetching.accept(false)
+    switch result {
+    case .success(let response):
+        let fetchedMedia = response.results.map { MediaCellViewModel($0) }
+        return fetchedMedia
+    case .failure: return []; break
+    }
+}
+
+private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [MediaCellViewModel] {
+    
+    switch result {
+    case .success(let response):
+        let fetchedMedia = response.results.map { MediaCellViewModel($0) }
+        self.output.isFetching.accept(false)
+        return fetchedMedia
+    case .failure: return []; break
+    }
+    output.isFetching.accept(false)
+}
     
     
     private func setupOutput() {
@@ -183,35 +186,33 @@ class MediaListViewModel: GeneralViewModelType {
         input.selectedSegmentIndex.skip(1).distinctUntilChanged().subscribe(onNext: { [weak self] index in
             guard let self = self else { return }
             
-            self.currentPage = 1
+            self.state.currentPage = 1
             self.fetch() { fetchedMedia in
                 _media.accept(fetchedMedia)
-                self.numberOfMedia = _media.value.count
+                self.state.numberOfMedia = _media.value.count
             }
             
         }).disposed(by: disposeBag)
         
-        input.willDisplayCellIndex.skip(1)
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
-            .filter { _ in self.isRequiredNextFetching && self.numberOfMedia > 0 }
-            .subscribe(onNext: { [weak self] (index) in
+        input.loadNextPageTrigger
+            .subscribe(onNext: { [weak self] _ in
                 
                 guard let self = self else { return }
                 
-                self.currentPage += 1
+                self.state.currentPage += 1
                 self.fetch() { fetchedMedia in
-                    var currentMovies = _media.value
-                    currentMovies.append(contentsOf: fetchedMedia)
-                    var currentMoviesSet = Set(currentMovies)
-                    var newCurrentMovies = [MediaCellViewModel]()
+                    var currentMedia = _media.value
+                    currentMedia.append(contentsOf: fetchedMedia)
+                    var currentMediaSet = Set(currentMedia)
+                    var newCurrentMedia = [MediaCellViewModel]()
                     
-                    _ = currentMovies
-                        .filter { currentMoviesSet.contains($0) }
-                        .compactMap { currentMoviesSet.remove($0) }
-                        .map { newCurrentMovies.append($0) }
+                    _ = currentMedia
+                        .filter { currentMediaSet.contains($0) }
+                        .compactMap { currentMediaSet.remove($0) }
+                        .map { newCurrentMedia.append($0) }
                     
-                    _media.accept(newCurrentMovies)
-                    self.numberOfMedia = _media.value.count
+                    _media.accept(newCurrentMedia)
+                    self.state.numberOfMedia = _media.value.count
                 }
                 
             }).disposed(by: disposeBag)
@@ -234,24 +235,24 @@ class MediaListViewModel: GeneralViewModelType {
             
         }).disposed(by: disposeBag)
         
-        input.isRefreshing.filter { $0 } .subscribe (onNext: { [weak self] _ in
+        input.refreshItemsTrigger.subscribe (onNext: { [weak self] _ in
             guard let self = self else { return }
             
-            self.currentPage = 1
+            self.state.currentPage = 1
             self.fetch() { fetchedMedia in
 //                _media.accept([])
                 _media.accept(fetchedMedia)
-                self.numberOfMedia = _media.value.count
-                self.output.isRefreshing.accept(false)
+                self.state.numberOfMedia = _media.value.count
+                self.output.isFetching.accept(false)
             }
         }).disposed(by: disposeBag)
         
         input.selectedMedia.subscribe(onNext: { [weak self] (mediaCellViewModel: MediaCellViewModel) in
-            if let self = self, let coordinator = self.coordinator as? MovieListCoordinator {
+            if let self = self, let coordinator = self.coordinator as? MovieFlowCoordinator {
                 coordinator.toDetail(with: mediaCellViewModel.id)
             }
             
-            if let self = self, let coordinator = self.coordinator as? TVListCoordinator {
+            if let self = self, let coordinator = self.coordinator as? TVFlowCoordinator {
                 coordinator.toDetail(with: mediaCellViewModel.id)
             }
             
@@ -259,8 +260,7 @@ class MediaListViewModel: GeneralViewModelType {
         
         self.output.title = _title
         self.output.categories = _categories
-        self.numberOfMedia = _media.value.count
-        self.output.media = _media
+        self.state.numberOfMedia = _media.value.count
         self.output.sectionedItems = _sectionedItems
         
     }

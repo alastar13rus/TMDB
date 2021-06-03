@@ -8,14 +8,18 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Domain
+import NetworkPlatform
 
-class PeopleDetailViewModel: DetailViewModelType {
+class PeopleDetailViewModel {
     
     
 //    MARK: - Properties
-    let detailID: String
-    let networkManager: NetworkManagerProtocol
-    weak var coordinator: Coordinator?
+    let mediaID: String
+    
+    let useCaseProvider: Domain.UseCaseProvider
+    
+    weak var coordinator: NavigationCoordinator?
     let disposeBag = DisposeBag()
     
     let input = Input()
@@ -32,9 +36,9 @@ class PeopleDetailViewModel: DetailViewModelType {
     
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol) {
-        self.detailID = detailID
-        self.networkManager = networkManager
+    required init(with mediaID: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.mediaID = mediaID
+        self.useCaseProvider = useCaseProvider
 
         self.setupInput()
         self.setupOutput()
@@ -45,10 +49,11 @@ class PeopleDetailViewModel: DetailViewModelType {
     
     fileprivate func setupInput() {
         input.selectedMedia.subscribe(onNext: {
-            guard let coordinator = self.coordinator as? PeopleListCoordinator else { return }
+            guard let coordinator = self.coordinator as? PeopleFlowCoordinator else { return }
             switch $0.mediaType {
             case .movie: coordinator.toMovieDetail(with: $0.id)
             case .tv: coordinator.toTVDetail(with: $0.id)
+            default: break
             }
         }).disposed(by: disposeBag)
     }
@@ -63,7 +68,9 @@ class PeopleDetailViewModel: DetailViewModelType {
     }
     
     fileprivate func fetch(completion: @escaping (PeopleDetailModel) -> Void) {
-        networkManager.request(TmdbAPI.people(.details(personID: detailID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]))) { (result: Result<PeopleDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makePeopleDetailUseCase()
+        useCase.details(personID: mediaID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]) { (result: Result<PeopleDetailModel, Error>) in
             switch result {
             case .success(let peopleDetail):
                 completion(peopleDetail)
@@ -188,7 +195,7 @@ class PeopleDetailViewModel: DetailViewModelType {
             title: title,
             items:
                 [
-                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator, networkManager: networkManager))
+                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator, useCaseProvider: useCaseProvider))
                 ]
         )
         

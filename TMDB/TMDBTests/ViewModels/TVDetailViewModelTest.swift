@@ -6,12 +6,14 @@
 //
 
 import XCTest
+@testable import Swinject
 @testable import TMDB
+@testable import Domain
 
 class TVDetailViewModelTest: XCTestCase {
     
     func test_init() {
-        let (_, viewModel, _) = tvListCoordinator.factory(with: "1399", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
+        let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
         
         XCTAssertEqual(viewModel.detailID, "1399")
         
@@ -26,7 +28,7 @@ class TVDetailViewModelTest: XCTestCase {
     }
     
     func test_fetch() {
-        let (_, viewModel, _) = tvListCoordinator.factory(with: "1399", vmType: TVDetailViewModel.self, vcType: TVDetailViewController.self)
+        let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
         
         var tvDetail: TVDetailModel?
         let expectation = self.expectation(description: #function)
@@ -45,8 +47,9 @@ class TVDetailViewModelTest: XCTestCase {
     
 
 //    MARK: - Helpers
-    var tvListCoordinator: TVListCoordinator {
-        TVListCoordinator(navigationController: UINavigationController())
+    var container: Container { AppDIContainer.shared }
+    var tvFlowCoordinator: TVFlowCoordinator {
+        TVFlowCoordinator(navigationController: UINavigationController(), container: container)
     }
     
     

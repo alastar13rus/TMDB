@@ -8,11 +8,15 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
+import Domain
+import NetworkPlatform
 
-class MovieDetailViewModel: DetailViewModelType {
+class MovieDetailViewModel {
     
 //    MARK: - Properties
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
+    
     let detailID: String
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
@@ -39,8 +43,8 @@ class MovieDetailViewModel: DetailViewModelType {
     let output = Output()
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol) {
-        self.networkManager = networkManager
+    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
         self.detailID = detailID
         
         setupInput()
@@ -53,24 +57,13 @@ class MovieDetailViewModel: DetailViewModelType {
         input.selectedItem
             .filter { if case .movieTrailerButton = $0 { return true } else { return false } }
             .subscribe(onNext: { [weak self] _ in
-                guard let self = self, let coordinator = self.coordinator as? MovieListCoordinator else { return }
+                guard let self = self, let coordinator = self.coordinator as? MovieFlowCoordinator else { return }
                 
                 let params: [String: String] = [
                     String(describing: MediaType.self): MediaType.movie.rawValue
                 ]
-                coordinator.toTrailerList(with: self.detailID, params: params)
+                coordinator.toTrailerList(with: self.detailID, mediaType: .movie)
             }).disposed(by: disposeBag)
-    }
-
-    fileprivate func fetchPeopleID(with creditID: String, completion: @escaping (String) -> Void) {
-            networkManager.request(TmdbAPI.credit(.details(creditID: creditID)), completion: { (result: Result<CreditDetailModel, Error>) in
-                switch result {
-                case .success(let creditDetail):
-                    let peopleID = "\(creditDetail.person.id)"
-                    completion(peopleID)
-                case .failure: break
-                }
-            })
     }
     
     func setupOutput() {
@@ -83,7 +76,9 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.movies(.details(mediaID: detailID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]))) { (result: Result<MovieDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makeMovieDetailUseCase()
+        useCase.details(mediaID: mediaID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { (result: Result<MovieDetailModel, Error>) in
             
             switch result {
             case .success(let movieDetail):
@@ -254,7 +249,7 @@ class MovieDetailViewModel: DetailViewModelType {
         if crewCount > limit { items.append(contentsOf: showMoreSection) }
         
         let movieCrewListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCrewList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .crew))
+            .movieCrewList(vm: CreditShortListViewModel(title: title, items: items, creditType: .crew, mediaType: .movie, delegate: self))
         ]
         
         let movieCrewListSection: MovieDetailCellViewModelMultipleSection =
@@ -286,7 +281,7 @@ class MovieDetailViewModel: DetailViewModelType {
         if castCount > limit { items.append(contentsOf: showMoreSection) }
         
         let movieCastListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCastList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: detailID, creditType: .cast))
+            .movieCastList(vm: CreditShortListViewModel(title: title, items: items, creditType: .cast, mediaType: .movie, delegate: self))
         ]
         
         let movieCastListSection: MovieDetailCellViewModelMultipleSection =
@@ -316,7 +311,7 @@ class MovieDetailViewModel: DetailViewModelType {
         let section: [MediaCellViewModel] = movieList.map { MediaCellViewModel($0) }
         
         let movieListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, networkManager: networkManager, mediaListType: mediaListType))
+            .movieCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, useCaseProvider: useCaseProvider, mediaListType: mediaListType))
         ]
         
         let movieListSection: MovieDetailCellViewModelMultipleSection =
@@ -328,3 +323,12 @@ class MovieDetailViewModel: DetailViewModelType {
     }
     
 }
+
+extension MovieDetailViewModel: CreditShortListViewModelDelegate {
+    var creditShortListDelegateCoordinator: ToPeopleRoutable? { coordinator as? ToPeopleRoutable }
+    var mediaID: String { detailID }
+    var mediaType: MediaType { .movie }
+    var delegateSeasonNumber: String? { nil }
+    var delegateEpisodeNumber: String? { nil }
+}
+

@@ -7,13 +7,16 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class MediaListDataSourceTest: XCTestCase {
     
     func test_dataSourceWithMovies() {
         
-        let coordinator = MovieListCoordinator(navigationController: UINavigationController())
-        let (_, viewModel, controller) = coordinator.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
+        let container = AppDIContainer.shared
+        let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: container)
+        let (viewController, viewModel, _) = container.resolve(Typealias.MediaListBundle.self, argument: coordinator as NavigationCoordinator)!
         
         let items: [MediaCellViewModelMultipleSection.SectionItem] = [
             
@@ -29,13 +32,13 @@ class MediaListDataSourceTest: XCTestCase {
             .movieSection(title: "Фильмы", items: items)
         ])
         
-        switch controller.mediaListDataSource[0].items.first {
+        switch viewController.mediaListDataSource[0].items.first {
         case .movie(let vm):
             XCTAssertEqual(vm.title, "Title 1")
         default: break
         }
         
-        switch controller.mediaListDataSource[0].items[1] {
+        switch viewController.mediaListDataSource[0].items[1] {
         case .movie(let vm):
             XCTAssertEqual(vm.title, "Title 2")
         default: break
@@ -46,8 +49,9 @@ class MediaListDataSourceTest: XCTestCase {
     
     func test_dataSourceWithTV() {
         
-        let coordinator = TVListCoordinator(navigationController: UINavigationController())
-        let (_, viewModel, controller) = coordinator.factory(vmType: MediaListViewModel.self, vcType: MediaListViewController.self)
+        let container = AppDIContainer.shared
+        let coordinator = TVFlowCoordinator(navigationController: UINavigationController(), container: container)
+        let (viewController, viewModel, _) = container.resolve(Typealias.MediaListBundle.self, argument: coordinator as NavigationCoordinator)!
         
         let items: [MediaCellViewModelMultipleSection.SectionItem] = [
             
@@ -61,7 +65,7 @@ class MediaListDataSourceTest: XCTestCase {
             .tvSection(title: "Сериалы", items: items)
         ])
         
-        switch controller.mediaListDataSource[0].items.first {
+        switch viewController.mediaListDataSource[0].items.first {
         case .tv(let vm):
             XCTAssertEqual(vm.title, "Title 3")
         default: break

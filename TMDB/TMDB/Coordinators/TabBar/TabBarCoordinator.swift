@@ -6,16 +6,26 @@
 //
 
 import UIKit
+import Swinject
 
 class TabBarCoordinator: Coordinator {
+    
+    private enum State {
+        case movieTab
+        case tvTab
+        case searchTab
+    }
     
     var identifier = UUID()
     var childCoordinators = [UUID : Coordinator]()
     var parentCoordinator: Coordinator?
     
+    let container: Container
     let window: UIWindow
     let items: [UINavigationController]
     let dataSource = TabBarControllerDataSource()
+    
+    private var state: State?
     
     lazy var tabBarController: TabBarController = {
         let tabBarController = TabBarController()
@@ -25,9 +35,10 @@ class TabBarCoordinator: Coordinator {
         return tabBarController
     }()
     
-    init(window: UIWindow) {
+    init(window: UIWindow, container: Container) {
         self.window = window
         self.items = dataSource.items
+        self.container = container
     }
     
     func start() {
@@ -37,18 +48,52 @@ class TabBarCoordinator: Coordinator {
     }
     
     public func showMovieTab() {
-        let movieListCoordinator = MovieListCoordinator(navigationController: items[0])
-        coordinate(to: movieListCoordinator)
+        if case .some(.movieTab) = state { return }
+        
+        guard let coordinator = childCoordinators.map({ $1 }).first(where: { $0 is MovieFlowCoordinator })
+        else {
+            let coordinator = MovieFlowCoordinator(navigationController: items[0], container: container)
+            coordinate(to: coordinator)
+            state = .movieTab
+            return
+        }
+        
+        coordinate(to: coordinator)
+        state = .movieTab
     }
     
     public func showTVTab() {
-        let tvListCoordinator = TVListCoordinator(navigationController: items[1])
-        coordinate(to: tvListCoordinator)
+        if case .some(.tvTab) = state { return }
+        
+        guard let coordinator = childCoordinators.map({ $1 }).first(where: { $0 is TVFlowCoordinator })
+        else {
+            let coordinator = TVFlowCoordinator(navigationController: items[1], container: container)
+            coordinate(to: coordinator)
+            state = .tvTab
+            return
+        }
+        
+        coordinate(to: coordinator)
+        state = .tvTab
+    }
+    
+    public func showSearchTab() {
+        if case .some(.searchTab) = state { return }
+        
+        guard let coordinator = childCoordinators.map({ $1 }).first(where: { $0 is SearchFlowCoordinator })
+        else {
+            let coordinator = SearchFlowCoordinator(navigationController: items[2], container: container)
+            coordinate(to: coordinator)
+            state = .searchTab
+            return
+        }
+
+        coordinate(to: coordinator)
+        state = .searchTab
     }
     
     public func showFavoriteTab() {
-//        let favoriteListCoordinator = FavoriteListCoordinator(navigationController: items[2])
-//        coordinate(to: favoriteListCoordinator)
+        
     }
     
     
@@ -62,3 +107,5 @@ extension TabBarCoordinator : Equatable {
     
     
 }
+
+

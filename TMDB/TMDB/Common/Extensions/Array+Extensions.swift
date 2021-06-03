@@ -24,10 +24,10 @@ extension Array where Array.Element: AnimatableSectionModelType {
 
 }
 
-extension Array where Array.Element: (Decodable & IdentifiableType) {
+extension Array where Array.Element: (Decodable & Identifiable) {
     func toUnique() -> [Element] {
         var dict = [Int:Element]()
-        self.enumerated().forEach { dict[$0.element.identity as! Int] = $0.element }
+        self.enumerated().forEach { dict[$0.element.id as! Int] = $0.element }
         return dict.map { $0.value }
     }
 }

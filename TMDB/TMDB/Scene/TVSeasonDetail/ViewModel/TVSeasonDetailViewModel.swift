@@ -8,14 +8,18 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
+import Domain
+import NetworkPlatform
 
-class TVSeasonDetailViewModel: DetailWithParamViewModelType {
+class TVSeasonDetailViewModel {
     
 //    MARK: - Properties
-    var mediaID: String = ""
+    let mediaID: String
     let seasonNumber: String
     
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
+    
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
     
@@ -23,7 +27,7 @@ class TVSeasonDetailViewModel: DetailWithParamViewModelType {
     let output = Output()
     
     struct Input {
-        
+        let selectedItem = PublishSubject<TVSeasonDetailCellViewModelMultipleSection.SectionItem>()
     }
     
     struct Output {
@@ -36,16 +40,27 @@ class TVSeasonDetailViewModel: DetailWithParamViewModelType {
     
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol, params: [String:String]) {
-        self.seasonNumber = detailID
-        if let mediaID = params["mediaID"] { self.mediaID = mediaID }
-        self.networkManager = networkManager
+    required init(with detailID: String, seasonNumber: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.mediaID = detailID
+        self.seasonNumber = seasonNumber
         
+        self.useCaseProvider = useCaseProvider
+        
+        setupInput()
         setupOutput()
     }
     
     
 //    MARK: - Methods
+    fileprivate func setupInput() {
+        input.selectedItem.subscribe(onNext: { [weak self] in
+            guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }
+            if case .tvSeasonTrailerButton = $0 {
+                coordinator.toTrailerList(with: self.mediaID, mediaType: .tvSeason, seasonNumber: self.seasonNumber)
+            }
+        }).disposed(by: disposeBag)
+    }
+    
     fileprivate func setupOutput() {
         fetch { [weak self] (tvSeasonDetail) in
             guard let self = self else { return }
@@ -55,7 +70,9 @@ class TVSeasonDetailViewModel: DetailWithParamViewModelType {
     }
     
     fileprivate func fetch(completion: @escaping (TVSeasonDetailModel) -> Void) {
-        self.networkManager.request(TmdbAPI.tv(.season(mediaID: mediaID, seasonNumber: seasonNumber, appendToResponse: [ .aggregateCredits, .images, .videos ], includeImageLanguage: []))) { (result: Result<TVSeasonDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makeTVSeasonDetailUseCase()
+        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, appendToResponse: [.aggregateCredits, .images, .videos], includeImageLanguage: []) { (result: Result<TVSeasonDetailModel, Error>) in
             switch result {
             case .success(let tvSeasonDetail):
                 completion(tvSeasonDetail)
@@ -182,9 +199,10 @@ class TVSeasonDetailViewModel: DetailWithParamViewModelType {
         items.append(contentsOf: crewSection)
         if crewCount > limit { items.append(contentsOf: showMoreSection) }
 
-        let tvSeasonCrewListSectionItems: [TVSeasonDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvSeasonCrewShortList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: mediaID, seasonNumber: seasonNumber, creditType: .crew))
-        ]
+        let tvSeasonCrewListSectionItems: [TVSeasonDetailCellViewModelMultipleSection.SectionItem] =
+            [
+                .tvSeasonCrewShortList(vm: CreditShortListViewModel(title: title, items: items, creditType: .crew, mediaType: .tvSeason, delegate: self))
+            ]
 
         let tvSeasonCrewListSection: TVSeasonDetailCellViewModelMultipleSection =
             .tvSeasonCrewShortListSection(title: title, items: tvSeasonCrewListSectionItems)
@@ -215,7 +233,7 @@ class TVSeasonDetailViewModel: DetailWithParamViewModelType {
         if castCount > limit { items.append(contentsOf: showMoreSection) }
 
         let tvSeasonCastListSectionItems: [TVSeasonDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvSeasonCastShortList(vm: CreditShortListViewModel(title: title, items: items, coordinator: coordinator, networkManager: networkManager, mediaID: mediaID, seasonNumber: seasonNumber, creditType: .cast))
+            .tvSeasonCastShortList(vm: CreditShortListViewModel(title: title, items: items, creditType: .cast, mediaType: .tvSeason, delegate: self))
         ]
 
         let tvSeasonCastListSection: TVSeasonDetailCellViewModelMultipleSection =
@@ -257,5 +275,14 @@ class TVSeasonDetailViewModel: DetailWithParamViewModelType {
 
         return sections
     }
+    
+}
+
+extension TVSeasonDetailViewModel: CreditShortListViewModelDelegate {
+    
+    var creditShortListDelegateCoordinator: ToPeopleRoutable? { coordinator as? ToPeopleRoutable }
+    var mediaType: MediaType { .tvSeason }
+    var delegateSeasonNumber: String? { seasonNumber }
+    var delegateEpisodeNumber: String? { nil }
     
 }

@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
 
 class TVPosterWrapperCellViewModelTest: XCTestCase {
     

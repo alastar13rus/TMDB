@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Swinject
 
 protocol ViewModelType: class {
     
@@ -16,19 +17,4 @@ protocol ViewModelType: class {
     var output: Output { get }
     var coordinator: Coordinator? { get set }
 
-}
-
-protocol GeneralViewModelType: ViewModelType {
-    
-    init(networkManager: NetworkManagerProtocol)
-}
-
-protocol DetailViewModelType: ViewModelType {
-    
-    init(with detailID: String, networkManager: NetworkManagerProtocol)
-}
-
-protocol DetailWithParamViewModelType: ViewModelType {
-    
-    init(with detailID: String, networkManager: NetworkManagerProtocol, params: [String:String])
 }

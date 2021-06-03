@@ -14,60 +14,56 @@ class MediaListViewController: UIViewController {
     
     
     //    MARK: - Property
-        var viewModel: MediaListViewModel!
-        var disposeBag = DisposeBag()
-        var mediaListDataSource = MediaListTableViewDataSource.dataSource()
-        var displayIndexPaths = [IndexPath]()
-        
-        var categoryListSegmentedControl = SegmentedControl()
-        
-        var mediaListTableView: MediaListTableView = {
-            let refreshControl = UIRefreshControl()
-            refreshControl.addTarget(self, action: #selector(pullToRefresh(_:)), for: .valueChanged)
-            let tableView = MediaListTableView(cell: MediaTableViewCell.self, refreshControl: refreshControl)
-            return tableView
-        }()
+    var viewModel: MediaListViewModel!
+    private let disposeBag = DisposeBag()
+    let mediaListDataSource = MediaListTableViewDataSource.dataSource()
+    private let categoryListSegmentedControl = SegmentedControl()
+    
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        return refreshControl
+    }()
+    
+    private(set) lazy var mediaListTableView: MediaListTableView = {
+        let tableView = MediaListTableView(cell: MediaTableViewCell.self, refreshControl: refreshControl)
+        return tableView
+    }()
 
     //    MARK: - Lifecycle
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            setupUI()
-            setupHierarhy()
-            setupConstraints()
-            
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUI()
+        setupHierarhy()
+        setupConstraints()
+        
+    }
         
     //    MARK: - Methods
-        private func setupUI() {
-            view.backgroundColor = .white
+    private func setupUI() {
+        view.backgroundColor = .white
+        
+    }
+    
+    private func setupHierarhy() {
+        view.addSubview(categoryListSegmentedControl)
+        view.addSubview(mediaListTableView)
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            categoryListSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            categoryListSegmentedControl.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            categoryListSegmentedControl.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            categoryListSegmentedControl.heightAnchor.constraint(equalToConstant: 50),
             
-        }
-        
-        private func setupHierarhy() {
-            view.addSubview(categoryListSegmentedControl)
-            view.addSubview(mediaListTableView)
-        }
-        
-        private func setupConstraints() {
-            NSLayoutConstraint.activate([
-                categoryListSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                categoryListSegmentedControl.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-                categoryListSegmentedControl.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-                categoryListSegmentedControl.heightAnchor.constraint(equalToConstant: 50),
-                
-                mediaListTableView.topAnchor.constraint(equalTo: categoryListSegmentedControl.bottomAnchor),
-                mediaListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-                mediaListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-                mediaListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            ])
-        }
-        
-        @objc private func pullToRefresh(_ sender: UIRefreshControl) {
-            sender.beginRefreshing()
-            viewModel.input.isRefreshing.accept(sender.isRefreshing)
-        }
-        
+            mediaListTableView.topAnchor.constraint(equalTo: categoryListSegmentedControl.bottomAnchor),
+            mediaListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            mediaListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            mediaListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
 }
 
 //  MARK: - Extensions
@@ -89,11 +85,7 @@ extension MediaListViewController: BindableType {
         viewModel.output.selectedSegmentIndex
             .asDriver().drive(categoryListSegmentedControl.rx.selectedSegmentIndex)
             .disposed(by: disposeBag)
-
-        viewModel.output.isRefreshing.filter { !$0 } .subscribe (onNext: { _ in
-            self.mediaListTableView.refreshControl!.endRefreshing()
-        }).disposed(by: disposeBag)
-
+        
         categoryListSegmentedControl.rx.selectedSegmentIndex
             .asDriver().drive(viewModel.input.selectedSegmentIndex)
             .disposed(by: disposeBag)
@@ -102,11 +94,24 @@ extension MediaListViewController: BindableType {
             .subscribe(onNext: {  self.mediaListTableView.scrollsToTop = $0 })
             .disposed(by: disposeBag)
         
-        mediaListTableView.rx.willDisplayCell.map { $0.indexPath.row }.bind(to: viewModel.input.willDisplayCellIndex).disposed(by: disposeBag)
+        mediaListTableView.rx.willDisplayCell
+            .filter { $0.indexPath.row + 5 == self.mediaListDataSource[$0.indexPath.section].items.count }
+            .distinctUntilChanged { $0.indexPath == $1.indexPath }
+            .map { _ in Void() }
+            .bind(to: viewModel.input.loadNextPageTrigger)
+            .disposed(by: disposeBag)
         
         mediaListTableView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).map { (item) -> MediaCellViewModel in
             switch item { case .movie(let vm), .tv(let vm): return vm.self }
         }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
+        
+        viewModel.output.isFetching
+            .bind(to: refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(to: viewModel.input.refreshItemsTrigger)
+            .disposed(by: disposeBag)
         
                 
     }

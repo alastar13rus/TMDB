@@ -7,6 +7,8 @@
 
 import XCTest
 @testable import TMDB
+@testable import Domain
+@testable import NetworkPlatform
 
 class CastCellViewModelTest: XCTestCase {
     
@@ -25,23 +27,6 @@ class CastCellViewModelTest: XCTestCase {
         
         XCTAssertEqual(castCellViewModel.identity, "ohfbksdbsf")
         
-    }
-    
-    func test_profileImageData() {
-        
-        var imageData: Data?
-        let castCellViewModel = CastCellViewModel(castModel)
-        
-        let expectation = self.expectation(description: #function)
-        
-        castCellViewModel.profileImageData { (data) in
-            imageData = data
-            expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 10, handler: nil)
-        XCTAssertNotNil(UIImage(data: imageData!))
-
     }
     
     func test_equal() {

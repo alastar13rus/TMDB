@@ -8,11 +8,14 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Swinject
+import Domain
 
-class TVSeasonListViewModel: DetailViewModelType {
+class TVSeasonListViewModel {
     
 //    MARK: - Properties
-    let networkManager: NetworkManagerProtocol
+    let useCaseProvider: Domain.UseCaseProvider
+    
     let disposeBag = DisposeBag()
     weak var coordinator: Coordinator?
     
@@ -21,7 +24,7 @@ class TVSeasonListViewModel: DetailViewModelType {
     let output = Output()
     
     struct Input {
-        
+        let selectedItem = PublishRelay<TVSeasonCellViewModelMultipleSection.SectionItem>()
     }
     
     struct Output {
@@ -30,14 +33,26 @@ class TVSeasonListViewModel: DetailViewModelType {
     
     
 //    MARK: - Init
-    required init(with detailID: String, networkManager: NetworkManagerProtocol) {
-        self.networkManager = networkManager
-        self.mediaID = detailID
+    required init(with mediaID: String, useCaseProvider: Domain.UseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
         
+        self.mediaID = mediaID
+        
+        setupInput()
         setupOutput()
     }
     
 //    MARK: - Methods
+    fileprivate func setupInput() {
+        input.selectedItem.subscribe(onNext: { [weak self] in
+            guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }
+            switch $0 {
+            case .season(let vm): coordinator.toDetail(with: self.mediaID, seasonNumber: vm.seasonNumber)
+            default: break
+            }
+        }).disposed(by: disposeBag)
+    }
+    
     fileprivate func setupOutput() {
         fetch { [weak self] (tvDetail) in
             guard let self = self else { return }
@@ -58,7 +73,10 @@ class TVSeasonListViewModel: DetailViewModelType {
     }
     
     fileprivate func fetch(completion: @escaping (TVDetailModel) -> Void) {
-        networkManager.request(TmdbAPI.tv(.details(mediaID: mediaID, appendToResponse: [], includeImageLanguage: []))) { (result: Result<TVDetailModel, Error>) in
+        
+        let useCase = useCaseProvider.makeTVDetailUseCase()
+        
+        useCase.details(mediaID: mediaID, appendToResponse: [], includeImageLanguage: []) { (result: Result<TVDetailModel, Error>) in
             switch result {
             case .success(let tvDetail):
                 completion(tvDetail)

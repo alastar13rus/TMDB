@@ -55,19 +55,12 @@ class TVEpisodeShortListViewModel {
     
     fileprivate func subscribe() {
         selectedItem.subscribe(onNext: { [weak self] in
-            guard let self = self, let coordinator = self.coordinator as? TVSeasonListCoordinator else { return }
+            guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }
             switch $0 {
             case .episode(let vm):
-                coordinator.toEpisode(with: vm.episodeNumber,
-                                      params: [
-                                        "mediaID": self.mediaID,
-                                        "seasonNumber": vm.seasonNumber
-                                      ])
+                coordinator.toEpisode(with: self.mediaID, seasonNumber: vm.seasonNumber, episodeNumber: vm.episodeNumber)
             case .showMore:
-                coordinator.toEpisodeList(with: self.mediaID,
-                                          params: [
-                                            "seasonNumber": self.seasonNumber
-                                          ])
+                coordinator.toEpisodeList(with: self.mediaID, seasonNumber: self.seasonNumber)
             }
         }).disposed(by: disposeBag)
     }
