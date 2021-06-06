@@ -10,17 +10,17 @@ import Domain
 
 final class PeopleListUseCase: Domain.PeopleListUseCase {
     
-    private let network: PeopleListNetwork
+    private let repository: PeopleListRepository
     private let api: PeopleListAPI
 
-    init(_ network: PeopleListNetwork, _ api: PeopleListAPI) {
-        self.network = network
+    init(_ repository: PeopleListRepository, _ api: PeopleListAPI) {
+        self.repository = repository
         self.api = api
     }
     
     func popular(_ completion: @escaping (Result<PeopleListResponse, Error>) -> Void) {
         
         let request = api.popular()
-        network.fetchPopularPeoples(request, completion: completion)
+        repository.fetchPopularPeoples(request, completion: completion)
     }
 }

@@ -10,10 +10,10 @@ import Domain
 
 final class TVEpisodeDetailUseCase: Domain.TVEpisodeDetailUseCase {
     
-    private let network: TVEpisodeDetailNetwork
+    private let network: TVEpisodeDetailRepository
     private let api: TVEpisodeDetailAPI
 
-    init(_ network: TVEpisodeDetailNetwork, _ api: TVEpisodeDetailAPI) {
+    init(_ network: TVEpisodeDetailRepository, _ api: TVEpisodeDetailAPI) {
         self.network = network
         self.api = api
     }

@@ -12,6 +12,9 @@ import Swinject
 import Domain
 import NetworkPlatform
 
+import CoreData
+import CoreDataPlatform
+
 class MediaListViewModel {
     
 

@@ -23,6 +23,56 @@ public struct MovieModel: MovieProtocol {
     public var video: Bool
     public var voteAverage: Float
     
+    public init(
+        posterPath: String?,
+        adult: Bool,
+        overview: String,
+        releaseDate: String?,
+        genreIds: [Int],
+        id: Int,
+        originalTitle: String,
+        originalLanguage: String,
+        title: String,
+        backdropPath: String?,
+        popularity: Float?,
+        voteCount: Int,
+        video: Bool,
+        voteAverage: Float
+    ) {
+        self.posterPath = posterPath
+        self.adult = adult
+        self.overview = overview
+        self.releaseDate = releaseDate
+        self.genreIds = genreIds
+        self.id = id
+        self.originalTitle = originalTitle
+        self.originalLanguage = originalLanguage
+        self.title = title
+        self.backdropPath = backdropPath
+        self.popularity = popularity
+        self.voteCount = voteCount
+        self.video = video
+        self.voteAverage = voteAverage
+    }
+    
+    public init(_ detailModel: MovieDetailModel)
+    {
+        self.posterPath = detailModel.posterPath
+        self.adult = detailModel.adult
+        self.overview = detailModel.overview
+        self.releaseDate = detailModel.releaseDate
+        self.genreIds = detailModel.genres.map { $0.id }
+        self.id = detailModel.id
+        self.originalTitle = detailModel.originalTitle
+        self.originalLanguage = detailModel.originalLanguage
+        self.title = detailModel.title
+        self.backdropPath = detailModel.backdropPath
+        self.popularity = detailModel.popularity
+        self.voteCount = detailModel.voteCount
+        self.video = detailModel.video
+        self.voteAverage = detailModel.voteAverage
+    }
+    
 }
 
 extension MovieModel: Decodable {

@@ -16,49 +16,49 @@ public final class NetworkProvider {
         self.network = network
     }
     
-    func makeMovieListNetwork() -> MovieListNetwork {
-        let movieListNetwork = MovieListNetwork(network)
-        return movieListNetwork
+    func makeMovieListRepository() -> MovieListRepository {
+        let movieListRepository = MovieListRepository(network)
+        return movieListRepository
     }
     
-    func makeMovieDetailNetwork() -> MovieDetailNetwork {
-        let movieDetailNetwork = MovieDetailNetwork(network)
-        return movieDetailNetwork
+    func makeMovieDetailRepository() -> MovieDetailRepository {
+        let movieDetailRepository = MovieDetailRepository(network)
+        return movieDetailRepository
     }
     
-    func makeTVListNetwork() -> TVListNetwork {
-        let tvListNetwork = TVListNetwork(network)
-        return tvListNetwork
+    func makeTVListRepository() -> TVListRepository {
+        let tvListRepository = TVListRepository(network)
+        return tvListRepository
     }
     
-    func makeTVDetailNetwork() -> TVDetailNetwork {
-        let tvDetailNetwork = TVDetailNetwork(network)
-        return tvDetailNetwork
+    func makeTVDetailRepository() -> TVDetailRepository {
+        let tvDetailRepository = TVDetailRepository(network)
+        return tvDetailRepository
     }
     
-    func makeTVSeasonDetailNetwork() -> TVSeasonDetailNetwork {
-        let tvSeasonDetailNetwork = TVSeasonDetailNetwork(network)
-        return tvSeasonDetailNetwork
+    func makeTVSeasonDetailRepository() -> TVSeasonDetailRepository {
+        let tvSeasonDetailRepository = TVSeasonDetailRepository(network)
+        return tvSeasonDetailRepository
     }
     
-    func makeTVEpisodeDetailNetwork() -> TVEpisodeDetailNetwork {
-        let tvEpisodeDetailNetwork = TVEpisodeDetailNetwork(network)
-        return tvEpisodeDetailNetwork
+    func makeTVEpisodeDetailRepository() -> TVEpisodeDetailRepository {
+        let tvEpisodeDetailRepository = TVEpisodeDetailRepository(network)
+        return tvEpisodeDetailRepository
     }
     
-    func makePeopleDetailNetwork() -> PeopleDetailNetwork {
-        let peopleDetailNetwork = PeopleDetailNetwork(network)
-        return peopleDetailNetwork
+    func makePeopleDetailRepository() -> PeopleDetailRepository {
+        let peopleDetailRepository = PeopleDetailRepository(network)
+        return peopleDetailRepository
     }
     
-    func makePeopleListNetwork() -> PeopleListNetwork {
-        let peopleListNetwork = PeopleListNetwork(network)
-        return peopleListNetwork
+    func makePeopleListRepository() -> PeopleListRepository {
+        let peopleListRepository = PeopleListRepository(network)
+        return peopleListRepository
     }
     
-    func makeSearchNetwork() -> SearchNetwork {
-        let searchNetwork = SearchNetwork(network)
-        return searchNetwork
+    func makeSearchRepository() -> SearchRepository {
+        let searchRepository = SearchRepository(network)
+        return searchRepository
     }
     
 }

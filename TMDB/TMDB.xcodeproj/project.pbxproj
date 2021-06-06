@@ -84,6 +84,20 @@
 		BB116AC4266840EA002C3A7B /* TVNetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116AC3266840EA002C3A7B /* TVNetworkModel.swift */; };
 		BB116AD02668FD80002C3A7B /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116ACF2668FD80002C3A7B /* SearchAPI.swift */; };
 		BB116ADC2668FDB5002C3A7B /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116ADB2668FDB5002C3A7B /* NetworkProvider.swift */; };
+		BB116B0E2669432F002C3A7B /* CoreDataPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB116B052669432E002C3A7B /* CoreDataPlatform.framework */; };
+		BB116B152669432F002C3A7B /* CoreDataPlatformTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B142669432F002C3A7B /* CoreDataPlatformTests.swift */; };
+		BB116B172669432F002C3A7B /* CoreDataPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = BB116B072669432F002C3A7B /* CoreDataPlatform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BB116B1A2669432F002C3A7B /* CoreDataPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB116B052669432E002C3A7B /* CoreDataPlatform.framework */; };
+		BB116B1B2669432F002C3A7B /* CoreDataPlatform.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BB116B052669432E002C3A7B /* CoreDataPlatform.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BB116B34266943CA002C3A7B /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B33266943CA002C3A7B /* CoreDataStack.swift */; };
+		BB116B4E266949EB002C3A7B /* CoreDataAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B4D266949EB002C3A7B /* CoreDataAgent.swift */; };
+		BB116B5926694ED3002C3A7B /* DomainConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B5826694ED3002C3A7B /* DomainConvertible.swift */; };
+		BB116B6926694EEB002C3A7B /* CoreDataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B6826694EEB002C3A7B /* CoreDataRepresentable.swift */; };
+		BB116B7226694F18002C3A7B /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B7126694F18002C3A7B /* Persistable.swift */; };
+		BB116B7C26696770002C3A7B /* UseCasePersistenceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B7B26696770002C3A7B /* UseCasePersistenceProvider.swift */; };
+		BB116B8526696C36002C3A7B /* CoreDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB116B8426696C36002C3A7B /* CoreDataProvider.swift */; };
+		BB116BDB26697570002C3A7B /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB2D9FC4265087DC00ECAF80 /* Domain.framework */; };
+		BB116BDC26697570002C3A7B /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BB2D9FC4265087DC00ECAF80 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BB232A5E263AFCAE000CFC05 /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB232A5D263AFCAE000CFC05 /* ButtonTableViewCell.swift */; };
 		BB232A62263AFD7E000CFC05 /* ButtonCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB232A61263AFD7E000CFC05 /* ButtonCellViewModel.swift */; };
 		BB232A71263B52E1000CFC05 /* MediaTrailerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB232A70263B52E1000CFC05 /* MediaTrailerListViewModel.swift */; };
@@ -190,19 +204,19 @@
 		BB2DA199265251BF00ECAF80 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB2D9FC4265087DC00ECAF80 /* Domain.framework */; };
 		BB2DA1AD2652573600ECAF80 /* NetworkAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1AC2652573600ECAF80 /* NetworkAgent.swift */; };
 		BB2DA1B3265257F100ECAF80 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA917325FFFA6D0095DB27 /* Endpoint.swift */; };
-		BB2DA1BE26525C9B00ECAF80 /* MovieDetailNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1BD26525C9B00ECAF80 /* MovieDetailNetwork.swift */; };
+		BB2DA1BE26525C9B00ECAF80 /* MovieDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1BD26525C9B00ECAF80 /* MovieDetailRepository.swift */; };
 		BB2DA1D92652858900ECAF80 /* APIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1D82652858900ECAF80 /* APIFactory.swift */; };
 		BB2DA1E0265298E900ECAF80 /* MovieDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1DF265298E900ECAF80 /* MovieDetailUseCase.swift */; };
 		BB2DA1E826529E1600ECAF80 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1E726529E1600ECAF80 /* Endpoint.swift */; };
 		BB2DA1EF26529EDE00ECAF80 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA1EE26529EDE00ECAF80 /* HTTPMethod.swift */; };
 		BB2DA2172652B46600ECAF80 /* MovieListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2162652B46600ECAF80 /* MovieListAPI.swift */; };
-		BB2DA2232652B7F500ECAF80 /* MovieListNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2222652B7F500ECAF80 /* MovieListNetwork.swift */; };
-		BB2DA22A2652B8D900ECAF80 /* TVListNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2292652B8D900ECAF80 /* TVListNetwork.swift */; };
-		BB2DA2362652B90100ECAF80 /* TVDetailNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2352652B90100ECAF80 /* TVDetailNetwork.swift */; };
+		BB2DA2232652B7F500ECAF80 /* MovieListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2222652B7F500ECAF80 /* MovieListRepository.swift */; };
+		BB2DA22A2652B8D900ECAF80 /* TVListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2292652B8D900ECAF80 /* TVListRepository.swift */; };
+		BB2DA2362652B90100ECAF80 /* TVDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2352652B90100ECAF80 /* TVDetailRepository.swift */; };
 		BB2DA23D2652B96100ECAF80 /* TVDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA23C2652B96100ECAF80 /* TVDetailAPI.swift */; };
 		BB2DA2442652B99800ECAF80 /* TVListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2432652B99800ECAF80 /* TVListAPI.swift */; };
-		BB2DA2612652BEB300ECAF80 /* PeopleDetailNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2602652BEB300ECAF80 /* PeopleDetailNetwork.swift */; };
-		BB2DA2692652C46900ECAF80 /* CreditDetailNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2682652C46900ECAF80 /* CreditDetailNetwork.swift */; };
+		BB2DA2612652BEB300ECAF80 /* PeopleDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2602652BEB300ECAF80 /* PeopleDetailRepository.swift */; };
+		BB2DA2692652C46900ECAF80 /* CreditDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2682652C46900ECAF80 /* CreditDetailRepository.swift */; };
 		BB2DA2702652C47A00ECAF80 /* CreditDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA26F2652C47A00ECAF80 /* CreditDetailAPI.swift */; };
 		BB2DA2862652E4AA00ECAF80 /* MovieListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2852652E4AA00ECAF80 /* MovieListUseCase.swift */; };
 		BB2DA2A12653056100ECAF80 /* TVListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2A02653056100ECAF80 /* TVListUseCase.swift */; };
@@ -216,8 +230,8 @@
 		BB2DA2E02653312D00ECAF80 /* TVDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2DF2653312D00ECAF80 /* TVDetailUseCase.swift */; };
 		BB2DA2E9265338FF00ECAF80 /* TVSeasonDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2E8265338FF00ECAF80 /* TVSeasonDetailAPI.swift */; };
 		BB2DA2F52653390A00ECAF80 /* TVEpisodeDetailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2F42653390A00ECAF80 /* TVEpisodeDetailAPI.swift */; };
-		BB2DA2FC26533C8500ECAF80 /* TVSeasonDetailNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2FB26533C8500ECAF80 /* TVSeasonDetailNetwork.swift */; };
-		BB2DA30326533D3D00ECAF80 /* TVEpisodeDetailNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA30226533D3D00ECAF80 /* TVEpisodeDetailNetwork.swift */; };
+		BB2DA2FC26533C8500ECAF80 /* TVSeasonDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA2FB26533C8500ECAF80 /* TVSeasonDetailRepository.swift */; };
+		BB2DA30326533D3D00ECAF80 /* TVEpisodeDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA30226533D3D00ECAF80 /* TVEpisodeDetailRepository.swift */; };
 		BB2DA30A2653A7AB00ECAF80 /* APIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA3092653A7AB00ECAF80 /* APIFactory.swift */; };
 		BB2DA3112653A8C000ECAF80 /* PeopleDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA3102653A8C000ECAF80 /* PeopleDetailUseCase.swift */; };
 		BB2DA3192653A95D00ECAF80 /* PeopleDetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2DA3182653A95D00ECAF80 /* PeopleDetailUseCase.swift */; };
@@ -284,12 +298,12 @@
 		BB56DF562660E6E500FC458D /* PeopleListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF552660E6E400FC458D /* PeopleListUseCase.swift */; };
 		BB56DF5D2660E7FE00FC458D /* PeopleListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF5C2660E7FE00FC458D /* PeopleListUseCase.swift */; };
 		BB56DF642660EA3D00FC458D /* PeopleListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF632660EA3D00FC458D /* PeopleListAPI.swift */; };
-		BB56DF6C2660EA8200FC458D /* PeopleListNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF6B2660EA8200FC458D /* PeopleListNetwork.swift */; };
+		BB56DF6C2660EA8200FC458D /* PeopleListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF6B2660EA8200FC458D /* PeopleListRepository.swift */; };
 		BB56DF782660F5EE00FC458D /* SearchListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF772660F5EE00FC458D /* SearchListUseCase.swift */; };
 		BB56DF802660F66C00FC458D /* SearchCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF7F2660F66C00FC458D /* SearchCategory.swift */; };
 		BB56DF8C2660F71400FC458D /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF8B2660F71400FC458D /* SearchUseCase.swift */; };
 		BB56DF932660F8D300FC458D /* SearchUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DF922660F8D300FC458D /* SearchUseCase.swift */; };
-		BB56DFA32660F9EE00FC458D /* SearchNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFA22660F9EE00FC458D /* SearchNetwork.swift */; };
+		BB56DFA32660F9EE00FC458D /* SearchRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFA22660F9EE00FC458D /* SearchRepository.swift */; };
 		BB56DFAF2661006900FC458D /* SearchAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFAE2661006900FC458D /* SearchAPI.swift */; };
 		BB56DFB6266102BC00FC458D /* PeopleListAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFB5266102BC00FC458D /* PeopleListAPI.swift */; };
 		BB56DFD42661205600FC458D /* SearchCategoryListCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56DFD32661205600FC458D /* SearchCategoryListCollectionViewDataSource.swift */; };
@@ -311,6 +325,29 @@
 		BB56E10A26640A0D00FC458D /* MediaFilteredListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56E10926640A0D00FC458D /* MediaFilteredListViewController.swift */; };
 		BB56E1252664F1A600FC458D /* MultiSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56E1242664F1A500FC458D /* MultiSearchResponse.swift */; };
 		BB56E151266531CD00FC458D /* PeopleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB56E150266531CD00FC458D /* PeopleTableViewCell.swift */; };
+		BB62CF26266A2DAA00AD1F88 /* UseCasePersistenceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CF25266A2DAA00AD1F88 /* UseCasePersistenceProvider.swift */; };
+		BB62CF2E266A2E7C00AD1F88 /* FavoriteMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CF2D266A2E7C00AD1F88 /* FavoriteMovieUseCase.swift */; };
+		BB62CF36266A2F3C00AD1F88 /* FavoriteTVUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CF35266A2F3C00AD1F88 /* FavoriteTVUseCase.swift */; };
+		BB62CF3E266A367500AD1F88 /* FavoritePeopleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CF3D266A367500AD1F88 /* FavoritePeopleUseCase.swift */; };
+		BB62CF74266A399D00AD1F88 /* FavoriteMovieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CF73266A399D00AD1F88 /* FavoriteMovieRepository.swift */; };
+		BB62CFB3266A4DA100AD1F88 /* FavoriteMovieUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CFB2266A4DA100AD1F88 /* FavoriteMovieUseCase.swift */; };
+		BB62CFBB266A6EED00AD1F88 /* FavoriteTVRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CFBA266A6EED00AD1F88 /* FavoriteTVRepository.swift */; };
+		BB62CFC3266A6F0700AD1F88 /* FavoritePeopleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CFC2266A6F0700AD1F88 /* FavoritePeopleRepository.swift */; };
+		BB62D010266A7BE500AD1F88 /* FavoriteTVUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D00F266A7BE500AD1F88 /* FavoriteTVUseCase.swift */; };
+		BB62D018266A7BF300AD1F88 /* FavoritePeopleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D017266A7BF300AD1F88 /* FavoritePeopleUseCase.swift */; };
+		BB62D089266BF65F00AD1F88 /* TMDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB116B4326694526002C3A7B /* TMDB.xcdatamodeld */; };
+		BB62D14B266C294800AD1F88 /* TMDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB116B4326694526002C3A7B /* TMDB.xcdatamodeld */; };
+		BB62D250266C320A00AD1F88 /* CDFavoriteTV+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CFD4266A717700AD1F88 /* CDFavoriteTV+Extension.swift */; };
+		BB62D271266C321700AD1F88 /* CDFavoritePeople+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CFDC266A740A00AD1F88 /* CDFavoritePeople+Extension.swift */; };
+		BB62D2C6266C323900AD1F88 /* CDFavoriteMovie+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62CF95266A3E6900AD1F88 /* CDFavoriteMovie+Extension.swift */; };
+		BB62D330266C36C700AD1F88 /* CDFavoritePeople+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D32A266C36C700AD1F88 /* CDFavoritePeople+CoreDataClass.swift */; };
+		BB62D331266C36C700AD1F88 /* CDFavoritePeople+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D32B266C36C700AD1F88 /* CDFavoritePeople+CoreDataProperties.swift */; };
+		BB62D332266C36C700AD1F88 /* CDFavoriteMovie+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D32C266C36C700AD1F88 /* CDFavoriteMovie+CoreDataClass.swift */; };
+		BB62D333266C36C700AD1F88 /* CDFavoriteMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D32D266C36C700AD1F88 /* CDFavoriteMovie+CoreDataProperties.swift */; };
+		BB62D334266C36C700AD1F88 /* CDFavoriteTV+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D32E266C36C700AD1F88 /* CDFavoriteTV+CoreDataClass.swift */; };
+		BB62D335266C36C700AD1F88 /* CDFavoriteTV+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D32F266C36C700AD1F88 /* CDFavoriteTV+CoreDataProperties.swift */; };
+		BB62D35C266D1F3D00AD1F88 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D35B266D1F3D00AD1F88 /* String+Extensions.swift */; };
+		BB62D36A266D1F4A00AD1F88 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D369266D1F4A00AD1F88 /* Array+Extensions.swift */; };
 		BB7ED5DD2628D79A00FE5659 /* CreditListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */; };
 		BB7ED5E32628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */; };
 		BB7ED5E92628FEB500FE5659 /* CreditListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5E82628FEB500FE5659 /* CreditListViewController.swift */; };
@@ -349,12 +386,42 @@
 		BBAA91BC2602DF440095DB27 /* ImageURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91BB2602DF440095DB27 /* ImageURL.swift */; };
 		BBAA91D22603ED570095DB27 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91D12603ED570095DB27 /* URL+Extensions.swift */; };
 		BBAA91FA260566FF0095DB27 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA91F9260566FE0095DB27 /* CircleProgressBar.swift */; };
+		BD87ECED2BE86B6FD34A5061 /* Pods_CoreDataPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F9BAC03F1141450DCB610D6 /* Pods_CoreDataPlatform.framework */; };
 		D7AFDE451B7629D621298528 /* Pods_NetworkPlatform_NetworkPlatformTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D35189AB622966A6345FBF3 /* Pods_NetworkPlatform_NetworkPlatformTests.framework */; };
+		F0FA5FE7291318E6C2FAF4AE /* Pods_CoreDataPlatform_CoreDataPlatformTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4985176AC037FD01F3E855F2 /* Pods_CoreDataPlatform_CoreDataPlatformTests.framework */; };
 		F58859900B1D95AA69549F9A /* Pods_Domain_DomainTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053B1338CD314BA361822830 /* Pods_Domain_DomainTests.framework */; };
 		F8DD116FE3849B0B402AF52F /* Pods_TMDB_TMDBTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F5A4F99F2FE47FFC197437 /* Pods_TMDB_TMDBTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BB116B0F2669432F002C3A7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBAA90E825F9287A0095DB27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB116B042669432E002C3A7B;
+			remoteInfo = CoreDataPlatform;
+		};
+		BB116B112669432F002C3A7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBAA90E825F9287A0095DB27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BBAA90EF25F9287A0095DB27;
+			remoteInfo = TMDB;
+		};
+		BB116B182669432F002C3A7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBAA90E825F9287A0095DB27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB116B042669432E002C3A7B;
+			remoteInfo = CoreDataPlatform;
+		};
+		BB116BDD26697570002C3A7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBAA90E825F9287A0095DB27 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BB2D9FC3265087DC00ECAF80;
+			remoteInfo = Domain;
+		};
 		BB2D9FCE265087DC00ECAF80 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BBAA90E825F9287A0095DB27 /* Project object */;
@@ -407,12 +474,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		BB116BDF26697570002C3A7B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BB116BDC26697570002C3A7B /* Domain.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB2D9FDE265087DC00ECAF80 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BB116B1B2669432F002C3A7B /* CoreDataPlatform.framework in Embed Frameworks */,
 				BB2DA16D26524F1200ECAF80 /* NetworkPlatform.framework in Embed Frameworks */,
 				BB2D9FDA265087DC00ECAF80 /* Domain.framework in Embed Frameworks */,
 			);
@@ -424,11 +503,15 @@
 /* Begin PBXFileReference section */
 		053B1338CD314BA361822830 /* Pods_Domain_DomainTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Domain_DomainTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19F5A4F99F2FE47FFC197437 /* Pods_TMDB_TMDBTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TMDB_TMDBTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D7B083A0504E3625036A352 /* Pods-CoreDataPlatform.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreDataPlatform.release.xcconfig"; path = "Target Support Files/Pods-CoreDataPlatform/Pods-CoreDataPlatform.release.xcconfig"; sourceTree = "<group>"; };
 		2E645F0C8A36025AB97B1375 /* Pods-TMDBTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDBTests.debug.xcconfig"; path = "Target Support Files/Pods-TMDBTests/Pods-TMDBTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2F847A029231C4E98A450F1E /* Pods-Domain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Domain.debug.xcconfig"; path = "Target Support Files/Pods-Domain/Pods-Domain.debug.xcconfig"; sourceTree = "<group>"; };
 		3159522495BC9CB644E5749C /* Pods-TMDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB.release.xcconfig"; path = "Target Support Files/Pods-TMDB/Pods-TMDB.release.xcconfig"; sourceTree = "<group>"; };
+		3CE57B0F7FC87E4A6AFFBE82 /* Pods-CoreDataPlatform-CoreDataPlatformTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreDataPlatform-CoreDataPlatformTests.debug.xcconfig"; path = "Target Support Files/Pods-CoreDataPlatform-CoreDataPlatformTests/Pods-CoreDataPlatform-CoreDataPlatformTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D35189AB622966A6345FBF3 /* Pods_NetworkPlatform_NetworkPlatformTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NetworkPlatform_NetworkPlatformTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EC1BE7C7DE9E4CB8D76D2CA /* Pods-CoreDataPlatform-CoreDataPlatformTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreDataPlatform-CoreDataPlatformTests.release.xcconfig"; path = "Target Support Files/Pods-CoreDataPlatform-CoreDataPlatformTests/Pods-CoreDataPlatform-CoreDataPlatformTests.release.xcconfig"; sourceTree = "<group>"; };
 		46799DABCD8FAD8F8422ED4A /* Pods-Domain-DomainTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Domain-DomainTests.debug.xcconfig"; path = "Target Support Files/Pods-Domain-DomainTests/Pods-Domain-DomainTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4985176AC037FD01F3E855F2 /* Pods_CoreDataPlatform_CoreDataPlatformTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreDataPlatform_CoreDataPlatformTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A2D94DF304C09C0DC968F1F /* Pods-TMDB-TMDBTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB-TMDBTests.release.xcconfig"; path = "Target Support Files/Pods-TMDB-TMDBTests/Pods-TMDB-TMDBTests.release.xcconfig"; sourceTree = "<group>"; };
 		540E68142B75814D35CD3ECF /* Pods_TMDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TMDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		550B8D79C9AAA1F165983750 /* Pods-NetworkPlatform.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkPlatform.debug.xcconfig"; path = "Target Support Files/Pods-NetworkPlatform/Pods-NetworkPlatform.debug.xcconfig"; sourceTree = "<group>"; };
@@ -437,7 +520,9 @@
 		82D5F1F12875F9C549832904 /* Pods-TMDB-TMDBTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB-TMDBTests.debug.xcconfig"; path = "Target Support Files/Pods-TMDB-TMDBTests/Pods-TMDB-TMDBTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B0FB92EE7CD2658A0B7797D /* Pods-Domain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Domain.release.xcconfig"; path = "Target Support Files/Pods-Domain/Pods-Domain.release.xcconfig"; sourceTree = "<group>"; };
 		8DE519EAF38C8D573BE8FD8F /* Pods-NetworkPlatform.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetworkPlatform.release.xcconfig"; path = "Target Support Files/Pods-NetworkPlatform/Pods-NetworkPlatform.release.xcconfig"; sourceTree = "<group>"; };
+		8F9BAC03F1141450DCB610D6 /* Pods_CoreDataPlatform.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoreDataPlatform.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A97E1E8D01594A66DC1ECF12 /* Pods-Domain-DomainTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Domain-DomainTests.release.xcconfig"; path = "Target Support Files/Pods-Domain-DomainTests/Pods-Domain-DomainTests.release.xcconfig"; sourceTree = "<group>"; };
+		ADEA4B736D100B33AD8D785B /* Pods-CoreDataPlatform.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoreDataPlatform.debug.xcconfig"; path = "Target Support Files/Pods-CoreDataPlatform/Pods-CoreDataPlatform.debug.xcconfig"; sourceTree = "<group>"; };
 		BB0AC582261C48EB00CFA11B /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		BB0AC58A261C5BC300CFA11B /* MediaListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaListTableView.swift; sourceTree = "<group>"; };
 		BB0AC591261C5F9100CFA11B /* RefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControl.swift; sourceTree = "<group>"; };
@@ -513,6 +598,20 @@
 		BB116AC3266840EA002C3A7B /* TVNetworkModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVNetworkModel.swift; sourceTree = "<group>"; };
 		BB116ACF2668FD80002C3A7B /* SearchAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
 		BB116ADB2668FDB5002C3A7B /* NetworkProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
+		BB116B052669432E002C3A7B /* CoreDataPlatform.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataPlatform.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB116B072669432F002C3A7B /* CoreDataPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataPlatform.h; sourceTree = "<group>"; };
+		BB116B082669432F002C3A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB116B0D2669432F002C3A7B /* CoreDataPlatformTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataPlatformTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB116B142669432F002C3A7B /* CoreDataPlatformTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataPlatformTests.swift; sourceTree = "<group>"; };
+		BB116B162669432F002C3A7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BB116B33266943CA002C3A7B /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		BB116B4426694526002C3A7B /* TMDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMDB.xcdatamodel; sourceTree = "<group>"; };
+		BB116B4D266949EB002C3A7B /* CoreDataAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataAgent.swift; sourceTree = "<group>"; };
+		BB116B5826694ED3002C3A7B /* DomainConvertible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainConvertible.swift; sourceTree = "<group>"; };
+		BB116B6826694EEB002C3A7B /* CoreDataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataRepresentable.swift; sourceTree = "<group>"; };
+		BB116B7126694F18002C3A7B /* Persistable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
+		BB116B7B26696770002C3A7B /* UseCasePersistenceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCasePersistenceProvider.swift; sourceTree = "<group>"; };
+		BB116B8426696C36002C3A7B /* CoreDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataProvider.swift; sourceTree = "<group>"; };
 		BB232A43263AD481000CFC05 /* DepartmentHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepartmentHelper.swift; sourceTree = "<group>"; };
 		BB232A5D263AFCAE000CFC05 /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTableViewCell.swift; sourceTree = "<group>"; };
 		BB232A61263AFD7E000CFC05 /* ButtonCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCellViewModel.swift; sourceTree = "<group>"; };
@@ -612,7 +711,7 @@
 		BB2DA16826524F1200ECAF80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BB2DA1812652506700ECAF80 /* UseCaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseProvider.swift; sourceTree = "<group>"; };
 		BB2DA1AC2652573600ECAF80 /* NetworkAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAgent.swift; sourceTree = "<group>"; };
-		BB2DA1BD26525C9B00ECAF80 /* MovieDetailNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailNetwork.swift; sourceTree = "<group>"; };
+		BB2DA1BD26525C9B00ECAF80 /* MovieDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailRepository.swift; sourceTree = "<group>"; };
 		BB2DA1D82652858900ECAF80 /* APIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFactory.swift; sourceTree = "<group>"; };
 		BB2DA1DF265298E900ECAF80 /* MovieDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailUseCase.swift; sourceTree = "<group>"; };
 		BB2DA1E726529E1600ECAF80 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -621,13 +720,13 @@
 		BB2DA2032652B0A800ECAF80 /* IncludeImageLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncludeImageLanguage.swift; sourceTree = "<group>"; };
 		BB2DA20F2652B0C200ECAF80 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		BB2DA2162652B46600ECAF80 /* MovieListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListAPI.swift; sourceTree = "<group>"; };
-		BB2DA2222652B7F500ECAF80 /* MovieListNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListNetwork.swift; sourceTree = "<group>"; };
-		BB2DA2292652B8D900ECAF80 /* TVListNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVListNetwork.swift; sourceTree = "<group>"; };
-		BB2DA2352652B90100ECAF80 /* TVDetailNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailNetwork.swift; sourceTree = "<group>"; };
+		BB2DA2222652B7F500ECAF80 /* MovieListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListRepository.swift; sourceTree = "<group>"; };
+		BB2DA2292652B8D900ECAF80 /* TVListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVListRepository.swift; sourceTree = "<group>"; };
+		BB2DA2352652B90100ECAF80 /* TVDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailRepository.swift; sourceTree = "<group>"; };
 		BB2DA23C2652B96100ECAF80 /* TVDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailAPI.swift; sourceTree = "<group>"; };
 		BB2DA2432652B99800ECAF80 /* TVListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVListAPI.swift; sourceTree = "<group>"; };
-		BB2DA2602652BEB300ECAF80 /* PeopleDetailNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailNetwork.swift; sourceTree = "<group>"; };
-		BB2DA2682652C46900ECAF80 /* CreditDetailNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditDetailNetwork.swift; sourceTree = "<group>"; };
+		BB2DA2602652BEB300ECAF80 /* PeopleDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailRepository.swift; sourceTree = "<group>"; };
+		BB2DA2682652C46900ECAF80 /* CreditDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditDetailRepository.swift; sourceTree = "<group>"; };
 		BB2DA26F2652C47A00ECAF80 /* CreditDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditDetailAPI.swift; sourceTree = "<group>"; };
 		BB2DA2852652E4AA00ECAF80 /* MovieListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListUseCase.swift; sourceTree = "<group>"; };
 		BB2DA2A02653056100ECAF80 /* TVListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVListUseCase.swift; sourceTree = "<group>"; };
@@ -638,8 +737,8 @@
 		BB2DA2DF2653312D00ECAF80 /* TVDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailUseCase.swift; sourceTree = "<group>"; };
 		BB2DA2E8265338FF00ECAF80 /* TVSeasonDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSeasonDetailAPI.swift; sourceTree = "<group>"; };
 		BB2DA2F42653390A00ECAF80 /* TVEpisodeDetailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVEpisodeDetailAPI.swift; sourceTree = "<group>"; };
-		BB2DA2FB26533C8500ECAF80 /* TVSeasonDetailNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSeasonDetailNetwork.swift; sourceTree = "<group>"; };
-		BB2DA30226533D3D00ECAF80 /* TVEpisodeDetailNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVEpisodeDetailNetwork.swift; sourceTree = "<group>"; };
+		BB2DA2FB26533C8500ECAF80 /* TVSeasonDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSeasonDetailRepository.swift; sourceTree = "<group>"; };
+		BB2DA30226533D3D00ECAF80 /* TVEpisodeDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVEpisodeDetailRepository.swift; sourceTree = "<group>"; };
 		BB2DA3092653A7AB00ECAF80 /* APIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFactory.swift; sourceTree = "<group>"; };
 		BB2DA3102653A8C000ECAF80 /* PeopleDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailUseCase.swift; sourceTree = "<group>"; };
 		BB2DA3182653A95D00ECAF80 /* PeopleDetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailUseCase.swift; sourceTree = "<group>"; };
@@ -711,12 +810,12 @@
 		BB56DF552660E6E400FC458D /* PeopleListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListUseCase.swift; sourceTree = "<group>"; };
 		BB56DF5C2660E7FE00FC458D /* PeopleListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListUseCase.swift; sourceTree = "<group>"; };
 		BB56DF632660EA3D00FC458D /* PeopleListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListAPI.swift; sourceTree = "<group>"; };
-		BB56DF6B2660EA8200FC458D /* PeopleListNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListNetwork.swift; sourceTree = "<group>"; };
+		BB56DF6B2660EA8200FC458D /* PeopleListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListRepository.swift; sourceTree = "<group>"; };
 		BB56DF772660F5EE00FC458D /* SearchListUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListUseCase.swift; sourceTree = "<group>"; };
 		BB56DF7F2660F66C00FC458D /* SearchCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCategory.swift; sourceTree = "<group>"; };
 		BB56DF8B2660F71400FC458D /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
 		BB56DF922660F8D300FC458D /* SearchUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUseCase.swift; sourceTree = "<group>"; };
-		BB56DFA22660F9EE00FC458D /* SearchNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNetwork.swift; sourceTree = "<group>"; };
+		BB56DFA22660F9EE00FC458D /* SearchRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRepository.swift; sourceTree = "<group>"; };
 		BB56DFAE2661006900FC458D /* SearchAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAPI.swift; sourceTree = "<group>"; };
 		BB56DFB5266102BC00FC458D /* PeopleListAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListAPI.swift; sourceTree = "<group>"; };
 		BB56DFD32661205600FC458D /* SearchCategoryListCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCategoryListCollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -738,6 +837,27 @@
 		BB56E10926640A0D00FC458D /* MediaFilteredListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaFilteredListViewController.swift; sourceTree = "<group>"; };
 		BB56E1242664F1A500FC458D /* MultiSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSearchResponse.swift; sourceTree = "<group>"; };
 		BB56E150266531CD00FC458D /* PeopleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleTableViewCell.swift; sourceTree = "<group>"; };
+		BB62CF25266A2DAA00AD1F88 /* UseCasePersistenceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCasePersistenceProvider.swift; sourceTree = "<group>"; };
+		BB62CF2D266A2E7C00AD1F88 /* FavoriteMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovieUseCase.swift; sourceTree = "<group>"; };
+		BB62CF35266A2F3C00AD1F88 /* FavoriteTVUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTVUseCase.swift; sourceTree = "<group>"; };
+		BB62CF3D266A367500AD1F88 /* FavoritePeopleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePeopleUseCase.swift; sourceTree = "<group>"; };
+		BB62CF73266A399D00AD1F88 /* FavoriteMovieRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovieRepository.swift; sourceTree = "<group>"; };
+		BB62CF95266A3E6900AD1F88 /* CDFavoriteMovie+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoriteMovie+Extension.swift"; sourceTree = "<group>"; };
+		BB62CFB2266A4DA100AD1F88 /* FavoriteMovieUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMovieUseCase.swift; sourceTree = "<group>"; };
+		BB62CFBA266A6EED00AD1F88 /* FavoriteTVRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTVRepository.swift; sourceTree = "<group>"; };
+		BB62CFC2266A6F0700AD1F88 /* FavoritePeopleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePeopleRepository.swift; sourceTree = "<group>"; };
+		BB62CFD4266A717700AD1F88 /* CDFavoriteTV+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoriteTV+Extension.swift"; sourceTree = "<group>"; };
+		BB62CFDC266A740A00AD1F88 /* CDFavoritePeople+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoritePeople+Extension.swift"; sourceTree = "<group>"; };
+		BB62D00F266A7BE500AD1F88 /* FavoriteTVUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTVUseCase.swift; sourceTree = "<group>"; };
+		BB62D017266A7BF300AD1F88 /* FavoritePeopleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePeopleUseCase.swift; sourceTree = "<group>"; };
+		BB62D32A266C36C700AD1F88 /* CDFavoritePeople+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoritePeople+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BB62D32B266C36C700AD1F88 /* CDFavoritePeople+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoritePeople+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BB62D32C266C36C700AD1F88 /* CDFavoriteMovie+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoriteMovie+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BB62D32D266C36C700AD1F88 /* CDFavoriteMovie+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoriteMovie+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BB62D32E266C36C700AD1F88 /* CDFavoriteTV+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoriteTV+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BB62D32F266C36C700AD1F88 /* CDFavoriteTV+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDFavoriteTV+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BB62D35B266D1F3D00AD1F88 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		BB62D369266D1F4A00AD1F88 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModel.swift; sourceTree = "<group>"; };
 		BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModelMultipleSection.swift; sourceTree = "<group>"; };
 		BB7ED5E82628FEB500FE5659 /* CreditListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewController.swift; sourceTree = "<group>"; };
@@ -789,6 +909,24 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		BB116B022669432E002C3A7B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB116BDB26697570002C3A7B /* Domain.framework in Frameworks */,
+				BD87ECED2BE86B6FD34A5061 /* Pods_CoreDataPlatform.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB116B0A2669432F002C3A7B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB116B0E2669432F002C3A7B /* CoreDataPlatform.framework in Frameworks */,
+				F0FA5FE7291318E6C2FAF4AE /* Pods_CoreDataPlatform_CoreDataPlatformTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB2D9FC1265087DC00ECAF80 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -830,6 +968,7 @@
 			files = (
 				BB2D9FD9265087DC00ECAF80 /* Domain.framework in Frameworks */,
 				BB2DA16C26524F1200ECAF80 /* NetworkPlatform.framework in Frameworks */,
+				BB116B1A2669432F002C3A7B /* CoreDataPlatform.framework in Frameworks */,
 				A02231CF2042FACA3436C860 /* Pods_TMDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -862,6 +1001,10 @@
 				8DE519EAF38C8D573BE8FD8F /* Pods-NetworkPlatform.release.xcconfig */,
 				7E94D552F9259FE040170E39 /* Pods-NetworkPlatform-NetworkPlatformTests.debug.xcconfig */,
 				E59650863F29B29371C2BB68 /* Pods-NetworkPlatform-NetworkPlatformTests.release.xcconfig */,
+				ADEA4B736D100B33AD8D785B /* Pods-CoreDataPlatform.debug.xcconfig */,
+				1D7B083A0504E3625036A352 /* Pods-CoreDataPlatform.release.xcconfig */,
+				3CE57B0F7FC87E4A6AFFBE82 /* Pods-CoreDataPlatform-CoreDataPlatformTests.debug.xcconfig */,
+				3EC1BE7C7DE9E4CB8D76D2CA /* Pods-CoreDataPlatform-CoreDataPlatformTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1219,6 +1362,70 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		BB116B062669432F002C3A7B /* CoreDataPlatform */ = {
+			isa = PBXGroup;
+			children = (
+				BB62CF72266A398000AD1F88 /* Repository */,
+				BB116B7A26696765002C3A7B /* UseCases */,
+				BB116B5626694E96002C3A7B /* Entities */,
+				BB116B072669432F002C3A7B /* CoreDataPlatform.h */,
+				BB116B4326694526002C3A7B /* TMDB.xcdatamodeld */,
+				BB116B082669432F002C3A7B /* Info.plist */,
+				BB116B33266943CA002C3A7B /* CoreDataStack.swift */,
+				BB116B8426696C36002C3A7B /* CoreDataProvider.swift */,
+				BB116B4D266949EB002C3A7B /* CoreDataAgent.swift */,
+			);
+			path = CoreDataPlatform;
+			sourceTree = "<group>";
+		};
+		BB116B132669432F002C3A7B /* CoreDataPlatformTests */ = {
+			isa = PBXGroup;
+			children = (
+				BB116B142669432F002C3A7B /* CoreDataPlatformTests.swift */,
+				BB116B162669432F002C3A7B /* Info.plist */,
+			);
+			path = CoreDataPlatformTests;
+			sourceTree = "<group>";
+		};
+		BB116B5626694E96002C3A7B /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				BB62D35A266D1F2200AD1F88 /* Extensions */,
+				BB62D32C266C36C700AD1F88 /* CDFavoriteMovie+CoreDataClass.swift */,
+				BB62D32D266C36C700AD1F88 /* CDFavoriteMovie+CoreDataProperties.swift */,
+				BB62CF95266A3E6900AD1F88 /* CDFavoriteMovie+Extension.swift */,
+				BB62D32A266C36C700AD1F88 /* CDFavoritePeople+CoreDataClass.swift */,
+				BB62D32B266C36C700AD1F88 /* CDFavoritePeople+CoreDataProperties.swift */,
+				BB62CFDC266A740A00AD1F88 /* CDFavoritePeople+Extension.swift */,
+				BB62D32E266C36C700AD1F88 /* CDFavoriteTV+CoreDataClass.swift */,
+				BB62D32F266C36C700AD1F88 /* CDFavoriteTV+CoreDataProperties.swift */,
+				BB62CFD4266A717700AD1F88 /* CDFavoriteTV+Extension.swift */,
+				BB116B5726694EA3002C3A7B /* Convert */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		BB116B5726694EA3002C3A7B /* Convert */ = {
+			isa = PBXGroup;
+			children = (
+				BB116B5826694ED3002C3A7B /* DomainConvertible.swift */,
+				BB116B6826694EEB002C3A7B /* CoreDataRepresentable.swift */,
+				BB116B7126694F18002C3A7B /* Persistable.swift */,
+			);
+			path = Convert;
+			sourceTree = "<group>";
+		};
+		BB116B7A26696765002C3A7B /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				BB116B7B26696770002C3A7B /* UseCasePersistenceProvider.swift */,
+				BB62CFB2266A4DA100AD1F88 /* FavoriteMovieUseCase.swift */,
+				BB62D00F266A7BE500AD1F88 /* FavoriteTVUseCase.swift */,
+				BB62D017266A7BF300AD1F88 /* FavoritePeopleUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
 		BB232A6D263B5246000CFC05 /* MediaTrailerList */ = {
 			isa = PBXGroup;
 			children = (
@@ -1491,7 +1698,11 @@
 			isa = PBXGroup;
 			children = (
 				BB2D9FE72651549F00ECAF80 /* UseCaseProvider.swift */,
+				BB62CF25266A2DAA00AD1F88 /* UseCasePersistenceProvider.swift */,
 				BB2D9FEC2651563300ECAF80 /* MediaListUseCase.swift */,
+				BB62CF2D266A2E7C00AD1F88 /* FavoriteMovieUseCase.swift */,
+				BB62CF35266A2F3C00AD1F88 /* FavoriteTVUseCase.swift */,
+				BB62CF3D266A367500AD1F88 /* FavoritePeopleUseCase.swift */,
 				BB2DA2B626531D3800ECAF80 /* CreditListUseCase.swift */,
 				BB2DA3102653A8C000ECAF80 /* PeopleDetailUseCase.swift */,
 				BB56DF552660E6E400FC458D /* PeopleListUseCase.swift */,
@@ -1724,7 +1935,7 @@
 		BB2DA2542652B9CA00ECAF80 /* TVList */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA2292652B8D900ECAF80 /* TVListNetwork.swift */,
+				BB2DA2292652B8D900ECAF80 /* TVListRepository.swift */,
 				BB2DA2432652B99800ECAF80 /* TVListAPI.swift */,
 			);
 			path = TVList;
@@ -1733,7 +1944,7 @@
 		BB2DA2552652B9CF00ECAF80 /* MovieList */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA2222652B7F500ECAF80 /* MovieListNetwork.swift */,
+				BB2DA2222652B7F500ECAF80 /* MovieListRepository.swift */,
 				BB2DA2162652B46600ECAF80 /* MovieListAPI.swift */,
 			);
 			path = MovieList;
@@ -1742,7 +1953,7 @@
 		BB2DA2562652B9D700ECAF80 /* MovieDetail */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA1BD26525C9B00ECAF80 /* MovieDetailNetwork.swift */,
+				BB2DA1BD26525C9B00ECAF80 /* MovieDetailRepository.swift */,
 				BB2DA416265516FF00ECAF80 /* MovieDetailAPI.swift */,
 			);
 			path = MovieDetail;
@@ -1751,7 +1962,7 @@
 		BB2DA2572652B9DF00ECAF80 /* TVDetail */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA2352652B90100ECAF80 /* TVDetailNetwork.swift */,
+				BB2DA2352652B90100ECAF80 /* TVDetailRepository.swift */,
 				BB2DA23C2652B96100ECAF80 /* TVDetailAPI.swift */,
 			);
 			path = TVDetail;
@@ -1760,7 +1971,7 @@
 		BB2DA2582652BE7100ECAF80 /* PeopleDetail */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA2602652BEB300ECAF80 /* PeopleDetailNetwork.swift */,
+				BB2DA2602652BEB300ECAF80 /* PeopleDetailRepository.swift */,
 				BB56DDEF26565C1B00FC458D /* PeopleDetailAPI.swift */,
 			);
 			path = PeopleDetail;
@@ -1769,7 +1980,7 @@
 		BB2DA2672652C45300ECAF80 /* CreditDetail */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA2682652C46900ECAF80 /* CreditDetailNetwork.swift */,
+				BB2DA2682652C46900ECAF80 /* CreditDetailRepository.swift */,
 				BB2DA26F2652C47A00ECAF80 /* CreditDetailAPI.swift */,
 			);
 			path = CreditDetail;
@@ -1778,7 +1989,7 @@
 		BB2DA2E62653388E00ECAF80 /* TVSeasonDetail */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA2FB26533C8500ECAF80 /* TVSeasonDetailNetwork.swift */,
+				BB2DA2FB26533C8500ECAF80 /* TVSeasonDetailRepository.swift */,
 				BB2DA2E8265338FF00ECAF80 /* TVSeasonDetailAPI.swift */,
 			);
 			path = TVSeasonDetail;
@@ -1787,7 +1998,7 @@
 		BB2DA2E7265338B800ECAF80 /* TVEpisodeDetail */ = {
 			isa = PBXGroup;
 			children = (
-				BB2DA30226533D3D00ECAF80 /* TVEpisodeDetailNetwork.swift */,
+				BB2DA30226533D3D00ECAF80 /* TVEpisodeDetailRepository.swift */,
 				BB2DA2F42653390A00ECAF80 /* TVEpisodeDetailAPI.swift */,
 			);
 			path = TVEpisodeDetail;
@@ -1948,7 +2159,7 @@
 		BB56DF6A2660EA6B00FC458D /* PeopleList */ = {
 			isa = PBXGroup;
 			children = (
-				BB56DF6B2660EA8200FC458D /* PeopleListNetwork.swift */,
+				BB56DF6B2660EA8200FC458D /* PeopleListRepository.swift */,
 				BB56DFB5266102BC00FC458D /* PeopleListAPI.swift */,
 			);
 			path = PeopleList;
@@ -1967,7 +2178,7 @@
 		BB56DFA12660F9B500FC458D /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				BB56DFA22660F9EE00FC458D /* SearchNetwork.swift */,
+				BB56DFA22660F9EE00FC458D /* SearchRepository.swift */,
 				BB56DFAE2661006900FC458D /* SearchAPI.swift */,
 			);
 			path = Search;
@@ -2095,6 +2306,25 @@
 				BB56E150266531CD00FC458D /* PeopleTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		BB62CF72266A398000AD1F88 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				BB62CF73266A399D00AD1F88 /* FavoriteMovieRepository.swift */,
+				BB62CFBA266A6EED00AD1F88 /* FavoriteTVRepository.swift */,
+				BB62CFC2266A6F0700AD1F88 /* FavoritePeopleRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		BB62D35A266D1F2200AD1F88 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BB62D35B266D1F3D00AD1F88 /* String+Extensions.swift */,
+				BB62D369266D1F4A00AD1F88 /* Array+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		BB7ED5D62628D73700FE5659 /* Credit */ = {
@@ -2265,6 +2495,8 @@
 				BB2D9FD2265087DC00ECAF80 /* DomainTests */,
 				BB2DA15826524F1200ECAF80 /* NetworkPlatform */,
 				BB2DA16526524F1200ECAF80 /* NetworkPlatformTests */,
+				BB116B062669432F002C3A7B /* CoreDataPlatform */,
+				BB116B132669432F002C3A7B /* CoreDataPlatformTests */,
 				BBAA90F125F9287A0095DB27 /* Products */,
 				3B4107444D4AD6FE4763595D /* Pods */,
 				C886EACE0189022CDD6DC360 /* Frameworks */,
@@ -2280,6 +2512,8 @@
 				BB2D9FCC265087DC00ECAF80 /* DomainTests.xctest */,
 				BB2DA15726524F1100ECAF80 /* NetworkPlatform.framework */,
 				BB2DA15F26524F1200ECAF80 /* NetworkPlatformTests.xctest */,
+				BB116B052669432E002C3A7B /* CoreDataPlatform.framework */,
+				BB116B0D2669432F002C3A7B /* CoreDataPlatformTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2363,6 +2597,8 @@
 				19F5A4F99F2FE47FFC197437 /* Pods_TMDB_TMDBTests.framework */,
 				FD37DEACACA7D136B9A7C875 /* Pods_NetworkPlatform.framework */,
 				3D35189AB622966A6345FBF3 /* Pods_NetworkPlatform_NetworkPlatformTests.framework */,
+				8F9BAC03F1141450DCB610D6 /* Pods_CoreDataPlatform.framework */,
+				4985176AC037FD01F3E855F2 /* Pods_CoreDataPlatform_CoreDataPlatformTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2370,6 +2606,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		BB116B002669432E002C3A7B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB116B172669432F002C3A7B /* CoreDataPlatform.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB2D9FBF265087DC00ECAF80 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -2389,6 +2633,48 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		BB116B042669432E002C3A7B /* CoreDataPlatform */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB116B202669432F002C3A7B /* Build configuration list for PBXNativeTarget "CoreDataPlatform" */;
+			buildPhases = (
+				4507A297D1ED5B133948030B /* [CP] Check Pods Manifest.lock */,
+				BB116B002669432E002C3A7B /* Headers */,
+				BB116B012669432E002C3A7B /* Sources */,
+				BB116B022669432E002C3A7B /* Frameworks */,
+				BB116B032669432E002C3A7B /* Resources */,
+				BB116BDF26697570002C3A7B /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BB116BDE26697570002C3A7B /* PBXTargetDependency */,
+			);
+			name = CoreDataPlatform;
+			productName = CoreDataPlatform;
+			productReference = BB116B052669432E002C3A7B /* CoreDataPlatform.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BB116B0C2669432F002C3A7B /* CoreDataPlatformTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BB116B212669432F002C3A7B /* Build configuration list for PBXNativeTarget "CoreDataPlatformTests" */;
+			buildPhases = (
+				867C6A024C30F9EA4706EBCE /* [CP] Check Pods Manifest.lock */,
+				BB116B092669432F002C3A7B /* Sources */,
+				BB116B0A2669432F002C3A7B /* Frameworks */,
+				BB116B0B2669432F002C3A7B /* Resources */,
+				36D9F938AD47212848743C49 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BB116B102669432F002C3A7B /* PBXTargetDependency */,
+				BB116B122669432F002C3A7B /* PBXTargetDependency */,
+			);
+			name = CoreDataPlatformTests;
+			productName = CoreDataPlatformTests;
+			productReference = BB116B0D2669432F002C3A7B /* CoreDataPlatformTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		BB2D9FC3265087DC00ECAF80 /* Domain */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BB2D9FDB265087DC00ECAF80 /* Build configuration list for PBXNativeTarget "Domain" */;
@@ -2456,7 +2742,7 @@
 				BB2DA15B26524F1200ECAF80 /* Sources */,
 				BB2DA15C26524F1200ECAF80 /* Frameworks */,
 				BB2DA15D26524F1200ECAF80 /* Resources */,
-				DAA6BF12C69ACA31173B9FA0 /* [CP] Embed Pods Frameworks */,
+				E4A6384A4960F49B900F03C1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2485,6 +2771,7 @@
 			dependencies = (
 				BB2D9FD8265087DC00ECAF80 /* PBXTargetDependency */,
 				BB2DA16B26524F1200ECAF80 /* PBXTargetDependency */,
+				BB116B192669432F002C3A7B /* PBXTargetDependency */,
 			);
 			name = TMDB;
 			productName = TMDB;
@@ -2520,6 +2807,14 @@
 				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
+					BB116B042669432E002C3A7B = {
+						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1230;
+					};
+					BB116B0C2669432F002C3A7B = {
+						CreatedOnToolsVersion = 12.3;
+						TestTargetID = BBAA90EF25F9287A0095DB27;
+					};
 					BB2D9FC3265087DC00ECAF80 = {
 						CreatedOnToolsVersion = 12.3;
 						LastSwiftMigration = 1230;
@@ -2564,11 +2859,27 @@
 				BB2D9FCB265087DC00ECAF80 /* DomainTests */,
 				BB2DA15626524F1100ECAF80 /* NetworkPlatform */,
 				BB2DA15E26524F1200ECAF80 /* NetworkPlatformTests */,
+				BB116B042669432E002C3A7B /* CoreDataPlatform */,
+				BB116B0C2669432F002C3A7B /* CoreDataPlatformTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		BB116B032669432E002C3A7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB116B0B2669432F002C3A7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB2D9FC2265087DC00ECAF80 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2677,6 +2988,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TMDB-TMDBTests/Pods-TMDB-TMDBTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		36D9F938AD47212848743C49 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CoreDataPlatform-CoreDataPlatformTests/Pods-CoreDataPlatform-CoreDataPlatformTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CoreDataPlatform-CoreDataPlatformTests/Pods-CoreDataPlatform-CoreDataPlatformTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CoreDataPlatform-CoreDataPlatformTests/Pods-CoreDataPlatform-CoreDataPlatformTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3B26D4073D103154D07F3EE4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2692,6 +3020,50 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TMDB/Pods-TMDB-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4507A297D1ED5B133948030B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CoreDataPlatform-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		867C6A024C30F9EA4706EBCE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CoreDataPlatform-CoreDataPlatformTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		910A1A0C3C5F8AD8250C3412 /* [CP] Check Pods Manifest.lock */ = {
@@ -2799,7 +3171,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Domain-DomainTests/Pods-Domain-DomainTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DAA6BF12C69ACA31173B9FA0 /* [CP] Embed Pods Frameworks */ = {
+		E4A6384A4960F49B900F03C1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2819,6 +3191,46 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		BB116B012669432E002C3A7B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB62D271266C321700AD1F88 /* CDFavoritePeople+Extension.swift in Sources */,
+				BB62D2C6266C323900AD1F88 /* CDFavoriteMovie+Extension.swift in Sources */,
+				BB62D333266C36C700AD1F88 /* CDFavoriteMovie+CoreDataProperties.swift in Sources */,
+				BB116B7226694F18002C3A7B /* Persistable.swift in Sources */,
+				BB62D35C266D1F3D00AD1F88 /* String+Extensions.swift in Sources */,
+				BB116B5926694ED3002C3A7B /* DomainConvertible.swift in Sources */,
+				BB62D36A266D1F4A00AD1F88 /* Array+Extensions.swift in Sources */,
+				BB116B34266943CA002C3A7B /* CoreDataStack.swift in Sources */,
+				BB62D334266C36C700AD1F88 /* CDFavoriteTV+CoreDataClass.swift in Sources */,
+				BB62D332266C36C700AD1F88 /* CDFavoriteMovie+CoreDataClass.swift in Sources */,
+				BB116B4E266949EB002C3A7B /* CoreDataAgent.swift in Sources */,
+				BB62CF74266A399D00AD1F88 /* FavoriteMovieRepository.swift in Sources */,
+				BB116B6926694EEB002C3A7B /* CoreDataRepresentable.swift in Sources */,
+				BB116B7C26696770002C3A7B /* UseCasePersistenceProvider.swift in Sources */,
+				BB62CFC3266A6F0700AD1F88 /* FavoritePeopleRepository.swift in Sources */,
+				BB62D250266C320A00AD1F88 /* CDFavoriteTV+Extension.swift in Sources */,
+				BB62CFB3266A4DA100AD1F88 /* FavoriteMovieUseCase.swift in Sources */,
+				BB62D335266C36C700AD1F88 /* CDFavoriteTV+CoreDataProperties.swift in Sources */,
+				BB116B8526696C36002C3A7B /* CoreDataProvider.swift in Sources */,
+				BB62D018266A7BF300AD1F88 /* FavoritePeopleUseCase.swift in Sources */,
+				BB62D331266C36C700AD1F88 /* CDFavoritePeople+CoreDataProperties.swift in Sources */,
+				BB62D010266A7BE500AD1F88 /* FavoriteTVUseCase.swift in Sources */,
+				BB62CFBB266A6EED00AD1F88 /* FavoriteTVRepository.swift in Sources */,
+				BB62D14B266C294800AD1F88 /* TMDB.xcdatamodeld in Sources */,
+				BB62D330266C36C700AD1F88 /* CDFavoritePeople+CoreDataClass.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BB116B092669432F002C3A7B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB116B152669432F002C3A7B /* CoreDataPlatformTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB2D9FC0265087DC00ECAF80 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2845,6 +3257,7 @@
 				BB2DA04626515C6900ECAF80 /* MovieDetailUseCase.swift in Sources */,
 				BB2DA2B726531D3800ECAF80 /* CreditListUseCase.swift in Sources */,
 				BB56DF802660F66C00FC458D /* SearchCategory.swift in Sources */,
+				BB62CF36266A2F3C00AD1F88 /* FavoriteTVUseCase.swift in Sources */,
 				BB2DA2B02653180400ECAF80 /* IncludeImageLanguage.swift in Sources */,
 				BB2DA0C42651640B00ECAF80 /* PeopleCombinedCreditList.swift in Sources */,
 				BB2DA0A02651631E00ECAF80 /* TVSeasonDetailModel.swift in Sources */,
@@ -2870,6 +3283,7 @@
 				BB2DA14E265192AF00ECAF80 /* ImageType.swift in Sources */,
 				BB2DA0C52651640B00ECAF80 /* EpisodeCreditList.swift in Sources */,
 				BB2DA30A2653A7AB00ECAF80 /* APIFactory.swift in Sources */,
+				BB62CF3E266A367500AD1F88 /* FavoritePeopleUseCase.swift in Sources */,
 				BB2DA0A72651631E00ECAF80 /* MediaListResponseProtocol.swift in Sources */,
 				BB2DA34D2653AD4500ECAF80 /* MovieDetailAPI.swift in Sources */,
 				BB116AD02668FD80002C3A7B /* SearchAPI.swift in Sources */,
@@ -2880,12 +3294,14 @@
 				BB2DA08F2651631D00ECAF80 /* CreditListResponse.swift in Sources */,
 				BB2DA13D265183F600ECAF80 /* CreditType.swift in Sources */,
 				BB2DA0952651631D00ECAF80 /* TVModel.swift in Sources */,
+				BB62CF26266A2DAA00AD1F88 /* UseCasePersistenceProvider.swift in Sources */,
 				BB2D9FE82651549F00ECAF80 /* UseCaseProvider.swift in Sources */,
 				BB2DA0C02651640B00ECAF80 /* TVAggregateCreditList.swift in Sources */,
 				BB56DF642660EA3D00FC458D /* PeopleListAPI.swift in Sources */,
 				BB2DA1EF26529EDE00ECAF80 /* HTTPMethod.swift in Sources */,
 				BB2DA0EE265165AF00ECAF80 /* DepartmentHelper.swift in Sources */,
 				BB2DA2AF2653180400ECAF80 /* Language.swift in Sources */,
+				BB62CF2E266A2E7C00AD1F88 /* FavoriteMovieUseCase.swift in Sources */,
 				BB56DF2F265DA7E600FC458D /* PeopleListResponse.swift in Sources */,
 				BB2DA3112653A8C000ECAF80 /* PeopleDetailUseCase.swift in Sources */,
 				BB2DA0C62651640B00ECAF80 /* VideoModel.swift in Sources */,
@@ -2912,26 +3328,26 @@
 			files = (
 				BB2DA2862652E4AA00ECAF80 /* MovieListUseCase.swift in Sources */,
 				BB56DFB6266102BC00FC458D /* PeopleListAPI.swift in Sources */,
-				BB2DA2232652B7F500ECAF80 /* MovieListNetwork.swift in Sources */,
+				BB2DA2232652B7F500ECAF80 /* MovieListRepository.swift in Sources */,
 				BB2DA2702652C47A00ECAF80 /* CreditDetailAPI.swift in Sources */,
 				BB2DA2F52653390A00ECAF80 /* TVEpisodeDetailAPI.swift in Sources */,
 				BB2DA2442652B99800ECAF80 /* TVListAPI.swift in Sources */,
-				BB2DA22A2652B8D900ECAF80 /* TVListNetwork.swift in Sources */,
-				BB2DA1BE26525C9B00ECAF80 /* MovieDetailNetwork.swift in Sources */,
-				BB2DA2FC26533C8500ECAF80 /* TVSeasonDetailNetwork.swift in Sources */,
-				BB2DA2362652B90100ECAF80 /* TVDetailNetwork.swift in Sources */,
+				BB2DA22A2652B8D900ECAF80 /* TVListRepository.swift in Sources */,
+				BB2DA1BE26525C9B00ECAF80 /* MovieDetailRepository.swift in Sources */,
+				BB2DA2FC26533C8500ECAF80 /* TVSeasonDetailRepository.swift in Sources */,
+				BB2DA2362652B90100ECAF80 /* TVDetailRepository.swift in Sources */,
 				BB56DDF026565C1B00FC458D /* PeopleDetailAPI.swift in Sources */,
 				BB2DA2A12653056100ECAF80 /* TVListUseCase.swift in Sources */,
 				BB56DFAF2661006900FC458D /* SearchAPI.swift in Sources */,
 				BB2DA23D2652B96100ECAF80 /* TVDetailAPI.swift in Sources */,
 				BB116ADC2668FDB5002C3A7B /* NetworkProvider.swift in Sources */,
 				BB2DA417265516FF00ECAF80 /* MovieDetailAPI.swift in Sources */,
-				BB2DA30326533D3D00ECAF80 /* TVEpisodeDetailNetwork.swift in Sources */,
-				BB56DFA32660F9EE00FC458D /* SearchNetwork.swift in Sources */,
+				BB2DA30326533D3D00ECAF80 /* TVEpisodeDetailRepository.swift in Sources */,
+				BB56DFA32660F9EE00FC458D /* SearchRepository.swift in Sources */,
 				BB56DF8C2660F71400FC458D /* SearchUseCase.swift in Sources */,
 				BB2DA2E9265338FF00ECAF80 /* TVSeasonDetailAPI.swift in Sources */,
 				BB2DA2E02653312D00ECAF80 /* TVDetailUseCase.swift in Sources */,
-				BB56DF6C2660EA8200FC458D /* PeopleListNetwork.swift in Sources */,
+				BB56DF6C2660EA8200FC458D /* PeopleListRepository.swift in Sources */,
 				BB2DA2172652B46600ECAF80 /* MovieListAPI.swift in Sources */,
 				BB2DA3192653A95D00ECAF80 /* PeopleDetailUseCase.swift in Sources */,
 				BB56DF5D2660E7FE00FC458D /* PeopleListUseCase.swift in Sources */,
@@ -2940,10 +3356,10 @@
 				BB2DA1E0265298E900ECAF80 /* MovieDetailUseCase.swift in Sources */,
 				BB2DA1AD2652573600ECAF80 /* NetworkAgent.swift in Sources */,
 				BB2DA44B2655317300ECAF80 /* TVEpisodeDetailUseCase.swift in Sources */,
-				BB2DA2612652BEB300ECAF80 /* PeopleDetailNetwork.swift in Sources */,
+				BB2DA2612652BEB300ECAF80 /* PeopleDetailRepository.swift in Sources */,
 				BB2DA47A2655AD3700ECAF80 /* UseCaseProvider.swift in Sources */,
 				BB2DA1D92652858900ECAF80 /* APIFactory.swift in Sources */,
-				BB2DA2692652C46900ECAF80 /* CreditDetailNetwork.swift in Sources */,
+				BB2DA2692652C46900ECAF80 /* CreditDetailRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3115,6 +3531,7 @@
 				BB232B1D264163F2000CFC05 /* TVSeasonOverviewTableViewCell.swift in Sources */,
 				BB232BBF26437647000CFC05 /* TVEpisodeStillWrapperView.swift in Sources */,
 				BB56DEDF265D262D00FC458D /* SearchResultCellViewModelMultipleSection.swift in Sources */,
+				BB62D089266BF65F00AD1F88 /* TMDB.xcdatamodeld in Sources */,
 				BB109FEE261B9A46008C50EE /* TVFlowCoordinator.swift in Sources */,
 				BB56DF3E2660D56400FC458D /* SearchCategoryListTableViewCell.swift in Sources */,
 				BB56DED0265D1F2700FC458D /* SearchViewModel.swift in Sources */,
@@ -3192,6 +3609,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BB116B102669432F002C3A7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BB116B042669432E002C3A7B /* CoreDataPlatform */;
+			targetProxy = BB116B0F2669432F002C3A7B /* PBXContainerItemProxy */;
+		};
+		BB116B122669432F002C3A7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BBAA90EF25F9287A0095DB27 /* TMDB */;
+			targetProxy = BB116B112669432F002C3A7B /* PBXContainerItemProxy */;
+		};
+		BB116B192669432F002C3A7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BB116B042669432E002C3A7B /* CoreDataPlatform */;
+			targetProxy = BB116B182669432F002C3A7B /* PBXContainerItemProxy */;
+		};
+		BB116BDE26697570002C3A7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BB2D9FC3265087DC00ECAF80 /* Domain */;
+			targetProxy = BB116BDD26697570002C3A7B /* PBXContainerItemProxy */;
+		};
 		BB2D9FCF265087DC00ECAF80 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = BB2D9FC3265087DC00ECAF80 /* Domain */;
@@ -3241,6 +3678,111 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		BB116B1C2669432F002C3A7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ADEA4B736D100B33AD8D785B /* Pods-CoreDataPlatform.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 6PL6THVP79;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CoreDataPlatform/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.home.ios.CoreDataPlatform;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		BB116B1D2669432F002C3A7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D7B083A0504E3625036A352 /* Pods-CoreDataPlatform.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 6PL6THVP79;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = CoreDataPlatform/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.home.ios.CoreDataPlatform;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		BB116B1E2669432F002C3A7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CE57B0F7FC87E4A6AFFBE82 /* Pods-CoreDataPlatform-CoreDataPlatformTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6PL6THVP79;
+				INFOPLIST_FILE = CoreDataPlatformTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.home.ios.CoreDataPlatformTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDB.app/TMDB";
+			};
+			name = Debug;
+		};
+		BB116B1F2669432F002C3A7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EC1BE7C7DE9E4CB8D76D2CA /* Pods-CoreDataPlatform-CoreDataPlatformTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6PL6THVP79;
+				INFOPLIST_FILE = CoreDataPlatformTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.home.ios.CoreDataPlatformTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TMDB.app/TMDB";
+			};
+			name = Release;
+		};
 		BB2D9FDC265087DC00ECAF80 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2F847A029231C4E98A450F1E /* Pods-Domain.debug.xcconfig */;
@@ -3670,6 +4212,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BB116B202669432F002C3A7B /* Build configuration list for PBXNativeTarget "CoreDataPlatform" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB116B1C2669432F002C3A7B /* Debug */,
+				BB116B1D2669432F002C3A7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BB116B212669432F002C3A7B /* Build configuration list for PBXNativeTarget "CoreDataPlatformTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BB116B1E2669432F002C3A7B /* Debug */,
+				BB116B1F2669432F002C3A7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BB2D9FDB265087DC00ECAF80 /* Build configuration list for PBXNativeTarget "Domain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -3734,6 +4294,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BB116B4326694526002C3A7B /* TMDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BB116B4426694526002C3A7B /* TMDB.xcdatamodel */,
+			);
+			currentVersion = BB116B4426694526002C3A7B /* TMDB.xcdatamodel */;
+			path = TMDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BBAA90E825F9287A0095DB27 /* Project object */;
 }

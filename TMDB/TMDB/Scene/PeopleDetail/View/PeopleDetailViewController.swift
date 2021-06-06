@@ -27,6 +27,12 @@ class PeopleDetailViewController: UIViewController {
         return tableView
     }()
     
+    private let favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "favoriteEmpty").withTintColor(.white), for: .normal)
+        return button
+    }()
+    
 //    MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +45,8 @@ class PeopleDetailViewController: UIViewController {
 //    MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: favoriteButton)
     }
     
     fileprivate func setupHierarhy() {
@@ -92,8 +100,21 @@ extension PeopleDetailViewController: BindableType {
                 case .crew(let vm): return vm
                 default: return nil
                 }
-            }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
-    
+            }.bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        
+        favoriteButton.rx.tap
+            .bind(to: viewModel.input.toggleFavoriteStatus)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isFavorite
+            .map {
+                $0 ?
+                    #imageLiteral(resourceName: "favoriteFilled").withTintColor(.systemOrange):
+                    #imageLiteral(resourceName: "favoriteEmpty").withTintColor(.systemBlue) }
+            .subscribe(onNext: {
+                self.favoriteButton.setImage($0, for: .normal)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

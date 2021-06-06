@@ -15,17 +15,24 @@ import NetworkPlatform
 class MovieDetailViewModel {
     
 //    MARK: - Properties
-    let useCaseProvider: Domain.UseCaseProvider
-    
-    let detailID: String
+    private let useCaseProvider: Domain.UseCaseProvider
+    private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
+
+    private let detailID: String
+    private var movieModel: MovieModel? {
+        didSet {
+            self.isFavorite(movieModel!) { self.output.isFavorite.accept($0) }
+        }
+    }
     weak var coordinator: Coordinator?
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     
 //    MARK: - Input
     
     struct Input {
         let selectedItem = PublishRelay<MovieDetailCellViewModelMultipleSection.SectionItem>()
+        let toggleFavoriteStatus = PublishRelay<Void>()
     }
     
     let input = Input()
@@ -38,13 +45,15 @@ class MovieDetailViewModel {
         let title = BehaviorRelay<String>(value: "")
         let backdropImageData = BehaviorRelay<Data?>(value: nil)
         let sectionedItems = BehaviorRelay<[MovieDetailCellViewModelMultipleSection]>(value: [])
+        let isFavorite = PublishRelay<Bool>()
     }
     
     let output = Output()
     
 //    MARK: - Init
-    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider) {
+    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
         self.useCaseProvider = useCaseProvider
+        self.useCasePersistenceProvider = useCasePersistenceProvider
         self.detailID = detailID
         
         setupInput()
@@ -58,24 +67,39 @@ class MovieDetailViewModel {
             .filter { if case .movieTrailerButton = $0 { return true } else { return false } }
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self, let coordinator = self.coordinator as? MovieFlowCoordinator else { return }
-                
-                let params: [String: String] = [
-                    String(describing: MediaType.self): MediaType.movie.rawValue
-                ]
                 coordinator.toTrailerList(with: self.detailID, mediaType: .movie)
             }).disposed(by: disposeBag)
+        
+        input.toggleFavoriteStatus.subscribe(onNext: { [weak self] in
+            self?.toggleFavoriteStatus()
+        }).disposed(by: disposeBag)
+    }
+    
+    private func toggleFavoriteStatus() {
+        let useCase = useCasePersistenceProvider.makeFavoriteMovieUseCase()
+        guard let movieModel = movieModel else { return }
+        useCase.toggleFavoriteStatus(movieModel) { [weak self] (isFavorite) in
+            self?.output.isFavorite.accept(isFavorite)
+        }
+    }
+    
+    private func isFavorite(_ model: MovieModel, _ completion: @escaping (Bool) -> Void) {
+        let useCase = useCasePersistenceProvider.makeFavoriteMovieUseCase()
+        useCase.isFavorite(model) { completion($0) }
+
     }
     
     func setupOutput() {
         fetch { [weak self] (movieDetail) in
             guard let self = self else { return }
             
+            self.movieModel = MovieModel(movieDetail)
             let sections = self.configureSections(from: movieDetail)
             self.output.sectionedItems.accept(sections)
         }
     }
     
-    func fetch(completion: @escaping (MovieDetailModel) -> Void) {
+    private func fetch(completion: @escaping (MovieDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeMovieDetailUseCase()
         useCase.details(mediaID: mediaID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { (result: Result<MovieDetailModel, Error>) in

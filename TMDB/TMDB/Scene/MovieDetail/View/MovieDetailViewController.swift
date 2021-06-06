@@ -29,6 +29,11 @@ class MovieDetailViewController: UIViewController {
         return view
     }()
     
+    private let favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "favoriteEmpty").withTintColor(.white), for: .normal)
+        return button
+    }()
     
     lazy var appearance = NavigationBarAppearance(barAppearance: .init())
     
@@ -50,6 +55,8 @@ class MovieDetailViewController: UIViewController {
 //    MARK: - Methods
     private func setupUI() {
         setupNavigationWithAppearance(appearance)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: favoriteButton)
     }
     
     private func setupHierarhy() {
@@ -71,36 +78,62 @@ extension MovieDetailViewController: BindableType {
     
     func bindViewModel() {
         
-        movieDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        movieDetailTableView.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
         
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(movieDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(movieDetailTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
+        viewModel.output.title
+            .asDriver(onErrorJustReturn: "")
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
         
-        viewModel.output.backdropImageData.skip(1).subscribe(onNext: { (imageData) in
-            self.navigationItem.standardAppearance?.backgroundColor = .white
-            
-            guard let imageData = imageData else {
-                self.navigationItem.scrollEdgeAppearance?.backgroundColor = .white
-                self.navigationItem.compactAppearance?.backgroundColor = .white
-                self.navigationItem.scrollEdgeAppearance?.largeTitleTextAttributes = [
-                    .foregroundColor: UIColor.darkText,
-                    .font: UIFont.boldSystemFont(ofSize: 24),
-                ]
-                self.navigationItem.compactAppearance?.largeTitleTextAttributes = [
-                    .foregroundColor: UIColor.darkText,
-                    .font: UIFont.boldSystemFont(ofSize: 24),
-                ]
-                self.navigationItem.compactAppearance?.backgroundColor = .white
-                return
-            }
-            self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
-            self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
-        }).disposed(by: disposeBag)
+        viewModel.output.backdropImageData
+            .skip(1)
+            .subscribe(onNext: { (imageData) in
+                self.navigationItem.standardAppearance?.backgroundColor = .white
+                
+                guard let imageData = imageData else {
+                    self.navigationItem.scrollEdgeAppearance?.backgroundColor = .white
+                    self.navigationItem.compactAppearance?.backgroundColor = .white
+                    self.navigationItem.scrollEdgeAppearance?.largeTitleTextAttributes = [
+                        .foregroundColor: UIColor.darkText,
+                        .font: UIFont.boldSystemFont(ofSize: 24),
+                    ]
+                    self.navigationItem.compactAppearance?.largeTitleTextAttributes = [
+                        .foregroundColor: UIColor.darkText,
+                        .font: UIFont.boldSystemFont(ofSize: 24),
+                    ]
+                    self.navigationItem.compactAppearance?.backgroundColor = .white
+                    return
+                }
+                self.navigationItem.scrollEdgeAppearance?.backgroundImage = UIImage(data: imageData)
+                self.navigationItem.compactAppearance?.backgroundImage = UIImage(data: imageData)
+            }).disposed(by: disposeBag)
         
-        movieDetailTableView.rx.modelSelected(MovieDetailCellViewModelMultipleSection.SectionItem.self)
+        movieDetailTableView.rx
+            .modelSelected(MovieDetailCellViewModelMultipleSection.SectionItem.self)
             .filter { if case .movieTrailerButton = $0 { return true } else { return false } }
             .bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        
+        favoriteButton.rx.tap
+            .bind(to: viewModel.input.toggleFavoriteStatus)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isFavorite
+            .map {
+                $0 ?
+                    #imageLiteral(resourceName: "favoriteFilled").withTintColor(.systemOrange):
+                    #imageLiteral(resourceName: "favoriteEmpty").withTintColor(.systemBlue) }
+            .subscribe(onNext: {
+                self.favoriteButton.setImage($0, for: .normal)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
 }

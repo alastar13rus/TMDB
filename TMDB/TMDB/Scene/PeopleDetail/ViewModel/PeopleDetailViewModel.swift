@@ -15,40 +15,52 @@ class PeopleDetailViewModel {
     
     
 //    MARK: - Properties
-    let mediaID: String
+    private let useCaseProvider: Domain.UseCaseProvider
+    private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
+
+    private let peopleID: String
+    private var peopleModel: PeopleModel? {
+        didSet {
+            self.isFavorite(peopleModel!) { self.output.isFavorite.accept($0) }
+        }
+    }
+    weak var coordinator: Coordinator?
+    private let disposeBag = DisposeBag()
     
-    let useCaseProvider: Domain.UseCaseProvider
     
-    weak var coordinator: NavigationCoordinator?
-    let disposeBag = DisposeBag()
-    
-    let input = Input()
-    let output = Output()
+    //    MARK: - Input
     
     struct Input {
-        let selectedMedia = PublishRelay<CreditInMediaViewModel>()
+        let selectedItem = PublishRelay<CreditInMediaViewModel>()
+        let toggleFavoriteStatus = PublishRelay<Void>()
     }
+    let input = Input()
+    
+    //    MARK: - Output
     
     struct Output {
         let name = BehaviorRelay<String>(value: "")
         let sectionedItems = BehaviorRelay<[PeopleDetailCellViewModelMultipleSection]>(value: [])
+        let isFavorite = PublishRelay<Bool>()
     }
+    
+    let output = Output()
     
     
 //    MARK: - Init
-    required init(with mediaID: String, useCaseProvider: Domain.UseCaseProvider) {
-        self.mediaID = mediaID
+    required init(with peopleID: String, useCaseProvider: Domain.UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
         self.useCaseProvider = useCaseProvider
-
-        self.setupInput()
-        self.setupOutput()
+        self.useCasePersistenceProvider = useCasePersistenceProvider
+        self.peopleID = peopleID
         
+        setupInput()
+        setupOutput()
     }
     
 //    MARK: - Methods
     
     fileprivate func setupInput() {
-        input.selectedMedia.subscribe(onNext: {
+        input.selectedItem.subscribe(onNext: {
             guard let coordinator = self.coordinator as? PeopleFlowCoordinator else { return }
             switch $0.mediaType {
             case .movie: coordinator.toMovieDetail(with: $0.id)
@@ -56,11 +68,31 @@ class PeopleDetailViewModel {
             default: break
             }
         }).disposed(by: disposeBag)
+        
+        input.toggleFavoriteStatus.subscribe(onNext: { [weak self] in
+            self?.toggleFavoriteStatus()
+        }).disposed(by: disposeBag)
+    }
+    
+    private func toggleFavoriteStatus() {
+        let useCase = useCasePersistenceProvider.makeFavoritePeopleUseCase()
+        guard let peopleModel = peopleModel else { return }
+        useCase.toggleFavoriteStatus(peopleModel) { [weak self] (isFavorite) in
+            self?.output.isFavorite.accept(isFavorite)
+        }
+    }
+    
+    private func isFavorite(_ model: PeopleModel, _ completion: @escaping (Bool) -> Void) {
+        let useCase = useCasePersistenceProvider.makeFavoritePeopleUseCase()
+        useCase.isFavorite(model) { completion($0) }
+
     }
     
     fileprivate func setupOutput() {
         self.fetch { [weak self] (peopleDetail) in
             guard let self = self else { return }
+            
+            self.peopleModel = PeopleModel(peopleDetail)
             let sections = self.configureSections(from: peopleDetail)
             self.output.name.accept(peopleDetail.name)
             self.output.sectionedItems.accept(sections)
@@ -70,7 +102,7 @@ class PeopleDetailViewModel {
     fileprivate func fetch(completion: @escaping (PeopleDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makePeopleDetailUseCase()
-        useCase.details(personID: mediaID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]) { (result: Result<PeopleDetailModel, Error>) in
+        useCase.details(personID: peopleID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]) { (result: Result<PeopleDetailModel, Error>) in
             switch result {
             case .success(let peopleDetail):
                 completion(peopleDetail)

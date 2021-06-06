@@ -11,7 +11,7 @@ public protocol UseCase { }
 
 public protocol UseCaseProvider {
     
-    var apiFactory: APIFactory { get }
+//    var apiFactory: APIFactory { get }
     
     func makeMovieListUseCase() -> MovieListUseCase
     func makeMovieDetailUseCase() -> MovieDetailUseCase
