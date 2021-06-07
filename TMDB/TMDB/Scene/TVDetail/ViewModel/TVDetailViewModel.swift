@@ -33,6 +33,7 @@ class TVDetailViewModel {
         let selectedItem = PublishRelay<TVDetailCellViewModelMultipleSection.SectionItem>()
         let showTVSeasonListButtonPressed = PublishRelay<Void>()
         let toggleFavoriteStatus = PublishRelay<Void>()
+        let viewWillAppear = PublishRelay<Void>()
     }
     
     let input = Input()
@@ -79,12 +80,24 @@ class TVDetailViewModel {
         input.toggleFavoriteStatus.subscribe(onNext: { [weak self] in
             self?.toggleFavoriteStatus()
         }).disposed(by: disposeBag)
+        
+        input.viewWillAppear.subscribe(onNext: { [weak self] in
+            self?.refreshFavoriteStatus()
+        }).disposed(by: disposeBag)
     }
     
     private func toggleFavoriteStatus() {
         let useCase = useCasePersistenceProvider.makeFavoriteTVUseCase()
         guard let tvModel = tvModel else { return }
         useCase.toggleFavoriteStatus(tvModel) { [weak self] (isFavorite) in
+            self?.output.isFavorite.accept(isFavorite)
+        }
+    }
+    
+    private func refreshFavoriteStatus() {
+        let useCase = useCasePersistenceProvider.makeFavoriteTVUseCase()
+        guard let tvModel = tvModel else { return }
+        useCase.refreshFavoriteStatus(tvModel) { [weak self] (isFavorite) in
             self?.output.isFavorite.accept(isFavorite)
         }
     }

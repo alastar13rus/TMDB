@@ -312,6 +312,20 @@ class AppDIContainer {
         }
         
         
+        container.register(Typealias.FavoriteBundle.self)  { (r, coordinator: FavoriteFlowCoordinator) in
+            let viewController = FavoriteListViewController()
+            
+            let viewModel = FavoriteListViewModel(useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            if (coordinator.navigationController.viewControllers.isEmpty) {
+                coordinator.navigationController.pushViewController(viewController, animated: true)
+            }
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        
         
         
     }

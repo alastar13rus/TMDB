@@ -17,11 +17,15 @@ class FavoriteTVUseCase: Domain.FavoriteTVUseCase {
     }
     
     public func readFavoriteTVList(_ completion: @escaping ([TVModel]) -> Void) {
-        completion([])
+        repository.readFavoriteTVList { completion($0) }
     }
     
     func toggleFavoriteStatus(_ model: TVModel, completion: @escaping (Bool) -> Void) {
         repository.toggleFavorite(model) { completion($0) }
+    }
+    
+    func refreshFavoriteStatus(_ model: TVModel, completion: @escaping (Bool) -> Void) {
+        repository.refreshFavorite(model) { completion($0) }
     }
     
     func isFavorite(_ model: TVModel, completion: @escaping (Bool) -> Void) {
@@ -32,7 +36,7 @@ class FavoriteTVUseCase: Domain.FavoriteTVUseCase {
         completion(true)
     }
     
-    public func removeFavoriteTV(_ completion: @escaping (Bool) -> Void) {
-        completion(true)
+    public func removeFavoriteTV(_ modelID: Int, _ completion: @escaping (Bool) -> Void) {
+        repository.deleteFavoriteTV(modelID) { completion($0) }
     }
 }

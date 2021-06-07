@@ -17,11 +17,15 @@ class FavoritePeopleUseCase: Domain.FavoritePeopleUseCase {
     }
     
     func readFavoritePeopleList(_ completion: @escaping ([PeopleModel]) -> Void) {
-        completion([])
+        repository.readFavoritePeopleList { completion($0) }
     }
     
     func toggleFavoriteStatus(_ model: PeopleModel, completion: @escaping (Bool) -> Void) {
         repository.toggleFavorite(model) { completion($0) }
+    }
+    
+    func refreshFavoriteStatus(_ model: PeopleModel, completion: @escaping (Bool) -> Void) {
+        repository.refreshFavorite(model) { completion($0) }
     }
     
     func isFavorite(_ model: PeopleModel, completion: @escaping (Bool) -> Void) {
@@ -33,7 +37,7 @@ class FavoritePeopleUseCase: Domain.FavoritePeopleUseCase {
         completion(true)
     }
     
-    func removeFavoritePeople(_ completion: @escaping (Bool) -> Void) {
-        completion(true)
+    func removeFavoritePeople(_ modelID: Int, _ completion: @escaping (Bool) -> Void) {
+        repository.deleteFavoritePeople(modelID) { completion($0) }
     }
 }

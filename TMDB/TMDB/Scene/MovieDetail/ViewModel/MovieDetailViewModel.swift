@@ -33,6 +33,7 @@ class MovieDetailViewModel {
     struct Input {
         let selectedItem = PublishRelay<MovieDetailCellViewModelMultipleSection.SectionItem>()
         let toggleFavoriteStatus = PublishRelay<Void>()
+        let viewWillAppear = PublishRelay<Void>()
     }
     
     let input = Input()
@@ -73,12 +74,24 @@ class MovieDetailViewModel {
         input.toggleFavoriteStatus.subscribe(onNext: { [weak self] in
             self?.toggleFavoriteStatus()
         }).disposed(by: disposeBag)
+        
+        input.viewWillAppear.subscribe(onNext: { [weak self] in
+            self?.refreshFavoriteStatus()
+        }).disposed(by: disposeBag)
     }
     
     private func toggleFavoriteStatus() {
         let useCase = useCasePersistenceProvider.makeFavoriteMovieUseCase()
         guard let movieModel = movieModel else { return }
         useCase.toggleFavoriteStatus(movieModel) { [weak self] (isFavorite) in
+            self?.output.isFavorite.accept(isFavorite)
+        }
+    }
+    
+    private func refreshFavoriteStatus() {
+        let useCase = useCasePersistenceProvider.makeFavoriteMovieUseCase()
+        guard let movieModel = movieModel else { return }
+        useCase.refreshFavoriteStatus(movieModel) { [weak self] (isFavorite) in
             self?.output.isFavorite.accept(isFavorite)
         }
     }

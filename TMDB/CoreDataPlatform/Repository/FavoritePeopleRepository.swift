@@ -21,20 +21,24 @@ final class FavoritePeopleRepository {
     }
     
     public func isFavorite(_ model: PeopleModel, _ completion: @escaping (Bool) -> Void) {
-        let movieModel = coreData.fetch(entity: model)
+        let movieModel = coreData.fetch(entityID: model.uid, type: PeopleModel.self)
         completion(movieModel != nil)
     }
     
     public func toggleFavorite(_ model: PeopleModel, _ completion: @escaping (Bool) -> Void) {
         isFavorite(model) { [weak self] (isFavorite) in
             isFavorite ?
-                self?.deleteFavoritePeople(model) { completion($0 ? false: true) } :
+                self?.deleteFavoritePeople(model.uid) { completion($0 ? false: true) } :
                 self?.createFavoritePeople(model) { completion($0 ? true: false) }
         }
     }
     
-    private func deleteFavoritePeople(_ model: PeopleModel, _ completion: @escaping (Bool) -> Void) {
-        coreData.delete(entity: model)
+    public func refreshFavorite(_ model: PeopleModel, _ completion: @escaping (Bool) -> Void) {
+        isFavorite(model) { completion($0) }
+    }
+    
+    public func deleteFavoritePeople(_ modelID: Int, _ completion: @escaping (Bool) -> Void) {
+        coreData.delete(entityID: modelID, type: PeopleModel.self)
         completion(true)
     }
     

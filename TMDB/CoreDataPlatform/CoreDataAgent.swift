@@ -13,7 +13,7 @@ public protocol DBAgent {
                                          sortDescriptors: [NSSortDescriptor]?) -> [T] where T == T.CoreDataType.DomainType
     func fetchAll<T: CoreDataRepresentable>(entityType: T.Type) -> [T] where T == T.CoreDataType.DomainType 
     func save<T: CoreDataRepresentable>(entity: T) where T == T.CoreDataType.DomainType
-    func delete<T: CoreDataRepresentable>(entity: T) where T == T.CoreDataType.DomainType
+    func delete<T: CoreDataRepresentable>(entityID: Int, type: T.Type) where T == T.CoreDataType.DomainType
 }
 
 public final class CoreDataAgent: DBAgent {
@@ -45,9 +45,9 @@ public final class CoreDataAgent: DBAgent {
         return results ?? []
     }
     
-    public func find<T: CoreDataRepresentable>(entity: T) -> T.CoreDataType? where T == T.CoreDataType.DomainType {
+    public func find<T: CoreDataRepresentable>(entityID: Int, type: T.Type) -> T.CoreDataType? where T == T.CoreDataType.DomainType {
         let request = T.CoreDataType.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %d", entity.uid)
+        request.predicate = NSPredicate(format: "id = %d", entityID)
             
         do {
             let objects = try context.fetch(request)
@@ -58,9 +58,9 @@ public final class CoreDataAgent: DBAgent {
         }
     }
     
-    public func fetch<T: CoreDataRepresentable>(entity: T) -> T? where T == T.CoreDataType.DomainType {
+    public func fetch<T: CoreDataRepresentable>(entityID: Int, type: T.Type) -> T? where T == T.CoreDataType.DomainType {
         let request = T.CoreDataType.fetchRequest()
-        request.predicate = NSPredicate(format: "id = %d", entity.uid)
+        request.predicate = NSPredicate(format: "id = %d", entityID)
         do {
             let objects = try context.fetch(request)
             guard !objects.isEmpty else { return nil }
@@ -84,7 +84,7 @@ public final class CoreDataAgent: DBAgent {
 
     public func save<T: CoreDataRepresentable>(entity: T) where T == T.CoreDataType.DomainType {
         do {
-            if let cdObject: T.CoreDataType = find(entity: entity),
+            if let cdObject: T.CoreDataType = find(entityID: entity.uid, type: T.self),
                   let object = cdObject as? NSManagedObject {
                 context.delete(object)
             }
@@ -96,9 +96,9 @@ public final class CoreDataAgent: DBAgent {
         }
     }
 
-    public func delete<T: CoreDataRepresentable>(entity: T) where T == T.CoreDataType.DomainType {
+    public func delete<T: CoreDataRepresentable>(entityID: Int, type: T.Type) where T == T.CoreDataType.DomainType {
         do {
-            guard let cdObject: T.CoreDataType = find(entity: entity),
+            guard let cdObject: T.CoreDataType = find(entityID: entityID, type: T.self),
                   let object = cdObject as? NSManagedObject else { return }
             
             context.delete(object)

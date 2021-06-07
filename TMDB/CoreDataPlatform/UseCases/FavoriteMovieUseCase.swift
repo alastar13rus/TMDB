@@ -17,11 +17,15 @@ class FavoriteMovieUseCase: Domain.FavoriteMovieUseCase {
     }
     
     func readFavoriteMovieList(_ completion: @escaping ([MovieModel]) -> Void) {
-        completion([])
+        repository.readFavoriteMovieList { completion($0) }
     }
     
     func toggleFavoriteStatus(_ model: MovieModel, completion: @escaping (Bool) -> Void) {
         repository.toggleFavorite(model) { completion($0) }
+    }
+    
+    func refreshFavoriteStatus(_ model: MovieModel, completion: @escaping (Bool) -> Void) {
+        repository.refreshFavorite(model) { completion($0) }
     }
     
     func isFavorite(_ model: MovieModel, completion: @escaping (Bool) -> Void) {
@@ -33,7 +37,7 @@ class FavoriteMovieUseCase: Domain.FavoriteMovieUseCase {
         completion(true)
     }
     
-    func removeFavoriteMovie(_ completion: @escaping (Bool) -> Void) {
-        completion(true)
+    func removeFavoriteMovie(_ modelID: Int, _ completion: @escaping (Bool) -> Void) {
+        repository.deleteFavoriteMovie(modelID) { completion($0) }
     }
 }

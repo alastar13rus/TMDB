@@ -82,6 +82,14 @@ class PeopleDetailViewModel {
         }
     }
     
+    private func refreshFavoriteStatus() {
+        let useCase = useCasePersistenceProvider.makeFavoritePeopleUseCase()
+        guard let peopleModel = peopleModel else { return }
+        useCase.refreshFavoriteStatus(peopleModel) { [weak self] (isFavorite) in
+            self?.output.isFavorite.accept(isFavorite)
+        }
+    }
+    
     private func isFavorite(_ model: PeopleModel, _ completion: @escaping (Bool) -> Void) {
         let useCase = useCasePersistenceProvider.makeFavoritePeopleUseCase()
         useCase.isFavorite(model) { completion($0) }
