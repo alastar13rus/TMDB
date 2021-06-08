@@ -13,6 +13,5 @@ public protocol FavoriteMovieUseCase {
     func saveFavoriteMovie(_ completion: @escaping (Bool) -> Void)
     func removeFavoriteMovie(_ modelID: Int, _ completion: @escaping (Bool) -> Void)
     func toggleFavoriteStatus(_ model: MovieModel, completion: @escaping (Bool) -> Void)
-    func refreshFavoriteStatus(_ model: MovieModel, completion: @escaping (Bool) -> Void)
     func isFavorite(_ model: MovieModel, completion: @escaping (Bool) -> Void)
 }

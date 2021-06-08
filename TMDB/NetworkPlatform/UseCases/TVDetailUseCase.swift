@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-final class TVDetailUseCase: Domain.TVDetailUseCase {
+class TVDetailUseCase: Domain.TVDetailUseCase {
     
     private let repository: TVDetailRepository
     private let api: TVDetailAPI

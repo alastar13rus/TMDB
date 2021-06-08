@@ -33,10 +33,6 @@ final class FavoriteMovieRepository {
         }
     }
     
-    public func refreshFavorite(_ model: MovieModel, _ completion: @escaping (Bool) -> Void) {
-        isFavorite(model) { completion($0) }
-    }
-    
     public func deleteFavoriteMovie(_ modelID: Int, _ completion: @escaping (Bool) -> Void) {
         coreData.delete(entityID: modelID, type: MovieModel.self)
         completion(true)

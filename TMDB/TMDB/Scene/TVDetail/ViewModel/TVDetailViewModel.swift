@@ -18,7 +18,7 @@ class TVDetailViewModel {
 //    MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
-    private let detailID: String
+    private(set) var detailID: String
     private var tvModel: TVModel? {
         didSet {
             self.isFavorite(tvModel!) { self.output.isFavorite.accept($0) }
@@ -95,9 +95,8 @@ class TVDetailViewModel {
     }
     
     private func refreshFavoriteStatus() {
-        let useCase = useCasePersistenceProvider.makeFavoriteTVUseCase()
         guard let tvModel = tvModel else { return }
-        useCase.refreshFavoriteStatus(tvModel) { [weak self] (isFavorite) in
+        isFavorite(tvModel) { [weak self] (isFavorite) in
             self?.output.isFavorite.accept(isFavorite)
         }
     }

@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public final class UseCasePersistenceProvider: Domain.UseCasePersistenceProvider {
+public class UseCasePersistenceProvider: Domain.UseCasePersistenceProvider {
     
     private let dbProvider: CoreDataProvider
     

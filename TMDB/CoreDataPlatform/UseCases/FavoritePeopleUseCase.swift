@@ -24,10 +24,6 @@ class FavoritePeopleUseCase: Domain.FavoritePeopleUseCase {
         repository.toggleFavorite(model) { completion($0) }
     }
     
-    func refreshFavoriteStatus(_ model: PeopleModel, completion: @escaping (Bool) -> Void) {
-        repository.refreshFavorite(model) { completion($0) }
-    }
-    
     func isFavorite(_ model: PeopleModel, completion: @escaping (Bool) -> Void) {
         repository.isFavorite(model) { completion($0) }
     }

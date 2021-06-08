@@ -18,7 +18,7 @@ class MovieDetailViewModel {
     private let useCaseProvider: Domain.UseCaseProvider
     private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
 
-    private let detailID: String
+    private(set) var detailID: String
     private var movieModel: MovieModel? {
         didSet {
             self.isFavorite(movieModel!) { self.output.isFavorite.accept($0) }
@@ -89,9 +89,8 @@ class MovieDetailViewModel {
     }
     
     private func refreshFavoriteStatus() {
-        let useCase = useCasePersistenceProvider.makeFavoriteMovieUseCase()
         guard let movieModel = movieModel else { return }
-        useCase.refreshFavoriteStatus(movieModel) { [weak self] (isFavorite) in
+        isFavorite(movieModel) { [weak self] (isFavorite) in
             self?.output.isFavorite.accept(isFavorite)
         }
     }
@@ -112,7 +111,7 @@ class MovieDetailViewModel {
         }
     }
     
-    private func fetch(completion: @escaping (MovieDetailModel) -> Void) {
+    func fetch(completion: @escaping (MovieDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeMovieDetailUseCase()
         useCase.details(mediaID: mediaID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { (result: Result<MovieDetailModel, Error>) in

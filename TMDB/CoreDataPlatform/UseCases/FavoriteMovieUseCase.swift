@@ -24,10 +24,6 @@ class FavoriteMovieUseCase: Domain.FavoriteMovieUseCase {
         repository.toggleFavorite(model) { completion($0) }
     }
     
-    func refreshFavoriteStatus(_ model: MovieModel, completion: @escaping (Bool) -> Void) {
-        repository.refreshFavorite(model) { completion($0) }
-    }
-    
     func isFavorite(_ model: MovieModel, completion: @escaping (Bool) -> Void) {
         repository.isFavorite(model) { completion($0) }
     }

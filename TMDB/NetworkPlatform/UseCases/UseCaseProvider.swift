@@ -9,7 +9,7 @@ import Foundation
 import Swinject
 import Domain
 
-public final class UseCaseProvider: Domain.UseCaseProvider {
+open class UseCaseProvider: Domain.UseCaseProvider {
     
     let networkProvider: NetworkProvider
     public let apiFactory: Domain.APIFactory

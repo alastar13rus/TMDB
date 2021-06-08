@@ -13,6 +13,5 @@ public protocol FavoritePeopleUseCase {
     func saveFavoritePeople(_ completion: @escaping (Bool) -> Void)
     func removeFavoritePeople(_ peopleID: Int, _ completion: @escaping (Bool) -> Void)
     func toggleFavoriteStatus(_ model: PeopleModel, completion: @escaping (Bool) -> Void)
-    func refreshFavoriteStatus(_ model: PeopleModel, completion: @escaping (Bool) -> Void)
     func isFavorite(_ model: PeopleModel, completion: @escaping (Bool) -> Void)
 }
