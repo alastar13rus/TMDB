@@ -42,7 +42,7 @@ class TVDetailViewModelTest: XCTestCase {
         
         let expectation = self.expectation(description: #function)
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 4) {
             expectation.fulfill()
         }
         
