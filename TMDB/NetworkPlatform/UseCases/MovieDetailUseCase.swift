@@ -10,30 +10,30 @@ import Domain
 
 final class MovieDetailUseCase: Domain.MovieDetailUseCase {
     
-    private let network: MovieDetailNetwork
+    private let repository: MovieDetailRepository
     private let api: MovieDetailAPI
 
-    init(_ network: MovieDetailNetwork, _ api: MovieDetailAPI) {
-        self.network = network
+    init(_ repository: MovieDetailRepository, _ api: MovieDetailAPI) {
+        self.repository = repository
         self.api = api
     }
     
     func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage], completion: @escaping (Result<MovieDetailModel, Error>) -> Void) {
         
         let request = api.details(mediaID: mediaID, appendToResponse: appendToResponse, includeImageLanguage: includeImageLanguage)
-        network.fetchMovieDetails(request, completion: completion)
+        repository.fetchMovieDetails(request, completion: completion)
     }
     
     func videos(mediaID: String, completion: @escaping (Result<VideoList, Error>) -> Void) {
         
         let request = api.videos(mediaID: mediaID)
-        network.fetchMovieVideos(request, completion: completion)
+        repository.fetchMovieVideos(request, completion: completion)
     }
     
     func credits(mediaID: String, completion: @escaping (Result<CreditListResponse, Error>) -> Void) {
         
         let request = api.credits(mediaID: mediaID)
-        network.fetchMovieCredits(request, completion: completion)
+        repository.fetchMovieCredits(request, completion: completion)
         
     }
 }

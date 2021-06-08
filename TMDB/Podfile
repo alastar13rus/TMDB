@@ -34,21 +34,30 @@ target 'Domain' do
   pod 'RxCocoa'
   pod 'RxRelay'
   pod 'RxDataSources'
-
+  
   target 'DomainTests' do
     pod 'RxSwift'
     pod 'RxDataSources'
   end
-
+  
 end
 
 target 'NetworkPlatform' do
   use_frameworks!
   pod 'Swinject'
-
+  
   target 'NetworkPlatformTests' do
-#    pod 'Swinject'
+    
   end
+end
 
+target 'CoreDataPlatform' do
+  use_frameworks!
+  pod 'Swinject'
+  
+  target 'CoreDataPlatformTests' do
+    
+  end
+  
 end
 

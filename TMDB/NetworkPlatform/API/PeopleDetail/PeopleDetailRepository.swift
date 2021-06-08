@@ -1,5 +1,5 @@
 //
-//  CreditDetailNetwork.swift
+//  PeopleDetailRepository.swift
 //  NetworkPlatform
 //
 //  Created by Докин Андрей (IOS) on 17.05.2021.
@@ -8,7 +8,8 @@
 import Foundation
 import Domain
 
-final class CreditDetailNetwork {
+final class PeopleDetailRepository {
+    typealias Endpoint = Domain.Endpoint
     
     let network: NetworkAgent
     
@@ -16,7 +17,7 @@ final class CreditDetailNetwork {
         self.network = network
     }
     
-    public func fetchCreditDetails(_ endpoint: Endpoint, completion: @escaping (Result<CreditDetailModel, Error>) -> Void) {
+    public func fetchPeopleDetails(_ endpoint: Endpoint, completion: @escaping (Result<PeopleDetailModel, Error>) -> Void) {
         network.getItem(endpoint, completion: completion)
     }
 }

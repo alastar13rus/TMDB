@@ -24,8 +24,9 @@ struct Typealias {
     typealias FilterOptionListMediaBundle = (FilterOptionListMediaViewController, FilterOptionListMediaViewModel, SearchFlowCoordinator)
     typealias MediaListByYearBundle = (MediaFilteredListViewController, MediaFilteredListViewModel, SearchFlowCoordinator)
     typealias MediaFilteredListBundle = (MediaFilteredListViewController, MediaFilteredListViewModel, SearchFlowCoordinator)
-
     
-
+//    MARK: - Search
+        typealias FavoriteBundle = (FavoriteListViewController, FavoriteListViewModel, FavoriteFlowCoordinator)
+    
     
 }

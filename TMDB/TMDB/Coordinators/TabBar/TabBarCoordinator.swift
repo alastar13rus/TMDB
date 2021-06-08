@@ -14,6 +14,7 @@ class TabBarCoordinator: Coordinator {
         case movieTab
         case tvTab
         case searchTab
+        case favoriteTab
     }
     
     var identifier = UUID()
@@ -93,7 +94,18 @@ class TabBarCoordinator: Coordinator {
     }
     
     public func showFavoriteTab() {
+        if case .some(.favoriteTab) = state { return }
         
+        guard let coordinator = childCoordinators.map({ $1 }).first(where: { $0 is FavoriteFlowCoordinator })
+        else {
+            let coordinator = FavoriteFlowCoordinator(navigationController: items[3], container: container)
+            coordinate(to: coordinator)
+            state = .favoriteTab
+            return
+        }
+
+        coordinate(to: coordinator)
+        state = .favoriteTab
     }
     
     

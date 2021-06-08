@@ -1,5 +1,5 @@
 //
-//  SearchNetwork.swift
+//  SearchRepository.swift
 //  NetworkPlatform
 //
 //  Created by Докин Андрей (IOS) on 28.05.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-final class SearchNetwork {
+final class SearchRepository {
     typealias Endpoint = Domain.Endpoint
     
     let network: NetworkAgent

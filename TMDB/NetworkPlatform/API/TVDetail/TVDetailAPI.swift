@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public final class TVDetailAPI {
+public class TVDetailAPI {
     
     let apiKey: String
     let apiBaseURL: String

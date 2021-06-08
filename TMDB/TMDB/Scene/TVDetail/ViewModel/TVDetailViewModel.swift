@@ -16,17 +16,24 @@ import NetworkPlatform
 class TVDetailViewModel {
     
 //    MARK: - Properties
-    let useCaseProvider: Domain.UseCaseProvider
-    let detailID: String
+    private let useCaseProvider: Domain.UseCaseProvider
+    private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
+    private(set) var detailID: String
+    private var tvModel: TVModel? {
+        didSet {
+            self.isFavorite(tvModel!) { self.output.isFavorite.accept($0) }
+        }
+    }
     weak var coordinator: Coordinator?
-    let disposeBag = DisposeBag()
-    
+    private let disposeBag = DisposeBag()
     
 //    MARK: - Input
     
     struct Input {
         let selectedItem = PublishRelay<TVDetailCellViewModelMultipleSection.SectionItem>()
         let showTVSeasonListButtonPressed = PublishRelay<Void>()
+        let toggleFavoriteStatus = PublishRelay<Void>()
+        let viewWillAppear = PublishRelay<Void>()
     }
     
     let input = Input()
@@ -40,13 +47,15 @@ class TVDetailViewModel {
         let backdropImageData = BehaviorRelay<Data?>(value: nil)
         let sectionedItems = BehaviorRelay<[TVDetailCellViewModelMultipleSection]>(value: [])
         let numberOfSeasons = BehaviorRelay<Int>(value: 0)
+        let isFavorite = PublishRelay<Bool>()
     }
     
     let output = Output()
     
 //    MARK: - Init
-    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider) {
+    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
         self.useCaseProvider = useCaseProvider
+        self.useCasePersistenceProvider = useCasePersistenceProvider
         self.detailID = detailID
         
         setupInput()
@@ -67,12 +76,42 @@ class TVDetailViewModel {
             guard let self = self, let coordinator = self.coordinator as? TVFlowCoordinator else { return }
             coordinator.toSeasonList(with: self.detailID)
         }).disposed(by: disposeBag)
+        
+        input.toggleFavoriteStatus.subscribe(onNext: { [weak self] in
+            self?.toggleFavoriteStatus()
+        }).disposed(by: disposeBag)
+        
+        input.viewWillAppear.subscribe(onNext: { [weak self] in
+            self?.refreshFavoriteStatus()
+        }).disposed(by: disposeBag)
+    }
+    
+    private func toggleFavoriteStatus() {
+        let useCase = useCasePersistenceProvider.makeFavoriteTVUseCase()
+        guard let tvModel = tvModel else { return }
+        useCase.toggleFavoriteStatus(tvModel) { [weak self] (isFavorite) in
+            self?.output.isFavorite.accept(isFavorite)
+        }
+    }
+    
+    private func refreshFavoriteStatus() {
+        guard let tvModel = tvModel else { return }
+        isFavorite(tvModel) { [weak self] (isFavorite) in
+            self?.output.isFavorite.accept(isFavorite)
+        }
+    }
+    
+    private func isFavorite(_ model: TVModel, _ completion: @escaping (Bool) -> Void) {
+        let useCase = useCasePersistenceProvider.makeFavoriteTVUseCase()
+        useCase.isFavorite(model) { completion($0) }
+
     }
     
     func setupOutput() {
         fetch { [weak self] (tvDetail) in
             guard let self = self else { return }
             
+            self.tvModel = TVModel(tvDetail)
             let sections = self.configureSections(from: tvDetail)
             self.output.sectionedItems.accept(sections)
             self.output.numberOfSeasons.accept(tvDetail.numberOfSeasons)

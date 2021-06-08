@@ -10,36 +10,36 @@ import Domain
 
 final class TVListUseCase: Domain.TVListUseCase {
     
-    private let network: TVListNetwork
+    private let repository: TVListRepository
     private let api: TVListAPI
 
-    init(_ network: TVListNetwork, _ api: TVListAPI) {
-        self.network = network
+    init(_ repository: TVListRepository, _ api: TVListAPI) {
+        self.repository = repository
         self.api = api
     }
     
     func topRated(page: Int,
                   completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void) {
         let request = api.topRated(page: page)
-        network.fetchTopRatedTVs(request, completion: completion)
+        repository.fetchTopRatedTVs(request, completion: completion)
     }
     
     func popular(page: Int,
                  completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void) {
         let request = api.popular(page: page)
-        network.fetchPopularTVs(request, completion: completion)
+        repository.fetchPopularTVs(request, completion: completion)
     }
     
     func onTheAir(page: Int,
                   completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void) {
         let request = api.onTheAir(page: page)
-        network.fetchOnTheAirTVs(request, completion: completion)
+        repository.fetchOnTheAirTVs(request, completion: completion)
     }
     
     func airingToday(page: Int,
                      completion: @escaping (Result<MediaListResponse<TVModel>, Error>) -> Void) {
         let request = api.airingToday(page: page)
-        network.fetchAiringTodayTVs(request, completion: completion)
+        repository.fetchAiringTodayTVs(request, completion: completion)
     }
     
     

@@ -1,5 +1,5 @@
 //
-//  MovieListNetwork.swift
+//  MovieListRepository.swift
 //  NetworkPlatform
 //
 //  Created by Докин Андрей (IOS) on 17.05.2021.
@@ -8,11 +8,11 @@
 import Foundation
 import Domain
 
-public protocol MediaListNetwork: class {
+public protocol MediaListRepository: class {
     
 }
 
-final class MovieListNetwork: MediaListNetwork {
+final class MovieListRepository: MediaListRepository {
     
     typealias Endpoint = Domain.Endpoint
     

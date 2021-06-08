@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public final class APIFactory: Domain.APIFactory {
+public class APIFactory: Domain.APIFactory {
     
     let config: (apiKey: String, apiBaseURL: String)
     

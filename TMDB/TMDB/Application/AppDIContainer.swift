@@ -9,6 +9,7 @@ import Foundation
 import Swinject
 import Domain
 import NetworkPlatform
+import CoreDataPlatform
 
 class AppDIContainer {
     static let shared: Container = {
@@ -22,12 +23,28 @@ class AppDIContainer {
     
     fileprivate static func setupDI(_ container: Container) {
         
+//        MARK: - NetworkPlatform
         container.register(NetworkPlatform.NetworkAgent.self) { _ in
             return NetworkAgent()
         }
         
         container.register(NetworkPlatform.NetworkProvider.self) { r in NetworkPlatform.NetworkProvider(network: r.resolve(NetworkPlatform.NetworkAgent.self)!) }
         
+//        MARK: - CoreDataPlatform
+        
+        container.register(CoreDataPlatform.CoreDataAgent.self) { _ in
+            let coreDataStack = container.resolve(CoreDataStack.self)!
+            return CoreDataAgent(with: coreDataStack.viewContext)
+        }
+        
+        container.register(CoreDataPlatform.CoreDataProvider.self) { r in CoreDataPlatform.CoreDataProvider(coreData: r.resolve(CoreDataPlatform.CoreDataAgent.self)!) }
+        
+        container.register(CoreDataPlatform.CoreDataStack.self) { r in
+            return CoreDataPlatform.CoreDataStack.shared
+            
+        }
+        
+//        MARK: - Domain
         
         container.register(Domain.APIFactory.self) { r in
             let appConfig = AppConfig()
@@ -40,6 +57,10 @@ class AppDIContainer {
             NetworkPlatform.UseCaseProvider(
                 networkProvider: r.resolve(NetworkPlatform.NetworkProvider.self)!,
                 apiFactory: r.resolve(Domain.APIFactory.self)!) }
+        
+        container.register(Domain.UseCasePersistenceProvider.self) { r in
+            CoreDataPlatform.UseCasePersistenceProvider(
+                dbProvider: r.resolve(CoreDataPlatform.CoreDataProvider.self)!) }
         
         
         registerVC(with: container)
@@ -75,11 +96,11 @@ class AppDIContainer {
         }
         
         container.register(MovieDetailViewModel.self)  { (r, detailID: String) in
-            return MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            return MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
         }
         
         container.register(TVDetailViewModel.self)  { (r, detailID: String) in
-            return TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            return TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
         }
         
         container.register(TVSeasonListViewModel.self)  { (r, mediaID: String) in
@@ -115,7 +136,7 @@ class AppDIContainer {
         }
         
         container.register(PeopleDetailViewModel.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
-            return PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            return PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
 
         }
     }
@@ -137,7 +158,7 @@ class AppDIContainer {
         container.register(Typealias.MovieDetailBundle.self)  { (r, coordinator: MovieFlowCoordinator, detailID: String) in
             let viewController = MovieDetailViewController()
             
-            let viewModel = MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            let viewModel = MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -148,7 +169,7 @@ class AppDIContainer {
         container.register(Typealias.TVDetailBundle.self)  { (r, coordinator: TVFlowCoordinator, detailID: String) in
             let viewController = TVDetailViewController()
             
-            let viewModel = TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            let viewModel = TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -247,7 +268,7 @@ class AppDIContainer {
         container.register(Typealias.PeopleDetailBundle.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
             let viewController = PeopleDetailViewController()
             
-            let viewModel = PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            let viewModel = PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -286,6 +307,20 @@ class AppDIContainer {
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
+            
+            return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
+        }
+        
+        
+        container.register(Typealias.FavoriteBundle.self)  { (r, coordinator: FavoriteFlowCoordinator) in
+            let viewController = FavoriteListViewController()
+            
+            let viewModel = FavoriteListViewModel(useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            viewModel.coordinator = coordinator as NavigationCoordinator
+            viewController.bindViewModel(to: viewModel)
+            if (coordinator.navigationController.viewControllers.isEmpty) {
+                coordinator.navigationController.pushViewController(viewController, animated: true)
+            }
             
             return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
