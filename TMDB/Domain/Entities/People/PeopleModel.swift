@@ -30,8 +30,7 @@ public enum KnownFor: Decodable {
 }
 
 public struct PeopleModel: Decodable {
-    
-    
+
     public let adult: Bool
     public let id: Int
     public let knownFor: [KnownFor]
@@ -46,5 +45,31 @@ public struct PeopleModel: Decodable {
         case name
         case popularity
         case profilePath = "profile_path"
+    }
+    
+    public init(
+        adult: Bool,
+        id: Int,
+        knownFor: [KnownFor],
+        name: String,
+        popularity: Float,
+        profilePath: String?
+    ) {
+        self.adult = adult
+        self.id = id
+        self.knownFor = []
+        self.name = name
+        self.popularity = popularity
+        self.profilePath = profilePath
+    }
+    
+    public init(_ detailModel: PeopleDetailModel)
+    {
+        self.adult = detailModel.adult
+        self.id = detailModel.id
+        self.knownFor = []
+        self.name = detailModel.name
+        self.popularity = detailModel.popularity
+        self.profilePath = detailModel.profilePath
     }
 }

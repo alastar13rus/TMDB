@@ -10,11 +10,11 @@ import Domain
 
 final class TVSeasonDetailUseCase: Domain.TVSeasonDetailUseCase {
     
-    private let network: TVSeasonDetailNetwork
+    private let repository: TVSeasonDetailRepository
     private let api: TVSeasonDetailAPI
 
-    init(_ network: TVSeasonDetailNetwork, _ api: TVSeasonDetailAPI) {
-        self.network = network
+    init(_ repository: TVSeasonDetailRepository, _ api: TVSeasonDetailAPI) {
+        self.repository = repository
         self.api = api
     }
     
@@ -28,7 +28,7 @@ final class TVSeasonDetailUseCase: Domain.TVSeasonDetailUseCase {
                                   seasonNumber: seasonNumber,
                                   appendToResponse: appendToResponse,
                                   includeImageLanguage: includeImageLanguage)
-        network.fetchTVSeasonDetails(request, completion: completion)
+        repository.fetchTVSeasonDetails(request, completion: completion)
     }
     
     func videos(mediaID: String,
@@ -36,7 +36,7 @@ final class TVSeasonDetailUseCase: Domain.TVSeasonDetailUseCase {
                 completion: @escaping (Result<VideoList, Error>) -> Void) {
         
         let request = api.videos(mediaID: mediaID, seasonNumber: seasonNumber)
-        network.fetchTVSeasonVideos(request, completion: completion)
+        repository.fetchTVSeasonVideos(request, completion: completion)
     }
     
     func aggregateCredits(mediaID: String,
@@ -44,7 +44,7 @@ final class TVSeasonDetailUseCase: Domain.TVSeasonDetailUseCase {
                           completion: @escaping (Result<TVAggregateCreditListResponse, Error>) -> Void) {
         
         let request = api.aggregateCredits(mediaID: mediaID, seasonNumber: seasonNumber)
-        network.fetchTVSeasonAggregateCredits(request, completion: completion)
+        repository.fetchTVSeasonAggregateCredits(request, completion: completion)
     }
     
 }

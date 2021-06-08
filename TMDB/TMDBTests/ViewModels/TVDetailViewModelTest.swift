@@ -6,16 +6,39 @@
 //
 
 import XCTest
-@testable import Swinject
+import Swinject
 @testable import TMDB
 @testable import Domain
+@testable import NetworkPlatform
+@testable import CoreDataPlatform
 
 class TVDetailViewModelTest: XCTestCase {
     
-    func test_init() {
-        let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
+    var useCaseProviderMock: UseCaseProviderMock!
+    var useCasePersistenceProviderMock: UseCasePersistenceProviderMock!
+
+    override func setUp() {
+        super.setUp()
         
-        XCTAssertEqual(viewModel.detailID, "1399")
+        var container: Container { AppDIContainer.shared }
+        useCaseProviderMock = UseCaseProviderMock(
+            networkProvider: container.resolve(NetworkProvider.self)!,
+            apiFactory: container.resolve(Domain.APIFactory.self)!)
+        useCasePersistenceProviderMock = UseCasePersistenceProviderMock(dbProvider: container.resolve(CoreDataProvider.self)!)
+    }
+    
+    override func tearDown() {
+        super.tearDown()
+        useCaseProviderMock = nil
+        useCasePersistenceProviderMock = nil
+    }
+    
+    func test_init() {
+        let viewModel = TVDetailViewModel(with: "71712",
+                                          useCaseProvider: useCaseProviderMock,
+                                          useCasePersistenceProvider: useCasePersistenceProviderMock)
+        
+        XCTAssertEqual(viewModel.detailID, "71712")
         
         let expectation = self.expectation(description: #function)
         
@@ -24,35 +47,25 @@ class TVDetailViewModelTest: XCTestCase {
         }
         
         waitForExpectations(timeout: 3, handler: nil)
-        XCTAssert(viewModel.output.sectionedItems.value.count > 0)
+        XCTAssertTrue(viewModel.output.sectionedItems.value.count > 0)
     }
     
     func test_fetch() {
-        let (_, viewModel, _) = container.resolve(Typealias.TVDetailBundle.self, arguments: tvFlowCoordinator, "1399")!
         
+        let viewModel = TVDetailViewModel(with: "71712",
+                                          useCaseProvider: useCaseProviderMock,
+                                          useCasePersistenceProvider: useCasePersistenceProviderMock)
+
         var tvDetail: TVDetailModel?
         let expectation = self.expectation(description: #function)
         viewModel.fetch { (fetchedTVDetail) in
             tvDetail = fetchedTVDetail
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
         }
         
         waitForExpectations(timeout: 3, handler: nil)
         XCTAssertNotNil(tvDetail)
     }
-    
-    
-
-//    MARK: - Helpers
-    var container: Container { AppDIContainer.shared }
-    var tvFlowCoordinator: TVFlowCoordinator {
-        TVFlowCoordinator(navigationController: UINavigationController(), container: container)
-    }
-    
-    
     
 }
 

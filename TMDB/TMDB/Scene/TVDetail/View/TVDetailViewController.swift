@@ -23,6 +23,12 @@ class TVDetailViewController: UIViewController {
         return tableView
     }()
     
+    private let favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "favoriteEmpty").withTintColor(.white), for: .normal)
+        return button
+    }()
+    
     lazy var appearance = NavigationBarAppearance(barAppearance: .init())
     
 //    MARK: - Lifecycle
@@ -42,6 +48,8 @@ class TVDetailViewController: UIViewController {
 //    MARK: - Methods
     private func setupUI() {
         setupNavigationWithAppearance(appearance)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: favoriteButton)
     }
     
     private func setupHierarhy() {
@@ -94,6 +102,24 @@ extension TVDetailViewController: BindableType {
             .filter { if case .tvTrailerButton = $0 { return true } else { return false } }
             .bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
         
+        tvDetailTableView.rx
+            .modelSelected(TVDetailCellViewModelMultipleSection.SectionItem.self)
+            .filter { if case .tvTrailerButton = $0 { return true } else { return false } }
+            .bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        
+        favoriteButton.rx.tap
+            .bind(to: viewModel.input.toggleFavoriteStatus)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isFavorite
+            .map {
+                $0 ?
+                    #imageLiteral(resourceName: "favoriteFilled").withTintColor(.systemOrange):
+                    #imageLiteral(resourceName: "favoriteEmpty").withTintColor(.systemBlue) }
+            .subscribe(onNext: {
+                self.favoriteButton.setImage($0, for: .normal)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

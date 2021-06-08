@@ -1,5 +1,5 @@
 //
-//  TVSeasonDetailNetwork.swift
+//  TVSeasonDetailRepository.swift
 //  NetworkPlatform
 //
 //  Created by Докин Андрей (IOS) on 18.05.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-final class TVSeasonDetailNetwork {
+final class TVSeasonDetailRepository {
     typealias Endpoint = Domain.Endpoint
     
     let network: NetworkAgent

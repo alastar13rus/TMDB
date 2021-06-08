@@ -1,5 +1,5 @@
 //
-//  PeopleListNetwork.swift
+//  PeopleListRepository.swift
 //  NetworkPlatform
 //
 //  Created by Докин Андрей (IOS) on 28.05.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-final class PeopleListNetwork {
+final class PeopleListRepository {
     typealias Endpoint = Domain.Endpoint
     
     let network: NetworkAgent

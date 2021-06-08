@@ -9,7 +9,7 @@ import Foundation
 import Swinject
 import Domain
 
-public final class UseCaseProvider: Domain.UseCaseProvider {
+open class UseCaseProvider: Domain.UseCaseProvider {
     
     let networkProvider: NetworkProvider
     public let apiFactory: Domain.APIFactory
@@ -21,44 +21,43 @@ public final class UseCaseProvider: Domain.UseCaseProvider {
     
     public func makeMovieListUseCase() -> Domain.MovieListUseCase {
         
-        return MovieListUseCase(networkProvider.makeMovieListNetwork(),
-                                apiFactory.makeMovieListAPI() as! MovieListAPI)
+        return MovieListUseCase(networkProvider.makeMovieListRepository(), apiFactory.makeMovieListAPI() as! MovieListAPI)
     }
     
     public func makeTVListUseCase() -> Domain.TVListUseCase {
-        return TVListUseCase(networkProvider.makeTVListNetwork(), apiFactory.makeTVListAPI() as! TVListAPI)
+        return TVListUseCase(networkProvider.makeTVListRepository(), apiFactory.makeTVListAPI() as! TVListAPI)
     }
     
     public func makeMovieDetailUseCase() -> Domain.MovieDetailUseCase {
-        return MovieDetailUseCase(networkProvider.makeMovieDetailNetwork(), apiFactory.makeMovieDetailAPI() as! MovieDetailAPI)
+        return MovieDetailUseCase(networkProvider.makeMovieDetailRepository(), apiFactory.makeMovieDetailAPI() as! MovieDetailAPI)
     }
     
     public func makeTVDetailUseCase() ->  Domain.TVDetailUseCase {
-        return TVDetailUseCase(networkProvider.makeTVDetailNetwork(), apiFactory.makeTVDetailAPI() as! TVDetailAPI)
+        return TVDetailUseCase(networkProvider.makeTVDetailRepository(), apiFactory.makeTVDetailAPI() as! TVDetailAPI)
     }
     
     public func makeTVSeasonDetailUseCase() ->  Domain.TVSeasonDetailUseCase {
-        return TVSeasonDetailUseCase(networkProvider.makeTVSeasonDetailNetwork(), apiFactory.makeTVSeasonDetailAPI() as! TVSeasonDetailAPI)
+        return TVSeasonDetailUseCase(networkProvider.makeTVSeasonDetailRepository(), apiFactory.makeTVSeasonDetailAPI() as! TVSeasonDetailAPI)
     }
     
     public func makeTVEpisodeDetailUseCase() ->  Domain.TVEpisodeDetailUseCase {
-        return TVEpisodeDetailUseCase(networkProvider.makeTVEpisodeDetailNetwork(), apiFactory.makeTVEpisodeDetailAPI() as! TVEpisodeDetailAPI)
+        return TVEpisodeDetailUseCase(networkProvider.makeTVEpisodeDetailRepository(), apiFactory.makeTVEpisodeDetailAPI() as! TVEpisodeDetailAPI)
     }
     
     public func makePeopleDetailUseCase() ->  Domain.PeopleDetailUseCase {
-        return PeopleDetailUseCase(networkProvider.makePeopleDetailNetwork(), apiFactory.makePeopleDetailAPI() as! PeopleDetailAPI)
+        return PeopleDetailUseCase(networkProvider.makePeopleDetailRepository(), apiFactory.makePeopleDetailAPI() as! PeopleDetailAPI)
     }
     
 //    public func makeCreditListUseCase() ->  Domain.CreditListUseCase {
-//        return CreditListUseCase(network: <#T##CreditListNetwork#>)
+//        return CreditListUseCase(network: CreditListRepository)
 //    }
     
     public func makePeopleListUseCase() ->  Domain.PeopleListUseCase {
-        return PeopleListUseCase(networkProvider.makePeopleListNetwork(), apiFactory.makePeopleListAPI() as! PeopleListAPI)
+        return PeopleListUseCase(networkProvider.makePeopleListRepository(), apiFactory.makePeopleListAPI() as! PeopleListAPI)
     }
     
     public func makeSearchUseCase() ->  Domain.SearchUseCase {
-        return SearchUseCase(networkProvider.makeSearchNetwork(), apiFactory.makeSearchAPI() as! SearchAPI)
+        return SearchUseCase(networkProvider.makeSearchRepository(), apiFactory.makeSearchAPI() as! SearchAPI)
     }
     
 }

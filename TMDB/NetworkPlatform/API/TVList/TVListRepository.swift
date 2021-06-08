@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-final class TVListNetwork: MediaListNetwork {
+final class TVListRepository: MediaListRepository {
     typealias Endpoint = Domain.Endpoint
     
     let network: NetworkAgent

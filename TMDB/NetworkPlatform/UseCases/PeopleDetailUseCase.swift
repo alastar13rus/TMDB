@@ -10,11 +10,11 @@ import Domain
 
 final class PeopleDetailUseCase: Domain.PeopleDetailUseCase {
     
-    private let network: PeopleDetailNetwork
+    private let repository: PeopleDetailRepository
     private let api: PeopleDetailAPI
 
-    init(_ network: PeopleDetailNetwork, _ api: PeopleDetailAPI) {
-        self.network = network
+    init(_ repository: PeopleDetailRepository, _ api: PeopleDetailAPI) {
+        self.repository = repository
         self.api = api
     }
     
@@ -27,7 +27,7 @@ final class PeopleDetailUseCase: Domain.PeopleDetailUseCase {
                                   appendToResponse: appendToResponse,
                                   includeImageLanguage: includeImageLanguage)
         
-        network.fetchPeopleDetails(endpoint, completion: completion)
+        repository.fetchPeopleDetails(endpoint, completion: completion)
     }
     
 }

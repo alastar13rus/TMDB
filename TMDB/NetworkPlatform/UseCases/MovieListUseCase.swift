@@ -10,36 +10,36 @@ import Domain
 
 final class MovieListUseCase: Domain.MovieListUseCase {
     
-    private let network: MovieListNetwork
+    private let repository: MovieListRepository
     private let api: MovieListAPI
 
-    init(_ network: MovieListNetwork, _ api: MovieListAPI) {
-        self.network = network
+    init(_ repository: MovieListRepository, _ api: MovieListAPI) {
+        self.repository = repository
         self.api = api
     }
     
     func topRated(page: Int,
                   completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void) {
         let request = api.topRated(page: page)
-        network.fetchTopRatedMovies(request, completion: completion)
+        repository.fetchTopRatedMovies(request, completion: completion)
     }
     
     func popular(page: Int,
                  completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void) {
         let request = api.popular(page: page)
-        network.fetchPopularMovies(request, completion: completion)
+        repository.fetchPopularMovies(request, completion: completion)
     }
     
     func nowPlaying(page: Int,
                     completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void) {
         let request = api.nowPlaying(page: page)
-        network.fetchNowPlayingMovies(request, completion: completion)
+        repository.fetchNowPlayingMovies(request, completion: completion)
     }
     
     func upcoming(page: Int,
                   completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void) {
         let request = api.upcoming(page: page)
-        network.fetchUpcomingMovies(request, completion: completion)
+        repository.fetchUpcomingMovies(request, completion: completion)
     }
     
     

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20G5033c" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CDFavoriteMovie" representedClassName="CDFavoriteMovie" syncable="YES">
+        <attribute name="adult" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="backdropPath" optional="YES" attributeType="String"/>
+        <attribute name="genreIds" attributeType="String" customClassName=".NSSecureUnarchiveFromData"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="originalLanguage" attributeType="String"/>
+        <attribute name="originalTitle" attributeType="String"/>
+        <attribute name="overview" attributeType="String"/>
+        <attribute name="popularity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="posterPath" optional="YES" attributeType="String"/>
+        <attribute name="releaseDate" optional="YES" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="video" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="voteAverage" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="voteCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="CDFavoritePeople" representedClassName="CDFavoritePeople" syncable="YES">
+        <attribute name="adult" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="popularity" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="profilePath" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CDFavoriteTV" representedClassName="CDFavoriteTV" syncable="YES">
+        <attribute name="backdropPath" optional="YES" attributeType="String"/>
+        <attribute name="firstAirDate" optional="YES" attributeType="String"/>
+        <attribute name="genreIds" attributeType="String" customClassName=".NSSecureUnarchiveFromData"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="originalLanguage" attributeType="String"/>
+        <attribute name="originalName" attributeType="String"/>
+        <attribute name="originCountry" attributeType="String" customClassName=".NSSecureUnarchiveFromData"/>
+        <attribute name="overview" attributeType="String"/>
+        <attribute name="popularity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="posterPath" optional="YES" attributeType="String"/>
+        <attribute name="voteAverage" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="voteCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="CDFavoriteMovie" positionX="-63" positionY="-18" width="128" height="239"/>
+        <element name="CDFavoritePeople" positionX="-36" positionY="153" width="128" height="104"/>
+        <element name="CDFavoriteTV" positionX="-54" positionY="99" width="128" height="224"/>
+    </elements>
+</model>

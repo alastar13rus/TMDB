@@ -27,7 +27,7 @@ extension Array where Array.Element: AnimatableSectionModelType {
 extension Array where Array.Element: (Decodable & Identifiable) {
     func toUnique() -> [Element] {
         var dict = [Int:Element]()
-        self.enumerated().forEach { dict[$0.element.id as! Int] = $0.element }
+        self.reversed().enumerated().forEach { dict[$0.element.id as! Int] = $0.element }
         return dict.map { $0.value }
     }
 }

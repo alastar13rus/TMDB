@@ -1,5 +1,5 @@
 //
-//  MovieDetailNetwork.swift
+//  MovieDetailRepository.swift
 //  NetworkPlatform
 //
 //  Created by Докин Андрей (IOS) on 17.05.2021.
@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-final class MovieDetailNetwork {
+final class MovieDetailRepository {
     typealias Endpoint = Domain.Endpoint
     
     let network: NetworkAgent
