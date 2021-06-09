@@ -19,6 +19,7 @@
 * AutoLayout. Формирование UI-интерфейса полностью с помощью кода (без использования Storyboard и *.xib-файлов)
 * Соответствие принципам SOLID: использование протоколов и расширений, а также внедрение зависимостей при инициализации объектов. Использование протоколов, а не конкретных классов в качестве зависимостей при объявлении класса.
 * Использование DI-контейнера Swinject для соответствия принципу DependencyInversion
+* CI (Github Actions)
 * Unit-тесты
 
 ## Что пока не реализовано:
@@ -80,20 +81,9 @@ MVVM + Coordinator (+Rx)
     * избранные актеры
 
 ## Видео и скриншоты
-Мобильное приложение для сайта themoviedb.org
-[![CI](https://github.com/alastar13rus/TMDB/actions/workflows/CI.yml/badge.svg)](https://github.com/alastar13rus/TMDB/actions/workflows/CI.yml)
-![GitHub last commit](https://img.shields.io/github/last-commit/alastar13rus/TMDB?style=plastic)
-![Swift](https://img.shields.io/badge/Swift-5.3-green)
-
-
-[![Таб "Сериалы"](https://user-images.githubusercontent.com/31746929/121251032-17428700-c8af-11eb-8690-a4148ca7c4c4.mp4)](https://user-images.githubusercontent.com/31746929/121251032-17428700-c8af-11eb-8690-a4148ca7c4c4.mp4)
-
-
-
-
-
 
 ### Таб "Поиск"
+
 [!Поиск](https://user-images.githubusercontent.com/31746929/121350253-1b17ed00-c933-11eb-8e0e-77c29fd65137.mp4)
 
 ### Таб "Избранное"
@@ -112,7 +102,7 @@ MVVM + Coordinator (+Rx)
 
 [!Актеры](https://user-images.githubusercontent.com/31746929/121350488-6df1a480-c933-11eb-996e-ab6fad8b8bf8.mp4)
 
-First Header | Second Header | Second Header
+Скриншоты | Скриншоты | Скриншоты
 ------------ | ------------- | -------------
 ![6](https://user-images.githubusercontent.com/31746929/121351024-fec88000-c933-11eb-9db6-601b83524586.png) | ![7](https://user-images.githubusercontent.com/31746929/121351032-00924380-c934-11eb-98b2-47208112c176.png) | ![2](https://user-images.githubusercontent.com/31746929/121351006-fb34f900-c933-11eb-8597-f2c00fd52106.png)
 ![3](https://user-images.githubusercontent.com/31746929/121351010-fbcd8f80-c933-11eb-9165-244f3a98484c.png) | ![4](https://user-images.githubusercontent.com/31746929/121351014-fc662600-c933-11eb-9bc4-9c8ea448b51e.png) | ![5](https://user-images.githubusercontent.com/31746929/121351019-fcfebc80-c933-11eb-9492-5032deb6e948.png)
