@@ -16,7 +16,7 @@ class MediaListViewController: UIViewController {
     //    MARK: - Property
     var viewModel: MediaListViewModel!
     private let disposeBag = DisposeBag()
-    let mediaListDataSource = MediaListTableViewDataSource.dataSource()
+    let dataSource = MediaListTableViewDataSource.dataSource()
     private let categoryListSegmentedControl = SegmentedControl()
     
     private let refreshControl: UIRefreshControl = {
@@ -77,9 +77,10 @@ extension MediaListViewController: BindableType {
         }).disposed(by: disposeBag)
         
         mediaListTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
         viewModel.output.sectionedItems
             .asDriver(onErrorJustReturn: [])
-            .drive(mediaListTableView.rx.items(dataSource: mediaListDataSource))
+            .drive(mediaListTableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         viewModel.output.selectedSegmentIndex
@@ -90,20 +91,17 @@ extension MediaListViewController: BindableType {
             .asDriver().drive(viewModel.input.selectedSegmentIndex)
             .disposed(by: disposeBag)
         
-        viewModel.output.selectedSegmentIndex.map { _ in true }
-            .subscribe(onNext: {  self.mediaListTableView.scrollsToTop = $0 })
-            .disposed(by: disposeBag)
-        
         mediaListTableView.rx.willDisplayCell
-            .filter { $0.indexPath.row + 5 == self.mediaListDataSource[$0.indexPath.section].items.count }
-            .distinctUntilChanged { $0.indexPath == $1.indexPath }
+            .observeOn(MainScheduler.asyncInstance)
+            .filter { $0.indexPath.row == self.dataSource[$0.indexPath.section].items.count - 1 }
+            .subscribeOn(MainScheduler.instance)
             .map { _ in Void() }
             .bind(to: viewModel.input.loadNextPageTrigger)
             .disposed(by: disposeBag)
-        
-        mediaListTableView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).map { (item) -> MediaCellViewModel in
-            switch item { case .movie(let vm), .tv(let vm): return vm.self }
-        }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
+            
+        mediaListTableView.rx
+            .modelSelected(MediaCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
         
         viewModel.output.isFetching
             .bind(to: refreshControl.rx.isRefreshing)

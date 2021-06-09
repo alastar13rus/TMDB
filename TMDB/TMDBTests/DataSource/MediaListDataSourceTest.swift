@@ -32,13 +32,13 @@ class MediaListDataSourceTest: XCTestCase {
             .movieSection(title: "Фильмы", items: items)
         ])
         
-        switch viewController.mediaListDataSource[0].items.first {
+        switch viewController.dataSource[0].items.first {
         case .movie(let vm):
             XCTAssertEqual(vm.title, "Title 1")
         default: break
         }
         
-        switch viewController.mediaListDataSource[0].items[1] {
+        switch viewController.dataSource[0].items[1] {
         case .movie(let vm):
             XCTAssertEqual(vm.title, "Title 2")
         default: break
@@ -65,7 +65,7 @@ class MediaListDataSourceTest: XCTestCase {
             .tvSection(title: "Сериалы", items: items)
         ])
         
-        switch viewController.mediaListDataSource[0].items.first {
+        switch viewController.dataSource[0].items.first {
         case .tv(let vm):
             XCTAssertEqual(vm.title, "Title 3")
         default: break

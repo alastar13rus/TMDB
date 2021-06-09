@@ -17,6 +17,8 @@ import CoreDataPlatform
 
 class MediaListViewModel {
     
+    typealias Section = MediaCellViewModelMultipleSection
+    typealias Item = Section.SectionItem
 
 //    MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
@@ -46,11 +48,15 @@ class MediaListViewModel {
             case .movie:
                 output.title = BehaviorRelay<String>(value: MediaListTableViewDataSource.Screen.movieListInfo.title)
                 output.categories = BehaviorRelay<[String]>(value: MediaListTableViewDataSource.Screen.movieListInfo.categories)
+                state.currentPage = 1
+                output.sectionedItems.accept([])
                 
                 useCase = useCaseProvider.makeMovieListUseCase()
             case .tv:
                 output.title = BehaviorRelay<String>(value: MediaListTableViewDataSource.Screen.tvListInfo.title)
                 output.categories = BehaviorRelay<[String]>(value: MediaListTableViewDataSource.Screen.tvListInfo.categories)
+                state.currentPage = 1
+                output.sectionedItems.accept([])
                 
                 useCase = useCaseProvider.makeTVListUseCase()
             }
@@ -93,7 +99,7 @@ class MediaListViewModel {
                 let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
                 let refreshItemsTrigger = PublishRelay<Void>()
                 let loadNextPageTrigger = PublishRelay<Void>()
-                let selectedMedia = PublishRelay<MediaCellViewModel>()
+                let selectedMedia = PublishRelay<Item>()
             }
             
             var input = Input()
@@ -105,7 +111,7 @@ class MediaListViewModel {
                 var title = BehaviorRelay<String>(value: "")
                 var categories = BehaviorRelay<[String]>(value: [])
                 let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
-                var sectionedItems = BehaviorRelay<[MediaCellViewModelMultipleSection]>(value: [])
+                var sectionedItems = BehaviorRelay<[Section]>(value: [])
                 let isFetching = BehaviorRelay<Bool>(value: false)
             }
             
@@ -154,7 +160,9 @@ private func handleMovie(_ result: Result<MediaListResponse<MovieModel>, Error>)
     case .success(let response):
         let fetchedMedia = response.results.map { MediaCellViewModel($0) }
         return fetchedMedia
-    case .failure: return []; break
+    case .failure:
+        output.isFetching.accept(false)
+        return []
     }
 }
 
@@ -165,9 +173,10 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
         let fetchedMedia = response.results.map { MediaCellViewModel($0) }
         self.output.isFetching.accept(false)
         return fetchedMedia
-    case .failure: return []; break
+    case .failure:
+        output.isFetching.accept(false)
+        return []
     }
-    output.isFetching.accept(false)
 }
     
     
@@ -175,7 +184,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
         var _title = BehaviorRelay<String>(value: "")
         var _categories = BehaviorRelay<[String]>(value: [])
         let _media = BehaviorRelay<[MediaCellViewModel]>(value: [])
-        let _sectionedItems = BehaviorRelay<[MediaCellViewModelMultipleSection]>(value: [])
+        let _sectionedItems = BehaviorRelay<[Section]>(value: [])
         
         switch self.screen {
         case .movie(let movieListInfo):
@@ -250,13 +259,15 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
             }
         }).disposed(by: disposeBag)
         
-        input.selectedMedia.subscribe(onNext: { [weak self] (mediaCellViewModel: MediaCellViewModel) in
-            if let self = self, let coordinator = self.coordinator as? MovieFlowCoordinator {
-                coordinator.toDetail(with: mediaCellViewModel.id)
-            }
+        input.selectedMedia.subscribe(onNext: { [weak self] in
             
-            if let self = self, let coordinator = self.coordinator as? TVFlowCoordinator {
-                coordinator.toDetail(with: mediaCellViewModel.id)
+            switch $0 {
+            case .movie(let vm):
+                guard let self = self, let coordinator = self.coordinator as? MovieFlowCoordinator else { return }
+                coordinator.toDetail(with: vm.id)
+            case .tv(let vm):
+                guard let self = self, let coordinator = self.coordinator as? TVFlowCoordinator else { return }
+                coordinator.toDetail(with: vm.id)
             }
             
         }).disposed(by: disposeBag)

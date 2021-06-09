@@ -89,7 +89,7 @@ public final class CoreDataAgent: DBAgent {
                 context.delete(object)
             }
             
-            context.insert(entity.asCoreDataObject(with: context) as! NSManagedObject)
+            context.insert(entity.asCoreDataObject(with: context))
             try context.save()
         } catch {
             fatalError(error.localizedDescription)
