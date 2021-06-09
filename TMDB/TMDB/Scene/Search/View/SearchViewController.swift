@@ -92,19 +92,14 @@ extension SearchViewController: BindableType {
         
         searchTableView.rx.modelSelected(SearchQuickRequestCellModelMultipleSection.SectionItem.self).bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
         
-        searchController.rx.willDismiss.subscribe(onNext: { _ in print("willDismiss") }).disposed(by: disposeBag)
-        searchController.rx.didDismiss.subscribe(onNext: { _ in print("didDismiss") }).disposed(by: disposeBag)
-        searchController.rx.willPresent.subscribe(onNext: { _ in print("willPresent") }).disposed(by: disposeBag)
-        searchController.rx.didPresent.subscribe(onNext: { _ in print("didPresent") }).disposed(by: disposeBag)
-        
         searchTableView.rx.willDisplayCell
+            .observeOn(MainScheduler.asyncInstance)
             .filter {
                 let section = self.searchDataSource[$0.indexPath.section]
-                guard case .resultSection(_, _) = section, $0.indexPath.row + 5 == section.items.count else { return false }
+                guard case .resultSection = section, $0.indexPath.row == section.items.count - 1 else { return false }
                 return true
             }
-//            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
-            .distinctUntilChanged { $0.indexPath == $1.indexPath }
+            .subscribeOn(MainScheduler.instance)
             .map { _ in Void() }
             .bind(to: viewModel.input.loadNextPageTrigger)
             .disposed(by: disposeBag)

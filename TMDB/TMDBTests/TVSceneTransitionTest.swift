@@ -56,7 +56,7 @@ class TVSceneTransitionTest: XCTestCase {
         }
         waitForExpectations(timeout: 3)
         
-        switch viewController.mediaListDataSource[0] {
+        switch viewController.dataSource[0] {
         case .tvSection(_, let items):
             switch items[19] {
             case .tv(let vm):
