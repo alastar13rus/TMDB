@@ -19,6 +19,7 @@
 * AutoLayout. Формирование UI-интерфейса полностью с помощью кода (без использования Storyboard и *.xib-файлов)
 * Соответствие принципам SOLID: использование протоколов и расширений, а также внедрение зависимостей при инициализации объектов. Использование протоколов, а не конкретных классов в качестве зависимостей при объявлении класса.
 * Использование DI-контейнера Swinject для соответствия принципу DependencyInversion
+* CI (Github Actions)
 * Unit-тесты
 
 ## Что пока не реализовано:
@@ -80,18 +81,6 @@ MVVM + Coordinator (+Rx)
     * избранные актеры
 
 ## Видео и скриншоты
-Мобильное приложение для сайта themoviedb.org
-[![CI](https://github.com/alastar13rus/TMDB/actions/workflows/CI.yml/badge.svg)](https://github.com/alastar13rus/TMDB/actions/workflows/CI.yml)
-![GitHub last commit](https://img.shields.io/github/last-commit/alastar13rus/TMDB?style=plastic)
-![Swift](https://img.shields.io/badge/Swift-5.3-green)
-
-
-[![Таб "Сериалы"](https://user-images.githubusercontent.com/31746929/121251032-17428700-c8af-11eb-8690-a4148ca7c4c4.mp4)](https://user-images.githubusercontent.com/31746929/121251032-17428700-c8af-11eb-8690-a4148ca7c4c4.mp4)
-
-
-
-
-
 
 ### Таб "Поиск"
 [!Поиск](https://user-images.githubusercontent.com/31746929/121350253-1b17ed00-c933-11eb-8e0e-77c29fd65137.mp4)
