@@ -83,6 +83,7 @@ MVVM + Coordinator (+Rx)
 ## Видео и скриншоты
 
 ### Таб "Поиск"
+
 [!Поиск](https://user-images.githubusercontent.com/31746929/121350253-1b17ed00-c933-11eb-8e0e-77c29fd65137.mp4)
 
 ### Таб "Избранное"
@@ -101,7 +102,7 @@ MVVM + Coordinator (+Rx)
 
 [!Актеры](https://user-images.githubusercontent.com/31746929/121350488-6df1a480-c933-11eb-996e-ab6fad8b8bf8.mp4)
 
-First Header | Second Header | Second Header
+Скриншоты | Скриншоты | Скриншоты
 ------------ | ------------- | -------------
 ![6](https://user-images.githubusercontent.com/31746929/121351024-fec88000-c933-11eb-9db6-601b83524586.png) | ![7](https://user-images.githubusercontent.com/31746929/121351032-00924380-c934-11eb-98b2-47208112c176.png) | ![2](https://user-images.githubusercontent.com/31746929/121351006-fb34f900-c933-11eb-8597-f2c00fd52106.png)
 ![3](https://user-images.githubusercontent.com/31746929/121351010-fbcd8f80-c933-11eb-9165-244f3a98484c.png) | ![4](https://user-images.githubusercontent.com/31746929/121351014-fc662600-c933-11eb-9bc4-9c8ea448b51e.png) | ![5](https://user-images.githubusercontent.com/31746929/121351019-fcfebc80-c933-11eb-9492-5032deb6e948.png)
