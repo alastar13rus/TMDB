@@ -28,6 +28,14 @@ class MediaListViewController: UIViewController {
         let tableView = MediaListTableView(cell: MediaTableViewCell.self, refreshControl: refreshControl)
         return tableView
     }()
+    
+    private var customActivityIndicator: CustomActivityIndicator = {
+        let view = CustomActivityIndicator(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        view.setFillColor(#colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1))
+        view.setStrokeColor(#colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     //    MARK: - Lifecycle
     override func viewDidLoad() {
@@ -36,7 +44,6 @@ class MediaListViewController: UIViewController {
         setupUI()
         setupHierarhy()
         setupConstraints()
-        
     }
         
     //    MARK: - Methods
@@ -48,6 +55,7 @@ class MediaListViewController: UIViewController {
     private func setupHierarhy() {
         view.addSubview(categoryListSegmentedControl)
         view.addSubview(mediaListTableView)
+        view.addSubview(customActivityIndicator)
     }
     
     private func setupConstraints() {
@@ -61,6 +69,9 @@ class MediaListViewController: UIViewController {
             mediaListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             mediaListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             mediaListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            customActivityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            customActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
         ])
     }
     
@@ -106,6 +117,12 @@ extension MediaListViewController: BindableType {
         viewModel.output.isFetching
             .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
+        
+        viewModel.output.isFetching.subscribe(onNext: { [weak self] (isFetching) in
+            isFetching ?
+                self?.customActivityIndicator.startAnimate([.move, .rotate]):
+                self?.customActivityIndicator.stopAnimate()
+        }).disposed(by: disposeBag)
         
         refreshControl.rx.controlEvent(.valueChanged)
             .bind(to: viewModel.input.refreshItemsTrigger)
