@@ -29,8 +29,17 @@ class SearchViewController: UIViewController {
     let searchTableView: UITableView = {
         let tableView = UITableView()
         tableView.tableFooterView = UIView()
+        tableView.keyboardDismissMode = .onDrag
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
+    }()
+    
+    private var customActivityIndicator: CustomActivityIndicator = {
+        let view = CustomActivityIndicator(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        view.setFillColor(#colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1))
+        view.setStrokeColor(#colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
 //    MARK: - Lifecycle
@@ -55,6 +64,7 @@ class SearchViewController: UIViewController {
     
     fileprivate func setupHierarhy() {
         view.addSubview(searchTableView)
+        view.addSubview(customActivityIndicator)
     }
     
     fileprivate func setupConstraints() {
@@ -63,6 +73,9 @@ class SearchViewController: UIViewController {
             searchTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             searchTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             searchTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            
+            customActivityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            customActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
         ])
     }
     
@@ -103,7 +116,15 @@ extension SearchViewController: BindableType {
             .map { _ in Void() }
             .bind(to: viewModel.input.loadNextPageTrigger)
             .disposed(by: disposeBag)
+        
+        viewModel.output.isFetching.subscribe(onNext: { [weak self] (isFetching) in
+            isFetching ?
+                self?.customActivityIndicator.startAnimate([.move, .rotate]):
+                self?.customActivityIndicator.stopAnimate()
+        }).disposed(by: disposeBag)
+        
     }
+    
 }
 
 extension SearchViewController: UITableViewDelegate {

@@ -382,6 +382,7 @@
 		BB7ED651262CA34300FE5659 /* PeopleProfileWrapperTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED650262CA34300FE5659 /* PeopleProfileWrapperTableViewCell.swift */; };
 		BB7ED655262CA36300FE5659 /* PeopleBioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED654262CA36300FE5659 /* PeopleBioTableViewCell.swift */; };
 		BB7ED659262CA38A00FE5659 /* PeopleBestMediaListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED658262CA38A00FE5659 /* PeopleBestMediaListTableViewCell.swift */; };
+		BB85D4CD26736719003C3A1E /* CustomActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB85D4CC26736719003C3A1E /* CustomActivityIndicator.swift */; };
 		BBAA90F425F9287A0095DB27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA90F325F9287A0095DB27 /* AppDelegate.swift */; };
 		BBAA90F625F9287A0095DB27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBAA90F525F9287A0095DB27 /* SceneDelegate.swift */; };
 		BBAA90FD25F9287C0095DB27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBAA90FC25F9287C0095DB27 /* Assets.xcassets */; };
@@ -908,6 +909,7 @@
 		BB7ED650262CA34300FE5659 /* PeopleProfileWrapperTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleProfileWrapperTableViewCell.swift; sourceTree = "<group>"; };
 		BB7ED654262CA36300FE5659 /* PeopleBioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleBioTableViewCell.swift; sourceTree = "<group>"; };
 		BB7ED658262CA38A00FE5659 /* PeopleBestMediaListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleBestMediaListTableViewCell.swift; sourceTree = "<group>"; };
+		BB85D4CC26736719003C3A1E /* CustomActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActivityIndicator.swift; sourceTree = "<group>"; };
 		BBAA90F025F9287A0095DB27 /* TMDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAA90F325F9287A0095DB27 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBAA90F525F9287A0095DB27 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -2645,6 +2647,7 @@
 				BBAA90FE25F9287C0095DB27 /* LaunchScreen.storyboard */,
 				BBAA910125F9287C0095DB27 /* Info.plist */,
 				BBAA91F9260566FE0095DB27 /* CircleProgressBar.swift */,
+				BB85D4CC26736719003C3A1E /* CustomActivityIndicator.swift */,
 			);
 			path = TMDB;
 			sourceTree = "<group>";
@@ -3682,6 +3685,7 @@
 				BB0AC7862625081700CFA11B /* CrewCellViewModel.swift in Sources */,
 				BB0AC66E26212B2F00CFA11B /* GenresTableViewCell.swift in Sources */,
 				BB232B09264148C2000CFC05 /* TVSeasonDetailDataSource.swift in Sources */,
+				BB85D4CD26736719003C3A1E /* CustomActivityIndicator.swift in Sources */,
 				BB109FF2261B9A60008C50EE /* FavoriteFlowCoordinator.swift in Sources */,
 				BB4929B1263A36A200DD325E /* CreditTVAggregateCrewTableViewCell.swift in Sources */,
 				BB56DED7265D245400FC458D /* SearchTableViewDataSource.swift in Sources */,

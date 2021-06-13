@@ -89,6 +89,7 @@ class SearchViewModel {
             guard let self = self else { return }
             
             self.state.currentPage += 1
+            self.output.isFetching.accept(true)
             self.fetchResults(self.input.query.value, page: self.state.currentPage) { [ weak self] (result) in
                 
                 guard let self = self else { return }
@@ -102,6 +103,7 @@ class SearchViewModel {
                     .filter { if case .resultSection = $0 { return false } else { return true } }
                 let resultSection: Section = .resultSection(title: "Результаты поиска", items: currentItems)
                 
+                self.output.isFetching.accept(false)
                 self.output.sectionedItems.accept([resultSection] + otherSections)
                 self.state.numberOfMedia = currentItems.count
                 
@@ -197,6 +199,7 @@ class SearchViewModel {
     }
     
     fileprivate func fetchResults(_ query: String, page: Int, completion: @escaping (Result<MultiSearchResponse, Error>) -> Void) {
+        output.isFetching.accept(true)
         let useCase = useCaseProvider.makeSearchUseCase()
         useCase.multiSearch(query, page: page) { completion($0) }
     }
@@ -214,6 +217,7 @@ class SearchViewModel {
         }
         
         state.setOfFetchedMediaList = refreshSetOfFetchedMediaList(items: items)
+        output.isFetching.accept(false)
         return items
     }
     
