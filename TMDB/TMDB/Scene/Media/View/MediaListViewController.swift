@@ -5,6 +5,7 @@
 //  Created by Докин Андрей (IOS) on 16.03.2021.
 //
 
+import NetworkPlatform
 import UIKit
 import RxSwift
 import RxCocoa
@@ -44,6 +45,15 @@ class MediaListViewController: UIViewController {
         setupUI()
         setupHierarhy()
         setupConstraints()
+        
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        customActivityIndicator.isHidden = true
+        mediaListTableView.refreshControl?.isHidden = true
     }
         
     //    MARK: - Methods
@@ -145,3 +155,9 @@ extension MediaListViewController: UITableViewDelegate {
     }
     
 }
+
+//extension MediaListViewController: NetworkMonitorDelegate {
+//    func didChangeStatus(_ completion: @escaping (Bool) -> Void) {
+//        <#code#>
+//    }
+//}

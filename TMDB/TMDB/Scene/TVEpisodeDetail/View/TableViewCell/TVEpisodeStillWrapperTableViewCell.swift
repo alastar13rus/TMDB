@@ -15,18 +15,12 @@ class TVEpisodeStillWrapperTableViewCell: UITableViewCell {
             configure(with: viewModel)
         }
     }
+    var indexPath: IndexPath!
     
     let stillWrapperView: TVEpisodeStillWrapperView = {
         let view = TVEpisodeStillWrapperView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-    
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .large)
-        activity.startAnimating()
-        activity.translatesAutoresizingMaskIntoConstraints = false
-        return activity
     }()
     
 //    MARK: - Init
@@ -42,21 +36,29 @@ class TVEpisodeStillWrapperTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        stillWrapperView.stillImageView.image = nil
+        stillWrapperView.stillImageView.contentMode = .scaleAspectFill
+    }
+    
 //    MARK: - Methods
     fileprivate func configure(with vm: TVEpisodeStillWrapperCellViewModel) {
         stillWrapperView.titleLabel.text = vm.name
         stillWrapperView.airYearLabel.text = vm.airYear
-    
-        vm.stillImageData { [weak self] imageData in
-            guard let self = self else { return }
-            self.activityIndicatorView.stopAnimating()
+        
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        stillWrapperView.stillImageView.loadImage(with: vm.stillURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            guard let imageData = imageData else {
-                self.stillWrapperView.stillImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
+            guard let image = image else {
+                self.stillWrapperView.stillImageView.image = placeholder
+                self.stillWrapperView.stillImageView.contentMode = .scaleAspectFit
                 return
             }
-
-            self.stillWrapperView.stillImageView.image = UIImage(data: imageData)
+            
+            self.stillWrapperView.stillImageView.contentMode = .scaleAspectFill
+            return self.stillWrapperView.stillImageView.image = image
         }
     }
     
@@ -65,17 +67,11 @@ class TVEpisodeStillWrapperTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(activityIndicatorView)
-        addSubview(stillWrapperView)
+        contentView.addSubview(stillWrapperView)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
-            activityIndicatorView.topAnchor.constraint(equalTo: topAnchor),
-            activityIndicatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            activityIndicatorView.leftAnchor.constraint(equalTo: leftAnchor),
-            activityIndicatorView.rightAnchor.constraint(equalTo: rightAnchor),
-            
             stillWrapperView.topAnchor.constraint(equalTo: topAnchor),
             stillWrapperView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stillWrapperView.leftAnchor.constraint(equalTo: leftAnchor),

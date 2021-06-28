@@ -24,6 +24,8 @@ struct TVSeasonListTableViewDataSource: DataSourceProtocol {
             case .season(let vm):
                 let cell = TVSeasonTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             default: return UITableViewCell()
             }

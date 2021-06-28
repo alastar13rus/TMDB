@@ -28,13 +28,8 @@ struct TVEpisodeCellViewModel {
             "\(self.airDate.toRussianDate().string) (ожидается)" : "\(self.airDate.toRussianDate().string)"
     }
     
-    func stillImageData(completion: @escaping (Data?) -> Void) {
-        guard let stillPath = stillPath else { completion(nil); return }
-        guard let stillAbsoluteURL = ImageURL.still(.w300, stillPath).fullURL else { completion(nil); return }
-        
-        stillAbsoluteURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
+    var stillURL: URL? {
+        ImageURL.still(.w300, stillPath).fullURL
     }
     
 //    MARK: - Init

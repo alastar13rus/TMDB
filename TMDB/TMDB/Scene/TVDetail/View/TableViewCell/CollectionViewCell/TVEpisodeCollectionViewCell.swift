@@ -16,14 +16,9 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
             configure(with: viewModel)
         }
     }
+    var indexPath: IndexPath!
     
-    let stillImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 10
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let stillImageView = StillImageView()
     
     let episodeNumberLabel: UILabel = {
         let label = UILabel()
@@ -41,13 +36,6 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .large)
-        activity.startAnimating()
-        activity.translatesAutoresizingMaskIntoConstraints = false
-        return activity
-    }()
-    
 //    MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,27 +49,30 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        stillImageView.image = nil
+        stillImageView.contentMode = .scaleAspectFill
+    }
     
 //    MARK: - Methods
     
     fileprivate func configure(with vm: TVEpisodeCellViewModel) {
         nameLabel.text = vm.name
         episodeNumberLabel.text = "Эпизод \(vm.episodeNumber)"
-
-        vm.stillImageData { [weak self] imageData in
-            guard let self = self else { return }
-            self.activityIndicatorView.stopAnimating()
+        
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        stillImageView.loadImage(with: vm.stillURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            guard let imageData = imageData else {
+            guard let image = image else {
+                self.stillImageView.image = placeholder
                 self.stillImageView.contentMode = .scaleAspectFit
-                self.stillImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                 return
             }
             
             self.stillImageView.contentMode = .scaleAspectFill
-            self.stillImageView.image = UIImage(data: imageData)
+            return self.stillImageView.image = image
         }
     }
     
@@ -93,7 +84,6 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(activityIndicatorView)
         addSubview(stillImageView)
         addSubview(episodeNumberLabel)
         addSubview(nameLabel)
@@ -101,11 +91,6 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
     
     fileprivate func setupConstraints() {
             NSLayoutConstraint.activate([
-                
-                activityIndicatorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                activityIndicatorView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-                activityIndicatorView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-                activityIndicatorView.widthAnchor.constraint(equalTo: activityIndicatorView.heightAnchor),
                 
                 stillImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
                 stillImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),

@@ -27,6 +27,8 @@ struct TVDetailDataSource: DataSourceProtocol {
             case .tvPosterWrapper(let vm):
                 let cell = TVPosterWrapperTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
                 
             case .tvImageList(let vm):

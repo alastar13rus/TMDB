@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol BindableType: class {
+protocol BindableType: AnyObject {
     
     associatedtype ViewModelType
     

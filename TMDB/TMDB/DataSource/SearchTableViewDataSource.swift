@@ -29,10 +29,14 @@ struct SearchTableViewDataSource: DataSourceProtocol {
             case .media(let vm):
                 let cell = MediaTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .people(let vm):
                 let cell = PeopleTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             }
         }

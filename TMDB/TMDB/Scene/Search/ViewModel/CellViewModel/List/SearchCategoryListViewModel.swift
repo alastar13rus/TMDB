@@ -10,7 +10,7 @@ import Domain
 import RxSwift
 import RxRelay
 
-protocol SearchCategoryListViewModelDelegate: class {
+protocol SearchCategoryListViewModelDelegate: AnyObject {
     
     var searchFlowCoordinator: SearchFlowCoordinator? { get }
 

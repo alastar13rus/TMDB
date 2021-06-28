@@ -56,7 +56,7 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?, useCaseProvider: Domain.UseCaseProvider?) {
+    convenience init(title: String, items: [CreditInMediaCellViewModelMultipleSection.SectionItem], coordinator: Coordinator?) {
         self.init(title: title, items: items)
         self.coordinator = coordinator
         

@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-protocol PeopleShortListViewModelDelegate: class {
+protocol PeopleShortListViewModelDelegate: AnyObject {
     var peopleShortListDelegateCoordinator: ToPeopleRoutable? { get }
     func routing(with peopleID: String)
 }

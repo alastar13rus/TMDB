@@ -15,16 +15,8 @@ class MediaCollectionViewCell: UICollectionViewCell {
             configure(with: viewModel)
         }
     }
-    
-    let posterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 10
-        imageView.layer.masksToBounds = true
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    var indexPath: IndexPath!
+    let posterImageView = PosterImageView()
     
     let mediaTitleLabel: UILabel = {
         let label = UILabel()
@@ -32,13 +24,6 @@ class MediaCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .large)
-        activity.startAnimating()
-        activity.translatesAutoresizingMaskIntoConstraints = false
-        return activity
     }()
     
     
@@ -55,23 +40,29 @@ class MediaCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterImageView.image = nil
+        posterImageView.contentMode = .scaleAspectFill
+    }
+    
     
 //    MARK: - Methods
     fileprivate func configure(with vm: MediaCellViewModel) {
         mediaTitleLabel.text = vm.title
         
-        vm.posterImageData { [weak self] imageData in
-            guard let self = self else { return }
-            self.activityIndicatorView.stopAnimating()
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        posterImageView.loadImage(with: vm.posterURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            guard let imageData = imageData else {
+            guard let image = image else {
+                self.posterImageView.image = placeholder
                 self.posterImageView.contentMode = .scaleAspectFit
-                self.posterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                 return
             }
             
             self.posterImageView.contentMode = .scaleAspectFill
-            self.posterImageView.image = UIImage(data: imageData)
+            return self.posterImageView.image = image 
         }
     }
     
@@ -80,17 +71,12 @@ class MediaCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(activityIndicatorView)
         addSubview(posterImageView)
         addSubview(mediaTitleLabel)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
-            activityIndicatorView.topAnchor.constraint(equalTo: topAnchor),
-            activityIndicatorView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            activityIndicatorView.leftAnchor.constraint(equalTo: leftAnchor),
-            activityIndicatorView.rightAnchor.constraint(equalTo: rightAnchor),
             
             posterImageView.topAnchor.constraint(equalTo: topAnchor),
             posterImageView.leftAnchor.constraint(equalTo: leftAnchor),

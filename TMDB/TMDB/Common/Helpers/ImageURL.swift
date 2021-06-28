@@ -22,15 +22,20 @@ enum ImageURL {
         
         switch self {
         case .backdrop(let size, let imagePath):
-            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath!)
+            guard let imagePath = imagePath else { return nil }
+            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath)
         case .logo(let size, let imagePath):
-            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath!)
+            guard let imagePath = imagePath else { return nil }
+            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath)
         case .poster(let size, let imagePath):
-            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath!)
+            guard let imagePath = imagePath else { return nil }
+            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath)
         case .profile(let size, let imagePath):
-            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath!)
+            guard let imagePath = imagePath else { return nil }
+            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath)
         case .still(let size, let imagePath):
-            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath!)
+            guard let imagePath = imagePath else { return nil }
+            return URL(string: secureBaseUrlImagePrefix + size.rawValue + imagePath)
         }
     }
 }

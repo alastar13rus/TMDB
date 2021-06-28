@@ -15,16 +15,9 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
             configure(with: viewModel)
         }
     }
+    var indexPath: IndexPath!
     
-    let profileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 10
-        imageView.layer.masksToBounds = true
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let profileImageView = ProfileImageView()
     
     let nameLabel: UILabel = {
         let label = UILabel()
@@ -58,13 +51,6 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
         return label
     }()
     
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .large)
-        activity.startAnimating()
-        activity.translatesAutoresizingMaskIntoConstraints = false
-        return activity
-    }()
-    
 //    MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -78,6 +64,18 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        profileImageView.image = nil
+        profileImageView.contentMode = .scaleAspectFill
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: true)
+        
+        selectionStyle = .none
+    }
+    
 //    MARK: - Methods
     fileprivate func configure(with vm: PeopleProfileWrapperCellViewModel) {
         nameLabel.text = vm.name
@@ -85,20 +83,16 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
         birthdayLabel.text = vm.placeAndBirthdayText
         deathdayLabel.text = vm.deathdayText
         
-        vm.profileImageData { [weak self] (data) in
+        let placeholder = #imageLiteral(resourceName: "unknownGenderPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        profileImageView.loadImage(with: vm.profileURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            vm.profileImageData { [weak self] (imageData) in
-                guard let self = self else { return }
-                self.activityIndicatorView.stopAnimating()
-                
-                if imageData == nil {
-                    self.profileImageView.contentMode = .scaleAspectFit
-                    self.profileImageView.image = GenderFactory.buildImage(withGender: vm.gender)
-                } else {
-                    self.profileImageView.contentMode = .scaleAspectFill
-                    self.profileImageView.image = UIImage(data: imageData!)
-                }
+            guard let image = image else {
+                self.profileImageView.image = placeholder
+                self.profileImageView.contentMode = .scaleAspectFit
+                return
             }
+            return self.profileImageView.image = image
         }
     }
     
@@ -107,7 +101,6 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(activityIndicatorView)
         addSubview(profileImageView)
         addSubview(nameLabel)
         addSubview(jobLabel)
@@ -117,11 +110,6 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
-            
-            activityIndicatorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            activityIndicatorView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            activityIndicatorView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            activityIndicatorView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
             
             profileImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             profileImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),

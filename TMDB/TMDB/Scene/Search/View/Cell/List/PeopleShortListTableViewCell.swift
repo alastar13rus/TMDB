@@ -17,6 +17,7 @@ class PeopleShortListTableViewCell: UITableViewCell {
             configure(with: viewModel)
         }
     }
+    
     let dataSource = PeopleShortListCollectionViewDataSource.dataSource()
     let disposeBag = DisposeBag()
     

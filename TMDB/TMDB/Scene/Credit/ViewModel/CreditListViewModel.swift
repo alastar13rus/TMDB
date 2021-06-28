@@ -14,6 +14,8 @@ import NetworkPlatform
 class CreditListViewModel {
     
 //    MARK: - Properties
+    let useCaseProvider: Domain.UseCaseProvider
+    
     let mediaID: String
     let seasonNumber: String?
     let episodeNumber: String?
@@ -27,8 +29,6 @@ class CreditListViewModel {
     }
     
     var mediaType: MediaType = .movie
-    
-    let useCaseProvider: Domain.UseCaseProvider
     
     weak var coordinator: Coordinator? {
         didSet {

@@ -15,10 +15,11 @@ import NetworkPlatform
 class TVSeasonDetailViewModel {
     
 //    MARK: - Properties
+    let useCaseProvider: Domain.UseCaseProvider
+    private let networkMonitor: Domain.NetworkMonitor
+    
     let mediaID: String
     let seasonNumber: String
-    
-    let useCaseProvider: Domain.UseCaseProvider
     
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
@@ -32,7 +33,6 @@ class TVSeasonDetailViewModel {
     
     struct Output {
         let title = BehaviorRelay<String>(value: "")
-        let posterImageData = BehaviorRelay<Data?>(value: nil)
         let sectionedItems = BehaviorRelay<[TVSeasonDetailCellViewModelMultipleSection]>(value: [])
     }
     
@@ -40,11 +40,15 @@ class TVSeasonDetailViewModel {
     
     
 //    MARK: - Init
-    required init(with detailID: String, seasonNumber: String, useCaseProvider: Domain.UseCaseProvider) {
+    required init(with detailID: String,
+                  seasonNumber: String,
+                  useCaseProvider: Domain.UseCaseProvider,
+                  networkMonitor: Domain.NetworkMonitor) {
         self.mediaID = detailID
         self.seasonNumber = seasonNumber
         
         self.useCaseProvider = useCaseProvider
+        self.networkMonitor = networkMonitor
         
         setupInput()
         setupOutput()
@@ -72,11 +76,13 @@ class TVSeasonDetailViewModel {
     fileprivate func fetch(completion: @escaping (TVSeasonDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeTVSeasonDetailUseCase()
-        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, appendToResponse: [.aggregateCredits, .images, .videos], includeImageLanguage: []) { (result: Result<TVSeasonDetailModel, Error>) in
+        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, appendToResponse: [.aggregateCredits, .images, .videos], includeImageLanguage: []) { [weak self] (result: Result<TVSeasonDetailModel, Error>) in
             switch result {
             case .success(let tvSeasonDetail):
                 completion(tvSeasonDetail)
-            case .failure: break
+                
+            case .failure(let error):
+                self?.inform(with: error.localizedDescription)
             }
         }
     }
@@ -100,22 +106,8 @@ class TVSeasonDetailViewModel {
     
     private func refreshOutput(with section: TVSeasonDetailCellViewModelMultipleSection) {
         
-        switch section.items[0] {
-        case .tvSeasonPosterWrapper(let vm):
+        if case .tvSeasonPosterWrapper(let vm) = section.items.first {
             self.output.title.accept(vm.name)
-            
-            guard let posterPath = vm.posterPath else { self.output.posterImageData.accept(nil); return }
-            guard let posterAbsolutePath = ImageURL.poster(.w780, posterPath).fullURL else { self.output.posterImageData.accept(nil); return }
-            
-            posterAbsolutePath.downloadImageData(completion: { (imageData) in
-                guard let imageData = imageData else {
-                    self.output.posterImageData.accept(nil)
-                    return
-                }
-                self.output.posterImageData.accept(imageData)
-            })
-        
-        default: break
         }
     }
     
@@ -274,6 +266,10 @@ class TVSeasonDetailViewModel {
         sections.append(tvEpisodeShortListSection)
 
         return sections
+    }
+    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
     
 }

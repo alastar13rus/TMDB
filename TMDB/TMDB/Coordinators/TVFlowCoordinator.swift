@@ -69,3 +69,6 @@ extension TVFlowCoordinator: ToSeasonRoutable { }
 
 //  MARK: - extension ToImageFullScreenRoutable
 extension TVFlowCoordinator: ToImageFullScreenRoutable { }
+
+extension TVFlowCoordinator: Alertable {  }
+

@@ -15,16 +15,9 @@ class CreditInMediaCell: UICollectionViewCell {
             configure(with: viewModel)
         }
     }
+    var indexPath: IndexPath!
     
-    let mediaPosterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 10
-        imageView.layer.masksToBounds = true
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let mediaPosterImageView = PosterImageView()
     
     let mediaTitleLabel: UILabel = {
         let label = UILabel()
@@ -59,6 +52,7 @@ class CreditInMediaCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         mediaPosterImageView.image = nil
+        mediaPosterImageView.contentMode = .scaleAspectFill
     }
     
 //    MARK: - Methods
@@ -66,15 +60,18 @@ class CreditInMediaCell: UICollectionViewCell {
         mediaTitleLabel.text = vm.mediaTitle
         creditLabel.text = vm.credit
         
-        vm.mediaPosterImageView { [weak self] (data) in
-            guard let self = self else { return }
-            guard let imageData = data else {
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        mediaPosterImageView.loadImage(with: vm.mediaPosterURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
+            
+            guard let image = image else {
+                self.mediaPosterImageView.image = placeholder
                 self.mediaPosterImageView.contentMode = .scaleAspectFit
-                self.mediaPosterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                 return
             }
+            
             self.mediaPosterImageView.contentMode = .scaleAspectFill
-            self.mediaPosterImageView.image = UIImage(data: imageData)
+            return self.mediaPosterImageView.image = image
         }
     }
     

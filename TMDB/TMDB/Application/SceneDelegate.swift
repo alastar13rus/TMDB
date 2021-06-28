@@ -7,6 +7,7 @@
 
 import UIKit
 import Swinject
+import Domain
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -21,6 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let window = window else { return }
         window.makeKeyAndVisible()
+        
+        let networkMonitor = container.resolve(Domain.NetworkMonitor.self)!
+        networkMonitor.start()
         
         let tabBarController = UITabBarController()
         

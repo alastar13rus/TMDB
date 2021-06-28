@@ -27,6 +27,8 @@ struct TVEpisodeDetailDataSource: DataSourceProtocol {
             case .tvEpisodeStillWrapper(let vm):
                 let cell = TVEpisodeStillWrapperTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
                 
             case .tvEpisodeImageList(let vm):

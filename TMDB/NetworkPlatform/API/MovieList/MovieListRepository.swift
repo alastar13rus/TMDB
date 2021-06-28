@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public protocol MediaListRepository: class {
+public protocol MediaListRepository: AnyObject {
     
 }
 

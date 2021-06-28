@@ -30,13 +30,8 @@ struct TVSeasonCellViewModel {
             "\(self.airDate.toRussianDate().string) (ожидается)" : "\(self.airDate.toRussianDate().string)"
     }
     
-    func posterImageData(completion: @escaping (Data?) -> Void) {
-        guard let posterPath = posterPath else { completion(nil); return }
-        guard let posterAbsoluteURL = ImageURL.poster(.w185, posterPath).fullURL else { completion(nil); return }
-        
-        posterAbsoluteURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
+    var posterURL: URL? {
+        ImageURL.poster(.w185, posterPath).fullURL
     }
     
 //    MARK: - Init

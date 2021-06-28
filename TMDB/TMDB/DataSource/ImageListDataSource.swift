@@ -19,6 +19,8 @@ struct ImageListDataSource: DataSourceProtocol {
         let configureCell: DataSource.ConfigureCell = { (dataSource, collectionview, indexPath, item) -> UICollectionViewCell in
             guard let cell = collectionview.dequeueReusableCell(withReuseIdentifier: String(describing: ImageCell.self), for: indexPath) as? ImageCell else { return UICollectionViewCell() }
             cell.viewModel = item
+            cell.indexPath = indexPath
+            cell.tag = indexPath.row
             return cell
         }
         

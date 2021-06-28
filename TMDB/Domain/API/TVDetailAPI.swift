@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol TVDetailAPI: class {
+public protocol TVDetailAPI: AnyObject {
     func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Endpoint
     func aggregateCredits(mediaID: String) -> Endpoint
     func credits(mediaID: String) -> Endpoint

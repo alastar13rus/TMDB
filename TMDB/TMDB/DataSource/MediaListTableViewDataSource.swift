@@ -24,6 +24,8 @@ struct MediaListTableViewDataSource {
             case .movie(let vm), .tv(let vm) :
                 let cell = MediaTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             }
         }

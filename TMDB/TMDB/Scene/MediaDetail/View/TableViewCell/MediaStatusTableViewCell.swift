@@ -38,6 +38,12 @@ class MediaStatusTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: true)
+        
+        selectionStyle = .none
+    }
+    
     
 //    MARK: - Methods
     fileprivate func configureCell(with vm: MediaStatusCellViewModel) {

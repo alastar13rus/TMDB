@@ -58,7 +58,7 @@ class MediaTrailerCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate func setupUI() {
-        backgroundColor = .systemGray6
+        backgroundColor = .systemGray5
         layer.cornerRadius = 10
         clipsToBounds = true
     }

@@ -59,5 +59,8 @@ open class UseCaseProvider: Domain.UseCaseProvider {
     public func makeSearchUseCase() ->  Domain.SearchUseCase {
         return SearchUseCase(networkProvider.makeSearchRepository(), apiFactory.makeSearchAPI() as! SearchAPI)
     }
+    public func makeMonitoringUseCase() ->  Domain.MonitoringUseCase {
+        return MonitoringUseCase()
+    }
     
 }

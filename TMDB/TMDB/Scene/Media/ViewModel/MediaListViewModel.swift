@@ -22,7 +22,8 @@ class MediaListViewModel {
 
 //    MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
-    
+    private let networkMonitor: Domain.NetworkMonitor
+
     weak var coordinator: Coordinator? {
         didSet {
             if coordinator is MovieFlowCoordinator {
@@ -38,7 +39,7 @@ class MediaListViewModel {
     var state = State()
     
     struct State {
-        var currentPage = 1
+        var currentPage = 0
         var numberOfMedia = 0
     }
     
@@ -118,18 +119,18 @@ class MediaListViewModel {
             var output = Output()
     
 //    MARK: - Init
-    required init(useCaseProvider: Domain.UseCaseProvider) {
+    required init(useCaseProvider: Domain.UseCaseProvider, networkMonitor: Domain.NetworkMonitor) {
         self.useCaseProvider = useCaseProvider
-        
+        self.networkMonitor = networkMonitor
+
         self.setupOutput()
-//        self.setupInput()
         
     }
     
     
     //    MARK: - Methods
     
-    public func fetch(completion: @escaping ([MediaCellViewModel]) -> Void) {
+    public func fetch(_ page: Int, _ completion: @escaping ([MediaCellViewModel]) -> Void) {
         
         guard !output.isFetching.value else { completion([]); return }
         
@@ -139,14 +140,14 @@ class MediaListViewModel {
         
         case .movie:
             self.output.isFetching.accept(true)
-            movieMethod?(state.currentPage) { [weak self] (result: Result) in
+            movieMethod?(page) { [weak self] (result: Result) in
                 guard let self = self else { return }
                 completion(self.handleMovie(result))
             }
             
         case .tv:
             self.output.isFetching.accept(true)
-            tvMethod?(state.currentPage) { [weak self] (result: Result) in
+            tvMethod?(page) { [weak self] (result: Result) in
                 guard let self = self else { return }
                 completion(self.handleTV(result))
             }
@@ -158,26 +159,32 @@ private func handleMovie(_ result: Result<MediaListResponse<MovieModel>, Error>)
     output.isFetching.accept(false)
     switch result {
     case .success(let response):
-        let fetchedMedia = response.results.map { MediaCellViewModel($0) }
-        return fetchedMedia
-    case .failure:
-        output.isFetching.accept(false)
-        return []
-    }
-}
-
-private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [MediaCellViewModel] {
-    
-    switch result {
-    case .success(let response):
-        let fetchedMedia = response.results.map { MediaCellViewModel($0) }
+        state.currentPage = response.page
         self.output.isFetching.accept(false)
+        let fetchedMedia = response.results.map { MediaCellViewModel($0) }
         return fetchedMedia
-    case .failure:
+    case .failure(let error):
+        inform(with: error.localizedDescription)
         output.isFetching.accept(false)
         return []
     }
 }
+    
+    private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [MediaCellViewModel] {
+        
+        output.isFetching.accept(false)
+        switch result {
+        case .success(let response):
+            state.currentPage = response.page
+            self.output.isFetching.accept(false)
+            let fetchedMedia = response.results.map { MediaCellViewModel($0) }
+            return fetchedMedia
+        case .failure(let error):
+            inform(with: error.localizedDescription)
+            output.isFetching.accept(false)
+            return []
+        }
+    }
     
     
     private func setupOutput() {
@@ -199,7 +206,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
             guard let self = self else { return }
             
             self.state.currentPage = 1
-            self.fetch() { fetchedMedia in
+            self.fetch(1) { fetchedMedia in
                 _media.accept(fetchedMedia)
                 self.state.numberOfMedia = _media.value.count
             }
@@ -211,8 +218,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
                 
                 guard let self = self else { return }
                 
-                self.state.currentPage += 1
-                self.fetch() { fetchedMedia in
+                self.fetch(self.state.currentPage + 1) { fetchedMedia in
                     var currentMedia = _media.value
                     currentMedia.append(contentsOf: fetchedMedia)
                     var currentMediaSet = Set(currentMedia)
@@ -251,7 +257,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
             guard let self = self else { return }
             
             self.state.currentPage = 1
-            self.fetch() { fetchedMedia in
+            self.fetch(1) { fetchedMedia in
 //                _media.accept([])
                 _media.accept(fetchedMedia)
                 self.state.numberOfMedia = _media.value.count
@@ -279,5 +285,7 @@ private func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [M
         
     }
     
-    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
+    }
 }

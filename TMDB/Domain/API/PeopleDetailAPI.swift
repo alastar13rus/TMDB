@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol PeopleDetailAPI: class {
+public protocol PeopleDetailAPI: AnyObject {
     func details(personID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Endpoint
 }

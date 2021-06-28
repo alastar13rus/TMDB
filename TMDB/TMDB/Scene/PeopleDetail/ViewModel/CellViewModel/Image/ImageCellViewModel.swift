@@ -15,6 +15,31 @@ struct ImageCellViewModel {
     let filePath: String
     private (set) var imageType: ImageType
     
+    var imageURL: URL? {
+        switch imageType {
+        case .backdrop(let size):
+            if case .small = size { return ImageURL.backdrop(.w300, filePath).fullURL }
+            if case .big = size { return ImageURL.backdrop(.original, filePath).fullURL }
+            
+        case .poster(let size):
+            if case .small = size { return ImageURL.poster(.w185, filePath).fullURL }
+            if case .big = size { return ImageURL.poster(.original, filePath).fullURL }
+            
+        case .profile(let size):
+            if case .small = size { return ImageURL.profile(.w185, filePath).fullURL }
+            if case .big = size { return ImageURL.profile(.original, filePath).fullURL }
+        
+        case .still(let size):
+            if case .small = size { return ImageURL.still(.w300, filePath).fullURL }
+            if case .big = size { return ImageURL.still(.original, filePath).fullURL }
+            
+        default: break
+        }
+        return nil
+    }
+    
+    
+    
     
 //    MARK: - Init
     init(_ model: ImageModel, imageType: ImageType) {
@@ -38,72 +63,5 @@ extension ImageCellViewModel {
     
     mutating func changeImageType(to imageType: ImageType) {
         self.imageType = imageType
-    }
-    
-    func imageData(completion: @escaping (Data?) -> Void) {
-        var imageFullURL: URL?
-        switch imageType {
-        case .profile(let size):
-            switch size {
-            case .small:
-                guard let fullURL = ImageURL.profile(.w185, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            default:
-                guard let fullURL = ImageURL.profile(.original, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            }
-            
-        case .poster(let size):
-            switch size {
-            case .small:
-                guard let fullURL = ImageURL.poster(.w185, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            default:
-                guard let fullURL = ImageURL.poster(.original, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            }
-            
-        case .backdrop(let size):
-            switch size {
-            case .small:
-                guard let fullURL = ImageURL.backdrop(.w300, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            default:
-                guard let fullURL = ImageURL.backdrop(.original, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            }
-        
-        case .still(let size):
-            switch size {
-            case .small:
-                guard let fullURL = ImageURL.still(.w300, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            default:
-                guard let fullURL = ImageURL.still(.original, filePath).fullURL else {
-                    completion(nil); return
-                }
-                imageFullURL = fullURL
-            }
-        default: break
-        }
-        
-        imageFullURL?.downloadImageData { (data) in
-            guard let imageData = data else { completion(nil); return }
-            completion(imageData)
-        }
     }
 }
