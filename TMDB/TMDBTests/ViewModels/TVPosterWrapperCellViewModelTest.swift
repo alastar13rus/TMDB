@@ -34,23 +34,6 @@ class TVPosterWrapperCellViewModelTest: XCTestCase {
         XCTAssertEqual(tvPosterWrapperCellViewModel2.releaseYear, "2021 - 2023")
     }
     
-    func test_posterImageData() {
-        let tvPosterWrapperCellViewModel = TVPosterWrapperCellViewModel(tvDetail)
-        var imageData: Data?
-
-        let expectation = self.expectation(description: #function)
-        
-        
-        tvPosterWrapperCellViewModel.posterImageData { (data) in
-            imageData = data
-            expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 6, handler: nil)
-        XCTAssertNotNil(UIImage(data: imageData!))
-        
-    }
-    
 //    MARK: - Helpers
     
     let tvEpisodeDetailModel = TVEpisodeDetailModel(airDate: nil, episodeNumber: 0, id: 1, name: "", overview: "", seasonNumber: 0, stillPath: nil, voteAverage: 0, voteCount: 0, credits: nil, images: nil, videos: nil)

@@ -16,6 +16,7 @@ class MovieDetailViewModelTest: XCTestCase {
     
     var useCaseProviderMock: UseCaseProviderMock!
     var useCasePersistenceProviderMock: UseCasePersistenceProviderMock!
+    var networkMonitorMock: Domain.NetworkMonitor!
 
     override func setUp() {
         super.setUp()
@@ -25,18 +26,21 @@ class MovieDetailViewModelTest: XCTestCase {
             networkProvider: container.resolve(NetworkProvider.self)!,
             apiFactory: container.resolve(Domain.APIFactory.self)!)
         useCasePersistenceProviderMock = UseCasePersistenceProviderMock(dbProvider: container.resolve(CoreDataProvider.self)!)
+        networkMonitorMock = NetworkMonitorMock.shared
     }
     
     override func tearDown() {
         super.tearDown()
         useCaseProviderMock = nil
         useCasePersistenceProviderMock = nil
+        networkMonitorMock = nil
     }
     
     func test_init() {
         let viewModel = MovieDetailViewModel(with: "278",
-                                          useCaseProvider: useCaseProviderMock,
-                                          useCasePersistenceProvider: useCasePersistenceProviderMock)
+                                             useCaseProvider: useCaseProviderMock,
+                                             useCasePersistenceProvider: useCasePersistenceProviderMock,
+                                             networkMonitor: networkMonitorMock)
         
         XCTAssertEqual(viewModel.detailID, "278")
         
@@ -54,7 +58,8 @@ class MovieDetailViewModelTest: XCTestCase {
         
         let viewModel = MovieDetailViewModel(with: "278",
                                           useCaseProvider: useCaseProviderMock,
-                                          useCasePersistenceProvider: useCasePersistenceProviderMock)
+                                          useCasePersistenceProvider: useCasePersistenceProviderMock,
+                                             networkMonitor: networkMonitorMock)
 
         var movieDetail: MovieDetailModel?
         let expectation = self.expectation(description: #function)
