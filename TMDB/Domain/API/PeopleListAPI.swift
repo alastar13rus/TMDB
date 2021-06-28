@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol PeopleListAPI: class {
+public protocol PeopleListAPI: AnyObject {
     func popular() -> Endpoint
 }

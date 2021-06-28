@@ -17,6 +17,7 @@ class MovieDetailViewModel {
 //    MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
+    private let networkMonitor: Domain.NetworkMonitor
 
     private(set) var detailID: String
     private var movieModel: MovieModel? {
@@ -52,9 +53,14 @@ class MovieDetailViewModel {
     let output = Output()
     
 //    MARK: - Init
-    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
+    required init(with detailID: String,
+                  useCaseProvider: Domain.UseCaseProvider,
+                  useCasePersistenceProvider: Domain.UseCasePersistenceProvider,
+                  networkMonitor: Domain.NetworkMonitor) {
         self.useCaseProvider = useCaseProvider
         self.useCasePersistenceProvider = useCasePersistenceProvider
+        self.networkMonitor = networkMonitor
+
         self.detailID = detailID
         
         setupInput()
@@ -114,35 +120,22 @@ class MovieDetailViewModel {
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeMovieDetailUseCase()
-        useCase.details(mediaID: mediaID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { (result: Result<MovieDetailModel, Error>) in
+        useCase.details(mediaID: mediaID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { [weak self] (result: Result<MovieDetailModel, Error>) in
             
             switch result {
             case .success(let movieDetail):
                 completion(movieDetail)
                 
-            case .failure(_): break
+            case .failure(let error):
+                self?.inform(with: error.localizedDescription)
             }
         }
     }
     
     private func refreshOutput(with section: MovieDetailCellViewModelMultipleSection) {
         
-        switch section.items[0] {
-        case .moviePosterWrapper(let vm):
+        if case .moviePosterWrapper(let vm) = section.items.first {
             self.output.title.accept(vm.title)
-            
-            guard let backdropPath = vm.backdropPath else { self.output.backdropImageData.accept(nil); return }
-            guard let backdropAbsolutePath = ImageURL.backdrop(.w780, backdropPath).fullURL else { self.output.backdropImageData.accept(nil); return }
-            
-            backdropAbsolutePath.downloadImageData(completion: { (imageData) in
-                guard let imageData = imageData else {
-                    self.output.backdropImageData.accept(nil)
-                    return
-                }
-                self.output.backdropImageData.accept(imageData)
-            })
-        
-        default: break
         }
     }
     
@@ -356,6 +349,10 @@ class MovieDetailViewModel {
         sections.append(movieListSection)
         
         return sections
+    }
+    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
     
 }

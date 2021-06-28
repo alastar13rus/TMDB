@@ -21,6 +21,8 @@ struct PeopleDetailDataSource: DataSourceProtocol {
             case .profileWrapper(let vm):
                 let cell = PeopleProfileWrapperTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .imageList(let vm):
                 let cell = ImageListTableViewCell(withImageType: .profile(size: .small))

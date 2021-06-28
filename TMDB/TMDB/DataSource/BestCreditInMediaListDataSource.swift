@@ -21,10 +21,14 @@ struct BestCreditInMediaListDataSource: DataSourceProtocol {
             case .creditInMovie(let vm):
                 guard let cell = collectionview.dequeueReusableCell(withReuseIdentifier: String(describing: CreditInMediaCell.self), for: indexPath) as? CreditInMediaCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .creditInTV(let vm):
                 guard let cell = collectionview.dequeueReusableCell(withReuseIdentifier: String(describing: CreditInMediaCell.self), for: indexPath) as? CreditInMediaCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             }
         }

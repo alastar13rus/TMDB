@@ -11,7 +11,7 @@ import Foundation
 final class MovieDetailUseCaseMock: Domain.MovieDetailUseCase {
     
     func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage], completion: @escaping (Result<MovieDetailModel, Error>) -> Void) {
-        repository("movieDetails_details_278") { completion($0) }
+        repository("movieDetail_details_278") { completion($0) }
     }
     
     func videos(mediaID: String, completion: @escaping (Result<VideoList, Error>) -> Void) {

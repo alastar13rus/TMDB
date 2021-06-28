@@ -19,6 +19,10 @@ class PeopleCellViewModel {
     public let popularity: Float
     public let profilePath: String?
     
+    var profileURL: URL? {
+        ImageURL.profile(.w185, profilePath).fullURL
+    }
+    
     
 //    MARK: - Init
     init(_ model: PeopleModel) {
@@ -36,19 +40,6 @@ class PeopleCellViewModel {
         self.popularity = model.popularity
         self.profilePath = model.profilePath
     }
-    
-//    MARK: - Methods
-    func profileImageData(completion: @escaping (Data?) -> Void) {
-        guard let profilePath = profilePath else { completion(nil); return }
-        
-        guard let profileAbsoluteURL = ImageURL.profile(.w185, profilePath).fullURL else { completion(nil); return }
-        
-        profileAbsoluteURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
-        
-    }
-    
 }
 
 extension PeopleCellViewModel: IdentifiableType {

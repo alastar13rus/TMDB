@@ -51,18 +51,9 @@ struct PeopleProfileWrapperCellViewModel {
         return job.joined(separator: ", ")
     }
     
-    
-    func profileImageData(completion: @escaping (Data?) -> Void) {
-        guard let profilePath = profilePath else { completion(nil); return }
-        
-        guard let profileAbsoluteURL = ImageURL.profile(.w185, profilePath).fullURL else { completion(nil); return }
-        
-        profileAbsoluteURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
-        
+    var profileURL: URL? {
+        ImageURL.profile(.w185, profilePath).fullURL
     }
-    
     
 //    MARK: - Init
     init(_ model: PeopleDetailModel) {

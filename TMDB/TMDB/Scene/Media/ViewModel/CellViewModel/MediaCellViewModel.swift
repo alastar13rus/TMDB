@@ -11,6 +11,7 @@ import Domain
 
 class MediaCellViewModel {
     
+//    MARK: - Properties
     var id: String = ""
     var title: String = ""
     var mediaType: MediaType = .movie
@@ -18,31 +19,30 @@ class MediaCellViewModel {
     var voteAverage: CGFloat = 0.0
     var posterPath: String? = nil
     
-    func posterImageData(completion: @escaping (Data?) -> Void) {
-        guard let posterPath = posterPath else { completion(nil); return }
-        guard let posterAbsoluteURL = ImageURL.poster(.w154, posterPath).fullURL else { completion(nil); return }
-        
-        posterAbsoluteURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
+    var posterURL: URL? {
+        ImageURL.poster(.w154, posterPath).fullURL
     }
 }
 
+//  MARK: - extension MediaCellViewModel: IdentifiableType
 extension MediaCellViewModel: IdentifiableType {
     var identity: String { id }
 }
 
+//  MARK: - extension MediaCellViewModel: Hashable
 extension MediaCellViewModel: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
 
+//  MARK: - extension MediaCellViewModel: MediaCellViewModel
 extension MediaCellViewModel: Equatable {
     static func ==(lhs: MediaCellViewModel, rhs: MediaCellViewModel) -> Bool {
         return lhs.id == rhs.id
     }
 }
+
 
 extension MediaCellViewModel {
     
@@ -70,7 +70,6 @@ extension MediaCellViewModel {
         self.overview = model.overview
         self.voteAverage = CGFloat(model.voteAverage * 10)
         self.posterPath = model.posterPath
-        
     }
 }
 

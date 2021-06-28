@@ -9,6 +9,8 @@ import Foundation
 import Domain
 import RxSwift
 import RxRelay
+import Domain
+import NetworkPlatform
 
 
 class SearchViewModel {
@@ -17,7 +19,9 @@ class SearchViewModel {
     typealias Item = Section.SectionItem
 
 //    MARK: - Properties
-    let useCaseProvider: UseCaseProvider
+    private let useCaseProvider: Domain.UseCaseProvider
+    private let networkMonitor: Domain.NetworkMonitor
+    
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
     
@@ -46,9 +50,11 @@ class SearchViewModel {
     }
     
 //    MARK: - Init
-    init(useCaseProvider: UseCaseProvider) {
+    init(useCaseProvider: Domain.UseCaseProvider,
+         networkMonitor: Domain.NetworkMonitor) {
         self.useCaseProvider = useCaseProvider
-        
+        self.networkMonitor = networkMonitor
+
         subscribing()
         setupOutput()
     }
@@ -89,6 +95,7 @@ class SearchViewModel {
             guard let self = self else { return }
             
             self.state.currentPage += 1
+            self.output.isFetching.accept(true)
             self.fetchResults(self.input.query.value, page: self.state.currentPage) { [ weak self] (result) in
                 
                 guard let self = self else { return }
@@ -102,6 +109,7 @@ class SearchViewModel {
                     .filter { if case .resultSection = $0 { return false } else { return true } }
                 let resultSection: Section = .resultSection(title: "Результаты поиска", items: currentItems)
                 
+                self.output.isFetching.accept(false)
                 self.output.sectionedItems.accept([resultSection] + otherSections)
                 self.state.numberOfMedia = currentItems.count
                 
@@ -160,10 +168,13 @@ class SearchViewModel {
     
     fileprivate func fetchPopularPeoples(_ completion: @escaping ([Domain.PeopleModel]) -> Void) {
         let useCase = useCaseProvider.makePeopleListUseCase()
-        useCase.popular { (result) in
-            if case .success(let peopleListResponse) = result {
+        useCase.popular { [weak self] (result) in
+            switch result {
+            case .success(let peopleListResponse):
                 let peoples = peopleListResponse.results
                 completion(peoples)
+            case .failure(let error):
+                self?.inform(with: error.localizedDescription)
             }
         }
     }
@@ -197,13 +208,20 @@ class SearchViewModel {
     }
     
     fileprivate func fetchResults(_ query: String, page: Int, completion: @escaping (Result<MultiSearchResponse, Error>) -> Void) {
+        output.isFetching.accept(true)
         let useCase = useCaseProvider.makeSearchUseCase()
         useCase.multiSearch(query, page: page) { completion($0) }
     }
     
     fileprivate func handleResults(_ result: Result<MultiSearchResponse, Error>) -> [Item] {
         
-        guard case .success(let response) = result else { return [] }
+        guard case .success(let response) = result else {
+            if case .failure(let error) = result {
+                inform(with: error.localizedDescription)
+            }
+            output.isFetching.accept(false)
+            return []
+        }
         
         let items = response.results.filter { !setOfFetchedMediaListIsContainsMediaItem($0) }.map { (searchItem) -> Item in
             switch searchItem {
@@ -214,6 +232,7 @@ class SearchViewModel {
         }
         
         state.setOfFetchedMediaList = refreshSetOfFetchedMediaList(items: items)
+        output.isFetching.accept(false)
         return items
     }
     
@@ -234,6 +253,10 @@ class SearchViewModel {
         case .tv(let tvModel): return state.setOfFetchedMediaList.contains(tvModel.id)
         case .person(let peopleModel): return state.setOfFetchedMediaList.contains(peopleModel.id)
         }
+    }
+    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
     
 }

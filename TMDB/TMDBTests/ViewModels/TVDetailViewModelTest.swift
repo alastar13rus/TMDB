@@ -16,6 +16,7 @@ class TVDetailViewModelTest: XCTestCase {
     
     var useCaseProviderMock: UseCaseProviderMock!
     var useCasePersistenceProviderMock: UseCasePersistenceProviderMock!
+    var networkMonitorMock: Domain.NetworkMonitor!
 
     override func setUp() {
         super.setUp()
@@ -25,28 +26,30 @@ class TVDetailViewModelTest: XCTestCase {
             networkProvider: container.resolve(NetworkProvider.self)!,
             apiFactory: container.resolve(Domain.APIFactory.self)!)
         useCasePersistenceProviderMock = UseCasePersistenceProviderMock(dbProvider: container.resolve(CoreDataProvider.self)!)
+        networkMonitorMock = NetworkMonitorMock.shared
     }
     
     override func tearDown() {
         super.tearDown()
         useCaseProviderMock = nil
         useCasePersistenceProviderMock = nil
+        networkMonitorMock = nil
     }
     
     func test_init() {
         let viewModel = TVDetailViewModel(with: "71712",
                                           useCaseProvider: useCaseProviderMock,
-                                          useCasePersistenceProvider: useCasePersistenceProviderMock)
+                                          useCasePersistenceProvider: useCasePersistenceProviderMock, networkMonitor: networkMonitorMock)
         
         XCTAssertEqual(viewModel.detailID, "71712")
         
         let expectation = self.expectation(description: #function)
         
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 4) {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
         XCTAssertTrue(viewModel.output.sectionedItems.value.count > 0)
     }
     
@@ -54,7 +57,7 @@ class TVDetailViewModelTest: XCTestCase {
         
         let viewModel = TVDetailViewModel(with: "71712",
                                           useCaseProvider: useCaseProviderMock,
-                                          useCasePersistenceProvider: useCasePersistenceProviderMock)
+                                          useCasePersistenceProvider: useCasePersistenceProviderMock, networkMonitor: networkMonitorMock)
 
         var tvDetail: TVDetailModel?
         let expectation = self.expectation(description: #function)
@@ -63,7 +66,7 @@ class TVDetailViewModelTest: XCTestCase {
             expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 3, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
         XCTAssertNotNil(tvDetail)
     }
     

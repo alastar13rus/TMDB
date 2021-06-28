@@ -21,10 +21,14 @@ struct MediaListCollectionViewDataSource: DataSourceProtocol {
             case .movie(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MediaCollectionViewCell.self), for: indexPath) as? MediaCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .tv(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MediaCollectionViewCell.self), for: indexPath) as? MediaCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             }
         }

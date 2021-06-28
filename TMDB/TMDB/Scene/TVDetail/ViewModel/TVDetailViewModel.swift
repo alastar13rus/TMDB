@@ -18,6 +18,8 @@ class TVDetailViewModel {
 //    MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
+    private let networkMonitor: Domain.NetworkMonitor
+    
     private(set) var detailID: String
     private var tvModel: TVModel? {
         didSet {
@@ -53,9 +55,14 @@ class TVDetailViewModel {
     let output = Output()
     
 //    MARK: - Init
-    required init(with detailID: String, useCaseProvider: Domain.UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
+    required init(with detailID: String,
+                  useCaseProvider: Domain.UseCaseProvider,
+                  useCasePersistenceProvider: Domain.UseCasePersistenceProvider,
+                  networkMonitor: Domain.NetworkMonitor) {
         self.useCaseProvider = useCaseProvider
         self.useCasePersistenceProvider = useCasePersistenceProvider
+        self.networkMonitor = networkMonitor
+
         self.detailID = detailID
         
         setupInput()
@@ -121,13 +128,14 @@ class TVDetailViewModel {
     func fetch(completion: @escaping (TVDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeTVDetailUseCase()
-        useCase.details(mediaID: detailID, appendToResponse: [.aggregateCredits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { (result: Result<TVDetailModel, Error>) in
+        useCase.details(mediaID: detailID, appendToResponse: [.aggregateCredits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { [weak self] (result: Result<TVDetailModel, Error>) in
             
             switch result {
             case .success(let tvDetail):
                 completion(tvDetail)
                 
-            case .failure(_): break
+            case .failure(let error):
+                self?.inform(with: error.localizedDescription)
             }
         }
     }
@@ -137,17 +145,6 @@ class TVDetailViewModel {
         switch section.items[0] {
         case .tvPosterWrapper(let vm):
             self.output.title.accept(vm.title)
-            
-            guard let backdropPath = vm.backdropPath else { self.output.backdropImageData.accept(nil); return }
-            guard let backdropAbsolutePath = ImageURL.backdrop(.w780, backdropPath).fullURL else { self.output.backdropImageData.accept(nil); return }
-            
-            backdropAbsolutePath.downloadImageData(completion: { (imageData) in
-                guard let imageData = imageData else {
-                    self.output.backdropImageData.accept(nil)
-                    return
-                }
-                self.output.backdropImageData.accept(imageData)
-            })
         
         default: break
         }
@@ -396,6 +393,10 @@ class TVDetailViewModel {
         sections.append(tvListSection)
         
         return sections
+    }
+    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
     
 }

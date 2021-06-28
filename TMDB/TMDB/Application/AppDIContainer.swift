@@ -10,6 +10,7 @@ import Swinject
 import Domain
 import NetworkPlatform
 import CoreDataPlatform
+import CachePlatform
 
 class AppDIContainer {
     static let shared: Container = {
@@ -30,6 +31,12 @@ class AppDIContainer {
         
         container.register(NetworkPlatform.NetworkProvider.self) { r in NetworkPlatform.NetworkProvider(network: r.resolve(NetworkPlatform.NetworkAgent.self)!) }
         
+        container.register(Domain.NetworkMonitor.self) { r in
+            let monitor = NetworkPlatform.NetworkMonitor.shared
+            monitor.delegate = AlertCoordinator()
+            return monitor
+        }
+        
 //        MARK: - CoreDataPlatform
         
         container.register(CoreDataPlatform.CoreDataAgent.self) { _ in
@@ -43,6 +50,9 @@ class AppDIContainer {
             return CoreDataPlatform.CoreDataStack.shared
             
         }
+        
+//        MARK: - CachePlatform
+        
         
 //        MARK: - Domain
         
@@ -92,15 +102,15 @@ class AppDIContainer {
     fileprivate static func registerVM(with container: Container) {
         
         container.register(MediaListViewModel.self) { r in
-            return MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            return MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
         }
         
         container.register(MovieDetailViewModel.self)  { (r, detailID: String) in
-            return MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            return MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
         }
         
         container.register(TVDetailViewModel.self)  { (r, detailID: String) in
-            return TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            return TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
         }
         
         container.register(TVSeasonListViewModel.self)  { (r, mediaID: String) in
@@ -112,11 +122,11 @@ class AppDIContainer {
         }
         
         container.register(TVSeasonDetailViewModel.self)  { (r, mediaID: String, seasonNumber: String) in
-            return TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            return TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
         }
         
         container.register(TVEpisodeDetailViewModel.self)  { (r, mediaID: String, seasonNumber: String, episodeNumber: String) in
-            return TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            return TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
         }
         
         container.register(MediaTrailerListViewModel.self)  { (r, mediaID: String, mediaType: MediaType) in
@@ -136,7 +146,7 @@ class AppDIContainer {
         }
         
         container.register(PeopleDetailViewModel.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
-            return PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            return PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!, networkMonitor: r.resolve(Domain.NetworkMonitor.self)!)
 
         }
     }
@@ -146,7 +156,7 @@ class AppDIContainer {
             container.register(Typealias.MediaListBundle.self) { (r, coordinator: NavigationCoordinator) in
                 let viewController = MediaListViewController()
                 
-                let viewModel = MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+                let viewModel = MediaListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: r.resolve(Domain.NetworkMonitor.self)!)
                 viewModel.coordinator = coordinator as NavigationCoordinator
                 viewController.bindViewModel(to: viewModel)
                 if (coordinator.navigationController.viewControllers.isEmpty) {
@@ -158,7 +168,7 @@ class AppDIContainer {
         container.register(Typealias.MovieDetailBundle.self)  { (r, coordinator: MovieFlowCoordinator, detailID: String) in
             let viewController = MovieDetailViewController()
             
-            let viewModel = MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            let viewModel = MovieDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -169,7 +179,7 @@ class AppDIContainer {
         container.register(Typealias.TVDetailBundle.self)  { (r, coordinator: TVFlowCoordinator, detailID: String) in
             let viewController = TVDetailViewController()
             
-            let viewModel = TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            let viewModel = TVDetailViewModel(with: detailID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -202,7 +212,7 @@ class AppDIContainer {
         container.register(Typealias.TVSeasonDetailBundle.self)  { (r, coordinator: TVSeasonFlowCoordinator, mediaID: String, seasonNumber: String) in
             let viewController = TVSeasonDetailViewController()
             
-            let viewModel = TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            let viewModel = TVSeasonDetailViewModel(with: mediaID, seasonNumber: seasonNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -213,7 +223,7 @@ class AppDIContainer {
         container.register(Typealias.TVEpisodeDetailBundle.self)  { (r, coordinator: TVEpisodeFlowCoordinator, mediaID: String, seasonNumber: String, episodeNumber: String) in
             let viewController = TVEpisodeDetailViewController()
             
-            let viewModel = TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            let viewModel = TVEpisodeDetailViewModel(with: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: container.resolve(Domain.NetworkMonitor.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -268,7 +278,7 @@ class AppDIContainer {
         container.register(Typealias.PeopleDetailBundle.self)  { (r, coordinator: PeopleFlowCoordinator, mediaID: String) in
             let viewController = PeopleDetailViewController()
             
-            let viewModel = PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            let viewModel = PeopleDetailViewModel(with: mediaID, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!, networkMonitor: r.resolve(Domain.NetworkMonitor.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -279,7 +289,7 @@ class AppDIContainer {
         container.register(Typealias.SearchBundle.self)  { (r, coordinator: SearchFlowCoordinator) in
             let viewController = SearchViewController()
             
-            let viewModel = SearchViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            let viewModel = SearchViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: r.resolve(Domain.NetworkMonitor.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             if (coordinator.navigationController.viewControllers.isEmpty) {
@@ -303,7 +313,7 @@ class AppDIContainer {
         container.register(Typealias.MediaFilteredListBundle.self)  { (r, coordinator: SearchFlowCoordinator, mediaType: MediaType, mediaFilterType: MediaFilterType) in
             let viewController = MediaFilteredListViewController()
             
-            let viewModel = MediaFilteredListViewModel(mediaType: mediaType, mediaFilterType: mediaFilterType, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!)
+            let viewModel = MediaFilteredListViewModel(mediaType: mediaType, mediaFilterType: mediaFilterType, useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!, networkMonitor: r.resolve(Domain.NetworkMonitor.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             coordinator.navigationController.pushViewController(viewController, animated: true)
@@ -315,7 +325,8 @@ class AppDIContainer {
         container.register(Typealias.FavoriteBundle.self)  { (r, coordinator: FavoriteFlowCoordinator) in
             let viewController = FavoriteListViewController()
             
-            let viewModel = FavoriteListViewModel(useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
+            let viewModel = FavoriteListViewModel(useCaseProvider: r.resolve(Domain.UseCaseProvider.self)!,
+                                                  useCasePersistenceProvider: r.resolve(Domain.UseCasePersistenceProvider.self)!)
             viewModel.coordinator = coordinator as NavigationCoordinator
             viewController.bindViewModel(to: viewModel)
             if (coordinator.navigationController.viewControllers.isEmpty) {
@@ -324,7 +335,6 @@ class AppDIContainer {
             
             return (viewController: viewController, viewModel: viewModel, coordinator: coordinator)
         }
-        
         
         
         

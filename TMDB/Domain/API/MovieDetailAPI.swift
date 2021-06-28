@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol MovieDetailAPI: class {
+public protocol MovieDetailAPI: AnyObject {
     func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint
     func credits(mediaID: String) -> Domain.Endpoint
     func images(mediaID: String) -> Domain.Endpoint

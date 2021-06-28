@@ -5,6 +5,7 @@
 //  Created by Докин Андрей (IOS) on 16.03.2021.
 //
 
+import NetworkPlatform
 import UIKit
 import RxSwift
 import RxCocoa
@@ -16,7 +17,7 @@ class MediaListViewController: UIViewController {
     //    MARK: - Property
     var viewModel: MediaListViewModel!
     private let disposeBag = DisposeBag()
-    let mediaListDataSource = MediaListTableViewDataSource.dataSource()
+    let dataSource = MediaListTableViewDataSource.dataSource()
     private let categoryListSegmentedControl = SegmentedControl()
     
     private let refreshControl: UIRefreshControl = {
@@ -28,6 +29,14 @@ class MediaListViewController: UIViewController {
         let tableView = MediaListTableView(cell: MediaTableViewCell.self, refreshControl: refreshControl)
         return tableView
     }()
+    
+    private var customActivityIndicator: CustomActivityIndicator = {
+        let view = CustomActivityIndicator(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        view.setFillColor(#colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1))
+        view.setStrokeColor(#colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     //    MARK: - Lifecycle
     override func viewDidLoad() {
@@ -37,6 +46,14 @@ class MediaListViewController: UIViewController {
         setupHierarhy()
         setupConstraints()
         
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        customActivityIndicator.isHidden = true
+        mediaListTableView.refreshControl?.isHidden = true
     }
         
     //    MARK: - Methods
@@ -48,6 +65,7 @@ class MediaListViewController: UIViewController {
     private func setupHierarhy() {
         view.addSubview(categoryListSegmentedControl)
         view.addSubview(mediaListTableView)
+        view.addSubview(customActivityIndicator)
     }
     
     private func setupConstraints() {
@@ -61,6 +79,9 @@ class MediaListViewController: UIViewController {
             mediaListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             mediaListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             mediaListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            customActivityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            customActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
         ])
     }
     
@@ -77,9 +98,10 @@ extension MediaListViewController: BindableType {
         }).disposed(by: disposeBag)
         
         mediaListTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
         viewModel.output.sectionedItems
             .asDriver(onErrorJustReturn: [])
-            .drive(mediaListTableView.rx.items(dataSource: mediaListDataSource))
+            .drive(mediaListTableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         viewModel.output.selectedSegmentIndex
@@ -90,24 +112,27 @@ extension MediaListViewController: BindableType {
             .asDriver().drive(viewModel.input.selectedSegmentIndex)
             .disposed(by: disposeBag)
         
-        viewModel.output.selectedSegmentIndex.map { _ in true }
-            .subscribe(onNext: {  self.mediaListTableView.scrollsToTop = $0 })
-            .disposed(by: disposeBag)
-        
         mediaListTableView.rx.willDisplayCell
-            .filter { $0.indexPath.row + 5 == self.mediaListDataSource[$0.indexPath.section].items.count }
-            .distinctUntilChanged { $0.indexPath == $1.indexPath }
+            .observeOn(MainScheduler.asyncInstance)
+            .filter { $0.indexPath.row == self.dataSource[$0.indexPath.section].items.count - 1 }
+            .subscribeOn(MainScheduler.instance)
             .map { _ in Void() }
             .bind(to: viewModel.input.loadNextPageTrigger)
             .disposed(by: disposeBag)
-        
-        mediaListTableView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).map { (item) -> MediaCellViewModel in
-            switch item { case .movie(let vm), .tv(let vm): return vm.self }
-        }.bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
+            
+        mediaListTableView.rx
+            .modelSelected(MediaCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.input.selectedMedia).disposed(by: disposeBag)
         
         viewModel.output.isFetching
             .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
+        
+        viewModel.output.isFetching.subscribe(onNext: { [weak self] (isFetching) in
+            isFetching ?
+                self?.customActivityIndicator.startAnimate([.move, .rotate]):
+                self?.customActivityIndicator.stopAnimate()
+        }).disposed(by: disposeBag)
         
         refreshControl.rx.controlEvent(.valueChanged)
             .bind(to: viewModel.input.refreshItemsTrigger)
@@ -130,3 +155,9 @@ extension MediaListViewController: UITableViewDelegate {
     }
     
 }
+
+//extension MediaListViewController: NetworkMonitorDelegate {
+//    func didChangeStatus(_ completion: @escaping (Bool) -> Void) {
+//        <#code#>
+//    }
+//}

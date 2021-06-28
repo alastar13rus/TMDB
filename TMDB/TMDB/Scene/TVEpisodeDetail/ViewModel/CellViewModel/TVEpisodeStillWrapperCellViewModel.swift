@@ -20,15 +20,9 @@ struct TVEpisodeStillWrapperCellViewModel {
     
     var airYear: String { "\(airDate.prefix(4))" }
     
-    func stillImageData(completion: @escaping (Data?) -> Void) {
-        guard let stillPath = stillPath else { completion(nil); return }
-        guard let stillAbsoluteURL = ImageURL.still(.original, stillPath).fullURL else { completion(nil); return }
-        
-        stillAbsoluteURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
+    var stillURL: URL? {
+        ImageURL.still(.original, stillPath).fullURL
     }
-    
     
 //    MARK: - Init
     init(_ model: TVEpisodeDetailModel) {

@@ -15,15 +15,9 @@ class PeopleTableViewCell: UITableViewCell {
             configure(with: viewModel)
         }
     }
+    var indexPath: IndexPath!
     
-    let profileImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 5
-        imageView.layer.masksToBounds = true
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let profileImageView = ProfileImageView()
     
     let nameLabel: UILabel = {
         let label = UILabel()
@@ -59,6 +53,7 @@ class PeopleTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         profileImageView.image = nil
+        profileImageView.contentMode = .scaleAspectFill
     }
     
 //    MARK: - Methods
@@ -93,19 +88,16 @@ class PeopleTableViewCell: UITableViewCell {
         nameLabel.text = vm.name
         knownForLabel.text = vm.knownFor
         
-        vm.profileImageData { [weak self] (data) in
+        let placeholder = #imageLiteral(resourceName: "unknownGenderPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        profileImageView.loadImage(with: vm.profileURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            vm.profileImageData { [weak self] (imageData) in
-                guard let self = self else { return }
-                
-                if imageData == nil {
-                    self.profileImageView.contentMode = .scaleAspectFit
-                    self.profileImageView.image = #imageLiteral(resourceName: "unknownGenderPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
-                } else {
-                    self.profileImageView.contentMode = .scaleAspectFill
-                    self.profileImageView.image = UIImage(data: imageData!)
-                }
+            guard let image = image else {
+                self.profileImageView.image = placeholder
+                self.profileImageView.contentMode = .scaleAspectFit
+                return
             }
+            return self.profileImageView.image = image
         }
     }
     

@@ -11,7 +11,7 @@ import RxRelay
 import RxDataSources
 import Domain
 
-protocol CreditShortListViewModelDelegate: class {
+protocol CreditShortListViewModelDelegate: AnyObject {
     var creditShortListDelegateCoordinator: ToPeopleRoutable? { get }
     var mediaID: String { get }
     var mediaType: MediaType { get }

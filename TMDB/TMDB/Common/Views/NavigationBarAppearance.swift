@@ -13,13 +13,14 @@ class NavigationBarAppearance: UINavigationBarAppearance {
         super.init(barAppearance: barAppearance)
         
         
-        self.configureWithTransparentBackground()
+        self.configureWithOpaqueBackground()
+//        self.configureWithTransparentBackground()
         self.backgroundImageContentMode = .scaleAspectFill
         self.titleTextAttributes = [
             .foregroundColor: UIColor.darkText,
         ]
         self.largeTitleTextAttributes = [
-            .foregroundColor: UIColor.lightText,
+//            .foregroundColor: UIColor.darkText,
             .font: UIFont.boldSystemFont(ofSize: 24),
         ]
     }

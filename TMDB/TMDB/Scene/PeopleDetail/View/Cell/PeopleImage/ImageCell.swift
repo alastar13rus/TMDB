@@ -15,6 +15,7 @@ class ImageCell: UICollectionViewCell {
             configure(with: viewModel)
         }
     }
+    var indexPath: IndexPath!
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -42,23 +43,24 @@ class ImageCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
+        imageView.contentMode = .scaleAspectFill
     }
     
 //    MARK: - Methods
     fileprivate func configure(with vm: ImageCellViewModel) {
-        vm.imageData { [weak self] (data) in
+        
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        imageView.loadImage(with: vm.imageURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            vm.imageData { [weak self] (imageData) in
-                guard let self = self else { return }
-                
-                if imageData == nil {
-                    self.imageView.contentMode = .scaleAspectFit
-                    self.imageView.image = #imageLiteral(resourceName: "mediaPlaceholder")
-                } else {
-                    self.imageView.contentMode = .scaleAspectFill
-                    self.imageView.image = UIImage(data: imageData!)
-                }
+            guard let image = image else {
+                self.imageView.image = placeholder
+                self.imageView.contentMode = .scaleAspectFit
+                return
             }
+            
+            self.imageView.contentMode = .scaleAspectFill
+            return self.imageView.image = image
         }
     }
     

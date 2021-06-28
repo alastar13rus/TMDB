@@ -26,6 +26,7 @@ class FullScreenViewController: UIViewController {
         imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
+        imageView.backgroundColor = .systemGray6
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -74,9 +75,19 @@ class FullScreenViewController: UIViewController {
 
         viewModel.imageCellViewModel.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
-            $0.imageData { (data) in
-                guard let data = data else { return }
-                self.imageView.image = UIImage(data: data)
+            
+            let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+            self.imageView.loadImage(with: $0.imageURL) { [weak self] (image) in
+                guard let self = self else { return }
+                
+                guard let image = image else {
+                    self.imageView.image = placeholder
+                    self.imageView.contentMode = .scaleAspectFit
+                    return
+                }
+                
+                self.imageView.contentMode = .scaleAspectFill
+                return self.imageView.image = image
             }
         }).disposed(by: disposeBag)
         

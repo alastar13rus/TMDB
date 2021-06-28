@@ -21,18 +21,26 @@ struct CreditListDataSource {
             case .cast(let vm):
                 let cell = CreditCastTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .tvAggregateCast(let vm):
                 let cell = CreditTVAggregateCastTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .crew(let vm):
                 let cell = CreditCrewTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .tvAggregateCrew(let vm):
                 let cell = CreditTVAggregateCrewTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             }
         }

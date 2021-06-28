@@ -27,6 +27,8 @@ struct MovieDetailDataSource: DataSourceProtocol {
             case .moviePosterWrapper(let vm):
                 let cell = MoviePosterWrapperTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
                 
             case .movieImageList(let vm):

@@ -9,7 +9,7 @@ import UIKit
 import Swinject
 import Domain
 
-protocol Coordinator: class {
+protocol Coordinator: AnyObject {
     
     var identifier: UUID { get }
     var childCoordinators: [UUID: Coordinator] { get set }

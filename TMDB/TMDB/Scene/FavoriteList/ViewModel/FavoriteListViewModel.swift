@@ -17,6 +17,7 @@ class FavoriteListViewModel {
     
 //    MARK: - Properties
     let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
+
     private let disposeBag = DisposeBag()
     weak var coordinator: NavigationCoordinator?
     
@@ -41,9 +42,9 @@ class FavoriteListViewModel {
     
     
 //    MARK: - Init
-    init(useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
+    init(useCaseProvider: UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
         self.useCasePersistenceProvider = useCasePersistenceProvider
-        
+
         setupInput()
         setupOutput()
     }
@@ -97,8 +98,6 @@ class FavoriteListViewModel {
             let useCase = useCasePersistenceProvider.makeFavoritePeopleUseCase()
             guard let peopleID = Int(vm.id) else { return }
             useCase.removeFavoritePeople(peopleID) { completion($0) }
-            
-        default: break
         }
     }
     

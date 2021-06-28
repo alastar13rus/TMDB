@@ -9,6 +9,7 @@ import Foundation
 import Domain
 import RxSwift
 import RxRelay
+import NetworkPlatform
 
 
 class MediaFilteredListViewModel {
@@ -17,7 +18,9 @@ class MediaFilteredListViewModel {
     typealias Item = Section.SectionItem
 
 //    MARK: - Properties
-    let useCaseProvider: Domain.UseCaseProvider
+    private let useCaseProvider: Domain.UseCaseProvider
+    private let networkMonitor: Domain.NetworkMonitor
+    
     let mediaType: Domain.MediaType
     let mediaFilterType: Domain.MediaFilterType
     
@@ -47,11 +50,15 @@ class MediaFilteredListViewModel {
     
     
 //    MARK: - Init
-    init(mediaType: MediaType, mediaFilterType: MediaFilterType, useCaseProvider: Domain.UseCaseProvider) {
+    init(mediaType: MediaType,
+         mediaFilterType: MediaFilterType,
+         useCaseProvider: Domain.UseCaseProvider,
+         networkMonitor: Domain.NetworkMonitor) {
         self.mediaType = mediaType
         self.mediaFilterType = mediaFilterType
         self.useCaseProvider = useCaseProvider
-        
+        self.networkMonitor = networkMonitor
+
         setupInput()
         setupOutput()
     }
@@ -184,12 +191,26 @@ class MediaFilteredListViewModel {
     }
     
     fileprivate func handleMovie(_ result: Result<MediaListResponse<MovieModel>, Error>) -> [MediaCellViewModel] {
-        guard case .success(let response) = result else { return [] }
-        return response.results.map { MediaCellViewModel($0) }
+        switch result {
+        case .success(let response):
+            return response.results.map { MediaCellViewModel($0) }
+        case .failure(let error):
+            inform(with: error.localizedDescription)
+            return []
+        }
     }
     
     fileprivate func handleTV(_ result: Result<MediaListResponse<TVModel>, Error>) -> [MediaCellViewModel] {
-        guard case .success(let response) = result else { return [] }
-        return response.results.map { MediaCellViewModel($0) }
+        switch result {
+        case .success(let response):
+            return response.results.map { MediaCellViewModel($0) }
+        case .failure(let error):
+            inform(with: error.localizedDescription)
+            return []
+        }
+    }
+    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
 }
