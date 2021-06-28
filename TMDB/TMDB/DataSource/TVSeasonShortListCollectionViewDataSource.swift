@@ -24,6 +24,9 @@ struct TVSeasonShortListCollectionViewDataSource: DataSourceProtocol {
             case .season(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVSeasonCollectionViewCell.self), for: indexPath) as? TVSeasonCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
+                cell.tag = indexPath.row
                 return cell
             case .showMore(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowMoreCell.self), for: indexPath) as? ShowMoreCell else { return UICollectionViewCell() }

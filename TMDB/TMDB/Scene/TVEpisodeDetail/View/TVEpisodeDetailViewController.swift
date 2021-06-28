@@ -69,14 +69,13 @@ extension TVEpisodeDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
-        case .tvEpisodeStillWrapper: return tableView.bounds.width
+        case .tvEpisodeStillWrapper: return tableView.bounds.height
         case .tvEpisodeTrailerButton: return 64
         case .tvEpisodeOverview(let vm): return tableView.calculateCellHeight(withContent: vm.overview, font: .systemFont(ofSize: 16))
         case .tvEpisodeImageList: return tableView.bounds.width * 2 / 3
         case .tvEpisodeCastShortList: return tableView.bounds.width / 2 + 24
         case .tvEpisodeCrewShortList: return tableView.bounds.width / 2 + 24
         case .tvEpisodeGuestStarsShortList: return tableView.bounds.width / 2 + 24
-        default: return 0
         }
     }
     

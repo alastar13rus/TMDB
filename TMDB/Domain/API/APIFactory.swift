@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol APIFactory: class {
+public protocol APIFactory: AnyObject {
     func makeMovieListAPI() -> MovieListAPI
     func makeMovieDetailAPI() -> MovieDetailAPI
     func makeTVListAPI() -> TVListAPI

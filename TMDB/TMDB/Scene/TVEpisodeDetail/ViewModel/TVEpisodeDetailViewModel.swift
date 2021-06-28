@@ -20,6 +20,7 @@ class TVEpisodeDetailViewModel {
     let episodeNumber: String
 
     let useCaseProvider: Domain.UseCaseProvider
+    private let networkMonitor: Domain.NetworkMonitor
     
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
@@ -41,12 +42,17 @@ class TVEpisodeDetailViewModel {
     
     
 //    MARK: - Init
-    required init(with mediaID: String, seasonNumber: String, episodeNumber: String, useCaseProvider: Domain.UseCaseProvider) {
+    required init(with mediaID: String,
+                  seasonNumber: String,
+                  episodeNumber: String,
+                  useCaseProvider: Domain.UseCaseProvider,
+                  networkMonitor: Domain.NetworkMonitor) {
         self.mediaID = mediaID
         self.seasonNumber = seasonNumber
         self.episodeNumber = episodeNumber
         
         self.useCaseProvider = useCaseProvider
+        self.networkMonitor = networkMonitor
 
         setupInput()
         setupOutput()
@@ -74,11 +80,13 @@ class TVEpisodeDetailViewModel {
     fileprivate func fetch(completion: @escaping (TVEpisodeDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeTVEpisodeDetailUseCase()
-        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, appendToResponse: [.credits, .images, .videos], includeImageLanguage: []) { (result: Result<TVEpisodeDetailModel, Error>) in
+        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, appendToResponse: [.credits, .images, .videos], includeImageLanguage: []) { [weak self] (result: Result<TVEpisodeDetailModel, Error>) in
             switch result {
             case .success(let tvEpisodeDetail):
                 completion(tvEpisodeDetail)
-            case .failure: break
+                
+            case .failure(let error):
+                self?.inform(with: error.localizedDescription)
             }
         }
     }
@@ -88,18 +96,6 @@ class TVEpisodeDetailViewModel {
         switch section.items[0] {
         case .tvEpisodeStillWrapper(let vm):
             self.output.title.accept(vm.name)
-            
-            guard let stillPath = vm.stillPath else { self.output.stillImageData.accept(nil); return }
-            guard let stillAbsolutePath = ImageURL.still(.original, stillPath).fullURL else { self.output.stillImageData.accept(nil); return }
-            
-            stillAbsolutePath.downloadImageData(completion: { (imageData) in
-                guard let imageData = imageData else {
-                    self.output.stillImageData.accept(nil)
-                    return
-                }
-                self.output.stillImageData.accept(imageData)
-            })
-        
         default: break
         }
     }
@@ -277,6 +273,10 @@ class TVEpisodeDetailViewModel {
         sections.append(tvEpisodeGuestStarsListSection)
 
         return sections
+    }
+    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
     
 }

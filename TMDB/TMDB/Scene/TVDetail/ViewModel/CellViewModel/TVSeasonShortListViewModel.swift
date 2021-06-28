@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-protocol TVSeasonShortListViewModelDelegate: class {
+protocol TVSeasonShortListViewModelDelegate: AnyObject {
     var tvSeasonShortListDelegateCoordinator: ToSeasonRoutable? { get }
     var mediaID: String { get }
     func routing(item: TVSeasonCellViewModelMultipleSection.SectionItem)

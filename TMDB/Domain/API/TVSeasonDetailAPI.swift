@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol TVSeasonDetailAPI: class {
+public protocol TVSeasonDetailAPI: AnyObject {
     func details(mediaID: String, seasonNumber: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Endpoint
     func aggregateCredits(mediaID: String, seasonNumber: String) -> Endpoint
     func videos(mediaID: String, seasonNumber: String) -> Endpoint

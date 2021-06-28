@@ -16,14 +16,9 @@ class MediaTableViewCell: UITableViewCell {
         }
     }
     
-    var posterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 5
-        imageView.layer.masksToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    var indexPath: IndexPath!
+    
+    var posterImageView = PosterImageView()
     
     var titleLabel: UILabel = {
         let label = UILabel()
@@ -80,7 +75,9 @@ class MediaTableViewCell: UITableViewCell {
 //    MARK: - Methods
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         posterImageView.image = nil
+        posterImageView.contentMode = .scaleAspectFill
     }
     
     private func configure(with vm: MediaCellViewModel) {
@@ -89,23 +86,19 @@ class MediaTableViewCell: UITableViewCell {
         overviewLabel.text = vm.overview
         voteAverageCircleProgressBar.progress = vm.voteAverage
         
-        vm.posterImageData { [weak self] imageData in
-            guard let self = self else { return }
-            self.posterImageView.layer.opacity = 0
-            UIView.animate(withDuration: 0.2) {
-                self.posterImageView.layer.opacity = 1
-                
-                guard let imageData = imageData else {
-                    self.posterImageView.contentMode = .scaleAspectFit
-                    self.posterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
-                    return
-                }
-                
-                self.posterImageView.contentMode = .scaleAspectFill
-                self.posterImageView.image = UIImage(data: imageData)
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        posterImageView.loadImage(with: vm.posterURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
+            
+            guard let image = image else {
+                self.posterImageView.image = placeholder
+                self.posterImageView.contentMode = .scaleAspectFit
+                return
             }
+            
+            self.posterImageView.contentMode = .scaleAspectFill
+            return self.posterImageView.image = image 
         }
-        
     }
     
     private func setupUI() {

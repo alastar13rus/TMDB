@@ -50,6 +50,10 @@ class AggregateCastCellViewModel {
         totalEpisodeCount.correctlyEnding(withWord: "эпизод")
     }
     
+    var profileURL: URL? {
+        ImageURL.profile(.w185, profilePath).fullURL
+    }
+    
 //    MARK: - Init
     
     init(_ model: TVAggregateCastModel) {
@@ -62,26 +66,6 @@ class AggregateCastCellViewModel {
         self.roles = model.roles.filter { !$0.character.isEmpty }.map { $0.character }.joined(separator: ", ")
         self.totalEpisodeCount = model.totalEpisodeCount
     }
-    
-//    MARK: - Methods
-    
-    func profileImageData(completion: @escaping (Data?) -> Void) {
-        
-            guard let profilePath = profilePath else {
-                completion(nil)
-                return
-            }
-            
-            let profileAbsolutePath = ImageURL.profile(.w185, profilePath).fullURL
-            guard let path = profileAbsolutePath else {
-                completion(nil)
-                return
-            }
-            path.downloadImageData(completion: { (data) in
-                completion(data)
-            })
-    }
-    
 }
 
 extension AggregateCastCellViewModel: IdentifiableType, Equatable {

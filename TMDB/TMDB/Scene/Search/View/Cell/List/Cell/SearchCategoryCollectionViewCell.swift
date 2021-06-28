@@ -41,7 +41,7 @@ class SearchCategoryCollectionViewCell: UICollectionViewCell {
     
 //    MARK: - Methods
     fileprivate func setupUI() {
-        backgroundColor = .systemGray6
+        backgroundColor = .systemGray5
         layer.cornerRadius = 10
         clipsToBounds = true
     }

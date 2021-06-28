@@ -64,3 +64,5 @@ extension MovieFlowCoordinator: ToPeopleRoutable { }
 
 //  MARK: - extension ToImageFullScreenRoutable
 extension MovieFlowCoordinator: ToImageFullScreenRoutable { }
+
+extension MovieFlowCoordinator: Alertable {  }

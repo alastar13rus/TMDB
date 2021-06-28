@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol CreditDetailAPI: class {
+public protocol CreditDetailAPI: AnyObject {
     func details(creditID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Endpoint
 }

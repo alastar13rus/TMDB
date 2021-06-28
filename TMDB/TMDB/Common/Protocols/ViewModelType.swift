@@ -8,7 +8,7 @@
 import Foundation
 import Swinject
 
-protocol ViewModelType: class {
+protocol ViewModelType: AnyObject {
     
     associatedtype Input
     associatedtype Output

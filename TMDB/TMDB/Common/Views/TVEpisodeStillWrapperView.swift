@@ -10,26 +10,11 @@ import UIKit
 class TVEpisodeStillWrapperView: UIView {
     
 //    MARK: - Properties
-    let stillImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.masksToBounds = true
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let stillImageView = StillImageView()
     
     let topView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let blurTopView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .dark)
-        let view = UIVisualEffectView(effect: blurEffect)
-
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -71,7 +56,6 @@ class TVEpisodeStillWrapperView: UIView {
     
     private func setupHierarhy() {
         addSubview(topView)
-//        topView.addSubview(blurTopView)
         topView.addSubview(titleLabel)
         topView.addSubview(airYearLabel)
         
@@ -85,9 +69,6 @@ class TVEpisodeStillWrapperView: UIView {
             topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             topView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             topView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            
-//            blurTopView.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
-//            blurTopView.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: topView.topAnchor, constant: 8),
             titleLabel.leftAnchor.constraint(equalTo: topView.leftAnchor, constant: 8),

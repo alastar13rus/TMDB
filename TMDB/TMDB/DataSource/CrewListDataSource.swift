@@ -22,6 +22,8 @@ struct CrewListDataSource: DataSourceProtocol {
         let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CrewCollectionViewCell.self), for: indexPath) as? CrewCollectionViewCell else { return UICollectionViewCell() }
             cell.viewModel = item
+            cell.indexPath = indexPath
+            cell.tag = indexPath.row
             return cell
         }
         

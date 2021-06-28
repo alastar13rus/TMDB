@@ -36,6 +36,8 @@ class TVSeasonDetailViewController: UIViewController {
     fileprivate func setupUI() {
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.backgroundColor = .white
+        
     }
     
     fileprivate func setupHierarhy() {
@@ -77,7 +79,6 @@ extension TVSeasonDetailViewController: UITableViewDelegate {
         case .tvSeasonCastShortList: return tableView.bounds.width / 2 + 24
         case .tvSeasonCrewShortList: return tableView.bounds.width / 2 + 24
         case .tvEpisodeShortList: return 200
-        default: return 0
         }
     }
     

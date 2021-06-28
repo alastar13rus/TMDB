@@ -10,14 +10,7 @@ import UIKit
 class MediaPosterWrapperView: UIView {
     
 //    MARK: - Properties
-    let posterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.masksToBounds = true
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let posterImageView = PosterImageView()
     
     let blurTopView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .dark)

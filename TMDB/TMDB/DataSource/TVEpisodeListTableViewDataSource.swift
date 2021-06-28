@@ -24,6 +24,8 @@ struct TVEpisodeListTableViewDataSource: DataSourceProtocol {
             case .episode(let vm):
                 let cell = TVEpisodeTableViewCell()
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             default: return UITableViewCell()
             }

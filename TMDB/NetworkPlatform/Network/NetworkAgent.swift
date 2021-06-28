@@ -32,7 +32,13 @@ public final class NetworkAgent {
             
             let dataTask = session.dataTask(with: request) { (data, response, error) in
                 
-                guard error == nil else { return }
+                if let error = error {
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                        return
+                    }
+                }
+                
                 guard response != nil else { return }
                 guard let data = data else { return }
                 
@@ -49,7 +55,7 @@ public final class NetworkAgent {
                     return
                 }
             }
-                        dataTask.resume()
+            dataTask.resume()
         }
     }
 }

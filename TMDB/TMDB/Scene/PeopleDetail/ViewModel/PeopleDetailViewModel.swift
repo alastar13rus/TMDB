@@ -17,6 +17,7 @@ class PeopleDetailViewModel {
 //    MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
+    private let networkMonitor: Domain.NetworkMonitor
 
     private let peopleID: String
     private var peopleModel: PeopleModel? {
@@ -48,9 +49,14 @@ class PeopleDetailViewModel {
     
     
 //    MARK: - Init
-    required init(with peopleID: String, useCaseProvider: Domain.UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
+    required init(with peopleID: String,
+                  useCaseProvider: Domain.UseCaseProvider,
+                  useCasePersistenceProvider: Domain.UseCasePersistenceProvider,
+                  networkMonitor: Domain.NetworkMonitor) {
         self.useCaseProvider = useCaseProvider
         self.useCasePersistenceProvider = useCasePersistenceProvider
+        self.networkMonitor = networkMonitor
+        
         self.peopleID = peopleID
         
         setupInput()
@@ -109,12 +115,13 @@ class PeopleDetailViewModel {
     fileprivate func fetch(completion: @escaping (PeopleDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makePeopleDetailUseCase()
-        useCase.details(personID: peopleID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]) { (result: Result<PeopleDetailModel, Error>) in
+        useCase.details(personID: peopleID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]) { [weak self] (result: Result<PeopleDetailModel, Error>) in
             switch result {
             case .success(let peopleDetail):
                 completion(peopleDetail)
-            case .failure:
-                break
+                
+            case .failure(let error):
+                self?.inform(with: error.localizedDescription)
             }
         }
     }
@@ -234,7 +241,7 @@ class PeopleDetailViewModel {
             title: title,
             items:
                 [
-                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator, useCaseProvider: useCaseProvider))
+                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator))
                 ]
         )
         
@@ -317,7 +324,9 @@ class PeopleDetailViewModel {
         
         if !crewSection.items.isEmpty { sections.append(crewSection) }
         return sections
+    }
     
-    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
 }

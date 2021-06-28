@@ -39,7 +39,7 @@ class ReusableHeaderView: UICollectionReusableView {
     }
     
     fileprivate func setupUI() {
-        backgroundColor = .systemGray6
+        backgroundColor = .systemGray5
     }
     
     fileprivate func setupHierarhy() {

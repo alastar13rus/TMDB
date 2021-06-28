@@ -30,5 +30,5 @@ public protocol UseCaseProvider {
     
     func makeSearchUseCase() ->  SearchUseCase
 
-
+    func makeMonitoringUseCase() -> MonitoringUseCase
 }

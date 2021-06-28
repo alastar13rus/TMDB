@@ -9,6 +9,8 @@ import Foundation
 import Domain
 import RxSwift
 import RxRelay
+import Domain
+import NetworkPlatform
 
 
 class SearchViewModel {
@@ -17,7 +19,9 @@ class SearchViewModel {
     typealias Item = Section.SectionItem
 
 //    MARK: - Properties
-    let useCaseProvider: UseCaseProvider
+    private let useCaseProvider: Domain.UseCaseProvider
+    private let networkMonitor: Domain.NetworkMonitor
+    
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
     
@@ -46,9 +50,11 @@ class SearchViewModel {
     }
     
 //    MARK: - Init
-    init(useCaseProvider: UseCaseProvider) {
+    init(useCaseProvider: Domain.UseCaseProvider,
+         networkMonitor: Domain.NetworkMonitor) {
         self.useCaseProvider = useCaseProvider
-        
+        self.networkMonitor = networkMonitor
+
         subscribing()
         setupOutput()
     }
@@ -162,10 +168,13 @@ class SearchViewModel {
     
     fileprivate func fetchPopularPeoples(_ completion: @escaping ([Domain.PeopleModel]) -> Void) {
         let useCase = useCaseProvider.makePeopleListUseCase()
-        useCase.popular { (result) in
-            if case .success(let peopleListResponse) = result {
+        useCase.popular { [weak self] (result) in
+            switch result {
+            case .success(let peopleListResponse):
                 let peoples = peopleListResponse.results
                 completion(peoples)
+            case .failure(let error):
+                self?.inform(with: error.localizedDescription)
             }
         }
     }
@@ -206,7 +215,13 @@ class SearchViewModel {
     
     fileprivate func handleResults(_ result: Result<MultiSearchResponse, Error>) -> [Item] {
         
-        guard case .success(let response) = result else { return [] }
+        guard case .success(let response) = result else {
+            if case .failure(let error) = result {
+                inform(with: error.localizedDescription)
+            }
+            output.isFetching.accept(false)
+            return []
+        }
         
         let items = response.results.filter { !setOfFetchedMediaListIsContainsMediaItem($0) }.map { (searchItem) -> Item in
             switch searchItem {
@@ -238,6 +253,10 @@ class SearchViewModel {
         case .tv(let tvModel): return state.setOfFetchedMediaList.contains(tvModel.id)
         case .person(let peopleModel): return state.setOfFetchedMediaList.contains(peopleModel.id)
         }
+    }
+    
+    private func inform(with message: String) {
+        networkMonitor.delegate?.inform(with: message)
     }
     
 }

@@ -17,13 +17,8 @@ struct CreditInMediaViewModel {
     let credit: String
     let voteAverage: Float
     
-    func mediaPosterImageView(completion: @escaping (Data?) -> Void) {
-        guard let posterPath = mediaPosterPath else { completion(nil); return }
-        guard let mediaPosterFullURL = ImageURL.poster(.w154, posterPath).fullURL else { completion(nil); return }
-        
-        mediaPosterFullURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
+    var mediaPosterURL: URL? {
+        ImageURL.poster(.w154, mediaPosterPath).fullURL
     }
 }
 

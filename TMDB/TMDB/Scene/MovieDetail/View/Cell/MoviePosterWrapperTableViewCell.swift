@@ -15,6 +15,7 @@ class MoviePosterWrapperTableViewCell: UITableViewCell {
             self.configure(with: viewModel)
         }
     }
+    var indexPath: IndexPath!
     
     let posterWrapperView: MediaPosterWrapperView = {
         let view = MediaPosterWrapperView()
@@ -22,13 +23,6 @@ class MoviePosterWrapperTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
-    }()
-    
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .large)
-        activity.startAnimating()
-        activity.translatesAutoresizingMaskIntoConstraints = false
-        return activity
     }()
     
 //    MARK: Init
@@ -44,27 +38,34 @@ class MoviePosterWrapperTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterWrapperView.posterImageView.image = nil
+        posterWrapperView.posterImageView.contentMode = .scaleAspectFill
+    }
+    
     
 //    MARK: - Methods
     fileprivate func configure(with vm: MoviePosterWrapperCellViewModel) {
         posterWrapperView.titleLabel.text = vm.title
         posterWrapperView.releaseYearLabel.text = vm.releaseYear
+        posterWrapperView.taglineLabel.isHidden = vm.tagline.isEmpty ? true : false
+        posterWrapperView.blurBottomView.isHidden = vm.tagline.isEmpty ? true : false
         posterWrapperView.taglineLabel.text = vm.tagline
         posterWrapperView.voteAverageCircleProgressBar.progress = CGFloat(vm.voteAverage)
         
-        vm.posterImageData { [weak self] imageData in
-            guard let self = self else { return }
-            self.activityIndicatorView.stopAnimating()
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        posterWrapperView.posterImageView.loadImage(with: vm.posterURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            guard let imageData = imageData else {
+            guard let image = image else {
+                self.posterWrapperView.posterImageView.image = placeholder
                 self.posterWrapperView.posterImageView.contentMode = .scaleAspectFit
-                self.posterWrapperView.posterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                 return
             }
             
             self.posterWrapperView.posterImageView.contentMode = .scaleAspectFill
-            self.posterWrapperView.posterImageView.image = UIImage(data: imageData)
-//            }
+            return self.posterWrapperView.posterImageView.image = image
         }
     }
     
@@ -73,17 +74,11 @@ class MoviePosterWrapperTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(activityIndicatorView)
-        addSubview(posterWrapperView)
+        contentView.addSubview(posterWrapperView)
     }
     
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
-            activityIndicatorView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            activityIndicatorView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            activityIndicatorView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
-            activityIndicatorView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
-            
             posterWrapperView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             posterWrapperView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
             posterWrapperView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),

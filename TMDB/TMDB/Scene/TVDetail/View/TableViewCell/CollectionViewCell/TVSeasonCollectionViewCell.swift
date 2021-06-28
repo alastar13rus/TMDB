@@ -16,14 +16,8 @@ class TVSeasonCollectionViewCell: UICollectionViewCell {
             configure(with: viewModel)
         }
     }
-    
-    let posterImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 10
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    var indexPath: IndexPath!
+    let posterImageView = PosterImageView()
     
     let episodeCountLabel: UILabel = {
         let label = UILabel()
@@ -41,13 +35,6 @@ class TVSeasonCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let activityIndicatorView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .large)
-        activity.startAnimating()
-        activity.translatesAutoresizingMaskIntoConstraints = false
-        return activity
-    }()
-    
 //    MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,28 +48,32 @@ class TVSeasonCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterImageView.image = nil
+        posterImageView.contentMode = .scaleAspectFill
+    }
     
 //    MARK: - Methods
     
     fileprivate func configure(with vm: TVSeasonCellViewModel) {
         nameLabel.text = vm.name
         episodeCountLabel.text = "\(vm.episodeCountText)"
-                
-        vm.posterImageData { [weak self] imageData in
-            guard let self = self else { return }
-            self.activityIndicatorView.stopAnimating()
+        
+        let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
+        posterImageView.loadImage(with: vm.posterURL) { [weak self] (image) in
+            guard let self = self, self.tag == self.indexPath.row else { return }
             
-            guard let imageData = imageData else {
+            guard let image = image else {
+                self.posterImageView.image = placeholder
                 self.posterImageView.contentMode = .scaleAspectFit
-                self.posterImageView.image = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray4, renderingMode: .alwaysOriginal)
                 return
             }
             
             self.posterImageView.contentMode = .scaleAspectFill
-            self.posterImageView.image = UIImage(data: imageData)
+            return self.posterImageView.image = image 
         }
+
     }
     
     fileprivate func setupUI() {
@@ -93,7 +84,6 @@ class TVSeasonCollectionViewCell: UICollectionViewCell {
     }
     
     fileprivate func setupHierarhy() {
-        addSubview(activityIndicatorView)
         addSubview(posterImageView)
         addSubview(nameLabel)
         addSubview(episodeCountLabel)
@@ -101,12 +91,6 @@ class TVSeasonCollectionViewCell: UICollectionViewCell {
     
     fileprivate func setupConstraints() {
             NSLayoutConstraint.activate([
-                
-                activityIndicatorView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                activityIndicatorView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-                activityIndicatorView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-                activityIndicatorView.widthAnchor.constraint(equalTo: activityIndicatorView.heightAnchor),
-                
                 posterImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
                 posterImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
                 posterImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),

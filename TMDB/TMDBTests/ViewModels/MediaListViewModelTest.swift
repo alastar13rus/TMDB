@@ -23,8 +23,9 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let networkMonitor = NetworkMonitorMock.shared
             let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             viewModel.coordinator = coordinator
             return viewModel
         }()
@@ -75,8 +76,9 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let networkMonitor = NetworkMonitorMock.shared
             let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             viewModel.coordinator = coordinator
             return viewModel
         }()
@@ -105,8 +107,9 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let networkMonitor = NetworkMonitorMock.shared
             let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             viewModel.coordinator = coordinator
             return viewModel
         }()
@@ -136,7 +139,8 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let networkMonitor = NetworkMonitorMock.shared
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             return viewModel
         }()
         
@@ -146,7 +150,7 @@ class MediaListViewModelTest: XCTestCase {
         }
 
         waitForExpectations(timeout: 3)
-        XCTAssertEqual(sut.state.currentPage, 1)
+        XCTAssertEqual(sut.state.currentPage, 0)
         XCTAssertEqual(sut.state.numberOfMedia, 0)
 
     }
@@ -160,8 +164,9 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let networkMonitor = NetworkMonitorMock.shared
             let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             viewModel.coordinator = coordinator
             return viewModel
         }()
@@ -191,8 +196,9 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let networkMonitor = NetworkMonitorMock.shared
             let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             viewModel.coordinator = coordinator
             return viewModel
         }()
@@ -203,7 +209,7 @@ class MediaListViewModelTest: XCTestCase {
         
         let expectation = self.expectation(description: #function)
         
-        sut.fetch { (fetchedMovies) in
+        sut.fetch(1) { (fetchedMovies) in
             XCTAssertEqual(movies.count, 0)
             XCTAssertEqual(sut.output.isFetching.value, false)
             movies = fetchedMovies
@@ -227,8 +233,9 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let networkMonitor = NetworkMonitorMock.shared
             let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             viewModel.coordinator = coordinator
             return viewModel
         }()
@@ -238,7 +245,7 @@ class MediaListViewModelTest: XCTestCase {
 
         let expectation = self.expectation(description: #function)
 
-        sut.fetch { (fetchedMedia) in
+        sut.fetch(1) { (fetchedMedia) in
             XCTAssertEqual(media.count, 0)
             media = fetchedMedia
             XCTAssertEqual(sut.output.isFetching.value, true)
@@ -262,8 +269,9 @@ class MediaListViewModelTest: XCTestCase {
             let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
             let apiFactory = APIFactory(config)
             let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+            let networkMonitor = NetworkMonitorMock.shared
             let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+            let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
             viewModel.coordinator = coordinator
             return viewModel
         }()
@@ -294,8 +302,9 @@ let sut: SpyMediaListViewModel = {
     let config = (apiKey: appConfig.apiKey, apiBaseURL: appConfig.apiBaseURL)
     let apiFactory = APIFactory(config)
     let useCaseProvider = NetworkPlatform.UseCaseProvider(networkProvider: networkProvider, apiFactory: apiFactory)
+    let networkMonitor: Domain.NetworkMonitor = NetworkMonitorMock.shared
     let coordinator = MovieFlowCoordinator(navigationController: UINavigationController(), container: AppDIContainer.shared)
-    let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider)
+    let viewModel = SpyMediaListViewModel(useCaseProvider: useCaseProvider, networkMonitor: networkMonitor)
     viewModel.coordinator = coordinator
     return viewModel
 }()

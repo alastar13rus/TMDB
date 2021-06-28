@@ -19,6 +19,10 @@ struct TVPosterWrapperCellViewModel {
     let backdropPath: String?
     let releaseYear: String
     
+    var posterURL: URL? {
+        ImageURL.poster(.w500, posterPath).fullURL
+    }
+    
     init(_ model: TVDetailModel) {
         self.id = String(model.id)
         self.title = model.name
@@ -37,14 +41,4 @@ struct TVPosterWrapperCellViewModel {
             self.releaseYear = "\(firstYear)"
         }
     }
-    
-    func posterImageData(completion: @escaping (Data?) -> Void) {
-        guard let posterPath = posterPath else { completion(nil); return }
-        guard let posterAbsoluteURL = ImageURL.poster(.w500, posterPath).fullURL else { completion(nil); return }
-        
-        posterAbsoluteURL.downloadImageData { (imageData) in
-            completion(imageData)
-        }
-    }
-    
 }

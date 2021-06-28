@@ -24,18 +24,26 @@ struct CreditShortListDataSource: DataSourceProtocol {
             case .cast(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CastCollectionViewCell.self), for: indexPath) as? CastCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .aggregateCast(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVAggregateCastCollectionViewCell.self), for: indexPath) as? TVAggregateCastCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .crew(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CrewCollectionViewCell.self), for: indexPath) as? CrewCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .aggregateCrew(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVAggregateCrewCollectionViewCell.self), for: indexPath) as? TVAggregateCrewCollectionViewCell else { return UICollectionViewCell() }
                 cell.viewModel = vm
+                cell.indexPath = indexPath
+                cell.tag = indexPath.row
                 return cell
             case .showMore(let vm):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowMoreCell.self), for: indexPath) as? ShowMoreCell else { return UICollectionViewCell() }

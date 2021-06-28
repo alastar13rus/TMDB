@@ -35,7 +35,7 @@ class TVSeasonListViewModel {
 //    MARK: - Init
     required init(with mediaID: String, useCaseProvider: Domain.UseCaseProvider) {
         self.useCaseProvider = useCaseProvider
-        
+
         self.mediaID = mediaID
         
         setupInput()

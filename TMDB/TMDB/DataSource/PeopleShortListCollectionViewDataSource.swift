@@ -18,6 +18,8 @@ struct PeopleShortListCollectionViewDataSource: DataSourceProtocol {
         
         let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PeopleCollectionViewCell.self), for: indexPath) as? PeopleCollectionViewCell else { return UICollectionViewCell() }
+            cell.tag = indexPath.row
+            cell.indexPath = indexPath
             cell.viewModel = item
             return cell
             

@@ -8,7 +8,7 @@
 import Foundation
 
 
-public protocol MediaListAPI: class {
+public protocol MediaListAPI: AnyObject {
     
 }
 
