@@ -11,41 +11,39 @@ import Domain
 
 class MediaCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     var id: String = ""
     var title: String = ""
     var mediaType: MediaType = .movie
     var overview: String = ""
     var voteAverage: CGFloat = 0.0
-    var posterPath: String? = nil
+    var posterPath: String?
     
     var posterURL: URL? {
         ImageURL.poster(.w154, posterPath).fullURL
     }
 }
 
-//  MARK: - extension MediaCellViewModel: IdentifiableType
+// MARK: - extension MediaCellViewModel: IdentifiableType
 extension MediaCellViewModel: IdentifiableType {
     var identity: String { id }
 }
 
-//  MARK: - extension MediaCellViewModel: Hashable
+// MARK: - extension MediaCellViewModel: Hashable
 extension MediaCellViewModel: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
 
-//  MARK: - extension MediaCellViewModel: MediaCellViewModel
+// MARK: - extension MediaCellViewModel: MediaCellViewModel
 extension MediaCellViewModel: Equatable {
-    static func ==(lhs: MediaCellViewModel, rhs: MediaCellViewModel) -> Bool {
+    static func == (lhs: MediaCellViewModel, rhs: MediaCellViewModel) -> Bool {
         return lhs.id == rhs.id
     }
 }
 
-
 extension MediaCellViewModel {
-    
     
     convenience init(movieModel model: MovieModel) {
         self.init()
@@ -61,7 +59,6 @@ extension MediaCellViewModel {
 
 extension MediaCellViewModel {
     
-    
     convenience init(tvModel model: TVModel) {
         self.init()
         self.id = String(model.id)
@@ -75,10 +72,9 @@ extension MediaCellViewModel {
 
 extension MediaCellViewModel {
     
-    
     convenience init<T: MediaProtocol>(_ model: T) {
         self.init()
-        if model is MovieModel { self.init(movieModel: model as! MovieModel) }
-        if model is TVModel { self.init(tvModel: model as! TVModel) }
+        if let model = model as? MovieModel { self.init(movieModel: model) }
+        if let model = model as? TVModel { self.init(tvModel: model) }
     }
 }

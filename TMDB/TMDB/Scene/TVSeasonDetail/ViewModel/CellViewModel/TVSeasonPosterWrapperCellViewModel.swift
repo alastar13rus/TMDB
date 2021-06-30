@@ -10,7 +10,7 @@ import Domain
 
 struct TVSeasonPosterWrapperCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let airDate: String
     let episodes: [TVEpisodeDetailModel]
     let name: String
@@ -25,7 +25,7 @@ struct TVSeasonPosterWrapperCellViewModel {
         ImageURL.poster(.w500, posterPath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: TVSeasonDetailModel) {
         self.airDate = model.airDate ?? ""
         self.episodes = model.episodes

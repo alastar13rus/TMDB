@@ -9,7 +9,7 @@ import UIKit
 
 class TVSeasonTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVSeasonCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -43,7 +43,7 @@ class TVSeasonTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: Init
+// MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -68,7 +68,7 @@ class TVSeasonTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: TVSeasonCellViewModel) {
         nameLabel.text = vm.name
         airDateLabel.text = vm.airDateText
@@ -117,7 +117,7 @@ class TVSeasonTableViewCell: UITableViewCell {
             
             episodeCountLabel.topAnchor.constraint(equalTo: airDateLabel.bottomAnchor, constant: 12),
             episodeCountLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
-            episodeCountLabel.rightAnchor.constraint(equalTo: nameLabel.rightAnchor),
+            episodeCountLabel.rightAnchor.constraint(equalTo: nameLabel.rightAnchor)
         ])
     }
     

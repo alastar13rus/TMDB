@@ -9,7 +9,7 @@ import UIKit
 
 class CastCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: CastCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -33,7 +33,7 @@ class CastCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -52,8 +52,7 @@ class CastCollectionViewCell: UICollectionViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CastCellViewModel) {
         nameLabel.text = vm.name
         characterLabel.text = vm.character
@@ -96,10 +95,9 @@ class CastCollectionViewCell: UICollectionViewCell {
             characterLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             characterLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             characterLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            characterLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            characterLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
             
         ])
     }
-    
     
 }

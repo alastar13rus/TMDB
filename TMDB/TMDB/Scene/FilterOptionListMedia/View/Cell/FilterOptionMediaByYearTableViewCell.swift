@@ -9,7 +9,7 @@ import UIKit
 
 class FilterOptionMediaByYearTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: FilterOptionMediaByYearCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -23,7 +23,7 @@ class FilterOptionMediaByYearTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -36,7 +36,7 @@ class FilterOptionMediaByYearTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         
     }
@@ -50,7 +50,7 @@ class FilterOptionMediaByYearTableViewCell: UITableViewCell {
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             titleLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
-            titleLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            titleLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
     

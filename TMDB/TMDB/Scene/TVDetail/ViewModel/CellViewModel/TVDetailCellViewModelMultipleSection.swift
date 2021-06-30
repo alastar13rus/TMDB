@@ -37,7 +37,6 @@ enum TVDetailCellViewModelMultipleSection {
         case tvSeasonShortList(vm: TVSeasonShortListViewModel)
         case tvStatus(vm: MediaStatusCellViewModel)
         case tvCompilationList(vm: MediaCompilationListViewModel)
-
         
         var identity: String {
             switch self {
@@ -55,7 +54,7 @@ enum TVDetailCellViewModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             return lhs.identity == rhs.identity
         }
     }
@@ -117,6 +116,5 @@ extension TVDetailCellViewModelMultipleSection: AnimatableSectionModelType {
             self = original
         }
     }
-    
     
 }

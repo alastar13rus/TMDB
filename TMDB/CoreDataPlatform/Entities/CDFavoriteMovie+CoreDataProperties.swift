@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension CDFavoriteMovie {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CDFavoriteMovie> {
@@ -33,6 +32,6 @@ extension CDFavoriteMovie {
     
 }
 
-extension CDFavoriteMovie : Identifiable {
+extension CDFavoriteMovie: Identifiable {
 
 }

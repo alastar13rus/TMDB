@@ -19,7 +19,7 @@ public final class TVListAPI {
     }
 }
 
-//  MARK: - Domain.TVListAPI
+// MARK: - Domain.TVListAPI
 extension TVListAPI: Domain.TVListAPI {
     
     public func topRated(page: Int) -> Domain.Endpoint {

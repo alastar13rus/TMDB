@@ -19,10 +19,13 @@ public final class TVSeasonDetailAPI {
     }
 }
 
-//  MARK: - extension Domain.TVSeasonDetailAPI
+// MARK: - extension Domain.TVSeasonDetailAPI
 extension TVSeasonDetailAPI: Domain.TVSeasonDetailAPI {
     
-    public func details(mediaID: String, seasonNumber: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {
+    public func details(mediaID: String,
+                        seasonNumber: String,
+                        appendToResponse: [AppendToResponse],
+                        includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {
         
         let method: HTTPMethod = .get
         let path = "/3/tv/" + mediaID + "/season/" + seasonNumber
@@ -50,7 +53,6 @@ extension TVSeasonDetailAPI: Domain.TVSeasonDetailAPI {
         ]
         
         return Endpoint(method: method, host: apiBaseURL, path: path, queryItems: queryItems)    }
-    
     
     public func videos(mediaID: String, seasonNumber: String) -> Domain.Endpoint {
         

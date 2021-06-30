@@ -22,8 +22,8 @@ public protocol TVEpisodeDetailUseCase: UseCase {
                 completion: @escaping (Result<VideoList, Error>) -> Void)
     
     func credits(mediaID: String,
-                          seasonNumber: String,
-                          episodeNumber: String,
-                          completion: @escaping (Result<EpisodeCreditList, Error>) -> Void)
+                 seasonNumber: String,
+                 episodeNumber: String,
+                 completion: @escaping (Result<EpisodeCreditList, Error>) -> Void)
     
 }

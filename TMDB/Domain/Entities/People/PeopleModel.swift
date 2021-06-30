@@ -63,8 +63,7 @@ public struct PeopleModel: Decodable {
         self.profilePath = profilePath
     }
     
-    public init(_ detailModel: PeopleDetailModel)
-    {
+    public init(_ detailModel: PeopleDetailModel) {
         self.adult = detailModel.adult
         self.id = detailModel.id
         self.knownFor = []

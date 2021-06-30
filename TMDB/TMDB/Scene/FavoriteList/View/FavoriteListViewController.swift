@@ -11,12 +11,10 @@ import RxDataSources
 
 class FavoriteListViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: FavoriteListViewModel!
     let dataSource = FavoriteListTableViewDataSource.dataSource()
     private let disposeBag = DisposeBag()
-    
-    
     
     private let favoriteListTableView: UITableView = {
         let tableView = UITableView()
@@ -25,8 +23,7 @@ class FavoriteListViewController: UIViewController {
         return tableView
     }()
     
-    
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,8 +38,7 @@ class FavoriteListViewController: UIViewController {
         viewModel.input.viewWillAppear.accept(Void())
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     private func setupUI() {
         view.backgroundColor = .white
     }
@@ -56,7 +52,7 @@ class FavoriteListViewController: UIViewController {
             favoriteListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             favoriteListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             favoriteListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            favoriteListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            favoriteListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
     
@@ -107,4 +103,3 @@ extension FavoriteListViewController: UITableViewDelegate {
     }
     
 }
-

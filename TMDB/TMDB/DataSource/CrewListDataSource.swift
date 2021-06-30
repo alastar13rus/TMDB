@@ -12,18 +12,22 @@ struct CrewListDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<CrewCellViewModelSection>
     
+    private static let animationConfiguration = AnimationConfiguration(
+        insertAnimation: .automatic,
+        reloadAnimation: .automatic,
+        deleteAnimation: .automatic)
+    
     static func dataSource() -> DataSource {
         
-        let animationConfiguration = AnimationConfiguration(
-            insertAnimation: .automatic,
-            reloadAnimation: .automatic,
-            deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CrewCollectionViewCell.self), for: indexPath) as? CrewCollectionViewCell else { return UICollectionViewCell() }
+        let configureCell: DataSource.ConfigureCell = { (ds, cv, ip, item) -> UICollectionViewCell in
+            let reuseId = CrewCollectionViewCell.reuseId
+            
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? CrewCollectionViewCell
+            else { return UICollectionViewCell() }
+            
             cell.viewModel = item
-            cell.indexPath = indexPath
-            cell.tag = indexPath.row
+            cell.indexPath = ip
+            cell.tag = ip.row
             return cell
         }
         

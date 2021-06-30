@@ -9,12 +9,10 @@ import Foundation
 import RxSwift
 import RxRelay
 import Domain
-import NetworkPlatform
 
 class PeopleDetailViewModel {
     
-    
-//    MARK: - Properties
+// MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
     private let networkMonitor: Domain.NetworkMonitor
@@ -28,8 +26,7 @@ class PeopleDetailViewModel {
     weak var coordinator: Coordinator?
     private let disposeBag = DisposeBag()
     
-    
-    //    MARK: - Input
+    // MARK: - Input
     
     struct Input {
         let selectedItem = PublishRelay<CreditInMediaViewModel>()
@@ -37,7 +34,7 @@ class PeopleDetailViewModel {
     }
     let input = Input()
     
-    //    MARK: - Output
+    // MARK: - Output
     
     struct Output {
         let name = BehaviorRelay<String>(value: "")
@@ -47,8 +44,7 @@ class PeopleDetailViewModel {
     
     let output = Output()
     
-    
-//    MARK: - Init
+// MARK: - Init
     required init(with peopleID: String,
                   useCaseProvider: Domain.UseCaseProvider,
                   useCasePersistenceProvider: Domain.UseCasePersistenceProvider,
@@ -63,7 +59,7 @@ class PeopleDetailViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: {
@@ -115,7 +111,11 @@ class PeopleDetailViewModel {
     fileprivate func fetch(completion: @escaping (PeopleDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makePeopleDetailUseCase()
-        useCase.details(personID: peopleID, appendToResponse: [.combinedCredits, .images], includeImageLanguage: [.ru, .null]) { [weak self] (result: Result<PeopleDetailModel, Error>) in
+        
+        useCase.details(personID: peopleID,
+                        appendToResponse: [.combinedCredits, .images],
+                        includeImageLanguage: [.ru, .null]) { [weak self] (result: Result<PeopleDetailModel, Error>) in
+            
             switch result {
             case .success(let peopleDetail):
                 completion(peopleDetail)
@@ -140,17 +140,26 @@ class PeopleDetailViewModel {
 
     }
     
-    fileprivate func configureProfileWrapperSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+    fileprivate func configureProfileWrapperSection(
+        with model: PeopleDetailModel,
+        sections: [PeopleDetailCellViewModelMultipleSection]
+    ) -> [PeopleDetailCellViewModelMultipleSection] {
+        
         let title = ""
         var sections = sections
         
-        let profileWrapperSection: PeopleDetailCellViewModelMultipleSection = .profileWrapperSection(title: title, items: [.profileWrapper(vm: PeopleProfileWrapperCellViewModel(model))])
+        let profileWrapperSection: PeopleDetailCellViewModelMultipleSection =
+            .profileWrapperSection(title: title,
+                                   items: [.profileWrapper(vm: PeopleProfileWrapperCellViewModel(model))])
         
         sections.append(profileWrapperSection)
         return sections
     }
     
-    fileprivate func configureImageListSection(withModel model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+    fileprivate func configureImageListSection(
+        withModel model: PeopleDetailModel,
+        sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+        
         let title = "Фото"
         guard var images = model.images?.profiles, !images.isEmpty else { return sections }
         images.removeFirst()
@@ -159,7 +168,11 @@ class PeopleDetailViewModel {
         
         guard let coordinator = coordinator as? ToImageFullScreenRoutable else { return sections }
         
-        let items: [PeopleDetailCellViewModelMultipleSection.SectionItem] = [.imageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .profile(size: .small)) }, coordinator: coordinator, contentForm: .portrait))]
+        let items: [PeopleDetailCellViewModelMultipleSection.SectionItem] = [
+            .imageList(vm: ImageListViewModel(title: title,
+                                              items: images.map { ImageCellViewModel($0, imageType: .profile(size: .small)) },
+                                              coordinator: coordinator, contentForm: .portrait))
+        ]
         
         let imageListSection: PeopleDetailCellViewModelMultipleSection = .imageListSection(title: title, items: items)
         
@@ -167,7 +180,11 @@ class PeopleDetailViewModel {
         return sections
     }
     
-    fileprivate func configureBioSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+    fileprivate func configureBioSection(
+        with model: PeopleDetailModel,
+        sections: [PeopleDetailCellViewModelMultipleSection]
+    ) -> [PeopleDetailCellViewModelMultipleSection] {
+    
         let title = "Биография"
         var sections = sections
         
@@ -177,7 +194,11 @@ class PeopleDetailViewModel {
         return sections
     }
     
-    fileprivate func configureBestMediaSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+    fileprivate func configureBestMediaSection(
+        with model: PeopleDetailModel,
+        sections: [PeopleDetailCellViewModelMultipleSection]
+    ) -> [PeopleDetailCellViewModelMultipleSection] {
+        
         let title = "Лучшие работы"
         var sections = sections
         
@@ -201,55 +222,54 @@ class PeopleDetailViewModel {
                 credits[crewModel.id] = [crewModel.job]
             }
         }
-
+        
         let groupedCredit =
-            cast.filter { $0.character != nil }.map {
-                GroupedCreditInMediaModel(
-                    id: $0.id,
-                    posterPath: $0.posterPath,
-                    mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
-                    mediaType: $0.mediaType,
-                    credit: credits[$0.id]!.joined(separator: ", "),
-                    voteAverage: $0.voteAverage,
-                    releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
-                    firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
-                    )
-                
-            } +
-            crew.map {
-                GroupedCreditInMediaModel(
-                    id: $0.id,
-                    posterPath: $0.posterPath,
-                    mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
-                    mediaType: $0.mediaType,
-                    credit: credits[$0.id]!.joined(separator: ", "),
-                    voteAverage: $0.voteAverage,
-                    releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
-                    firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
-                    )
-                
-            }
+        cast.filter { $0.character != nil }.map {
+            GroupedCreditInMediaModel(
+                id: $0.id, posterPath: $0.posterPath, mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
+                mediaType: $0.mediaType, credit: credits[$0.id]!.joined(separator: ", "), voteAverage: $0.voteAverage,
+                releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
+                firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
+            )
+        } +
+        crew.map {
+            GroupedCreditInMediaModel(
+                id: $0.id, posterPath: $0.posterPath, mediaTitle: ($0.mediaType == .movie) ? $0.title! : $0.name!,
+                mediaType: $0.mediaType, credit: credits[$0.id]!.joined(separator: ", "), voteAverage: $0.voteAverage,
+                releaseDate: ($0.mediaType == .movie) ? $0.releaseDate : "",
+                firstAirDate: ($0.mediaType == .tv) ? $0.firstAirDate : ""
+            )
+        }
         
-        let creditInMovie: [CreditInMediaCellViewModelMultipleSection.SectionItem] = groupedCredit.filter { $0.mediaType.rawValue == MediaType.movie.rawValue }.toUnique().sorted(by: >).prefix(5).map { .creditInMovie(vm: CreditInMediaViewModel($0)) }
+        let creditInMovie: [CreditInMediaCellViewModelMultipleSection.SectionItem] =
+        groupedCredit
+            .filter { $0.mediaType.rawValue == MediaType.movie.rawValue }
+            .toUnique().sorted(by: >).prefix(5)
+            .map { .creditInMovie(vm: CreditInMediaViewModel($0)) }
         
-        let creditInTV: [CreditInMediaCellViewModelMultipleSection.SectionItem] = groupedCredit.filter { $0.mediaType.rawValue == MediaType.tv.rawValue }.toUnique().sorted(by: >).prefix(5).map { .creditInTV(vm: CreditInMediaViewModel($0)) }
+        let creditInTV: [CreditInMediaCellViewModelMultipleSection.SectionItem] =
+        groupedCredit
+            .filter { $0.mediaType.rawValue == MediaType.tv.rawValue }
+            .toUnique().sorted(by: >).prefix(5)
+            .map { .creditInTV(vm: CreditInMediaViewModel($0)) }
         
         let movieSectionItems: [CreditInMediaCellViewModelMultipleSection.SectionItem] = creditInMovie.sorted(by: >)
         let tvSectionItems: [CreditInMediaCellViewModelMultipleSection.SectionItem] = creditInTV.sorted(by: >)
         
         let bestMediaSection: PeopleDetailCellViewModelMultipleSection = .bestMediaSection(
             title: title,
-            items:
-                [
-                    PeopleDetailCellViewModelMultipleSection.SectionItem.bestMedia(vm: PeopleBestMediaListViewModel(title: title, items: movieSectionItems + tvSectionItems, coordinator: coordinator))
-                ]
-        )
+            items: [.bestMedia(vm: PeopleBestMediaListViewModel(title: title,
+                                                                items: movieSectionItems + tvSectionItems,
+                                                                coordinator: coordinator))])
         
-        if (!bestMediaSection.items.isEmpty) { sections.append(bestMediaSection) }
+        if !bestMediaSection.items.isEmpty { sections.append(bestMediaSection) }
         return sections
     }
     
-    fileprivate func configureCastSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+    fileprivate func configureCastSection(
+        with model: PeopleDetailModel,
+        sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+        
         let title = "Актер"
         var sections = sections
         
@@ -286,10 +306,12 @@ class PeopleDetailViewModel {
         if !castSection.items.isEmpty { sections.append(castSection) }
         return sections
     
-    
     }
     
-    fileprivate func configureCrewSection(with model: PeopleDetailModel, sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+    fileprivate func configureCrewSection(
+        with model: PeopleDetailModel,
+        sections: [PeopleDetailCellViewModelMultipleSection]) -> [PeopleDetailCellViewModelMultipleSection] {
+        
         let title = "Создатель"
         var sections = sections
         

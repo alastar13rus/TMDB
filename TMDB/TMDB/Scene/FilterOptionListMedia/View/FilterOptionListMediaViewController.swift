@@ -11,7 +11,7 @@ import RxDataSources
 
 class FilterOptionListMediaViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: FilterOptionListMediaViewModel!
     let dataSource = FilterOptionListMediaTableViewDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -23,7 +23,7 @@ class FilterOptionListMediaViewController: UIViewController {
         return tableView
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +32,7 @@ class FilterOptionListMediaViewController: UIViewController {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
     }
@@ -46,7 +46,7 @@ class FilterOptionListMediaViewController: UIViewController {
             filterOptionListMediaByYearTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
             filterOptionListMediaByYearTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
             filterOptionListMediaByYearTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
-            filterOptionListMediaByYearTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
+            filterOptionListMediaByYearTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
 }

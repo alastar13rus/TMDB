@@ -14,5 +14,4 @@ public protocol CoreDataRepresentable {
     var uid: Int { get }
     func asCoreDataObject(with context: NSManagedObjectContext) -> NSManagedObject
     
-    
 }

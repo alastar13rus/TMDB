@@ -44,19 +44,19 @@ enum PeopleDetailCellViewModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             switch (lhs, rhs) {
-            case (.profileWrapper(_), .profileWrapper(_)):
+            case (.profileWrapper, .profileWrapper):
                 return lhs.identity == rhs.identity
-            case (.imageList(_), .imageList(_)):
+            case (.imageList, .imageList):
                 return lhs.identity == rhs.identity
-            case (.bio(_), .bio(_)):
+            case (.bio, .bio):
                 return lhs.identity == rhs.identity
-            case (.bestMedia(_), .bestMedia(_)):
+            case (.bestMedia, .bestMedia):
                 return lhs.identity == rhs.identity
-            case (.cast(_), .cast(_)):
+            case (.cast, .cast):
                 return lhs.identity == rhs.identity
-            case (.crew(_), .crew(_)):
+            case (.crew, .crew):
                 return lhs.identity == rhs.identity
             default: return false
             }
@@ -64,7 +64,7 @@ enum PeopleDetailCellViewModelMultipleSection {
     }
 }
 
-//  MARK: - Extensions
+// MARK: - Extensions
 extension PeopleDetailCellViewModelMultipleSection: AnimatableSectionModelType {
     
     var title: String {
@@ -115,8 +115,6 @@ extension PeopleDetailCellViewModelMultipleSection: AnimatableSectionModelType {
         }
     }
     
-    
-    
 }
 
 extension PeopleDetailCellViewModelMultipleSection: IdentifiableType {
@@ -124,7 +122,7 @@ extension PeopleDetailCellViewModelMultipleSection: IdentifiableType {
 }
 
 extension PeopleDetailCellViewModelMultipleSection: Equatable {
-    static func ==(lhs: PeopleDetailCellViewModelMultipleSection, rhs: PeopleDetailCellViewModelMultipleSection) -> Bool {
+    static func == (lhs: PeopleDetailCellViewModelMultipleSection, rhs: PeopleDetailCellViewModelMultipleSection) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

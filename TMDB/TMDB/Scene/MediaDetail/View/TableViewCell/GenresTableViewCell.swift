@@ -9,7 +9,7 @@ import UIKit
 
 class GenresTableViewCell: UITableViewCell {
     
-    //    MARK: - Properties
+    // MARK: - Properties
         var viewModel: GenresCellViewModel! {
             didSet {
                 configureCell(with: viewModel)
@@ -24,8 +24,7 @@ class GenresTableViewCell: UITableViewCell {
             return label
         }()
         
-        
-    //    MARK: - Init
+    // MARK: - Init
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
@@ -44,8 +43,7 @@ class GenresTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
         
-        
-    //    MARK: - Methods
+    // MARK: - Methods
         fileprivate func configureCell(with vm: GenresCellViewModel) {
             genresLabel.text = vm.genres
         }
@@ -63,7 +61,7 @@ class GenresTableViewCell: UITableViewCell {
                 genresLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
                 genresLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
                 genresLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
-                genresLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+                genresLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12)
             ])
         }
     }

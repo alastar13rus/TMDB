@@ -18,7 +18,7 @@ class TabBarCoordinator: Coordinator {
     }
     
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
     let container: Container
@@ -108,16 +108,11 @@ class TabBarCoordinator: Coordinator {
         state = .favoriteTab
     }
     
-    
 }
 
-
-extension TabBarCoordinator : Equatable {
+extension TabBarCoordinator: Equatable {
     static func == (lhs: TabBarCoordinator, rhs: TabBarCoordinator) -> Bool {
         return lhs.identifier == rhs.identifier
     }
     
-    
 }
-
-

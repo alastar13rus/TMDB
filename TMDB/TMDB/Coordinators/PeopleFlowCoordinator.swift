@@ -28,7 +28,8 @@ extension ToPeopleRoutable {
     }
     
     func toCreditList(with mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?) {
-        _ = container.resolve(Typealias.CreditListBundle.self, arguments: (self as NavigationCoordinator), mediaID, mediaType, creditType, seasonNumber, episodeNumber)
+        _ = container.resolve(Typealias.CreditListBundle.self,
+                              arguments: (self as NavigationCoordinator), mediaID, mediaType, creditType, seasonNumber, episodeNumber)
     }
 }
 
@@ -50,22 +51,20 @@ extension ToImageFullScreenRoutable {
 
 class PeopleFlowCoordinator: NavigationCoordinator {
     
-//    MARK: - Properties
+// MARK: - Properties
     var navigationController: UINavigationController
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     let container: Container
     
-    
-//    MARK: - Init
+// MARK: - Init
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     func start() {
         
     }
@@ -98,5 +97,5 @@ class PeopleFlowCoordinator: NavigationCoordinator {
     }
 }
 
-//  MARK: - extension ToImageFullScreenRoutable
+// MARK: - extension ToImageFullScreenRoutable
 extension PeopleFlowCoordinator: ToImageFullScreenRoutable { }

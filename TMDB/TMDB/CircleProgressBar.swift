@@ -24,7 +24,6 @@ class CircleProgressBar: UIView {
     private lazy var counterEndValue = Int(progress)
     private lazy var counterDisplayLink = CADisplayLink(target: self, selector: #selector(handleTextUpdate))
     
-    
     private lazy var backgroundLayer: CAShapeLayer = {
         let layer = circularLayerFactory(strokeColor: backgroundCircleColor.cgColor, fillColor: fillColor.cgColor, lineWidth: lineWidth)
         

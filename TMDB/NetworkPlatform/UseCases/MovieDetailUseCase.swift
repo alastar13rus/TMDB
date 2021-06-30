@@ -11,14 +11,17 @@ import Domain
 final class MovieDetailUseCase: Domain.MovieDetailUseCase {
     
     private let repository: MovieDetailRepository
-    private let api: MovieDetailAPI
+    private let api: Domain.MovieDetailAPI
 
-    init(_ repository: MovieDetailRepository, _ api: MovieDetailAPI) {
+    init(_ repository: MovieDetailRepository, _ api: Domain.MovieDetailAPI) {
         self.repository = repository
         self.api = api
     }
     
-    func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage], completion: @escaping (Result<MovieDetailModel, Error>) -> Void) {
+    func details(mediaID: String,
+                 appendToResponse: [AppendToResponse],
+                 includeImageLanguage: [IncludeImageLanguage],
+                 completion: @escaping (Result<MovieDetailModel, Error>) -> Void) {
         
         let request = api.details(mediaID: mediaID, appendToResponse: appendToResponse, includeImageLanguage: includeImageLanguage)
         repository.fetchMovieDetails(request, completion: completion)

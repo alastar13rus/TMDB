@@ -8,7 +8,6 @@
 import UIKit
 import Swinject
 import Domain
-import NetworkPlatform
 
 protocol Alertable: NavigationCoordinator {
     
@@ -31,16 +30,15 @@ extension Alertable {
 
 class AlertCoordinator: Coordinator {
     
-//    MARK: - Properties
+// MARK: - Properties
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
     private var message: String = ""
     private var title: String = ""
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     func start() {
         let alertController = UIAlertController(title: "Информация", message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "Ok", style: .default)

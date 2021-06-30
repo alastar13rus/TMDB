@@ -10,15 +10,15 @@ import Domain
 
 public class CacheProvider: Domain.CacheProvider {
     
-    //    MARK: - Properties
+    // MARK: - Properties
     public static let shared = CacheProvider()
     let cache = NSCache<NSString, UIImage>()
     let lock = NSLock()
     
-    //    MARK: - Init
+    // MARK: - Init
     public init() { }
     
-//    MARK: - Subscripts
+// MARK: - Subscripts
     public subscript(_ url: URL) -> UIImage? {
         get {
             image(for: url)
@@ -29,13 +29,13 @@ public class CacheProvider: Domain.CacheProvider {
         }
     }
     
-    //    MARK: - Methods
+    // MARK: - Methods
     
     public func image(for url: URL) -> UIImage? {
         lock.lock()
         defer { lock.unlock() }
         guard let image = cache.object(forKey: url.absoluteString as NSString) else { return nil }
-        print("\nПолучение из кэша. \n\tКлюч:\t\(url)\n")
+//        print("\nПолучение из кэша. \n\tКлюч:\t\(url)\n")
         return image
     }
     
@@ -51,8 +51,5 @@ public class CacheProvider: Domain.CacheProvider {
         defer { lock.unlock() }
         cache.removeObject(forKey: url.absoluteString as NSString)
     }
-    
-    
-    
     
 }

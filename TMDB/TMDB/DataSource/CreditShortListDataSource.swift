@@ -12,45 +12,66 @@ struct CreditShortListDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<CreditCellViewModelMultipleSection>
     
-    static func dataSource() -> DataSource {
+    private static let animationConfiguration = AnimationConfiguration(
+        insertAnimation: .automatic,
+        reloadAnimation: .automatic,
+        deleteAnimation: .automatic)
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, cv, ip, item) -> UICollectionViewCell in
         
-        let animationConfiguration = AnimationConfiguration(
-            insertAnimation: .automatic,
-            reloadAnimation: .automatic,
-            deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            switch dataSource[indexPath] {
-            case .cast(let vm):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CastCollectionViewCell.self), for: indexPath) as? CastCollectionViewCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            case .aggregateCast(let vm):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVAggregateCastCollectionViewCell.self), for: indexPath) as? TVAggregateCastCollectionViewCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            case .crew(let vm):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: CrewCollectionViewCell.self), for: indexPath) as? CrewCollectionViewCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            case .aggregateCrew(let vm):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVAggregateCrewCollectionViewCell.self), for: indexPath) as? TVAggregateCrewCollectionViewCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            case .showMore(let vm):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowMoreCell.self), for: indexPath) as? ShowMoreCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                return cell
-            }
+        switch ds[ip] {
+            
+        case .cast(let vm):
+            let reuseId = CastCollectionViewCell.reuseId
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? CastCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+            
+        case .aggregateCast(let vm):
+            let reuseId = TVAggregateCastCollectionViewCell.reuseId
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? TVAggregateCastCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+            
+        case .crew(let vm):
+            let reuseId = CrewCollectionViewCell.reuseId
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? CrewCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+            
+        case .aggregateCrew(let vm):
+            let reuseId = TVAggregateCrewCollectionViewCell.reuseId
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? TVAggregateCrewCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+            
+        case .showMore(let vm):
+            let reuseId = ShowMoreCell.reuseId
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? ShowMoreCell
+            else { return UICollectionViewCell() }
+            
+            cell.viewModel = vm
+            return cell
         }
+    }
+    
+    static func dataSource() -> DataSource {
         
         return DataSource(
             animationConfiguration: animationConfiguration,

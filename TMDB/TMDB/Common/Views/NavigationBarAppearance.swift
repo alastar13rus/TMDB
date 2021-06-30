@@ -12,22 +12,20 @@ class NavigationBarAppearance: UINavigationBarAppearance {
     override init(barAppearance: UIBarAppearance) {
         super.init(barAppearance: barAppearance)
         
-        
         self.configureWithOpaqueBackground()
 //        self.configureWithTransparentBackground()
         self.backgroundImageContentMode = .scaleAspectFill
         self.titleTextAttributes = [
-            .foregroundColor: UIColor.darkText,
+            .foregroundColor: UIColor.darkText
         ]
         self.largeTitleTextAttributes = [
 //            .foregroundColor: UIColor.darkText,
-            .font: UIFont.boldSystemFont(ofSize: 24),
+            .font: UIFont.boldSystemFont(ofSize: 24)
         ]
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
         
 }

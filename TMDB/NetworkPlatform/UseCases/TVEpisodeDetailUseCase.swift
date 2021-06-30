@@ -11,9 +11,9 @@ import Domain
 final class TVEpisodeDetailUseCase: Domain.TVEpisodeDetailUseCase {
     
     private let network: TVEpisodeDetailRepository
-    private let api: TVEpisodeDetailAPI
+    private let api: Domain.TVEpisodeDetailAPI
 
-    init(_ network: TVEpisodeDetailRepository, _ api: TVEpisodeDetailAPI) {
+    init(_ network: TVEpisodeDetailRepository, _ api: Domain.TVEpisodeDetailAPI) {
         self.network = network
         self.api = api
     }
@@ -43,9 +43,9 @@ final class TVEpisodeDetailUseCase: Domain.TVEpisodeDetailUseCase {
     }
     
     func credits(mediaID: String,
-                          seasonNumber: String,
-                          episodeNumber: String,
-                          completion: @escaping (Result<EpisodeCreditList, Error>) -> Void) {
+                 seasonNumber: String,
+                 episodeNumber: String,
+                 completion: @escaping (Result<EpisodeCreditList, Error>) -> Void) {
         
         let request = api.aggregateCredits(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
         network.fetchTVEpisodeCredits(request, completion: completion)

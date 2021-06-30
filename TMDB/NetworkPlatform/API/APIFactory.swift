@@ -16,7 +16,7 @@ public class APIFactory: Domain.APIFactory {
         self.config = config
     }
     
-//    MARK: - MovieFlow
+// MARK: - MovieFlow
     public func makeMovieListAPI() -> Domain.MovieListAPI {
         return MovieListAPI(config)
     }
@@ -25,7 +25,7 @@ public class APIFactory: Domain.APIFactory {
         return MovieDetailAPI(config)
     }
     
-//    MARK: - TVFlow
+// MARK: - TVFlow
     public func makeTVListAPI() -> Domain.TVListAPI {
         return TVListAPI(config)
     }
@@ -34,17 +34,17 @@ public class APIFactory: Domain.APIFactory {
         return TVDetailAPI(config)
     }
 
-//    MARK: - TVSeasonFlow
+// MARK: - TVSeasonFlow
     public func makeTVSeasonDetailAPI() -> Domain.TVSeasonDetailAPI {
         return TVSeasonDetailAPI(config)
     }
     
-//    MARK: - TVEpisodeFlow
+// MARK: - TVEpisodeFlow
     public func makeTVEpisodeDetailAPI() -> Domain.TVEpisodeDetailAPI {
         return TVEpisodeDetailAPI(config)
     }
     
-//    MARK: - TVPeopleFlow
+// MARK: - TVPeopleFlow
     public func makePeopleDetailAPI() -> Domain.PeopleDetailAPI {
         return PeopleDetailAPI(config)
     }
@@ -53,7 +53,7 @@ public class APIFactory: Domain.APIFactory {
         return PeopleListAPI(config)
     }
     
-//    MARK: - TVPeopleFlow
+// MARK: - TVPeopleFlow
     public func makeSearchAPI() -> Domain.SearchAPI {
         return SearchAPI(config)
     }

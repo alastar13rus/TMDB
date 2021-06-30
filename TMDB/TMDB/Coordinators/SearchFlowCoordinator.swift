@@ -11,22 +11,20 @@ import Swinject
 
 class SearchFlowCoordinator: NavigationCoordinator {
     
-//    MARK: - Properties
+// MARK: - Properties
     var container: Container
     var navigationController: UINavigationController
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
-    
-//    MARK: - Init
+// MARK: - Init
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     func start() {
         _ = container.resolve(Typealias.SearchBundle.self, argument: self)
     }
@@ -40,7 +38,8 @@ class SearchFlowCoordinator: NavigationCoordinator {
     }
     
     func toMediaListByGenre(_ genreID: String, genreName: String, mediaType: Domain.MediaType) {
-        _ = container.resolve(Typealias.MediaFilteredListBundle.self, arguments: self, mediaType, MediaFilterType.byGenre(genreID: genreID, genreName: genreName))
+        _ = container.resolve(Typealias.MediaFilteredListBundle.self,
+                              arguments: self, mediaType, MediaFilterType.byGenre(genreID: genreID, genreName: genreName))
     }
     
     func toMovie(with mediaID: String) {

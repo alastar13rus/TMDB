@@ -24,11 +24,10 @@ enum SearchResultCellViewModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             lhs.identity == rhs.identity
         }
     }
-    
     
     init(original: SearchResultCellViewModelMultipleSection, items: [SectionItem]) {
         switch original {
@@ -66,4 +65,3 @@ extension SearchResultCellViewModelMultipleSection: Equatable {
         return lhs.identity == rhs.identity
     }
 }
-

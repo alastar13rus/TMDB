@@ -13,7 +13,7 @@ import Domain
 
 class TVEpisodeListViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let useCaseProvider: Domain.UseCaseProvider
     
     let disposeBag = DisposeBag()
@@ -32,8 +32,7 @@ class TVEpisodeListViewModel {
         let sectionedItems = BehaviorRelay<[TVEpisodeCellViewModelMultipleSection]>(value: [])
     }
     
-    
-//    MARK: - Init
+// MARK: - Init
     required init(with mediaID: String, seasonNumber: String, useCaseProvider: Domain.UseCaseProvider) {
         self.useCaseProvider = useCaseProvider
         
@@ -44,7 +43,7 @@ class TVEpisodeListViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: { [weak self] in
             guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }
@@ -77,7 +76,10 @@ class TVEpisodeListViewModel {
     fileprivate func fetch(completion: @escaping (TVSeasonDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeTVSeasonDetailUseCase()
-        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, appendToResponse: [.images, .videos], includeImageLanguage: []) { (result: Result<TVSeasonDetailModel, Error>) in
+        useCase.details(mediaID: mediaID,
+                        seasonNumber: seasonNumber,
+                        appendToResponse: [.images, .videos],
+                        includeImageLanguage: []) { (result: Result<TVSeasonDetailModel, Error>) in
             switch result {
             case .success(let tvSeasonDetail):
                 completion(tvSeasonDetail)

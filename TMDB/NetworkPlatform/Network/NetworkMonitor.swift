@@ -12,7 +12,7 @@ import Network
 
 public class NetworkMonitor: Domain.NetworkMonitor {
     
-    public var delegate: NetworkMonitorDelegate?
+    public weak var delegate: NetworkMonitorDelegate?
     public let monitor: NWPathMonitor
     public var isConnected = true {
         didSet {
@@ -45,7 +45,5 @@ public class NetworkMonitor: Domain.NetworkMonitor {
     public func stop() {
         monitor.cancel()
     }
-    
-    
     
 }

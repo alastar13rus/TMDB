@@ -9,23 +9,23 @@ import UIKit
 import Swinject
 import Domain
 
-class TVEpisodeFlowCoordinator:  NavigationCoordinator {
+class TVEpisodeFlowCoordinator: NavigationCoordinator {
     
-//    MARK: - Properties
+// MARK: - Properties
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
     let navigationController: UINavigationController
     let container: Container
     
-//    MARK: - Init
+// MARK: - Init
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     func start() {
         
     }
@@ -44,9 +44,8 @@ class TVEpisodeFlowCoordinator:  NavigationCoordinator {
     
 }
 
-//  MARK: - extension ToPeopleRoutable
+// MARK: - extension ToPeopleRoutable
 extension TVEpisodeFlowCoordinator: ToPeopleRoutable { }
 
-//  MARK: - extension ToImageFullScreenRoutable
+// MARK: - extension ToImageFullScreenRoutable
 extension TVEpisodeFlowCoordinator: ToImageFullScreenRoutable { }
-

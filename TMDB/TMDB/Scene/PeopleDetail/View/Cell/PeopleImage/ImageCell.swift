@@ -9,7 +9,7 @@ import UIKit
 
 class ImageCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: ImageCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -27,7 +27,7 @@ class ImageCell: UICollectionViewCell {
         return imageView
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -46,7 +46,7 @@ class ImageCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: ImageCellViewModel) {
         
         let placeholder = #imageLiteral(resourceName: "mediaPlaceholder").withTintColor(.systemGray5, renderingMode: .alwaysOriginal)
@@ -77,7 +77,7 @@ class ImageCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             imageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            imageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            imageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
         
     }

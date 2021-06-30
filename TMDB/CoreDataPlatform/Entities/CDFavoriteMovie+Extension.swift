@@ -14,17 +14,27 @@ extension CDFavoriteMovie: Persistable {
     public static var entityName: String {
         return String(describing: self)
     }
-    
 }
 
 extension CDFavoriteMovie: DomainConvertible {
     public typealias DomainType = MovieModel
 
     public func asDomain() -> DomainType {
-        return MovieModel(posterPath: posterPath, adult: adult, overview: overview, releaseDate: releaseDate, genreIds: genreIds.decodeToArray(with: Int.self), id: Int(id), originalTitle: originalTitle, originalLanguage: originalLanguage, title: title, backdropPath: backdropPath, popularity: popularity, voteCount: Int(voteCount), video: video, voteAverage: voteAverage)
+        return MovieModel(posterPath: posterPath,
+                          adult: adult,
+                          overview: overview,
+                          releaseDate: releaseDate,
+                          genreIds: genreIds.decodeToArray(with: Int.self),
+                          id: Int(id),
+                          originalTitle: originalTitle,
+                          originalLanguage: originalLanguage,
+                          title: title,
+                          backdropPath: backdropPath,
+                          popularity: popularity,
+                          voteCount: Int(voteCount),
+                          video: video,
+                          voteAverage: voteAverage)
     }
-    
-    
 }
 
 extension MovieModel: CoreDataRepresentable {

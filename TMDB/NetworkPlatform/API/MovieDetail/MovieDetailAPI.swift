@@ -19,7 +19,7 @@ public final class MovieDetailAPI {
     }
 }
 
-//  MARK: - extension Domain.MovieDetailAPI
+// MARK: - extension Domain.MovieDetailAPI
 extension MovieDetailAPI: Domain.MovieDetailAPI {
     
     public func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {

@@ -12,19 +12,21 @@ struct PeopleShortListCollectionViewDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<PeopleShortListViewModelSection>
     
+    private static let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic,
+                                                                       reloadAnimation: .automatic,
+                                                                       deleteAnimation: .automatic)
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, cv, ip, item) -> UICollectionViewCell in
+        guard let cell = cv.dequeueReusableCell(withReuseIdentifier: PeopleCollectionViewCell.reuseId, for: ip) as? PeopleCollectionViewCell
+        else { return UICollectionViewCell() }
+        
+        cell.tag = ip.row
+        cell.indexPath = ip
+        cell.viewModel = item
+        return cell
+    }
+    
     static func dataSource() -> DataSource {
-        
-        let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: PeopleCollectionViewCell.self), for: indexPath) as? PeopleCollectionViewCell else { return UICollectionViewCell() }
-            cell.tag = indexPath.row
-            cell.indexPath = indexPath
-            cell.viewModel = item
-            return cell
-            
-        }
-        
         return DataSource(animationConfiguration: animationConfiguration, configureCell: configureCell)
     }
     

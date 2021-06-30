@@ -11,7 +11,7 @@ import RxDataSources
 
 class MediaCompilationListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     let disposeBag = DisposeBag()
     let dataSource = MediaListCollectionViewDataSource.dataSource()
     var viewModel: MediaCompilationListViewModel! {
@@ -21,16 +21,23 @@ class MediaCompilationListTableViewCell: UITableViewCell {
     }
     
     lazy var mediaCompilationListCollectionView: UICollectionView = {
-        let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self)
+        let layout = CollectionViewLayout(countItemsInScrollDirection: 3,
+                                          scrollDirection: .horizontal,
+                                          contentForm: .portrait,
+                                          view: self)
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MediaCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: MediaCollectionViewCell.self))
+        
+        collectionView.register(MediaCollectionViewCell.self,
+                                forCellWithReuseIdentifier: MediaCollectionViewCell.reuseId)
+        
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -43,12 +50,17 @@ class MediaCompilationListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: MediaCompilationListViewModel) {
-        vm.sectionedItems.asDriver(onErrorJustReturn: []).drive(mediaCompilationListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        vm.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(mediaCompilationListCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        mediaCompilationListCollectionView.rx.modelSelected(MediaCellViewModelMultipleSection.SectionItem.self).bind(to: vm.selectedItem).disposed(by: disposeBag)
+        mediaCompilationListCollectionView.rx
+            .modelSelected(MediaCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: vm.selectedItem)
+            .disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {
@@ -64,7 +76,7 @@ class MediaCompilationListTableViewCell: UITableViewCell {
             mediaCompilationListCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             mediaCompilationListCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             mediaCompilationListCollectionView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            mediaCompilationListCollectionView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            mediaCompilationListCollectionView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
 }

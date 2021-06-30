@@ -19,7 +19,7 @@ public final class MovieListAPI {
     }
 }
  
-//  MARK: - extension Domain.MovieListAPI
+// MARK: - extension Domain.MovieListAPI
 extension MovieListAPI: Domain.MovieListAPI {
     
     public func topRated(page: Int) -> Domain.Endpoint {

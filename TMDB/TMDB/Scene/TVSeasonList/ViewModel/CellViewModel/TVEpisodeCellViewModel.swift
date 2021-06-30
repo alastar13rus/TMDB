@@ -11,7 +11,7 @@ import Domain
 
 struct TVEpisodeCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let airDate: String
     let episodeNumber: String
     let id: String
@@ -32,7 +32,7 @@ struct TVEpisodeCellViewModel {
         ImageURL.still(.w300, stillPath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: TVEpisodeDetailModel) {
         self.airDate = model.airDate ?? ""
         self.id = "\(model.id)"
@@ -50,9 +50,8 @@ extension TVEpisodeCellViewModel: IdentifiableType {
     var identity: String { return id }
 }
 
-
 extension TVEpisodeCellViewModel: Equatable {
-    static func ==(lhs: TVEpisodeCellViewModel, rhs: TVEpisodeCellViewModel) -> Bool {
+    static func == (lhs: TVEpisodeCellViewModel, rhs: TVEpisodeCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

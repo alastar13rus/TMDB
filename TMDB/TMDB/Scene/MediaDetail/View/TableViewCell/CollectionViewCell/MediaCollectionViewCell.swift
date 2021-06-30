@@ -9,7 +9,7 @@ import UIKit
 
 class MediaCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MediaCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -26,8 +26,7 @@ class MediaCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -46,8 +45,7 @@ class MediaCollectionViewCell: UICollectionViewCell {
         posterImageView.contentMode = .scaleAspectFill
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: MediaCellViewModel) {
         mediaTitleLabel.text = vm.title
         
@@ -86,7 +84,7 @@ class MediaCollectionViewCell: UICollectionViewCell {
             mediaTitleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 12),
             mediaTitleLabel.leftAnchor.constraint(equalTo: leftAnchor),
             mediaTitleLabel.rightAnchor.constraint(equalTo: rightAnchor),
-            mediaTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            mediaTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     

@@ -10,11 +10,10 @@ import RxSwift
 import RxRelay
 import Swinject
 import Domain
-import NetworkPlatform
 
 class TVSeasonDetailViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let useCaseProvider: Domain.UseCaseProvider
     private let networkMonitor: Domain.NetworkMonitor
     
@@ -36,10 +35,7 @@ class TVSeasonDetailViewModel {
         let sectionedItems = BehaviorRelay<[TVSeasonDetailCellViewModelMultipleSection]>(value: [])
     }
     
-    
-    
-    
-//    MARK: - Init
+// MARK: - Init
     required init(with detailID: String,
                   seasonNumber: String,
                   useCaseProvider: Domain.UseCaseProvider,
@@ -54,8 +50,7 @@ class TVSeasonDetailViewModel {
         setupOutput()
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: { [weak self] in
             guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }
@@ -76,7 +71,10 @@ class TVSeasonDetailViewModel {
     fileprivate func fetch(completion: @escaping (TVSeasonDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeTVSeasonDetailUseCase()
-        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, appendToResponse: [.aggregateCredits, .images, .videos], includeImageLanguage: []) { [weak self] (result: Result<TVSeasonDetailModel, Error>) in
+        useCase.details(mediaID: mediaID,
+                        seasonNumber: seasonNumber,
+                        appendToResponse: [.aggregateCredits, .images, .videos],
+                        includeImageLanguage: []) { [weak self] (result: Result<TVSeasonDetailModel, Error>) in
             switch result {
             case .success(let tvSeasonDetail):
                 completion(tvSeasonDetail)
@@ -99,9 +97,6 @@ class TVSeasonDetailViewModel {
             .buildSection(withModel: model, andAction: self.configureTVSeasonCrewListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVSeasonCastListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureTVEpisodeShortListSection(withModel:sections:))
-//            .buildSection(withModel: model, andAction: self.configureTVCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.recommendation)
-//            .buildSection(withModel: model, andAction: self.configureTVCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.similar)
-        
     }
     
     private func refreshOutput(with section: TVSeasonDetailCellViewModelMultipleSection) {
@@ -111,7 +106,9 @@ class TVSeasonDetailViewModel {
         }
     }
     
-    fileprivate func configureTVSeasonPosterWrapperSection(withModel model: TVSeasonDetailModel, sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVSeasonPosterWrapperSection(
+        withModel model: TVSeasonDetailModel,
+        sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
     
             var sections = sections
 
@@ -127,14 +124,20 @@ class TVSeasonDetailViewModel {
             return sections
         }
     
-    fileprivate func configureTVSeasonImageListSection(withModel model: TVSeasonDetailModel, sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVSeasonImageListSection(
+        withModel model: TVSeasonDetailModel,
+        sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+        
         let title = "Фото"
         guard let images = model.images?.posters, !images.isEmpty else { return sections }
         var sections = sections
         
         guard let coordinator = coordinator as? ToImageFullScreenRoutable else { return sections }
         
-        let items: [TVSeasonDetailCellViewModelMultipleSection.SectionItem] = [.tvSeasonImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) }, coordinator: coordinator, contentForm: .landscape))]
+        let items: [TVSeasonDetailCellViewModelMultipleSection.SectionItem] = [
+            .tvSeasonImageList(vm: ImageListViewModel(title: title,
+                                                      items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) },
+                                                      coordinator: coordinator, contentForm: .landscape))]
         
         let imageListSection: TVSeasonDetailCellViewModelMultipleSection = .tvSeasonImageListSection(title: title, items: items)
         
@@ -142,7 +145,10 @@ class TVSeasonDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVSeasonTrailerButtonSection(withModel model: TVSeasonDetailModel, sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVSeasonTrailerButtonSection(
+        withModel model: TVSeasonDetailModel,
+        sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+        
         let title = "Смотреть трейлеры"
         guard let videos = model.videos?.results, !videos.isEmpty else { return sections }
         var sections = sections
@@ -157,7 +163,9 @@ class TVSeasonDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVSeasonOverviewSection(withModel model: TVSeasonDetailModel, sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVSeasonOverviewSection(
+        withModel model: TVSeasonDetailModel,
+        sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
         
         var sections = sections
         guard !model.overview.isEmpty else { return sections }
@@ -171,7 +179,9 @@ class TVSeasonDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVSeasonCrewListSection(withModel model: TVSeasonDetailModel, sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVSeasonCrewListSection(
+        withModel model: TVSeasonDetailModel,
+        sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let crewCount = model.aggregateCredits?.crew.count ?? 0
@@ -179,7 +189,6 @@ class TVSeasonDetailViewModel {
         let title = "Съемочная группа"
         
         guard let crewList = model.aggregateCredits?.crew.sorted(by: >).prefix(limit), !crewList.isEmpty else { return sections }
-        
         
         let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
             crewList.map { .aggregateCrew(vm: AggregateCrewCellViewModel($0)) }
@@ -193,7 +202,11 @@ class TVSeasonDetailViewModel {
 
         let tvSeasonCrewListSectionItems: [TVSeasonDetailCellViewModelMultipleSection.SectionItem] =
             [
-                .tvSeasonCrewShortList(vm: CreditShortListViewModel(title: title, items: items, creditType: .crew, mediaType: .tvSeason, delegate: self))
+                .tvSeasonCrewShortList(vm: CreditShortListViewModel(title: title,
+                                                                    items: items,
+                                                                    creditType: .crew,
+                                                                    mediaType: .tvSeason,
+                                                                    delegate: self))
             ]
 
         let tvSeasonCrewListSection: TVSeasonDetailCellViewModelMultipleSection =
@@ -204,7 +217,9 @@ class TVSeasonDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVSeasonCastListSection(withModel model: TVSeasonDetailModel, sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVSeasonCastListSection(
+        withModel model: TVSeasonDetailModel,
+        sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let castCount = model.aggregateCredits?.cast.count ?? 0
@@ -212,7 +227,6 @@ class TVSeasonDetailViewModel {
         let title = "Актеры"
         
         guard let castList = model.aggregateCredits?.cast.sorted(by: >).prefix(limit), !castList.isEmpty else { return sections }
-        
         
         let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
             castList.map { .aggregateCast(vm: AggregateCastCellViewModel($0)) }
@@ -236,7 +250,9 @@ class TVSeasonDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVEpisodeShortListSection(withModel model: TVSeasonDetailModel, sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeShortListSection(
+        withModel model: TVSeasonDetailModel,
+        sections: [TVSeasonDetailCellViewModelMultipleSection]) -> [TVSeasonDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let limit = 9
@@ -257,7 +273,11 @@ class TVSeasonDetailViewModel {
         if model.episodes.count > limit { items.append(contentsOf: showMoreSectionItems) }
 
         let tvEpisodeShortListSectionItems: [TVSeasonDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvEpisodeShortList(vm: TVEpisodeShortListViewModel(title: title, items: items, mediaID: mediaID, seasonNumber: seasonNumber, coordinator: coordinator))
+            .tvEpisodeShortList(vm: TVEpisodeShortListViewModel(title: title,
+                                                                items: items,
+                                                                mediaID: mediaID,
+                                                                seasonNumber: seasonNumber,
+                                                                coordinator: coordinator))
         ]
 
         let tvEpisodeShortListSection: TVSeasonDetailCellViewModelMultipleSection =

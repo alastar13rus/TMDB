@@ -9,7 +9,7 @@ import UIKit
 
 class CreditInMediaCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: CreditInMediaViewModel! {
         didSet {
             configure(with: viewModel)
@@ -36,7 +36,7 @@ class CreditInMediaCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -55,7 +55,7 @@ class CreditInMediaCell: UICollectionViewCell {
         mediaPosterImageView.contentMode = .scaleAspectFill
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CreditInMediaViewModel) {
         mediaTitleLabel.text = vm.mediaTitle
         creditLabel.text = vm.credit
@@ -98,7 +98,7 @@ class CreditInMediaCell: UICollectionViewCell {
             creditLabel.topAnchor.constraint(equalTo: mediaTitleLabel.bottomAnchor, constant: 4),
             creditLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
             creditLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -12),
-            creditLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
+            creditLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
 
         ])
     }

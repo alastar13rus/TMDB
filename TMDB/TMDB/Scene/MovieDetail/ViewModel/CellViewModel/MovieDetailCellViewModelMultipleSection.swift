@@ -35,7 +35,6 @@ enum MovieDetailCellViewModelMultipleSection {
         case movieCastList(vm: CreditShortListViewModel)
         case movieStatus(vm: MediaStatusCellViewModel)
         case movieCompilationList(vm: MediaCompilationListViewModel)
-
         
         var identity: String {
             switch self {
@@ -52,7 +51,7 @@ enum MovieDetailCellViewModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             return lhs.identity == rhs.identity
         }
     }
@@ -60,7 +59,6 @@ enum MovieDetailCellViewModelMultipleSection {
 }
 
 extension MovieDetailCellViewModelMultipleSection: AnimatableSectionModelType {
-    
     
     typealias Item = SectionItem
     
@@ -129,6 +127,5 @@ extension MovieDetailCellViewModelMultipleSection: AnimatableSectionModelType {
             self = original
         }
     }
-    
     
 }

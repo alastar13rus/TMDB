@@ -24,7 +24,7 @@ enum MediaCellViewModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             return lhs.identity == rhs.identity
         }
         
@@ -58,7 +58,6 @@ extension MediaCellViewModelMultipleSection: AnimatableSectionModelType, Equatab
             self = .tvSection(title: title, items: items)
         }
     }
-    
     
 }
 

@@ -11,13 +11,12 @@ import RxRelay
 
 class FullScreenViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let imageCellViewModel = ReplaySubject<ImageCellViewModel>.create(bufferSize: 1)
     let contentForm = ReplaySubject<ContentForm>.create(bufferSize: 1)
     weak var coordinator: (ToImageFullScreenRoutable & NavigationCoordinator)?
     
-    
-//    MARK: - Init
+// MARK: - Init
     init(withImageCellViewModel imageCellViewModel: ImageCellViewModel, contentForm: ContentForm) {
         
         var imageCellViewModel = imageCellViewModel
@@ -27,7 +26,6 @@ class FullScreenViewModel {
         self.contentForm.onNext(contentForm)
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     
 }

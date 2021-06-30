@@ -12,7 +12,7 @@ import RxDataSources
 
 class CreditListViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: CreditListViewModel!
     let dataSource = CreditListDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -27,7 +27,7 @@ class CreditListViewController: UIViewController {
         return tableView
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,7 +36,7 @@ class CreditListViewController: UIViewController {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
     }
@@ -50,25 +50,34 @@ class CreditListViewController: UIViewController {
             creditListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             creditListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             creditListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            creditListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            creditListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
 }
 
-//  MARK: - Extension: BindableType
+// MARK: - Extension: BindableType
 extension CreditListViewController: BindableType {
     
     func bindViewModel() {
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(creditListTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(creditListTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
+        viewModel.output.title
+            .asDriver(onErrorJustReturn: "")
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
         
-        creditListTableView.rx.modelSelected(CreditListViewModelMultipleSection.SectionItem.self).bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        creditListTableView.rx
+            .modelSelected(CreditListViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.input.selectedItem)
+            .disposed(by: disposeBag)
     }
     
 }
 
-//  MARK: - Extension - CreditListViewController: UITableViewDelegate
+// MARK: - Extension - CreditListViewController: UITableViewDelegate
 extension CreditListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

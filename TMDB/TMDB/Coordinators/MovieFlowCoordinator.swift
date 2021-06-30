@@ -23,21 +23,21 @@ class MovieFlowCoordinator: NavigationCoordinator {
                                         vm: MediaTrailerListViewModel,
                                         c: MovieFlowCoordinator)
     
-//    MARK: - Properties
+// MARK: - Properties
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
     let navigationController: UINavigationController
     let container: Container
     
-//    MARK: - Init
+// MARK: - Init
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     func start() {
         _ = container.resolve(Typealias.MediaListBundle.self, argument: (self as NavigationCoordinator))
     }
@@ -51,18 +51,18 @@ class MovieFlowCoordinator: NavigationCoordinator {
     }
 }
 
-//  MARK: - extension Equatable
-extension MovieFlowCoordinator : Equatable {
+// MARK: - extension Equatable
+extension MovieFlowCoordinator: Equatable {
     
     static func == (lhs: MovieFlowCoordinator, rhs: MovieFlowCoordinator) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }
 
-//  MARK: - extension ToPeopleRoutable
+// MARK: - extension ToPeopleRoutable
 extension MovieFlowCoordinator: ToPeopleRoutable { }
 
-//  MARK: - extension ToImageFullScreenRoutable
+// MARK: - extension ToImageFullScreenRoutable
 extension MovieFlowCoordinator: ToImageFullScreenRoutable { }
 
 extension MovieFlowCoordinator: Alertable {  }

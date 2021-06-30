@@ -11,7 +11,7 @@ import RxDataSources
 
 class PeopleBestMediaListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: PeopleBestMediaListViewModel! {
         didSet {
             configure(with: viewModel)
@@ -25,16 +25,18 @@ class PeopleBestMediaListTableViewCell: UITableViewCell {
         let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self)
         layout.headerReferenceSize.width = 50
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CreditInMediaCell.self, forCellWithReuseIdentifier: String(describing: CreditInMediaCell.self))
-        collectionView.register(ReusableHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: ReusableHeaderView.self))
+        collectionView.register(CreditInMediaCell.self,
+                                forCellWithReuseIdentifier: CreditInMediaCell.reuseId)
+        collectionView.register(ReusableHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: ReusableHeaderView.reuseId)
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -47,13 +49,18 @@ class PeopleBestMediaListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: PeopleBestMediaListViewModel) {
-        viewModel.sectionedItems.asDriver(onErrorJustReturn: []).drive(creditInMediaListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(creditInMediaListCollectionView.rx
+                    .items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        creditInMediaListCollectionView.rx.modelSelected(CreditInMediaCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.selectedCredit).disposed(by: disposeBag)
+        creditInMediaListCollectionView.rx
+            .modelSelected(CreditInMediaCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.selectedCredit)
+            .disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {
@@ -69,7 +76,7 @@ class PeopleBestMediaListTableViewCell: UITableViewCell {
             creditInMediaListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             creditInMediaListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             creditInMediaListCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            creditInMediaListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            creditInMediaListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
         ])
     }
 }

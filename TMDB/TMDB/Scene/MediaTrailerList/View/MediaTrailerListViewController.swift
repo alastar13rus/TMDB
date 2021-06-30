@@ -11,7 +11,7 @@ import RxDataSources
 
 class MediaTrailerListViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MediaTrailerListViewModel!
     let dataSource = MediaTrailerListDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -21,14 +21,14 @@ class MediaTrailerListViewController: UIViewController {
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: view.bounds.width, height: view.bounds.width)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MediaTrailerCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: MediaTrailerCollectionViewCell.self))
+        collectionView.register(MediaTrailerCollectionViewCell.self,
+                                forCellWithReuseIdentifier: MediaTrailerCollectionViewCell.reuseId)
         collectionView.backgroundColor = .white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,9 +37,7 @@ class MediaTrailerListViewController: UIViewController {
         setupConstraints()
     }
     
-    
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
         navigationItem.largeTitleDisplayMode = .always
@@ -55,17 +53,19 @@ class MediaTrailerListViewController: UIViewController {
             mediaTrailerListCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             mediaTrailerListCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             mediaTrailerListCollectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            mediaTrailerListCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            mediaTrailerListCollectionView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
     }
-    
     
 }
 
 extension MediaTrailerListViewController: BindableType {
     
     func bindViewModel() {
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(mediaTrailerListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(mediaTrailerListCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
     
 }

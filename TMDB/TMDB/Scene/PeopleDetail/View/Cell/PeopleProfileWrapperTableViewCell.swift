@@ -9,7 +9,7 @@ import UIKit
 
 class PeopleProfileWrapperTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: PeopleProfileWrapperCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -51,7 +51,7 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -76,7 +76,7 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: PeopleProfileWrapperCellViewModel) {
         nameLabel.text = vm.name
         jobLabel.text = vm.job
@@ -132,7 +132,7 @@ class PeopleProfileWrapperTableViewCell: UITableViewCell {
             deathdayLabel.topAnchor.constraint(equalTo: birthdayLabel.bottomAnchor, constant: 12),
             deathdayLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
             deathdayLabel.rightAnchor.constraint(equalTo: nameLabel.rightAnchor),
-            deathdayLabel.bottomAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            deathdayLabel.bottomAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12)
 
         ])
     }

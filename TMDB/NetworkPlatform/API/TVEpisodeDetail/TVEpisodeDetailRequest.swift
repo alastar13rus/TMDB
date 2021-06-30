@@ -10,7 +10,11 @@ import Domain
 
 public final class TVEpisodeDetailRequest: Domain.TVEpisodeDetailAPI {
     
-    public func details(mediaID: String, seasonNumber: String, episodeNumber: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Request {
+    public func details(mediaID: String,
+                        seasonNumber: String,
+                        episodeNumber: String,
+                        appendToResponse: [AppendToResponse],
+                        includeImageLanguage: [IncludeImageLanguage]) -> Domain.Request {
         
         let method: HTTPMethod = .get
         let endpoint = "/3/tv/" + mediaID + "/season/" + seasonNumber + "/episode/" + episodeNumber

@@ -21,10 +21,9 @@ extension PeopleShortListViewModelDelegate {
     }
 }
 
-
 class PeopleShortListViewModel {
     
-    //    MARK: - Properties
+    // MARK: - Properties
     let title: String
     let items: [PeopleCellViewModel]
     weak var delegate: PeopleShortListViewModelDelegate?
@@ -41,7 +40,7 @@ class PeopleShortListViewModel {
         var sectionedItems = BehaviorRelay<[PeopleShortListViewModelSection]>(value: [])
     }
     
-    //    MARK: - Init
+    // MARK: - Init
     init(title: String, items: [PeopleCellViewModel], delegate: PeopleShortListViewModelDelegate?) {
         self.title = title
         self.items = items

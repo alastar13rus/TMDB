@@ -11,7 +11,7 @@ import Domain
 
 struct TVSeasonCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let airDate: String
     let episodeCount: Int
     let id: String
@@ -34,7 +34,7 @@ struct TVSeasonCellViewModel {
         ImageURL.poster(.w185, posterPath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: TVSeasonModel) {
         self.airDate = model.airDate ?? ""
         self.episodeCount = model.episodeCount
@@ -50,9 +50,8 @@ extension TVSeasonCellViewModel: IdentifiableType {
     var identity: String { return id }
 }
 
-
 extension TVSeasonCellViewModel: Equatable {
-    static func ==(lhs: TVSeasonCellViewModel, rhs: TVSeasonCellViewModel) -> Bool {
+    static func == (lhs: TVSeasonCellViewModel, rhs: TVSeasonCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

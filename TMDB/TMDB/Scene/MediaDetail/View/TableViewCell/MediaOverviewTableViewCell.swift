@@ -9,7 +9,7 @@ import UIKit
 
 class MediaOverviewTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MediaOverviewCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -24,9 +24,7 @@ class MediaOverviewTableViewCell: UITableViewCell {
         return label
     }()
     
-    
-    
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -45,7 +43,7 @@ class MediaOverviewTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: MediaOverviewCellViewModel) {
         overviewLabel.text = vm.overview
     }
@@ -63,7 +61,7 @@ class MediaOverviewTableViewCell: UITableViewCell {
             overviewLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             overviewLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
             overviewLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
-            overviewLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
+            overviewLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
     

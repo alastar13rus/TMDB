@@ -11,7 +11,7 @@ import RxDataSources
 
 class SearchViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: SearchViewModel!
 //    let resultDataSource = SearchResultListTableViewDataSource.dataSource()
     let searchDataSource = SearchTableViewDataSource.dataSource()
@@ -42,7 +42,7 @@ class SearchViewController: UIViewController {
         return view
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,7 +52,7 @@ class SearchViewController: UIViewController {
         
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     
     fileprivate func setupUI() {
         navigationItem.title = "Поиск"
@@ -75,10 +75,9 @@ class SearchViewController: UIViewController {
             searchTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             
             customActivityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            customActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            customActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])
     }
-    
     
 }
 
@@ -86,7 +85,10 @@ extension SearchViewController: BindableType {
     func bindViewModel() {
         searchTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(searchTableView.rx.items(dataSource: searchDataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(searchTableView.rx.items(dataSource: searchDataSource))
+            .disposed(by: disposeBag)
         
         searchController.searchBar.rx.text
             .orEmpty
@@ -103,7 +105,10 @@ extension SearchViewController: BindableType {
             .bind(to: viewModel.input.removeResultListTrigger)
             .disposed(by: disposeBag)
         
-        searchTableView.rx.modelSelected(SearchQuickRequestCellModelMultipleSection.SectionItem.self).bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        searchTableView.rx
+            .modelSelected(SearchQuickRequestCellModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.input.selectedItem)
+            .disposed(by: disposeBag)
         
         searchTableView.rx.willDisplayCell
             .observeOn(MainScheduler.asyncInstance)
@@ -147,4 +152,3 @@ extension SearchViewController: UITableViewDelegate {
     }
     
 }
-

@@ -21,11 +21,10 @@ public struct PeopleDetailModel: Decodable {
     public let placeOfBirth: String?
     public let profilePath: String?
     public let adult: Bool
-    public let imdb_id: String?
+    public let imdbID: String?
     public let homepage: String?
     public let combinedCredits: PeopleCombinedCreditList?
     public let images: PeopleImageList?
-    
     
     enum CodingKeys: String, CodingKey {
         case birthday
@@ -40,7 +39,7 @@ public struct PeopleDetailModel: Decodable {
         case placeOfBirth = "place_of_birth"
         case profilePath = "profile_path"
         case adult
-        case imdb_id = "imdb_id"
+        case imdbID = "imdb_id"
         case homepage
         case combinedCredits = "combined_credits"
         case images = "images"

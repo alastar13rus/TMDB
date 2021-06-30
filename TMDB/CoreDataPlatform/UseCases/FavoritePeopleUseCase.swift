@@ -28,7 +28,6 @@ class FavoritePeopleUseCase: Domain.FavoritePeopleUseCase {
         repository.isFavorite(model) { completion($0) }
     }
     
-    
     func saveFavoritePeople(_ completion: @escaping (Bool) -> Void) {
         completion(true)
     }

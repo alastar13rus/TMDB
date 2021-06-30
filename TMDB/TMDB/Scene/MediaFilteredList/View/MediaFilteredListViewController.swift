@@ -11,7 +11,7 @@ import RxDataSources
 
 class MediaFilteredListViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MediaFilteredListViewModel!
     private let dataSource = MediaListTableViewDataSource.dataSource()
     private let disposeBag = DisposeBag()
@@ -29,7 +29,7 @@ class MediaFilteredListViewController: UIViewController {
         return tableView
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +38,7 @@ class MediaFilteredListViewController: UIViewController {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
     }
@@ -52,7 +52,7 @@ class MediaFilteredListViewController: UIViewController {
             mediaFilteredListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
             mediaFilteredListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
             mediaFilteredListTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 12),
-            mediaFilteredListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12),
+            mediaFilteredListTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
 }

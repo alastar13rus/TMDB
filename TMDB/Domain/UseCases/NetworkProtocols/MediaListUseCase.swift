@@ -11,7 +11,6 @@ public protocol MediaListUseCase: UseCase {
     
 }
 
-
 public protocol MovieListUseCase: MediaListUseCase {
     
     func topRated(page: Int,
@@ -24,8 +23,6 @@ public protocol MovieListUseCase: MediaListUseCase {
                   completion: @escaping (Result<MediaListResponse<MovieModel>, Error>) -> Void)
     
 }
-
-
 
 public protocol TVListUseCase: MediaListUseCase {
     

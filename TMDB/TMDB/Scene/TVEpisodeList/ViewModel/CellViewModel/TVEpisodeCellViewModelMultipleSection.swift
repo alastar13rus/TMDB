@@ -25,7 +25,6 @@ enum TVEpisodeCellViewModelMultipleSection {
         }
     }
     
-    
     init(original: TVEpisodeCellViewModelMultipleSection, items: [SectionItem]) {
         switch original {
         case .episodeSection(let title, _):
@@ -62,4 +61,3 @@ extension TVEpisodeCellViewModelMultipleSection: Equatable {
         return lhs.identity == rhs.identity
     }
 }
-

@@ -1,0 +1,38 @@
+disabled_rules:
+ - leading_whitespace
+ - trailing_whitespace
+ - closure_parameter_position
+
+warning_threshold: 15
+
+line_length:
+  warning: 150
+
+function_parameter_count:
+  warning: 10
+  error: 15
+
+file_length:
+  warning: 500
+
+identifier_name:
+  min_length: 1
+  max_length: 50
+  
+type_name:
+  max_length: 50
+
+type_body_length:
+  warning: 400
+  error: 450
+
+function_body_length:
+  warning: 55
+  error: 60
+
+excluded:
+ - Pods
+ - build
+
+cyclomatic_complexity:
+  ignores_case_statements: true

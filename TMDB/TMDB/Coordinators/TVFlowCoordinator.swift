@@ -8,25 +8,24 @@
 import UIKit
 import Swinject
 @testable import Domain
-@testable import NetworkPlatform
 
-class TVFlowCoordinator:  NavigationCoordinator {
+class TVFlowCoordinator: NavigationCoordinator {
     
-//    MARK: - Properties
+// MARK: - Properties
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
     let navigationController: UINavigationController
     let container: Container
     
-//    MARK: - Init
+// MARK: - Init
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     func start() {
         _ = container.resolve(Typealias.MediaListBundle.self, argument: (self as NavigationCoordinator))
     }
@@ -49,7 +48,6 @@ class TVFlowCoordinator:  NavigationCoordinator {
         tvSeasonFlowCoordinator.start(with: mediaID)
     }
     
-    
     func toSeason(with mediaID: String, seasonNumber: String) {
         guard let tvSeasonFlowCoordinator = parentCoordinator as? TVSeasonFlowCoordinator else {
             let tvSeasonFlowCoordinator = TVSeasonFlowCoordinator(navigationController: navigationController, container: container)
@@ -61,14 +59,13 @@ class TVFlowCoordinator:  NavigationCoordinator {
     }
 }
 
-//  MARK: - extension ToPeopleRoutable
+// MARK: - extension ToPeopleRoutable
 extension TVFlowCoordinator: ToPeopleRoutable { }
 
-//  MARK: - extension ToPeopleRoutable
+// MARK: - extension ToPeopleRoutable
 extension TVFlowCoordinator: ToSeasonRoutable { }
 
-//  MARK: - extension ToImageFullScreenRoutable
+// MARK: - extension ToImageFullScreenRoutable
 extension TVFlowCoordinator: ToImageFullScreenRoutable { }
 
 extension TVFlowCoordinator: Alertable {  }
-

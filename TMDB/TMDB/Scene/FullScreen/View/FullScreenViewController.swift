@@ -10,8 +10,8 @@ import RxSwift
 
 class FullScreenViewController: UIViewController {
     
-//    MARK: - Properties
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+// MARK: - Properties
+    private weak var appDelegate = (UIApplication.shared.delegate) as? AppDelegate
     let disposeBag = DisposeBag()
     var contentForm: ContentForm = .portrait
     var viewModel: FullScreenViewModel! {
@@ -36,7 +36,7 @@ class FullScreenViewController: UIViewController {
         return tap
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,6 +48,7 @@ class FullScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        guard let appDelegate = self.appDelegate else { return }
         var value = UIInterfaceOrientation.portrait.rawValue
         switch contentForm {
         case .landscape:
@@ -63,13 +64,13 @@ class FullScreenViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        guard let appDelegate = self.appDelegate else { return }
         appDelegate.deviceOrientation = .portrait
             let value = UIInterfaceOrientation.portrait.rawValue
             UIDevice.current.setValue(value, forKey: "orientation")
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
 
     fileprivate func bindViewModel() {
 
@@ -111,7 +112,7 @@ class FullScreenViewController: UIViewController {
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             imageView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            imageView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            imageView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
     }
     

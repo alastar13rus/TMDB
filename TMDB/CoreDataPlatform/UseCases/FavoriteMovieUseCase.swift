@@ -28,7 +28,6 @@ class FavoriteMovieUseCase: Domain.FavoriteMovieUseCase {
         repository.isFavorite(model) { completion($0) }
     }
     
-    
     func saveFavoriteMovie(_ completion: @escaping (Bool) -> Void) {
         completion(true)
     }

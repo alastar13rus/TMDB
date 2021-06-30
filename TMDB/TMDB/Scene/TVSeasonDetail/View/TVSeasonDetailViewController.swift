@@ -11,7 +11,7 @@ import RxDataSources
 
 class TVSeasonDetailViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVSeasonDetailViewModel!
     let dataSource = TVSeasonDetailDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -23,7 +23,7 @@ class TVSeasonDetailViewController: UIViewController {
         return tableView
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +32,7 @@ class TVSeasonDetailViewController: UIViewController {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -49,21 +49,29 @@ class TVSeasonDetailViewController: UIViewController {
             tvSeasonDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tvSeasonDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tvSeasonDetailTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tvSeasonDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tvSeasonDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
 }
 
-//  MARK: - BindableType
+// MARK: - BindableType
 extension TVSeasonDetailViewController: BindableType {
     func bindViewModel() {
         tvSeasonDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvSeasonDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(tvSeasonDetailTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        tvSeasonDetailTableView.rx.modelSelected(TVSeasonDetailCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        tvSeasonDetailTableView.rx
+            .modelSelected(TVSeasonDetailCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
         
-        viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
+        viewModel.output.title
+            .asDriver(onErrorJustReturn: "")
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
     }
 }
 

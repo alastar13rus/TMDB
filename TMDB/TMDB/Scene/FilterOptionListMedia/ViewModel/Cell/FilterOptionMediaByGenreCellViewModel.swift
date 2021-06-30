@@ -11,14 +11,14 @@ import RxDataSources
 
 class FilterOptionMediaByGenreCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let genreID: String
     let genreName: String
     let mediaType: Domain.MediaType
     
     var title: String { genreName }
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: GenreModel, mediaType: MediaType) {
         self.genreID = String(model.id)
         self.genreName = model.name.capitalized
@@ -32,7 +32,7 @@ extension FilterOptionMediaByGenreCellViewModel: IdentifiableType {
 }
 
 extension FilterOptionMediaByGenreCellViewModel: Equatable {
-    static func ==(lhs: FilterOptionMediaByGenreCellViewModel, rhs: FilterOptionMediaByGenreCellViewModel) -> Bool {
+    static func == (lhs: FilterOptionMediaByGenreCellViewModel, rhs: FilterOptionMediaByGenreCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

@@ -17,23 +17,23 @@ final class SearchRepository {
         self.network = network
     }
     
-//    public func fetchFilterOptionListMediaByYear(_ endpoint: Endpoint, completion: @escaping (Result<[FilterOptionMediaByYearModel], Error>) -> Void) {
-//        network.getItem(endpoint, completion: completion)
-//    }
-    
-    public func fetchFilterOptionListMediaByGenre(_ endpoint: Endpoint, completion: @escaping (Result<GenreModelResponse, Error>) -> Void) {
+    public func fetchFilterOptionListMediaByGenre(_ endpoint: Endpoint,
+                                                  completion: @escaping (Result<GenreModelResponse, Error>) -> Void) {
         network.getItem(endpoint, completion: completion)
     }
     
-    public func fetchMediaListByYear<T: MediaProtocol>(_ endpoint: Endpoint, completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void) {
+    public func fetchMediaListByYear<T: MediaProtocol>(_ endpoint: Endpoint,
+                                                       completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void) {
         network.getItem(endpoint, completion: completion)
     }
     
-    public func fetchMediaListByGenre<T: MediaProtocol>(_ endpoint: Endpoint, completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void) {
+    public func fetchMediaListByGenre<T: MediaProtocol>(_ endpoint: Endpoint,
+                                                        completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void) {
         network.getItem(endpoint, completion: completion)
     }
     
-    public func multiSearch(_ endpoint: Endpoint, completion: @escaping (Result<MultiSearchResponse, Error>) -> Void) {
+    public func multiSearch(_ endpoint: Endpoint,
+                            completion: @escaping (Result<MultiSearchResponse, Error>) -> Void) {
         network.getItem(endpoint, completion: completion)
     }
 }

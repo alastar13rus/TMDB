@@ -37,17 +37,17 @@ public struct TVAggregateCrewModel: Decodable, Identifiable {
         case department
         case totalEpisodeCount = "total_episode_count"
     }
+}
+
+public struct JobModel: Decodable {
+    public let creditID: String
+    public let job: String
+    public let episodeCount: Int
     
-    public struct JobModel: Decodable {
-        public let creditID: String
-        public let job: String
-        public let episodeCount: Int
-        
-        enum CodingKeys: String, CodingKey {
-            case creditID = "credit_id"
-            case job
-            case episodeCount = "episode_count"
-        }
+    enum CodingKeys: String, CodingKey {
+        case creditID = "credit_id"
+        case job
+        case episodeCount = "episode_count"
     }
 }
 

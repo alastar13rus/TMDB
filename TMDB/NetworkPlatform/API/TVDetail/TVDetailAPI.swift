@@ -19,7 +19,7 @@ public class TVDetailAPI {
     }
 }
 
-//  MARK: - extension Domain.TVDetailAPI
+// MARK: - extension Domain.TVDetailAPI
 extension TVDetailAPI: Domain.TVDetailAPI {
 
     public func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {

@@ -10,11 +10,10 @@ import RxSwift
 import RxRelay
 import RxDataSources
 import Domain
-import NetworkPlatform
 
 class MediaCompilationListViewModel: AnimatableSectionModelType {
     
-//    MARK: - Properties
+// MARK: - Properties
     let title: String
     let items: [MediaCellViewModel]
     var mediaListType: MediaListType = .recommendation
@@ -45,8 +44,7 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
     
     let selectedItem = PublishRelay<MediaCellViewModelMultipleSection.SectionItem>()
     
-    
-//    MARK: - Init
+// MARK: - Init
     required init(original: MediaCompilationListViewModel, items: [MediaCellViewModel]) {
         self.title = original.title
         self.items = items
@@ -57,7 +55,12 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
         self.items = items
     }
     
-    convenience init(title: String, items: [MediaCellViewModel], coordinator: Coordinator?, useCaseProvider: Domain.UseCaseProvider?, mediaListType: MediaListType) {
+    convenience init(title: String,
+                     items: [MediaCellViewModel],
+                     coordinator: Coordinator?,
+                     useCaseProvider: Domain.UseCaseProvider?,
+                     mediaListType: MediaListType) {
+        
         self.init(title: title, items: items)
         
         self.coordinator = coordinator
@@ -65,7 +68,7 @@ class MediaCompilationListViewModel: AnimatableSectionModelType {
         subscribing()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func subscribing() {
         selectedItem.subscribe(onNext: { [weak self] in
             guard let self = self else { return }

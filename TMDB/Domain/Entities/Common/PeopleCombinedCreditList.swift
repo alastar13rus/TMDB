@@ -141,8 +141,14 @@ public struct GroupedCreditInMediaModel: Decodable, Identifiable, Comparable {
     
     public var identity: Int { return id }
     
-//    MARK: - Init
-    public init(id: Int, posterPath: String?, mediaTitle: String, mediaType: MediaType, credit: String, voteAverage: Float, releaseDate: String?, firstAirDate: String?) {
+// MARK: - Init
+    public init(id: Int,
+                posterPath: String?,
+                mediaTitle: String,
+                mediaType: MediaType,
+                credit: String,
+                voteAverage: Float,
+                releaseDate: String?, firstAirDate: String?) {
         self.id = id
         self.posterPath = posterPath
         self.mediaTitle = mediaTitle

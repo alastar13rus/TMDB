@@ -12,17 +12,21 @@ struct SearchCategoryListCollectionViewDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<SearchCategoryListViewModelSection>
     
+    private static let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic,
+                                                        reloadAnimation: .automatic,
+                                                        deleteAnimation: .automatic)
+    
+    private static let configureCell: DataSource.ConfigureCell = { (_, cv, ip, item) -> UICollectionViewCell in
+        let reuseId = SearchCategoryCollectionViewCell.reuseId
+        
+        guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? SearchCategoryCollectionViewCell
+        else { return UICollectionViewCell() }
+        
+        cell.viewModel = item
+        return cell
+    }
+    
     static func dataSource() -> DataSource {
-        
-        let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SearchCategoryCollectionViewCell.self), for: indexPath) as? SearchCategoryCollectionViewCell else { return UICollectionViewCell() }
-            cell.viewModel = item
-            return cell
-            
-        }
-        
         return DataSource(animationConfiguration: animationConfiguration, configureCell: configureCell)
     }
     

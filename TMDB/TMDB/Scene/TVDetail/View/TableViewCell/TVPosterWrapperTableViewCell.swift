@@ -9,7 +9,7 @@ import UIKit
 
 class TVPosterWrapperTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVPosterWrapperCellViewModel! {
         didSet {
             self.configure(with: viewModel)
@@ -25,7 +25,7 @@ class TVPosterWrapperTableViewCell: UITableViewCell {
         return view
     }()
     
-//    MARK: Init
+// MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -44,8 +44,7 @@ class TVPosterWrapperTableViewCell: UITableViewCell {
         posterWrapperView.posterImageView.contentMode = .scaleAspectFill
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: TVPosterWrapperCellViewModel) {
         posterWrapperView.titleLabel.text = vm.title
         posterWrapperView.releaseYearLabel.text = vm.releaseYear
@@ -82,9 +81,8 @@ class TVPosterWrapperTableViewCell: UITableViewCell {
             posterWrapperView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             posterWrapperView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
             posterWrapperView.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor),
-            posterWrapperView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor),
+            posterWrapperView.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor)
         ])
-       
         
     }
 }

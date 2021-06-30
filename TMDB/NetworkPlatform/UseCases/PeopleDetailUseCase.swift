@@ -11,9 +11,9 @@ import Domain
 final class PeopleDetailUseCase: Domain.PeopleDetailUseCase {
     
     private let repository: PeopleDetailRepository
-    private let api: PeopleDetailAPI
+    private let api: Domain.PeopleDetailAPI
 
-    init(_ repository: PeopleDetailRepository, _ api: PeopleDetailAPI) {
+    init(_ repository: PeopleDetailRepository, _ api: Domain.PeopleDetailAPI) {
         self.repository = repository
         self.api = api
     }

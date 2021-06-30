@@ -12,7 +12,7 @@ import RxDataSources
 
 class PeopleDetailViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: PeopleDetailViewModel!
     let dataSource = PeopleDetailDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -33,7 +33,7 @@ class PeopleDetailViewController: UIViewController {
         return button
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +42,7 @@ class PeopleDetailViewController: UIViewController {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
         
@@ -58,7 +58,7 @@ class PeopleDetailViewController: UIViewController {
             peopleDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             peopleDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             peopleDetailTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            peopleDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            peopleDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
     
@@ -72,17 +72,19 @@ class PeopleDetailViewController: UIViewController {
         peopleDetailTableView.endUpdates()
     }
     
-    
 }
 
-//MARK: - Extensions
+// MARK: - Extensions
 extension PeopleDetailViewController: BindableType {
     
     func bindViewModel() {
         
         peopleDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(peopleDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(peopleDetailTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
         viewModel.output.name.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
                 
@@ -125,7 +127,7 @@ extension PeopleDetailViewController {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath] {
         case .profileWrapper(let vm):
-            var cellHeight: CGFloat = 0;
+            var cellHeight: CGFloat = 0
             cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.name, font: .boldSystemFont(ofSize: 18))
             cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.job, font: .italicSystemFont(ofSize: 14))
             cellHeight += tableView.calculateCellHeightWithImage(withContent: vm.placeAndBirthdayText, font: .systemFont(ofSize: 16))

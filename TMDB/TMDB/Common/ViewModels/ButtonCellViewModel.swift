@@ -24,7 +24,7 @@ class ButtonCellViewModel: Equatable, IdentifiableType {
         self.type = type
     }
     
-    static func ==(lhs: ButtonCellViewModel, rhs: ButtonCellViewModel) -> Bool {
+    static func == (lhs: ButtonCellViewModel, rhs: ButtonCellViewModel) -> Bool {
         return lhs.type == rhs.type
     }
     

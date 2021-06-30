@@ -12,26 +12,26 @@ struct FilterOptionListMediaTableViewDataSource: DataSourceProtocol {
     
     typealias DataSource = RxTableViewSectionedAnimatedDataSource<FilterOptionListMediaModelMultipleSection>
     
-    static func dataSource() -> DataSource {
-        
-        let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, tableView, indexPath, item) -> UITableViewCell in
-            switch dataSource[indexPath] {
-            case .mediaByYear(let vm):
-                let cell = FilterOptionMediaByYearTableViewCell()
-                cell.viewModel = vm
-                return cell
-            case .mediaByGenre(let vm):
-                let cell = FilterOptionMediaByGenreTableViewCell()
-                cell.viewModel = vm
-                return cell
-            }
-            
+    private static let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic,
+                                                                       reloadAnimation: .automatic,
+                                                                       deleteAnimation: .automatic)
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, tv, ip, item) -> UITableViewCell in
+        switch ds[ip] {
+        case .mediaByYear(let vm):
+            let cell = FilterOptionMediaByYearTableViewCell()
+            cell.viewModel = vm
+            return cell
+        case .mediaByGenre(let vm):
+            let cell = FilterOptionMediaByGenreTableViewCell()
+            cell.viewModel = vm
+            return cell
         }
         
+    }
+    
+    static func dataSource() -> DataSource {
         return DataSource(animationConfiguration: animationConfiguration, configureCell: configureCell)
-        
     }
     
 }

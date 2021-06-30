@@ -9,11 +9,10 @@ import Foundation
 import RxSwift
 import RxRelay
 import Domain
-import NetworkPlatform
 
 class CreditListViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let useCaseProvider: Domain.UseCaseProvider
     
     let mediaID: String
@@ -49,8 +48,13 @@ class CreditListViewModel {
         let sectionedItems = BehaviorRelay<[CreditListViewModelMultipleSection]>(value: [])
     }
     
-//    MARK: - Init
-    init(with mediaID: String, mediaType: MediaType, creditType: CreditType, seasonNumber: String?, episodeNumber: String?, useCaseProvider: Domain.UseCaseProvider) {
+// MARK: - Init
+    init(with mediaID: String,
+         mediaType: MediaType,
+         creditType: CreditType,
+         seasonNumber: String?,
+         episodeNumber: String?,
+         useCaseProvider: Domain.UseCaseProvider) {
         
         self.useCaseProvider = useCaseProvider
         
@@ -63,7 +67,7 @@ class CreditListViewModel {
         subscribing()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func subscribing() {
         self.input.selectedItem.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
@@ -90,16 +94,6 @@ class CreditListViewModel {
         case .tvAggregateCrew(let vm): coordinator.toPeople(with: vm.id)
         }
     }
-    
-//    private func fetch<T: CreditListResponseProtocol & Decodable>(completion: @escaping (T) -> Void) {
-//        let useCase = useCaseProvider.makeTVDetailUseCase()
-//        networkManager.request(api) { (result: Result<T, Error>) in
-//            switch result {
-//            case .success(let response): completion(response)
-//            case .failure: break
-//            }
-//        }
-//    }
     
     private func setupOutput() {
         
@@ -144,9 +138,17 @@ class CreditListViewModel {
                     }
                 }
                 
-                let items = response.crew
-                    .map {
-                        GroupedCrewModel(adult: $0.adult, gender: $0.gender, id: $0.id, knownForDepartment: $0.knownForDepartment, name: $0.name, originalName: $0.originalName, popularity: $0.popularity, profilePath: $0.profilePath, creditID: $0.creditID, jobs: jobs[$0.id]!.joined(separator: ", "))
+                let items = response.crew.map {
+                        GroupedCrewModel(adult: $0.adult,
+                                         gender: $0.gender,
+                                         id: $0.id,
+                                         knownForDepartment: $0.knownForDepartment,
+                                         name: $0.name,
+                                         originalName: $0.originalName,
+                                         popularity: $0.popularity,
+                                         profilePath: $0.profilePath,
+                                         creditID: $0.creditID,
+                                         jobs: jobs[$0.id]!.joined(separator: ", "))
                     }
                     .toUnique()
                     .sorted(by: >)
@@ -173,8 +175,8 @@ class CreditListViewModel {
             switch self.creditType {
             case .cast:
                 let title = "Актеры"
-                let items: [CreditListViewModelMultipleSection.SectionItem] =
-                    response.cast.map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCast(vm: AggregateCastCellViewModel($0)) }
+                let items: [CreditListViewModelMultipleSection.SectionItem] = response.cast
+                    .map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCast(vm: AggregateCastCellViewModel($0)) }
                 self.output.sectionedItems.accept([
                     .castSection(title: title, items: items)
                 ])
@@ -182,8 +184,9 @@ class CreditListViewModel {
                 
             case .crew:
                 let title = "Съемочная группа"
-                let items: [CreditListViewModelMultipleSection.SectionItem] =
-                    response.crew.sorted(by: >).map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCrew(vm: AggregateCrewCellViewModel($0)) }
+                let items: [CreditListViewModelMultipleSection.SectionItem] = response.crew
+                    .sorted(by: >)
+                    .map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCrew(vm: AggregateCrewCellViewModel($0)) }
                 self.output.sectionedItems.accept([
                     .crewSection(title: title, items: items)
                 ])
@@ -207,8 +210,8 @@ class CreditListViewModel {
             switch self.creditType {
             case .cast:
                 let title = "Актеры"
-                let items: [CreditListViewModelMultipleSection.SectionItem] =
-                    response.cast.map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCast(vm: AggregateCastCellViewModel($0)) }
+                let items: [CreditListViewModelMultipleSection.SectionItem] = response.cast
+                    .map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCast(vm: AggregateCastCellViewModel($0)) }
                 self.output.sectionedItems.accept([
                     .castSection(title: title, items: items)
                 ])
@@ -216,8 +219,9 @@ class CreditListViewModel {
                 
             case .crew:
                 let title = "Съемочная группа"
-                let items: [CreditListViewModelMultipleSection.SectionItem] =
-                    response.crew.sorted(by: >).map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCrew(vm: AggregateCrewCellViewModel($0)) }
+                let items: [CreditListViewModelMultipleSection.SectionItem] = response.crew
+                    .sorted(by: >)
+                    .map { CreditListViewModelMultipleSection.SectionItem.tvAggregateCrew(vm: AggregateCrewCellViewModel($0)) }
                 self.output.sectionedItems.accept([
                     .crewSection(title: title, items: items)
                 ])
@@ -234,7 +238,9 @@ class CreditListViewModel {
         guard let seasonNumber = seasonNumber, let episodeNumber = episodeNumber else { return }
         let useCase = useCaseProvider.makeTVEpisodeDetailUseCase()
         
-        useCase.credits(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber) { [weak self] (result: Result<EpisodeCreditList, Error>) in
+        useCase.credits(mediaID: mediaID,
+                        seasonNumber: seasonNumber,
+                        episodeNumber: episodeNumber) { [weak self] (result: Result<EpisodeCreditList, Error>) in
             guard let self = self else { return }
             
             guard case .success(let response) = result else { return }
@@ -271,9 +277,16 @@ class CreditListViewModel {
                     }
                 }
                 
-                let items = response.crew
-                    .map {
-                        GroupedCrewModel(adult: $0.adult, gender: $0.gender, id: $0.id, knownForDepartment: $0.knownForDepartment, name: $0.name, originalName: $0.originalName, popularity: $0.popularity, profilePath: $0.profilePath, creditID: $0.creditID, jobs: jobs[$0.id]!.joined(separator: ", "))
+                let items = response.crew.map {
+                        GroupedCrewModel(adult: $0.adult,
+                                         gender: $0.gender,
+                                         id: $0.id,
+                                         knownForDepartment: $0.knownForDepartment,
+                                         name: $0.name, originalName: $0.originalName,
+                                         popularity: $0.popularity,
+                                         profilePath: $0.profilePath,
+                                         creditID: $0.creditID,
+                                         jobs: jobs[$0.id]!.joined(separator: ", "))
                     }
                     .toUnique()
                     .sorted(by: >)

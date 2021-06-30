@@ -11,7 +11,7 @@ import Domain
 
 struct MediaTrailerCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let id: String
     let key: String
     let name: String
@@ -19,7 +19,7 @@ struct MediaTrailerCellViewModel {
     let size: Int
     let type: String
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: VideoModel) {
         self.id = model.id
         self.key = model.key
@@ -35,7 +35,7 @@ extension MediaTrailerCellViewModel: IdentifiableType {
 }
 
 extension MediaTrailerCellViewModel: Equatable {
-    static func ==(lhs: MediaTrailerCellViewModel, rhs: MediaTrailerCellViewModel) -> Bool {
+    static func == (lhs: MediaTrailerCellViewModel, rhs: MediaTrailerCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

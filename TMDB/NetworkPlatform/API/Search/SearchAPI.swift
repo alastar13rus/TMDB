@@ -19,7 +19,7 @@ public final class SearchAPI {
     }
 }
 
-//  MARK: - extension Domain.SearchAPI
+// MARK: - extension Domain.SearchAPI
 extension SearchAPI: Domain.SearchAPI {
     
     public func mediaListByYear(_ year: String, mediaType: MediaType, page: Int) -> Domain.Endpoint {

@@ -12,32 +12,36 @@ struct TVSeasonShortListCollectionViewDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<TVSeasonCellViewModelMultipleSection>
     
-    static func dataSource() -> DataSource {
+    private static let animationConfiguration = AnimationConfiguration(
+        insertAnimation: .automatic,
+        reloadAnimation: .automatic,
+        deleteAnimation: .automatic)
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, cv, ip, item) -> UICollectionViewCell in
         
-        let animationConfiguration = AnimationConfiguration(
-            insertAnimation: .automatic,
-            reloadAnimation: .automatic,
-            deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            switch dataSource[indexPath] {
-            case .season(let vm):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: TVSeasonCollectionViewCell.self), for: indexPath) as? TVSeasonCollectionViewCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                cell.tag = indexPath.row
-                return cell
-            case .showMore(let vm):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ShowMoreCell.self), for: indexPath) as? ShowMoreCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                return cell
-            }
-           
+        switch ds[ip] {
+            
+        case .season(let vm):
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: TVSeasonCollectionViewCell.reuseId,
+                                                    for: ip) as? TVSeasonCollectionViewCell
+            else { return UICollectionViewCell() }
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            cell.tag = ip.row
+            return cell
+            
+        case .showMore(let vm):
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: ShowMoreCell.reuseId,
+                                                    for: ip) as? ShowMoreCell
+            else { return UICollectionViewCell() }
+            cell.viewModel = vm
+            return cell
         }
-        
+    }
+    
+    static func dataSource() -> DataSource {
         return DataSource(animationConfiguration: animationConfiguration, configureCell: configureCell)
-        
     }
     
 }

@@ -22,7 +22,19 @@ extension CDFavoriteTV: DomainConvertible {
 
     public func asDomain() -> DomainType {
         
-        return TVModel(firstAirDate: firstAirDate, originCountry: self.originCountry.decodeToArray(with: String.self), name: name, originalName: originalName, id: Int(id), popularity: popularity, voteCount: Int(voteCount), posterPath: posterPath, backdropPath: backdropPath, originalLanguage: originalLanguage, genreIds: genreIds.decodeToArray(with: Int.self), voteAverage: voteAverage, overview: overview)
+        return TVModel(firstAirDate: firstAirDate,
+                       originCountry: self.originCountry.decodeToArray(with: String.self),
+                       name: name,
+                       originalName: originalName,
+                       id: Int(id),
+                       popularity: popularity,
+                       voteCount: Int(voteCount),
+                       posterPath: posterPath,
+                       backdropPath: backdropPath,
+                       originalLanguage: originalLanguage,
+                       genreIds: genreIds.decodeToArray(with: Int.self),
+                       voteAverage: voteAverage,
+                       overview: overview)
 
     }
 }

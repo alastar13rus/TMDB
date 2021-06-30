@@ -19,4 +19,3 @@ public protocol NetworkMonitor: AnyObject {
     func start()
     func stop()
 }
-

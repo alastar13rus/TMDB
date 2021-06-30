@@ -10,7 +10,7 @@ import RxSwift
 
 class TVSeasonShortListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVSeasonShortListViewModel! {
         didSet {
             configure(with: viewModel)
@@ -30,7 +30,6 @@ class TVSeasonShortListTableViewCell: UITableViewCell {
     
     lazy var tvSeasonShortListCollectionView: UICollectionView = {
         
-        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 12
@@ -38,8 +37,8 @@ class TVSeasonShortListTableViewCell: UITableViewCell {
         layout.sectionInset = .init(top: 12, left: 12, bottom: 12, right: 12)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(TVSeasonCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: TVSeasonCollectionViewCell.self))
-        collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
+        collectionView.register(TVSeasonCollectionViewCell.self, forCellWithReuseIdentifier: TVSeasonCollectionViewCell.reuseId)
+        collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: ShowMoreCell.reuseId)
         collectionView.backgroundColor = .white
 //        collectionView.isPagingEnabled = true
         
@@ -49,8 +48,7 @@ class TVSeasonShortListTableViewCell: UITableViewCell {
         return collectionView
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -63,11 +61,17 @@ class TVSeasonShortListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: TVSeasonShortListViewModel) {
-        vm.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvSeasonShortListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        vm.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(tvSeasonShortListCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        tvSeasonShortListCollectionView.rx.modelSelected(TVSeasonCellViewModelMultipleSection.SectionItem.self).bind(to: vm.selectedItem).disposed(by: disposeBag)
+        tvSeasonShortListCollectionView.rx
+            .modelSelected(TVSeasonCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: vm.selectedItem)
+            .disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {
@@ -83,14 +87,16 @@ class TVSeasonShortListTableViewCell: UITableViewCell {
             tvSeasonShortListCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             tvSeasonShortListCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             tvSeasonShortListCollectionView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            tvSeasonShortListCollectionView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            tvSeasonShortListCollectionView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
     
 }
 
 extension TVSeasonShortListTableViewCell: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch dataSource[indexPath] {
         case .season:
             return CGSize(width: (self.bounds.width - 2 * 12) / 3 * 2, height: (self.bounds.height - 2 * 12 - 2 * 12) / 3)
@@ -106,12 +112,18 @@ extension TVSeasonShortListTableViewCell: UICollectionViewDelegateFlowLayout {
             factor = -factor
         }
         
-        let indexPath = setupIndexPath(dataSourceInfo: dataSourceInfo, collectionViewContentOffsetX: scrollView.contentOffset.x, collectionViewWidth: (self.bounds.width - 2 * 12) / 3 * 2, factor: factor)
+        let indexPath = setupIndexPath(dataSourceInfo: dataSourceInfo,
+                                       collectionViewContentOffsetX: scrollView.contentOffset.x,
+                                       collectionViewWidth: (self.bounds.width - 2 * 12) / 3 * 2,
+                                       factor: factor)
         
         tvSeasonShortListCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
-    fileprivate func setupIndexPath(dataSourceInfo: [(itemsCount: Int, sectionNumber: Int)], collectionViewContentOffsetX contentOffsetX: CGFloat, collectionViewWidth width: CGFloat, factor: CGFloat) -> IndexPath {
+    fileprivate func setupIndexPath(dataSourceInfo: [(itemsCount: Int, sectionNumber: Int)],
+                                    collectionViewContentOffsetX contentOffsetX: CGFloat,
+                                    collectionViewWidth width: CGFloat,
+                                    factor: CGFloat) -> IndexPath {
         
         var accRows = 0
         for tuple in dataSourceInfo {

@@ -10,7 +10,7 @@ import RxDataSources
 
 class SearchCategoryCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: SearchCategoryCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -24,8 +24,7 @@ class SearchCategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -38,8 +37,7 @@ class SearchCategoryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         backgroundColor = .systemGray5
         layer.cornerRadius = 10
@@ -55,7 +53,7 @@ class SearchCategoryCollectionViewCell: UICollectionViewCell {
             categoryLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             categoryLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
             categoryLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
-            categoryLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
+            categoryLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
     

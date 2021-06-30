@@ -12,23 +12,21 @@ struct TVSeasonDetailDataSource: DataSourceProtocol {
     
     typealias DataSource = RxTableViewSectionedAnimatedDataSource<TVSeasonDetailCellViewModelMultipleSection>
     
-    static func dataSource() -> DataSource {
-        
-        let animationConfiguration = AnimationConfiguration(
-            insertAnimation: .automatic,
-            reloadAnimation: .automatic,
-            deleteAnimation: .automatic
-        )
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, tableView, indexPath, item) -> UITableViewCell in
+    private static let animationConfiguration = AnimationConfiguration(
+        insertAnimation: .automatic,
+        reloadAnimation: .automatic,
+        deleteAnimation: .automatic
+    )
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, tv, ip, item) -> UITableViewCell in
             
-            switch dataSource[indexPath] {
+            switch ds[ip] {
             
             case .tvSeasonPosterWrapper(let vm):
                 let cell = TVSeasonPosterWrapperTableViewCell()
                 cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
+                cell.indexPath = ip
+                cell.tag = ip.row
                 return cell
                 
             case .tvSeasonImageList(let vm):
@@ -63,13 +61,15 @@ struct TVSeasonDetailDataSource: DataSourceProtocol {
             }
         }
         
-        let titleForHeaderInSection: DataSource.TitleForHeaderInSection = { (dataSource, section) -> String? in
-            switch dataSource[section] {
+    private static let titleForHeaderInSection: DataSource.TitleForHeaderInSection = { (ds, section) -> String? in
+            switch ds[section] {
             case .tvSeasonCrewShortListSection(let title, _): return title
             case .tvSeasonCastShortListSection(let title, _): return title
             default: return nil
             }
         }
+    
+    static func dataSource() -> DataSource {
         
         return DataSource(
             animationConfiguration: animationConfiguration,
@@ -78,6 +78,5 @@ struct TVSeasonDetailDataSource: DataSourceProtocol {
         )
         
     }
-    
     
 }

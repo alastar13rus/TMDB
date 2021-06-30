@@ -39,23 +39,23 @@ extension ToSeasonRoutable {
     }
 }
 
-class TVSeasonFlowCoordinator:  NavigationCoordinator {
+class TVSeasonFlowCoordinator: NavigationCoordinator {
     
-//    MARK: - Properties
+// MARK: - Properties
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
     let navigationController: UINavigationController
     let container: Container
     
-//    MARK: - Init
+// MARK: - Init
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     func start() { }
     
     func start(with mediaID: String) {
@@ -91,9 +91,8 @@ class TVSeasonFlowCoordinator:  NavigationCoordinator {
     }
 }
 
-//  MARK: - extension ToPeopleRoutable
+// MARK: - extension ToPeopleRoutable
 extension TVSeasonFlowCoordinator: ToPeopleRoutable { }
 
-
-//  MARK: - extension ToImageFullScreenRoutable
+// MARK: - extension ToImageFullScreenRoutable
 extension TVSeasonFlowCoordinator: ToImageFullScreenRoutable { }

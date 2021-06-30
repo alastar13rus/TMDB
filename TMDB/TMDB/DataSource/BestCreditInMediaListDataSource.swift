@@ -12,45 +12,64 @@ struct BestCreditInMediaListDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<CreditInMediaCellViewModelMultipleSection>
     
+    private static let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic,
+                                                                       reloadAnimation: .automatic,
+                                                                       deleteAnimation: .automatic)
+    
+    private static let configureSupplementaryView: DataSource.ConfigureSupplementaryView = { (ds, cv, kind, ip) -> UICollectionReusableView in
+        var title = ""
+        switch ds[ip] {
+        case .creditInMovie: title = "Фильмы"
+        case .creditInTV: title = "Сериалы"
+        }
+        
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            
+            guard let view = cv.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: ReusableHeaderView.reuseId,
+                for: ip
+            ) as? ReusableHeaderView else { return UICollectionReusableView() }
+            
+            view.configure(withTitle: title)
+            return view
+        default:
+            return UICollectionReusableView()
+        }
+    }
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, cv, ip, item) -> UICollectionViewCell in
+        
+        switch ds[ip] {
+            
+        case .creditInMovie(let vm):
+            let reuseId = CreditInMediaCell.reuseId
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? CreditInMediaCell
+            else { return UICollectionViewCell() }
+            
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+            
+        case .creditInTV(let vm):
+            let reuseId = CreditInMediaCell.reuseId
+            guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? CreditInMediaCell
+            else { return UICollectionViewCell() }
+            
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+        }
+    }
+    
     static func dataSource() -> DataSource {
         
-        let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, collectionview, indexPath, item) -> UICollectionViewCell in
-            switch dataSource[indexPath] {
-            case .creditInMovie(let vm):
-                guard let cell = collectionview.dequeueReusableCell(withReuseIdentifier: String(describing: CreditInMediaCell.self), for: indexPath) as? CreditInMediaCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            case .creditInTV(let vm):
-                guard let cell = collectionview.dequeueReusableCell(withReuseIdentifier: String(describing: CreditInMediaCell.self), for: indexPath) as? CreditInMediaCell else { return UICollectionViewCell() }
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            }
-        }
-        
-        let configureSupplementaryView: DataSource.ConfigureSupplementaryView = { (dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
-            var title = ""
-            switch dataSource[indexPath] {
-            case .creditInMovie: title = "Фильмы"
-            case .creditInTV: title = "Сериалы"
-            }
-            
-            switch kind {
-            case UICollectionView.elementKindSectionHeader:
-                let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: String(describing: ReusableHeaderView.self), for: indexPath) as! ReusableHeaderView
-                view.configure(withTitle: title)
-                return view
-            default:
-                return UICollectionReusableView()
-            }
-        }
-        
-        return DataSource(animationConfiguration: animationConfiguration, configureCell: configureCell, configureSupplementaryView: configureSupplementaryView)
+        return DataSource(animationConfiguration: animationConfiguration,
+                          configureCell: configureCell,
+                          configureSupplementaryView: configureSupplementaryView)
     }
     
 }

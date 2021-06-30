@@ -10,7 +10,7 @@ import youtube_ios_player_helper
 
 class ButtonTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: ButtonCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -30,7 +30,7 @@ class ButtonTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -43,7 +43,7 @@ class ButtonTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: ButtonCellViewModel) {
         
     }
@@ -62,9 +62,8 @@ class ButtonTableViewCell: UITableViewCell {
             trailerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             trailerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
             trailerLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -12),
-            trailerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
+            trailerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         ])
     }
-    
     
 }

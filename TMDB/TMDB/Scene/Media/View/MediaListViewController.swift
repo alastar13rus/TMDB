@@ -5,7 +5,6 @@
 //  Created by Докин Андрей (IOS) on 16.03.2021.
 //
 
-import NetworkPlatform
 import UIKit
 import RxSwift
 import RxCocoa
@@ -13,8 +12,7 @@ import RxDataSources
 
 class MediaListViewController: UIViewController {
     
-    
-    //    MARK: - Property
+    // MARK: - Property
     var viewModel: MediaListViewModel!
     private let disposeBag = DisposeBag()
     let dataSource = MediaListTableViewDataSource.dataSource()
@@ -26,7 +24,7 @@ class MediaListViewController: UIViewController {
     }()
     
     private(set) lazy var mediaListTableView: MediaListTableView = {
-        let tableView = MediaListTableView(cell: MediaTableViewCell.self, refreshControl: refreshControl)
+        let tableView = MediaListTableView(cellType: MediaTableViewCell.self, refreshControl: refreshControl)
         return tableView
     }()
     
@@ -38,14 +36,13 @@ class MediaListViewController: UIViewController {
         return view
     }()
 
-    //    MARK: - Lifecycle
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(#function)
         setupUI()
         setupHierarhy()
         setupConstraints()
-        
         
     }
     
@@ -56,7 +53,7 @@ class MediaListViewController: UIViewController {
         mediaListTableView.refreshControl?.isHidden = true
     }
         
-    //    MARK: - Methods
+    // MARK: - Methods
     private func setupUI() {
         view.backgroundColor = .white
         
@@ -81,13 +78,13 @@ class MediaListViewController: UIViewController {
             mediaListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             customActivityIndicator.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            customActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            customActivityIndicator.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])
     }
     
 }
 
-//  MARK: - Extensions
+// MARK: - Extensions
 extension MediaListViewController: BindableType {
 
     func bindViewModel() {
@@ -137,10 +134,8 @@ extension MediaListViewController: BindableType {
         refreshControl.rx.controlEvent(.valueChanged)
             .bind(to: viewModel.input.refreshItemsTrigger)
             .disposed(by: disposeBag)
-        
                 
     }
-
 
 }
 

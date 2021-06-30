@@ -28,7 +28,7 @@ class TVAggregateCastCellViewModelSection: AnimatableSectionModelType, Identifia
         
     }
     
-    static func ==(lhs: TVAggregateCastCellViewModelSection, rhs: TVAggregateCastCellViewModelSection) -> Bool {
+    static func == (lhs: TVAggregateCastCellViewModelSection, rhs: TVAggregateCastCellViewModelSection) -> Bool {
         return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
@@ -36,7 +36,7 @@ class TVAggregateCastCellViewModelSection: AnimatableSectionModelType, Identifia
 
 class AggregateCastCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let gender: Int
     let id: String
     let name: String
@@ -54,7 +54,7 @@ class AggregateCastCellViewModel {
         ImageURL.profile(.w185, profilePath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     
     init(_ model: TVAggregateCastModel) {
         self.gender = model.gender
@@ -72,7 +72,7 @@ extension AggregateCastCellViewModel: IdentifiableType, Equatable {
     
     var identity: String { return "\(self.id)" }
     
-    static func ==(lhs: AggregateCastCellViewModel, rhs: AggregateCastCellViewModel) -> Bool {
+    static func == (lhs: AggregateCastCellViewModel, rhs: AggregateCastCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
     

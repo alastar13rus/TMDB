@@ -24,11 +24,10 @@ enum FavoriteCellViewModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             lhs.identity == rhs.identity
         }
     }
-    
     
     init(original: FavoriteCellViewModelMultipleSection, items: [SectionItem]) {
         switch original {
@@ -66,4 +65,3 @@ extension FavoriteCellViewModelMultipleSection: Equatable {
         return lhs.identity == rhs.identity
     }
 }
-

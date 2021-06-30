@@ -11,7 +11,7 @@ import RxDataSources
 
 class TVEpisodeListViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVEpisodeListViewModel!
     let dataSource = TVEpisodeListTableViewDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -23,7 +23,7 @@ class TVEpisodeListViewController: UIViewController {
         return tableView
     }()
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +32,7 @@ class TVEpisodeListViewController: UIViewController {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
         navigationItem.title = "Список эпизодов"
@@ -48,7 +48,7 @@ class TVEpisodeListViewController: UIViewController {
             tvEpisodeListTableView.topAnchor.constraint(equalTo: view.topAnchor),
             tvEpisodeListTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tvEpisodeListTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            tvEpisodeListTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tvEpisodeListTableView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
     }
     
@@ -58,9 +58,15 @@ extension TVEpisodeListViewController: BindableType {
     func bindViewModel() {
         
         tvEpisodeListTableView.rx.setDelegate(self).disposed(by: disposeBag)
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvEpisodeListTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(tvEpisodeListTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        tvEpisodeListTableView.rx.modelSelected(TVEpisodeCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.input.selectedItem).disposed(by: disposeBag)
+        tvEpisodeListTableView.rx
+            .modelSelected(TVEpisodeCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.input.selectedItem)
+            .disposed(by: disposeBag)
     }
 }
 

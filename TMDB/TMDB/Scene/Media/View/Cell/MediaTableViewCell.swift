@@ -9,7 +9,7 @@ import UIKit
 
 class MediaTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MediaCellViewModel! {
         didSet {
             self.configure(with: viewModel)
@@ -57,8 +57,7 @@ class MediaTableViewCell: UITableViewCell {
         return view
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -72,7 +71,7 @@ class MediaTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -131,7 +130,7 @@ class MediaTableViewCell: UITableViewCell {
             voteAverageCircleProgressBar.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
             voteAverageCircleProgressBar.leftAnchor.constraint(greaterThanOrEqualTo: titleLabel.rightAnchor, constant: 12),
             voteAverageCircleProgressBar.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            voteAverageCircleProgressBar.widthAnchor.constraint(equalToConstant: 50),
+            voteAverageCircleProgressBar.widthAnchor.constraint(equalToConstant: 50)
             
         ])
     }

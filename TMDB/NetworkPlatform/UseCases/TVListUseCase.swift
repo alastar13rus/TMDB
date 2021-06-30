@@ -11,9 +11,9 @@ import Domain
 final class TVListUseCase: Domain.TVListUseCase {
     
     private let repository: TVListRepository
-    private let api: TVListAPI
+    private let api: Domain.TVListAPI
 
-    init(_ repository: TVListRepository, _ api: TVListAPI) {
+    init(_ repository: TVListRepository, _ api: Domain.TVListAPI) {
         self.repository = repository
         self.api = api
     }
@@ -41,6 +41,5 @@ final class TVListUseCase: Domain.TVListUseCase {
         let request = api.airingToday(page: page)
         repository.fetchAiringTodayTVs(request, completion: completion)
     }
-    
     
 }

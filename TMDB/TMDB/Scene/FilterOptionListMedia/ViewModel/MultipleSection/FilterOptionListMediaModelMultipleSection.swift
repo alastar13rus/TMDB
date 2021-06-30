@@ -24,7 +24,7 @@ enum FilterOptionListMediaModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             switch (lhs, rhs) {
             case (.mediaByYear(let lhsVM), .mediaByYear(let rhsVM)):
                 return lhsVM.identity == rhsVM.identity

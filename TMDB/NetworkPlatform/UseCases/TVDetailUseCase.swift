@@ -11,14 +11,17 @@ import Domain
 class TVDetailUseCase: Domain.TVDetailUseCase {
     
     private let repository: TVDetailRepository
-    private let api: TVDetailAPI
+    private let api: Domain.TVDetailAPI
 
-    init(_ repository: TVDetailRepository, _ api: TVDetailAPI) {
+    init(_ repository: TVDetailRepository, _ api: Domain.TVDetailAPI) {
         self.repository = repository
         self.api = api
     }
     
-    func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage], completion: @escaping (Result<TVDetailModel, Error>) -> Void) {
+    func details(mediaID: String,
+                 appendToResponse: [AppendToResponse],
+                 includeImageLanguage: [IncludeImageLanguage],
+                 completion: @escaping (Result<TVDetailModel, Error>) -> Void) {
         
         let request = api.details(mediaID: mediaID, appendToResponse: appendToResponse, includeImageLanguage: includeImageLanguage)
         repository.fetchTVDetails(request, completion: completion)

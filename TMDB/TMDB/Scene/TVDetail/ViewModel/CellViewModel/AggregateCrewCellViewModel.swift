@@ -28,7 +28,7 @@ class TVAggregateCrewCellViewModelSection: AnimatableSectionModelType, Identifia
         
     }
     
-    static func ==(lhs: TVAggregateCrewCellViewModelSection, rhs: TVAggregateCrewCellViewModelSection) -> Bool {
+    static func == (lhs: TVAggregateCrewCellViewModelSection, rhs: TVAggregateCrewCellViewModelSection) -> Bool {
         return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
@@ -36,7 +36,7 @@ class TVAggregateCrewCellViewModelSection: AnimatableSectionModelType, Identifia
 
 class AggregateCrewCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let gender: Int
     let id: String
     let name: String
@@ -55,7 +55,7 @@ class AggregateCrewCellViewModel {
         ImageURL.profile(.w185, profilePath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     
     init(_ model: TVAggregateCrewModel) {
         self.gender = model.gender
@@ -74,7 +74,7 @@ extension AggregateCrewCellViewModel: IdentifiableType, Equatable {
     
     var identity: String { return "\(self.id)" }
     
-    static func ==(lhs: AggregateCrewCellViewModel, rhs: AggregateCrewCellViewModel) -> Bool {
+    static func == (lhs: AggregateCrewCellViewModel, rhs: AggregateCrewCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
     

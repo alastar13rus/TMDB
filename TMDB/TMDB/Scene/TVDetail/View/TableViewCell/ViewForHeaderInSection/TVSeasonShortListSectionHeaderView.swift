@@ -9,7 +9,7 @@ import UIKit
 
 class TVSeasonShortListSectionHeaderView: UIView {
     
-//    MARK: - Properties
+// MARK: - Properties
     var title = ""
     var numberOfSeasons = 0
     
@@ -29,8 +29,7 @@ class TVSeasonShortListSectionHeaderView: UIView {
         return button
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     convenience init(title: String, numberOfSeasons: Int) {
         self.init()
         self.title = title
@@ -42,7 +41,7 @@ class TVSeasonShortListSectionHeaderView: UIView {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure() {
         titleLabel.text = title
         showTVSeasonListButtonPressed.setTitle("\(numberOfSeasons) >", for: .normal)
@@ -68,7 +67,5 @@ class TVSeasonShortListSectionHeaderView: UIView {
             showTVSeasonListButtonPressed.leftAnchor.constraint(equalTo: titleLabel.rightAnchor, constant: 12)
         ])
     }
-    
-    
     
 }

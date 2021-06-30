@@ -19,8 +19,17 @@ public struct GroupedCrewModel: Decodable, Identifiable {
     public let creditID: String
     public let jobs: String
     
-//    MARK: - Init
-    public init(adult: Bool, gender: Int, id: Int, knownForDepartment: String?, name: String, originalName: String, popularity: Float, profilePath: String?, creditID: String, jobs: String) {
+// MARK: - Init
+    public init(adult: Bool, gender: Int,
+                id: Int,
+                knownForDepartment: String?,
+                name: String,
+                originalName: String,
+                popularity: Float,
+                profilePath: String?,
+                creditID: String,
+                jobs: String) {
+        
         self.adult = adult
         self.gender = gender
         self.id = id

@@ -13,7 +13,7 @@ import Domain
 
 class CastCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let gender: Int
     let id: String
     let name: String
@@ -27,7 +27,7 @@ class CastCellViewModel {
         ImageURL.profile(.w185, profilePath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     
     init(_ model: CastModel) {
         self.gender = model.gender
@@ -44,7 +44,7 @@ class CastCellViewModel {
 extension CastCellViewModel: IdentifiableType, Equatable, Comparable {
     var identity: String { self.creditID }
     
-    static func ==(lhs: CastCellViewModel, rhs: CastCellViewModel) -> Bool {
+    static func == (lhs: CastCellViewModel, rhs: CastCellViewModel) -> Bool {
         return lhs.creditID == rhs.creditID
     }
     

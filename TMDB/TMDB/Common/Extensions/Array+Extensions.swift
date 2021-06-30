@@ -11,7 +11,7 @@ import RxDataSources
 extension Array where Array.Element: AnimatableSectionModelType {
     
     func buildSection<T, U: Decodable>(withModel model: U,
-                             andAction action: ((U, [T]) -> [T])) -> [T] {
+                                       andAction action: ((U, [T]) -> [T])) -> [T] {
         guard let self = self as? [T] else { return [] }
         return action(model, self as [T])
     }
@@ -26,9 +26,11 @@ extension Array where Array.Element: AnimatableSectionModelType {
 
 extension Array where Array.Element: (Decodable & Identifiable) {
     func toUnique() -> [Element] {
-        var dict = [Int:Element]()
-        self.reversed().enumerated().forEach { dict[$0.element.id as! Int] = $0.element }
+        var dict = [Int: Element]()
+        self.reversed().enumerated().forEach {
+            guard let intKey = $0.element.id as? Int else { return }
+            dict[intKey] = $0.element
+        }
         return dict.map { $0.value }
     }
 }
-

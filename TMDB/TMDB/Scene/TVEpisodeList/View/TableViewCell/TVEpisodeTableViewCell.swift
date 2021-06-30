@@ -9,7 +9,7 @@ import UIKit
 
 class TVEpisodeTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVEpisodeCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -35,7 +35,7 @@ class TVEpisodeTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: Init
+// MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -60,7 +60,7 @@ class TVEpisodeTableViewCell: UITableViewCell {
         stillImageView.contentMode = .scaleAspectFill
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: TVEpisodeCellViewModel) {
         nameLabel.text = vm.name
         airDateLabel.text = vm.airDateText
@@ -105,7 +105,7 @@ class TVEpisodeTableViewCell: UITableViewCell {
             airDateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
             airDateLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
             airDateLabel.rightAnchor.constraint(equalTo: nameLabel.rightAnchor),
-            airDateLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            airDateLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

@@ -12,7 +12,7 @@ import Domain
 
 class ImageListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: ImageListViewModel! {
         didSet {
             configure(with: viewModel)
@@ -28,7 +28,7 @@ class ImageListTableViewCell: UITableViewCell {
         case .profile:
             let layout = CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self)
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: String(describing: ImageCell.self))
+            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.reuseId)
             collectionView.backgroundColor = .white
             collectionView.showsHorizontalScrollIndicator = false
             collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ class ImageListTableViewCell: UITableViewCell {
         case .backdrop:
             let layout = CollectionViewLayout(countItemsInScrollDirection: 2, scrollDirection: .horizontal, contentForm: .landscape, view: self)
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: String(describing: ImageCell.self))
+            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.reuseId)
             collectionView.backgroundColor = .white
             collectionView.showsHorizontalScrollIndicator = false
             collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +44,7 @@ class ImageListTableViewCell: UITableViewCell {
         case .still:
             let layout = CollectionViewLayout(countItemsInScrollDirection: 2, scrollDirection: .horizontal, contentForm: .landscape, view: self)
             let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: String(describing: ImageCell.self))
+            collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.reuseId)
             collectionView.backgroundColor = .white
             collectionView.showsHorizontalScrollIndicator = false
             collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +53,7 @@ class ImageListTableViewCell: UITableViewCell {
         }
     }()
     
-//    MARK: - Init
+// MARK: - Init
     
     convenience init(withImageType imageType: ImageType) {
         self.init()
@@ -64,11 +64,17 @@ class ImageListTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: ImageListViewModel) {
-        viewModel.sectionedItems.asDriver(onErrorJustReturn: []).drive(imageListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(imageListCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        imageListCollectionView.rx.modelSelected(ImageCellViewModel.self).bind(to: vm.selectedItem).disposed(by: disposeBag)
+        imageListCollectionView.rx
+            .modelSelected(ImageCellViewModel.self)
+            .bind(to: vm.selectedItem)
+            .disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {
@@ -84,9 +90,8 @@ class ImageListTableViewCell: UITableViewCell {
             imageListCollectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             imageListCollectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             imageListCollectionView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            imageListCollectionView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            imageListCollectionView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
-    
     
 }

@@ -9,7 +9,7 @@ import UIKit
 
 class ShowMoreCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: ShowMoreCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -39,7 +39,7 @@ class ShowMoreCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -52,8 +52,7 @@ class ShowMoreCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: ShowMoreCellViewModel) {
         showMoreLabel.text = vm.title
     }
@@ -76,7 +75,7 @@ class ShowMoreCell: UICollectionViewCell {
             showMoreButton.heightAnchor.constraint(equalToConstant: 60),
             
             showMoreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            showMoreLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            showMoreLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
 }

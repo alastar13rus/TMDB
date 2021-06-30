@@ -32,19 +32,18 @@ public struct TVAggregateCastModel: Decodable {
         case roles
         case totalEpisodeCount = "total_episode_count"
         case order
-            
     }
+}
+
+public struct RoleModel: Decodable {
+    public let creditID: String
+    public let character: String
+    public let episodeCount: Int
     
-    public struct RoleModel: Decodable {
-        public let creditID: String
-        public let character: String
-        public let episodeCount: Int
-        
-        enum CodingKeys: String, CodingKey {
-            case creditID = "credit_id"
-            case character
-            case episodeCount = "episode_count"
-        }
+    enum CodingKeys: String, CodingKey {
+        case creditID = "credit_id"
+        case character
+        case episodeCount = "episode_count"
     }
 }
 

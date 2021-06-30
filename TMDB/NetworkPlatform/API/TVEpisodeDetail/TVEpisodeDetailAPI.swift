@@ -19,10 +19,14 @@ public final class TVEpisodeDetailAPI {
     }
 }
 
-//  MARK: - extension Domain.TVEpisodeDetailAPI
+// MARK: - extension Domain.TVEpisodeDetailAPI
 extension TVEpisodeDetailAPI: Domain.TVEpisodeDetailAPI {
     
-    public func details(mediaID: String, seasonNumber: String, episodeNumber: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {
+    public func details(mediaID: String,
+                        seasonNumber: String,
+                        episodeNumber: String,
+                        appendToResponse: [AppendToResponse],
+                        includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {
         
         let method: HTTPMethod = .get
         let path = "/3/tv/" + mediaID + "/season/" + seasonNumber + "/episode/" + episodeNumber

@@ -26,7 +26,6 @@ struct TVRuntimeCellViewModel {
         }
     }
     
-    
     init(_ model: TVDetailModel) {
         self.id = String(model.id)
         self.episodeRunTime = !model.episodeRunTime.isEmpty ? model.episodeRunTime[0] : 0

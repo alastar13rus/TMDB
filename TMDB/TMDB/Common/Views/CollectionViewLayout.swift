@@ -9,7 +9,7 @@ import UIKit
 
 class CollectionViewLayout: UICollectionViewFlowLayout {
     
-    //    MARK: - Init
+    // MARK: - Init
     init(countItemsInScrollDirection: Int, scrollDirection: UICollectionView.ScrollDirection, contentForm: ContentForm, view: UIView) {
         super.init()
         
@@ -20,7 +20,7 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
         fatalError("init(coder:) has not been implemented")
         }
         
-    //    MARK: - Methods
+    // MARK: - Methods
     private func configure(countItemsInRowOrColumn: Int, scrollDirection: UICollectionView.ScrollDirection, contentForm: ContentForm, view: UIView) {
         self.scrollDirection = scrollDirection
         let minimumInteritemSpacing: CGFloat = 12
@@ -39,15 +39,36 @@ class CollectionViewLayout: UICollectionViewFlowLayout {
             switch contentForm {
             case .landscape:
                 itemWidth =
-                    (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
+                    (
+                        view.bounds.width
+                        + 55
+                        - CGFloat(countItemsInRowOrColumn - 1)
+                        * minimumInteritemSpacing
+                        - sectionInset.left
+                        - sectionInset.right
+                    ) / CGFloat(countItemsInRowOrColumn)
                 itemHeight = itemWidth / 1.6
             case .portrait:
                 itemWidth =
-                    (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
+                    (
+                        view.bounds.width
+                        + 55
+                        - CGFloat(countItemsInRowOrColumn - 1)
+                        * minimumInteritemSpacing
+                        - sectionInset.left
+                        - sectionInset.right
+                    ) / CGFloat(countItemsInRowOrColumn)
                 itemHeight = itemWidth * 1.6
             default:
                 itemWidth =
-                    (view.bounds.width + 55 - CGFloat(countItemsInRowOrColumn - 1) * minimumInteritemSpacing - sectionInset.left - sectionInset.right) / CGFloat(countItemsInRowOrColumn)
+                    (
+                        view.bounds.width
+                        + 55
+                        - CGFloat(countItemsInRowOrColumn - 1)
+                        * minimumInteritemSpacing
+                        - sectionInset.left
+                        - sectionInset.right)
+                / CGFloat(countItemsInRowOrColumn)
                 itemHeight = itemWidth
             }
             

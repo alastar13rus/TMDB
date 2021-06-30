@@ -9,7 +9,7 @@ import UIKit
 
 class CreditCrewTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     
     var viewModel: CrewCombinedCellViewModel! {
         didSet {
@@ -36,7 +36,7 @@ class CreditCrewTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -56,10 +56,7 @@ class CreditCrewTableViewCell: UITableViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-    
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CrewCombinedCellViewModel) {
         nameLabel.text = vm.name
         jobLabel.text = vm.jobs
@@ -101,9 +98,8 @@ class CreditCrewTableViewCell: UITableViewCell {
             
             jobLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
             jobLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
-            jobLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            jobLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
-    
     
 }

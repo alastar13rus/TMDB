@@ -28,7 +28,7 @@ class CrewCombinedCellViewModelSection: AnimatableSectionModelType, Identifiable
         
     }
     
-    static func ==(lhs: CrewCombinedCellViewModelSection, rhs: CrewCombinedCellViewModelSection) -> Bool {
+    static func == (lhs: CrewCombinedCellViewModelSection, rhs: CrewCombinedCellViewModelSection) -> Bool {
         return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
@@ -36,7 +36,7 @@ class CrewCombinedCellViewModelSection: AnimatableSectionModelType, Identifiable
 
 class CrewCombinedCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let gender: Int
     let id: String
     let name: String
@@ -50,7 +50,7 @@ class CrewCombinedCellViewModel {
         ImageURL.profile(.w185, profilePath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     
     init(_ model: GroupedCrewModel) {
         self.gender = model.gender
@@ -68,7 +68,7 @@ extension CrewCombinedCellViewModel: IdentifiableType, Equatable {
     
     var identity: String { self.creditID }
     
-    static func ==(lhs: CrewCombinedCellViewModel, rhs: CrewCombinedCellViewModel) -> Bool {
+    static func == (lhs: CrewCombinedCellViewModel, rhs: CrewCombinedCellViewModel) -> Bool {
         return lhs.creditID == rhs.creditID
     }
     

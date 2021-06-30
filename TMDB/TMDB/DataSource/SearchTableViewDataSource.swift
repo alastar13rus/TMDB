@@ -12,43 +12,46 @@ struct SearchTableViewDataSource: DataSourceProtocol {
     
     typealias DataSource = RxTableViewSectionedAnimatedDataSource<SearchQuickRequestCellModelMultipleSection>
     
+    private static let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic,
+                                                                       reloadAnimation: .automatic,
+                                                                       deleteAnimation: .automatic)
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, tv, ip, item) -> UITableViewCell in
+        switch ds[ip] {
+        case .categoryList(let vm):
+            let cell = SearchCategoryListTableViewCell()
+            cell.viewModel = vm
+            return cell
+        case .peopleList(let vm):
+            let cell = PeopleShortListTableViewCell()
+            cell.viewModel = vm
+            return cell
+        case .media(let vm):
+            let cell = MediaTableViewCell()
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+        case .people(let vm):
+            let cell = PeopleTableViewCell()
+            cell.viewModel = vm
+            cell.indexPath = ip
+            cell.tag = ip.row
+            return cell
+        }
+    }
+    
+    private static let titleForHeaderInSection: DataSource.TitleForHeaderInSection = { (ds, section) -> String? in
+        switch ds[section] {
+        case .categoryListSection(let title, _): return title
+        case .peopleListSection(let title, _): return title
+        case .resultSection(let title, _): return title
+        }
+    }
+    
     static func dataSource() -> DataSource {
-        
-        let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, tableView, indexPath, item) -> UITableViewCell in
-            switch dataSource[indexPath] {
-            case .categoryList(let vm):
-                let cell = SearchCategoryListTableViewCell()
-                cell.viewModel = vm
-                return cell
-            case .peopleList(let vm):
-                let cell = PeopleShortListTableViewCell()
-                cell.viewModel = vm
-                return cell
-            case .media(let vm):
-                let cell = MediaTableViewCell()
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            case .people(let vm):
-                let cell = PeopleTableViewCell()
-                cell.viewModel = vm
-                cell.indexPath = indexPath
-                cell.tag = indexPath.row
-                return cell
-            }
-        }
-        
-        let titleForHeaderInSection: DataSource.TitleForHeaderInSection = { (dataSource, section) -> String? in
-            switch dataSource[section] {
-            case .categoryListSection(let title, _): return title
-            case .peopleListSection(let title, _): return title
-            case .resultSection(let title, _): return title
-            }
-        }
-        
-        return DataSource(animationConfiguration: animationConfiguration, configureCell: configureCell, titleForHeaderInSection: titleForHeaderInSection)
+        DataSource(animationConfiguration: animationConfiguration,
+                   configureCell: configureCell,
+                   titleForHeaderInSection: titleForHeaderInSection)
     }
 }

@@ -9,7 +9,7 @@ import UIKit
 
 class TVEpisodeCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     
     var viewModel: TVEpisodeCellViewModel! {
         didSet {
@@ -36,7 +36,7 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -55,7 +55,7 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
         stillImageView.contentMode = .scaleAspectFill
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     
     fileprivate func configure(with vm: TVEpisodeCellViewModel) {
         nameLabel.text = vm.name
@@ -104,9 +104,8 @@ class TVEpisodeCollectionViewCell: UICollectionViewCell {
                 nameLabel.topAnchor.constraint(greaterThanOrEqualTo: episodeNumberLabel.bottomAnchor),
                 nameLabel.leftAnchor.constraint(equalTo: episodeNumberLabel.leftAnchor),
                 nameLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-                nameLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+                nameLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
             ])
     }
-    
     
 }

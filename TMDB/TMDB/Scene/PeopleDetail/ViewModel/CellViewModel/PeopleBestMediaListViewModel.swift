@@ -13,7 +13,7 @@ import Domain
 
 class PeopleBestMediaListViewModel: AnimatableSectionModelType {
     
-    //    MARK: - Properties
+    // MARK: - Properties
     let title: String
     let items: [CreditInMediaCellViewModelMultipleSection.SectionItem]
     
@@ -45,7 +45,7 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
                      
         }
         
-    //    MARK: - Init
+    // MARK: - Init
     required init(original: PeopleBestMediaListViewModel, items: [CreditInMediaCellViewModelMultipleSection.SectionItem]) {
         self.title = original.title
         self.items = items
@@ -63,7 +63,7 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         subscribing()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func subscribing() {
         self.selectedCredit.subscribe(onNext: { [weak self] in
             guard let self = self, let coordinator = self.coordinator as? PeopleFlowCoordinator else { return }
@@ -76,7 +76,6 @@ class PeopleBestMediaListViewModel: AnimatableSectionModelType {
         }).disposed(by: disposeBag)
     }
     
-    
 }
 
 extension PeopleBestMediaListViewModel: IdentifiableType {
@@ -84,7 +83,7 @@ extension PeopleBestMediaListViewModel: IdentifiableType {
 }
 
 extension PeopleBestMediaListViewModel: Equatable {
-    static func ==(lhs: PeopleBestMediaListViewModel, rhs: PeopleBestMediaListViewModel) -> Bool {
+    static func == (lhs: PeopleBestMediaListViewModel, rhs: PeopleBestMediaListViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

@@ -12,7 +12,7 @@ import RxDataSources
 
 class TVDetailViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVDetailViewModel!
     let dataSource = TVDetailDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -31,7 +31,7 @@ class TVDetailViewController: UIViewController {
     
     lazy var appearance = NavigationBarAppearance(barAppearance: .init())
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,7 +45,7 @@ class TVDetailViewController: UIViewController {
         self.navigationController?.navigationBar.subviews.forEach { $0.clipsToBounds = true }
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     private func setupUI() {
         setupNavigationWithAppearance(appearance)
         
@@ -61,7 +61,7 @@ class TVDetailViewController: UIViewController {
             tvDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tvDetailTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             tvDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            tvDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tvDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -73,9 +73,15 @@ extension TVDetailViewController: BindableType {
         
         tvDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(tvDetailTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
+        viewModel.output.title
+            .asDriver(onErrorJustReturn: "")
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
         
         viewModel.output.backdropImageData.skip(1).subscribe(onNext: { (imageData) in
             self.navigationItem.standardAppearance?.backgroundColor = .white
@@ -85,11 +91,11 @@ extension TVDetailViewController: BindableType {
                 self.navigationItem.compactAppearance?.backgroundColor = .white
                 self.navigationItem.scrollEdgeAppearance?.largeTitleTextAttributes = [
                     .foregroundColor: UIColor.darkText,
-                    .font: UIFont.boldSystemFont(ofSize: 24),
+                    .font: UIFont.boldSystemFont(ofSize: 24)
                 ]
                 self.navigationItem.compactAppearance?.largeTitleTextAttributes = [
                     .foregroundColor: UIColor.darkText,
-                    .font: UIFont.boldSystemFont(ofSize: 24),
+                    .font: UIFont.boldSystemFont(ofSize: 24)
                 ]
                 self.navigationItem.compactAppearance?.backgroundColor = .white
                 return
@@ -163,7 +169,11 @@ extension TVDetailViewController: UITableViewDelegate {
         switch dataSource[section] {
         case .tvSeasonShortListSection(let title, _):
             let headerView = TVSeasonShortListSectionHeaderView(title: title, numberOfSeasons: viewModel.output.numberOfSeasons.value)
-            headerView.showTVSeasonListButtonPressed.rx.tap.map { _ in () }.bind(to: viewModel.input.showTVSeasonListButtonPressed).disposed(by: disposeBag)
+            headerView.showTVSeasonListButtonPressed.rx
+                .tap
+                .map { _ in () }
+                .bind(to: viewModel.input.showTVSeasonListButtonPressed)
+                .disposed(by: disposeBag)
             return headerView
         default:
             return nil

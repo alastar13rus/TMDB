@@ -9,7 +9,7 @@ import UIKit
 
 class TVSeasonPosterWrapperView: UIView {
     
-//    MARK: - Properties
+// MARK: - Properties
     let posterImageView = PosterImageView()
     
     let blurTopView: UIVisualEffectView = {
@@ -37,7 +37,7 @@ class TVSeasonPosterWrapperView: UIView {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -50,7 +50,7 @@ class TVSeasonPosterWrapperView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     private func setupUI() {
         
     }
@@ -81,9 +81,8 @@ class TVSeasonPosterWrapperView: UIView {
             airYearLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             airYearLabel.bottomAnchor.constraint(equalTo: blurTopView.bottomAnchor, constant: -8),
             airYearLabel.leftAnchor.constraint(equalTo: blurTopView.leftAnchor, constant: 8),
-            airYearLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
+            airYearLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor)
         ])
     }
     
 }
-

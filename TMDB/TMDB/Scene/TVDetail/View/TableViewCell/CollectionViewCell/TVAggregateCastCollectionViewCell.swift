@@ -9,7 +9,7 @@ import UIKit
 
 class TVAggregateCastCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: AggregateCastCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -33,7 +33,7 @@ class TVAggregateCastCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -52,8 +52,7 @@ class TVAggregateCastCollectionViewCell: UICollectionViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: AggregateCastCellViewModel) {
         nameLabel.text = vm.name
         rolesLabel.text = vm.roles
@@ -97,10 +96,9 @@ class TVAggregateCastCollectionViewCell: UICollectionViewCell {
             rolesLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             rolesLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             rolesLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            rolesLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            rolesLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
             
         ])
     }
-    
     
 }

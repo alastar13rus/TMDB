@@ -12,19 +12,22 @@ struct MediaTrailerListDataSource: DataSourceProtocol {
     
     typealias DataSource = RxCollectionViewSectionedAnimatedDataSource<MediaTrailerCellViewModelSection>
     
+    private static let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic,
+                                                        reloadAnimation: .automatic,
+                                                        deleteAnimation: .automatic)
+    
+    private static let configureCell: DataSource.ConfigureCell = { (ds, cv, ip, item) -> UICollectionViewCell in
+        let reuseId = MediaTrailerCollectionViewCell.reuseId
+        guard let cell = cv.dequeueReusableCell(withReuseIdentifier: reuseId, for: ip) as? MediaTrailerCollectionViewCell
+        else { return UICollectionViewCell() }
+        cell.viewModel = item
+        return cell
+    }
+    
     static func dataSource() -> DataSource {
         
-        let animationConfiguration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
-        
-        let configureCell: DataSource.ConfigureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: MediaTrailerCollectionViewCell.self), for: indexPath) as? MediaTrailerCollectionViewCell else { return UICollectionViewCell() }
-            cell.viewModel = item
-            return cell
-        }
-        
-        return DataSource(
-            animationConfiguration: animationConfiguration,
-            configureCell: configureCell)
+        return DataSource(animationConfiguration: animationConfiguration,
+                          configureCell: configureCell)
     }
     
 }

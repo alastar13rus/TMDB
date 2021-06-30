@@ -12,7 +12,7 @@ import RxDataSources
 
 class CastShortListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     let disposeBag = DisposeBag()
     let dataSource = CreditShortListDataSource.dataSource()
     var viewModel: CreditShortListViewModel! {
@@ -22,10 +22,16 @@ class CastShortListTableViewCell: UITableViewCell {
     }
     
     lazy var castListCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self))
-        collectionView.register(CastCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: CastCollectionViewCell.self))
-        collectionView.register(TVAggregateCastCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: TVAggregateCastCollectionViewCell.self))
-        collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: CollectionViewLayout(countItemsInScrollDirection: 3,
+                                                                                         scrollDirection: .horizontal,
+                                                                                         contentForm: .portrait,
+                                                                                         view: self))
+        collectionView.register(CastCollectionViewCell.self,
+                                forCellWithReuseIdentifier: CastCollectionViewCell.reuseId)
+        collectionView.register(TVAggregateCastCollectionViewCell.self,
+                                forCellWithReuseIdentifier: TVAggregateCastCollectionViewCell.reuseId)
+        collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: ShowMoreCell.reuseId)
         collectionView.isUserInteractionEnabled = true
         collectionView.allowsSelection = true
         collectionView.backgroundColor = .white
@@ -35,7 +41,7 @@ class CastShortListTableViewCell: UITableViewCell {
         return collectionView
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -48,12 +54,18 @@ class CastShortListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CreditShortListViewModel) {
         
-        vm.sectionedItems.asDriver(onErrorJustReturn: []).drive(castListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        vm.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(castListCollectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        castListCollectionView.rx.modelSelected(CreditCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.selectedItem).disposed(by: disposeBag)
+        castListCollectionView.rx
+            .modelSelected(CreditCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.selectedItem)
+            .disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {
@@ -69,7 +81,7 @@ class CastShortListTableViewCell: UITableViewCell {
             castListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             castListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             castListCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            castListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            castListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
         ])
     }
     

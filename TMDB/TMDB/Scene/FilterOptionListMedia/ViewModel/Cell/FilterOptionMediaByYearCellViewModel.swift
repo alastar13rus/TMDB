@@ -11,7 +11,7 @@ import RxDataSources
 
 class FilterOptionMediaByYearCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let year: String
     let mediaType: Domain.MediaType
     
@@ -23,7 +23,7 @@ class FilterOptionMediaByYearCellViewModel {
         }
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: FilterOptionMediaByYearModel) {
         self.year = model.year
         self.mediaType = model.mediaType
@@ -36,7 +36,7 @@ extension FilterOptionMediaByYearCellViewModel: IdentifiableType {
 }
 
 extension FilterOptionMediaByYearCellViewModel: Equatable {
-    static func ==(lhs: FilterOptionMediaByYearCellViewModel, rhs: FilterOptionMediaByYearCellViewModel) -> Bool {
+    static func == (lhs: FilterOptionMediaByYearCellViewModel, rhs: FilterOptionMediaByYearCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

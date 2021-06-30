@@ -9,7 +9,7 @@ import UIKit
 
 class PosterImageView: UIImageView {
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -24,7 +24,7 @@ class PosterImageView: UIImageView {
         self.init(frame: CGRect(origin: .zero, size: CGSize(width: 0, height: 0)))
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     func setupUI() {
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = true

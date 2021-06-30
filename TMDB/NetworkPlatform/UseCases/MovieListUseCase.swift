@@ -11,9 +11,9 @@ import Domain
 final class MovieListUseCase: Domain.MovieListUseCase {
     
     private let repository: MovieListRepository
-    private let api: MovieListAPI
+    private let api: Domain.MovieListAPI
 
-    init(_ repository: MovieListRepository, _ api: MovieListAPI) {
+    init(_ repository: MovieListRepository, _ api: Domain.MovieListAPI) {
         self.repository = repository
         self.api = api
     }
@@ -41,6 +41,5 @@ final class MovieListUseCase: Domain.MovieListUseCase {
         let request = api.upcoming(page: page)
         repository.fetchUpcomingMovies(request, completion: completion)
     }
-    
     
 }

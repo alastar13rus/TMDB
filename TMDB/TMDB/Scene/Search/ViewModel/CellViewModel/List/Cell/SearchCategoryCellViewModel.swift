@@ -11,11 +11,11 @@ import RxDataSources
 
 struct SearchCategoryCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let title: String
     let type: SearchCategory
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: SearchCategory) {
         switch model {
         case .movieListByGenres(let title):
@@ -39,8 +39,7 @@ extension SearchCategoryCellViewModel: IdentifiableType {
 }
 
 extension SearchCategoryCellViewModel: Equatable {
-    static func ==(lhs: SearchCategoryCellViewModel, rhs: SearchCategoryCellViewModel) -> Bool {
+    static func == (lhs: SearchCategoryCellViewModel, rhs: SearchCategoryCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }
-

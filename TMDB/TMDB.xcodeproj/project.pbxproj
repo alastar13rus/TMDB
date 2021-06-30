@@ -367,6 +367,9 @@
 		BB62D35C266D1F3D00AD1F88 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D35B266D1F3D00AD1F88 /* String+Extensions.swift */; };
 		BB62D36A266D1F4A00AD1F88 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D369266D1F4A00AD1F88 /* Array+Extensions.swift */; };
 		BB62D3A9266D832A00AD1F88 /* FavoriteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB62D3A8266D832A00AD1F88 /* FavoriteListViewModel.swift */; };
+		BB7A0BA0268B1D1A00FAB7EE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BB7A0B9F268B1D1A00FAB7EE /* .swiftlint.yml */; };
+		BB7A0BA4268B487B00FAB7EE /* UICollectionReusableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7A0BA3268B487B00FAB7EE /* UICollectionReusableView+Extension.swift */; };
+		BB7A0BA6268B909F00FAB7EE /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7A0BA5268B909F00FAB7EE /* UITableViewCell+Extension.swift */; };
 		BB7ED5DD2628D79A00FE5659 /* CreditListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */; };
 		BB7ED5E32628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */; };
 		BB7ED5E92628FEB500FE5659 /* CreditListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7ED5E82628FEB500FE5659 /* CreditListViewController.swift */; };
@@ -929,6 +932,9 @@
 		BB62D35B266D1F3D00AD1F88 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		BB62D369266D1F4A00AD1F88 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		BB62D3A8266D832A00AD1F88 /* FavoriteListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteListViewModel.swift; sourceTree = "<group>"; };
+		BB7A0B9F268B1D1A00FAB7EE /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		BB7A0BA3268B487B00FAB7EE /* UICollectionReusableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionReusableView+Extension.swift"; sourceTree = "<group>"; };
+		BB7A0BA5268B909F00FAB7EE /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		BB7ED5DC2628D79A00FE5659 /* CreditListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModel.swift; sourceTree = "<group>"; };
 		BB7ED5E22628DFFB00FE5659 /* CreditListViewModelMultipleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewModelMultipleSection.swift; sourceTree = "<group>"; };
 		BB7ED5E82628FEB500FE5659 /* CreditListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditListViewController.swift; sourceTree = "<group>"; };
@@ -2658,6 +2664,7 @@
 		BBAA90E725F9287A0095DB27 = {
 			isa = PBXGroup;
 			children = (
+				BB7A0B9F268B1D1A00FAB7EE /* .swiftlint.yml */,
 				BBAA90F225F9287A0095DB27 /* TMDB */,
 				BBAA914025FBAB200095DB27 /* TMDBTests */,
 				BB2D9FC5265087DC00ECAF80 /* Domain */,
@@ -2758,6 +2765,8 @@
 				BB232AE6263D70B9000CFC05 /* String+Extensions.swift */,
 				BB232BD8264C0824000CFC05 /* Dictionary+Extensions.swift */,
 				BBB6C7822683F082009E3814 /* UIImageView+Extension.swift */,
+				BB7A0BA3268B487B00FAB7EE /* UICollectionReusableView+Extension.swift */,
+				BB7A0BA5268B909F00FAB7EE /* UITableViewCell+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3006,6 +3015,7 @@
 				BBAA90EE25F9287A0095DB27 /* Resources */,
 				3B26D4073D103154D07F3EE4 /* [CP] Embed Pods Frameworks */,
 				BB2D9FDE265087DC00ECAF80 /* Embed Frameworks */,
+				BB87C126268B1AF80080AC0F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3178,6 +3188,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB7A0BA0268B1D1A00FAB7EE /* .swiftlint.yml in Resources */,
 				BBAA910025F9287C0095DB27 /* LaunchScreen.storyboard in Resources */,
 				BBAA90FD25F9287C0095DB27 /* Assets.xcassets in Resources */,
 			);
@@ -3431,6 +3442,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		BB87C126268B1AF80080AC0F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		CF28DF11398832996BF7F43F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3671,6 +3699,7 @@
 				BB4928AC262E419700DD325E /* CreditInMediaCell.swift in Sources */,
 				BB7ED619262A50B600FE5659 /* CreditCrewTableViewCell.swift in Sources */,
 				BB49292B2637831000DD325E /* MediaCollectionViewCell.swift in Sources */,
+				BB7A0BA6268B909F00FAB7EE /* UITableViewCell+Extension.swift in Sources */,
 				BB4928E22630574800DD325E /* CrewCombinedCellViewModel.swift in Sources */,
 				BB232BC3264376C2000CFC05 /* TVEpisodeOverviewTableViewCell.swift in Sources */,
 				BB7ED5F4262992FF00FE5659 /* ShowMoreCellViewModel.swift in Sources */,
@@ -3747,6 +3776,7 @@
 				BBAA917F2600DD950095DB27 /* MediaListViewController.swift in Sources */,
 				BB56E0B12663CA4000FC458D /* FilterOptionMediaByGenreTableViewCell.swift in Sources */,
 				BBAA913225FBA4DB0095DB27 /* AppFlowCoordinator.swift in Sources */,
+				BB7A0BA4268B487B00FAB7EE /* UICollectionReusableView+Extension.swift in Sources */,
 				BB4928D8262F436000DD325E /* ImageListDataSource.swift in Sources */,
 				BBAA91A82602465F0095DB27 /* MediaCellViewModel.swift in Sources */,
 				BB232AC7263CB23E000CFC05 /* TVSeasonTableViewCell.swift in Sources */,

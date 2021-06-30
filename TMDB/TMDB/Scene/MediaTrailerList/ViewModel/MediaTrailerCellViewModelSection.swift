@@ -28,7 +28,7 @@ extension MediaTrailerCellViewModelSection: IdentifiableType {
 }
 
 extension MediaTrailerCellViewModelSection: Equatable {
-    static func ==(lhs: MediaTrailerCellViewModelSection, rhs: MediaTrailerCellViewModelSection) -> Bool {
+    static func == (lhs: MediaTrailerCellViewModelSection, rhs: MediaTrailerCellViewModelSection) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

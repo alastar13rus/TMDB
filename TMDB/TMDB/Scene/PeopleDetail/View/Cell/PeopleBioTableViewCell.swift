@@ -9,7 +9,7 @@ import UIKit
 
 class PeopleBioTableViewCell: UITableViewCell {
     
-    //    MARK: - Properties
+    // MARK: - Properties
     var viewModel: PeopleBioCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -24,7 +24,7 @@ class PeopleBioTableViewCell: UITableViewCell {
         return label
     }()
     
-    //    MARK: - Init
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -43,8 +43,7 @@ class PeopleBioTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    
-    //    MARK: - Methods
+    // MARK: - Methods
     fileprivate func configure(with vm: PeopleBioCellViewModel) {
         bioLabel.text = vm.bio
     }
@@ -62,7 +61,7 @@ class PeopleBioTableViewCell: UITableViewCell {
             bioLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             bioLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
             bioLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
-            bioLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
+            bioLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
     

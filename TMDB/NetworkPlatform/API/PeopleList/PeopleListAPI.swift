@@ -19,7 +19,7 @@ public final class PeopleListAPI {
     }
 }
 
-//  MARK: - extension Domain.PeopleListAPI
+// MARK: - extension Domain.PeopleListAPI
 extension PeopleListAPI: Domain.PeopleListAPI {
     public func popular() -> Domain.Endpoint {
         

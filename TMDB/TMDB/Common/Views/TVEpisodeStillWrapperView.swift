@@ -9,7 +9,7 @@ import UIKit
 
 class TVEpisodeStillWrapperView: UIView {
     
-//    MARK: - Properties
+// MARK: - Properties
     let stillImageView = StillImageView()
     
     let topView: UIView = {
@@ -36,7 +36,7 @@ class TVEpisodeStillWrapperView: UIView {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -49,7 +49,7 @@ class TVEpisodeStillWrapperView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     private func setupUI() {
         
     }
@@ -82,9 +82,8 @@ class TVEpisodeStillWrapperView: UIView {
             stillImageView.topAnchor.constraint(equalTo: topView.bottomAnchor),
             stillImageView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             stillImageView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            stillImageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            stillImageView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
     
 }
-

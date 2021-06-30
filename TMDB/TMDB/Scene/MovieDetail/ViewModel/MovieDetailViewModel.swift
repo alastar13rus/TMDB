@@ -10,11 +10,10 @@ import RxSwift
 import RxRelay
 import Swinject
 import Domain
-import NetworkPlatform
 
 class MovieDetailViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
     private let networkMonitor: Domain.NetworkMonitor
@@ -28,8 +27,7 @@ class MovieDetailViewModel {
     weak var coordinator: Coordinator?
     private let disposeBag = DisposeBag()
     
-    
-//    MARK: - Input
+// MARK: - Input
     
     struct Input {
         let selectedItem = PublishRelay<MovieDetailCellViewModelMultipleSection.SectionItem>()
@@ -39,9 +37,7 @@ class MovieDetailViewModel {
     
     let input = Input()
     
-    
-    
-//    MARK: - Output
+// MARK: - Output
     
     struct Output {
         let title = BehaviorRelay<String>(value: "")
@@ -52,7 +48,7 @@ class MovieDetailViewModel {
     
     let output = Output()
     
-//    MARK: - Init
+// MARK: - Init
     required init(with detailID: String,
                   useCaseProvider: Domain.UseCaseProvider,
                   useCasePersistenceProvider: Domain.UseCasePersistenceProvider,
@@ -67,7 +63,7 @@ class MovieDetailViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     
     fileprivate func setupInput() {
         input.selectedItem
@@ -120,7 +116,13 @@ class MovieDetailViewModel {
     func fetch(completion: @escaping (MovieDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeMovieDetailUseCase()
-        useCase.details(mediaID: mediaID, appendToResponse: [.credits, .recommendations, .similar, .images, .videos], includeImageLanguage: [.ru, .null]) { [weak self] (result: Result<MovieDetailModel, Error>) in
+        useCase.details(mediaID: mediaID,
+                        appendToResponse: [.credits,
+                                            .recommendations,
+                                            .similar,
+                                            .images,
+                                            .videos],
+                        includeImageLanguage: [.ru, .null]) { [weak self] (result: Result<MovieDetailModel, Error>) in
             
             switch result {
             case .success(let movieDetail):
@@ -153,12 +155,18 @@ class MovieDetailViewModel {
             .buildSection(withModel: model, andAction: self.configureMovieStatusSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieCrewListSection(withModel:sections:))
             .buildSection(withModel: model, andAction: self.configureMovieCastListSection(withModel:sections:))
-            .buildSection(withModel: model, andAction: self.configureMovieCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.recommendation)
-            .buildSection(withModel: model, andAction: self.configureMovieCompilationListSection(withModel:sections:mediaListType:), param: MediaListType.similar)
+            .buildSection(withModel: model,
+                          andAction: self.configureMovieCompilationListSection(withModel:sections:mediaListType:),
+                          param: MediaListType.recommendation)
+            .buildSection(withModel: model,
+                          andAction: self.configureMovieCompilationListSection(withModel:sections:mediaListType:),
+                          param: MediaListType.similar)
         
     }
     
-    fileprivate func configureMoviePosterWrapperSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMoviePosterWrapperSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
 
         var sections = sections
 
@@ -174,14 +182,21 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieImageListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieImageListSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+        
         let title = "Фото"
         guard let images = model.images?.backdrops, !images.isEmpty else { return sections }
         var sections = sections
         
         guard let coordinator = coordinator as? ToImageFullScreenRoutable else { return sections }
         
-        let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [.movieImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) }, coordinator: coordinator, contentForm: .landscape))]
+        let items: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
+            .movieImageList(vm: ImageListViewModel(title: title,
+                                                   items: images.map { ImageCellViewModel($0, imageType: .backdrop(size: .small)) },
+                                                   coordinator: coordinator,
+                                                   contentForm: .landscape))]
         
         let imageListSection: MovieDetailCellViewModelMultipleSection = .movieImageListSection(title: title, items: items)
         
@@ -189,7 +204,10 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieTrailerButtonSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieTrailerButtonSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+        
         let title = "Смотреть трейлеры"
         guard let videos = model.videos?.results, !videos.isEmpty else { return sections }
         var sections = sections
@@ -204,7 +222,9 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieOverviewSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieOverviewSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         guard !model.overview.isEmpty else { return sections }
@@ -218,7 +238,9 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieRuntimeSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieRuntimeSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         
@@ -231,7 +253,9 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieGenresSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieGenresSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         
@@ -244,7 +268,9 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieStatusSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieStatusSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         
@@ -257,7 +283,9 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieCrewListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieCrewListSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let crewCount = model.credits?.crew.count ?? 0
@@ -265,7 +293,6 @@ class MovieDetailViewModel {
         let title = "Съемочная группа"
         
         guard let crewList = model.credits?.crew.toUnique().sorted(by: >).prefix(limit), !crewList.isEmpty else { return sections }
-        
         
         let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
             crewList.map { .crew(vm: CrewCellViewModel($0)) }
@@ -289,7 +316,9 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieCastListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieCastListSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection]) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let castCount = model.credits?.cast.count ?? 0
@@ -297,7 +326,6 @@ class MovieDetailViewModel {
         let title = "Актеры"
         
         guard let castList = model.credits?.cast.prefix(limit), !castList.isEmpty else { return sections }
-        
         
         let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
             castList.map { .cast(vm: CastCellViewModel($0)) }
@@ -310,7 +338,11 @@ class MovieDetailViewModel {
         if castCount > limit { items.append(contentsOf: showMoreSection) }
         
         let movieCastListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCastList(vm: CreditShortListViewModel(title: title, items: items, creditType: .cast, mediaType: .movie, delegate: self))
+            .movieCastList(vm: CreditShortListViewModel(title: title,
+                                                        items: items,
+                                                        creditType: .cast,
+                                                        mediaType: .movie,
+                                                        delegate: self))
         ]
         
         let movieCastListSection: MovieDetailCellViewModelMultipleSection =
@@ -321,7 +353,10 @@ class MovieDetailViewModel {
         return sections
     }
     
-    fileprivate func configureMovieCompilationListSection(withModel model: MovieDetailModel, sections: [MovieDetailCellViewModelMultipleSection], mediaListType: MediaListType) -> [MovieDetailCellViewModelMultipleSection] {
+    fileprivate func configureMovieCompilationListSection(
+        withModel model: MovieDetailModel,
+        sections: [MovieDetailCellViewModelMultipleSection],
+        mediaListType: MediaListType) -> [MovieDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let limit = 10
@@ -340,7 +375,11 @@ class MovieDetailViewModel {
         let section: [MediaCellViewModel] = movieList.map { MediaCellViewModel($0) }
         
         let movieListSectionItems: [MovieDetailCellViewModelMultipleSection.SectionItem] = [
-            .movieCompilationList(vm: MediaCompilationListViewModel(title: title, items: section, coordinator: coordinator, useCaseProvider: useCaseProvider, mediaListType: mediaListType))
+            .movieCompilationList(vm: MediaCompilationListViewModel(title: title,
+                                                                    items: section,
+                                                                    coordinator: coordinator,
+                                                                    useCaseProvider: useCaseProvider,
+                                                                    mediaListType: mediaListType))
         ]
         
         let movieListSection: MovieDetailCellViewModelMultipleSection =
@@ -364,4 +403,3 @@ extension MovieDetailViewModel: CreditShortListViewModelDelegate {
     var delegateSeasonNumber: String? { nil }
     var delegateEpisodeNumber: String? { nil }
 }
-

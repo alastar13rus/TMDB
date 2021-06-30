@@ -9,7 +9,7 @@ import UIKit
 
 class TVSeasonOverviewTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVSeasonOverviewCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -24,7 +24,7 @@ class TVSeasonOverviewTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -42,7 +42,7 @@ class TVSeasonOverviewTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: TVSeasonOverviewCellViewModel) {
         overviewLabel.text = vm.overview
     }
@@ -60,7 +60,7 @@ class TVSeasonOverviewTableViewCell: UITableViewCell {
             overviewLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             overviewLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
             overviewLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
-            overviewLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
+            overviewLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
     

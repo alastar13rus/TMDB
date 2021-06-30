@@ -11,7 +11,7 @@ import RxDataSources
 
 class SearchCategoryListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: SearchCategoryListViewModel! {
         didSet {
             configure(with: viewModel)
@@ -28,14 +28,15 @@ class SearchCategoryListTableViewCell: UITableViewCell {
         layout.minimumLineSpacing = 10
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(SearchCategoryCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: SearchCategoryCollectionViewCell.self))
+        collectionView.register(SearchCategoryCollectionViewCell.self,
+                                forCellWithReuseIdentifier: SearchCategoryCollectionViewCell.reuseId)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -48,7 +49,7 @@ class SearchCategoryListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     
     fileprivate func setupUI() {
         backgroundColor = .systemRed
@@ -63,7 +64,7 @@ class SearchCategoryListTableViewCell: UITableViewCell {
             searchCategoryListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             searchCategoryListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             searchCategoryListCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            searchCategoryListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            searchCategoryListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
         ])
     }
     

@@ -9,7 +9,7 @@ import UIKit
 
 class PeopleCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: PeopleCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -27,8 +27,7 @@ class PeopleCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -47,7 +46,7 @@ class PeopleCollectionViewCell: UICollectionViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
 //        backgroundColor = .systemGray5
         layer.cornerRadius = 10
@@ -68,7 +67,7 @@ class PeopleCollectionViewCell: UICollectionViewCell {
             
             nameLabel.leftAnchor.constraint(equalTo: profileImageView.leftAnchor),
             nameLabel.rightAnchor.constraint(equalTo: profileImageView.rightAnchor),
-            nameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            nameLabel.bottomAnchor.constraint(greaterThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -12)
         ])
     }
     

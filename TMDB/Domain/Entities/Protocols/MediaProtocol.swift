@@ -20,7 +20,6 @@ public protocol MediaProtocol: Decodable, Comparable {
     var overview: String { get }
 }
 
-
 public protocol MovieProtocol: MediaProtocol {
     var adult: Bool { get }
     var releaseDate: String? { get }

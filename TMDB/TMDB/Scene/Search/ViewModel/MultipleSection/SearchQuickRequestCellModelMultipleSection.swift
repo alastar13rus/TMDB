@@ -29,11 +29,10 @@ enum SearchQuickRequestCellModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             lhs.identity == rhs.identity
         }
     }
-    
     
     init(original: SearchQuickRequestCellModelMultipleSection, items: [SectionItem]) {
         switch original {
@@ -75,4 +74,3 @@ extension SearchQuickRequestCellModelMultipleSection: Equatable {
         return lhs.identity == rhs.identity
     }
 }
-

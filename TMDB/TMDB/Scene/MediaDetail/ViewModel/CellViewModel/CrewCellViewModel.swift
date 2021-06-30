@@ -28,7 +28,7 @@ class CrewCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Eq
         
     }
     
-    static func ==(lhs: CrewCellViewModelSection, rhs: CrewCellViewModelSection) -> Bool {
+    static func == (lhs: CrewCellViewModelSection, rhs: CrewCellViewModelSection) -> Bool {
         return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
     
@@ -36,7 +36,7 @@ class CrewCellViewModelSection: AnimatableSectionModelType, IdentifiableType, Eq
 
 class CrewCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let gender: Int
     let id: String
     let name: String
@@ -51,7 +51,7 @@ class CrewCellViewModel {
         ImageURL.profile(.w185, profilePath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     
     init(_ model: CrewModel) {
         self.gender = model.gender
@@ -70,7 +70,7 @@ extension CrewCellViewModel: IdentifiableType, Equatable {
     
     var identity: String { self.creditID }
     
-    static func ==(lhs: CrewCellViewModel, rhs: CrewCellViewModel) -> Bool {
+    static func == (lhs: CrewCellViewModel, rhs: CrewCellViewModel) -> Bool {
         return lhs.creditID == rhs.creditID
     }
     

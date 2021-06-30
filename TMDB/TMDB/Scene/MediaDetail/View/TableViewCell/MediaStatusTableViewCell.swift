@@ -9,7 +9,7 @@ import UIKit
 
 class MediaStatusTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MediaStatusCellViewModel! {
         didSet {
             configureCell(with: viewModel)
@@ -24,8 +24,7 @@ class MediaStatusTableViewCell: UITableViewCell {
         return label
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -44,8 +43,7 @@ class MediaStatusTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configureCell(with vm: MediaStatusCellViewModel) {
         statusLabel.text = vm.status
     }
@@ -63,7 +61,7 @@ class MediaStatusTableViewCell: UITableViewCell {
             statusLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
             statusLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
             statusLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
-            statusLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            statusLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12)
         ])
     }
 }

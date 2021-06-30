@@ -15,13 +15,13 @@ class FavoriteListViewModel {
     typealias Section = FavoriteCellViewModelMultipleSection
     typealias Item = Section.SectionItem
     
-//    MARK: - Properties
+// MARK: - Properties
     let useCasePersistenceProvider: Domain.UseCasePersistenceProvider
 
     private let disposeBag = DisposeBag()
     weak var coordinator: NavigationCoordinator?
     
-//    MARK: - Input
+// MARK: - Input
     let input = Input()
     
     struct Input {
@@ -30,8 +30,7 @@ class FavoriteListViewModel {
         let viewWillAppear = PublishRelay<Void>()
     }
     
-    
-//    MARK: - Output
+// MARK: - Output
     let output = Output()
     
     struct Output {
@@ -39,9 +38,7 @@ class FavoriteListViewModel {
         let title = BehaviorRelay<String>(value: "Избранное")
     }
     
-    
-    
-//    MARK: - Init
+// MARK: - Init
     init(useCaseProvider: UseCaseProvider, useCasePersistenceProvider: Domain.UseCasePersistenceProvider) {
         self.useCasePersistenceProvider = useCasePersistenceProvider
 
@@ -49,7 +46,7 @@ class FavoriteListViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     private func setupInput() {
         
         input.selectedItem.subscribe(onNext: { [weak self] in

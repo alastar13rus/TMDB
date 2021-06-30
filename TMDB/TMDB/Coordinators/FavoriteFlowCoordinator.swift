@@ -11,22 +11,20 @@ import Swinject
 
 class FavoriteFlowCoordinator: NavigationCoordinator {
     
-//    MARK: - Properties
+// MARK: - Properties
     var container: Container
     var navigationController: UINavigationController
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
-    
-//    MARK: - Init
+// MARK: - Init
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     func start() {
         _ = container.resolve(Typealias.FavoriteBundle.self, argument: self)
     }

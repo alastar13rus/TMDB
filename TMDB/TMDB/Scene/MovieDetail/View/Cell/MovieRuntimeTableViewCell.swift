@@ -9,7 +9,7 @@ import UIKit
 
 class MovieRuntimeTableViewCell: UITableViewCell {
     
-    //    MARK: - Properties
+    // MARK: - Properties
         var viewModel: MovieRuntimeCellViewModel! {
             didSet {
                 configureCell(with: viewModel)
@@ -24,8 +24,7 @@ class MovieRuntimeTableViewCell: UITableViewCell {
             return label
         }()
         
-        
-    //    MARK: - Init
+    // MARK: - Init
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
@@ -44,8 +43,7 @@ class MovieRuntimeTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
         
-        
-    //    MARK: - Methods
+    // MARK: - Methods
         fileprivate func configureCell(with vm: MovieRuntimeCellViewModel) {
             runtimeLabel.text = vm.runtimeText
         }
@@ -63,7 +61,7 @@ class MovieRuntimeTableViewCell: UITableViewCell {
                 runtimeLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
                 runtimeLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
                 runtimeLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
-                runtimeLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
+                runtimeLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12)
             ])
         }
     }

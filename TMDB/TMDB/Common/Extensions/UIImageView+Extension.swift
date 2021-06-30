@@ -25,7 +25,7 @@ extension UIImageView {
             
             guard let image = cache[url] else {
                 
-                let dataTask = urlSession.dataTask(with: url) { (data, response, error) in
+                let dataTask = urlSession.dataTask(with: url) { (data, _, error) in
                     
                     guard error == nil, let data = data, let image = UIImage(data: data) else {
                         DispatchQueue.main.async { completion?(nil) }

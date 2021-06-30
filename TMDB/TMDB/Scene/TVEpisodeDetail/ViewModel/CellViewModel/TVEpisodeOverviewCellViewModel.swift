@@ -10,11 +10,11 @@ import Domain
 
 struct TVEpisodeOverviewCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let id: String
     let overview: String
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: TVEpisodeDetailModel) {
         self.id = "\(model.id)"
         self.overview = model.overview

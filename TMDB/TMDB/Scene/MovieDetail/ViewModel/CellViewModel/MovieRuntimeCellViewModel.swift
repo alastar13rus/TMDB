@@ -27,7 +27,6 @@ struct MovieRuntimeCellViewModel {
         }
     }
     
-    
     init(_ model: MovieDetailModel) {
         self.id = String(model.id)
         self.runtime = model.runtime

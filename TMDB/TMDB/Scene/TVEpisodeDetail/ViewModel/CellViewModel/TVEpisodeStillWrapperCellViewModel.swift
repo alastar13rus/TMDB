@@ -10,7 +10,7 @@ import Domain
 
 struct TVEpisodeStillWrapperCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let airDate: String
     let name: String
     let overview: String
@@ -24,7 +24,7 @@ struct TVEpisodeStillWrapperCellViewModel {
         ImageURL.still(.original, stillPath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: TVEpisodeDetailModel) {
         self.airDate = model.airDate ?? ""
         self.name = model.name

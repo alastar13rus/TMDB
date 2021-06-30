@@ -13,7 +13,7 @@ import Domain
 
 class TVSeasonListViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let useCaseProvider: Domain.UseCaseProvider
     
     let disposeBag = DisposeBag()
@@ -31,8 +31,7 @@ class TVSeasonListViewModel {
         let sectionedItems = BehaviorRelay<[TVSeasonCellViewModelMultipleSection]>(value: [])
     }
     
-    
-//    MARK: - Init
+// MARK: - Init
     required init(with mediaID: String, useCaseProvider: Domain.UseCaseProvider) {
         self.useCaseProvider = useCaseProvider
 
@@ -42,7 +41,7 @@ class TVSeasonListViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: { [weak self] in
             guard let self = self, let coordinator = self.coordinator as? TVSeasonFlowCoordinator else { return }

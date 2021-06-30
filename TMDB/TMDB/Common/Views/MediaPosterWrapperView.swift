@@ -9,7 +9,7 @@ import UIKit
 
 class MediaPosterWrapperView: UIView {
     
-//    MARK: - Properties
+// MARK: - Properties
     let posterImageView = PosterImageView()
     
     let blurTopView: UIVisualEffectView = {
@@ -64,7 +64,7 @@ class MediaPosterWrapperView: UIView {
         return view
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -77,7 +77,7 @@ class MediaPosterWrapperView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     private func setupUI() {
         
     }
@@ -126,9 +126,8 @@ class MediaPosterWrapperView: UIView {
             taglineLabel.topAnchor.constraint(equalTo: blurBottomView.topAnchor, constant: 8),
             taglineLabel.bottomAnchor.constraint(equalTo: blurBottomView.bottomAnchor, constant: -8),
             taglineLabel.leftAnchor.constraint(equalTo: blurBottomView.leftAnchor, constant: 8),
-            taglineLabel.rightAnchor.constraint(equalTo: blurBottomView.rightAnchor, constant: -8),
+            taglineLabel.rightAnchor.constraint(equalTo: blurBottomView.rightAnchor, constant: -8)
         ])
     }
     
 }
-

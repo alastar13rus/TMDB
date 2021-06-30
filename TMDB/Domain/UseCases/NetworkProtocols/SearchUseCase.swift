@@ -10,11 +10,23 @@ import Foundation
 public protocol SearchUseCase: UseCase {
     
     func searchQuickCategories(_ completion: @escaping ([SearchCategory]) -> Void)
-    func showMediaByYearFilterOptions(mediaType: MediaType, completion: @escaping ([FilterOptionMediaByYearModel]) -> Void)
-    func showMediaByGenreFilterOptions(mediaType: MediaType, completion: @escaping (Result<GenreModelResponse, Error>) -> Void)
+    func showMediaByYearFilterOptions(mediaType: MediaType,
+                                      completion: @escaping ([FilterOptionMediaByYearModel]) -> Void)
     
-    func filterMediaListByYear<T: MediaProtocol>(_ year: String, mediaType: MediaType, page: Int, completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void)
-    func filterMediaListByGenre<T: MediaProtocol>(_ year: String, mediaType: MediaType, page: Int, completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void)
+    func showMediaByGenreFilterOptions(mediaType: MediaType,
+                                       completion: @escaping (Result<GenreModelResponse, Error>) -> Void)
     
-    func multiSearch(_ query: String, page: Int, completion: @escaping (Result<MultiSearchResponse, Error>) -> Void)
+    func filterMediaListByYear<T: MediaProtocol>(_ year: String,
+                                                 mediaType: MediaType,
+                                                 page: Int,
+                                                 completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void)
+    
+    func filterMediaListByGenre<T: MediaProtocol>(_ year: String,
+                                                  mediaType: MediaType,
+                                                  page: Int,
+                                                  completion: @escaping (Result<MediaListResponse<T>, Error>) -> Void)
+    
+    func multiSearch(_ query: String,
+                     page: Int,
+                     completion: @escaping (Result<MultiSearchResponse, Error>) -> Void)
 }

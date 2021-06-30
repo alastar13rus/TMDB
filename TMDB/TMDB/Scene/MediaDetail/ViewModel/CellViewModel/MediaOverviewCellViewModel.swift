@@ -13,7 +13,6 @@ struct MediaOverviewCellViewModel {
     let id: String
     let overview: String
     
-    
     init(_ model: MediaDetailProtocol) {
         self.id = String(model.id)
         self.overview = model.overview

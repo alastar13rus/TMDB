@@ -11,7 +11,7 @@ import Swinject
 class AppFlowCoordinator: Coordinator {
 
     var identifier = UUID()
-    var childCoordinators = [UUID : Coordinator]()
+    var childCoordinators = [UUID: Coordinator]()
     var parentCoordinator: Coordinator?
     
     let window: UIWindow
@@ -28,6 +28,5 @@ class AppFlowCoordinator: Coordinator {
         let tabBarCoordinator = TabBarCoordinator(window: window, container: container)
         coordinate(to: tabBarCoordinator)
     }
-    
     
 }

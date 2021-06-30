@@ -9,7 +9,7 @@ import UIKit
 
 class CustomActivityIndicator: UIView {
     
-//    MARK: - Properties
+// MARK: - Properties
     private var fillColor = UIColor.red.cgColor
     private var strokeColor = UIColor.red.cgColor
     private lazy var shapeInstanceCount = Int(bounds.width / 2)
@@ -22,7 +22,7 @@ class CustomActivityIndicator: UIView {
     let shape = CAShapeLayer()
     let replicator = CAReplicatorLayer()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -40,7 +40,7 @@ class CustomActivityIndicator: UIView {
 
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     func configure() {
         isUserInteractionEnabled = false
         shape.frame.size = .init(width: bounds.width / 10, height: bounds.height / 2)

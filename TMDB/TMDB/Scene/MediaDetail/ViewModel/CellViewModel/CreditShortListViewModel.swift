@@ -34,14 +34,28 @@ extension CreditShortListViewModelDelegate {
             coordinator.toPeople(with: vm.id)
         case .showMore:
             switch coordinator {
-            case is MovieFlowCoordinator: coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: nil, episodeNumber: nil)
-            case is TVFlowCoordinator: coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: nil, episodeNumber: nil)
+            case is MovieFlowCoordinator: coordinator.toCreditList(with: mediaID,
+                                                                   mediaType: mediaType,
+                                                                   creditType: creditType,
+                                                                   seasonNumber: nil,
+                                                                   episodeNumber: nil)
+            case is TVFlowCoordinator: coordinator.toCreditList(with: mediaID,
+                                                                mediaType: mediaType,
+                                                                creditType: creditType,
+                                                                seasonNumber: nil,
+                                                                episodeNumber: nil)
             case is TVSeasonFlowCoordinator:
                 guard let seasonNumber = delegateSeasonNumber else { return }
-                coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: nil)
+                coordinator.toCreditList(with: mediaID,
+                                         mediaType: mediaType,
+                                         creditType: creditType,
+                                         seasonNumber: seasonNumber, episodeNumber: nil)
             case is TVEpisodeFlowCoordinator:
                 guard let seasonNumber = delegateSeasonNumber, let episodeNumber = delegateEpisodeNumber else { return }
-                coordinator.toCreditList(with: mediaID, mediaType: mediaType, creditType: creditType, seasonNumber: seasonNumber, episodeNumber: episodeNumber)
+                coordinator.toCreditList(with: mediaID,
+                                         mediaType: mediaType,
+                                         creditType: creditType,
+                                         seasonNumber: seasonNumber, episodeNumber: episodeNumber)
             default: break
             }
         }
@@ -93,7 +107,7 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
         self.items = items
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func subscribing() {
         self.selectedItem.subscribe(onNext: {  [weak self] in
             guard let self = self, let delegate = self.delegate else { return }
@@ -104,7 +118,11 @@ class CreditShortListViewModel: AnimatableSectionModelType, IdentifiableType {
 
 extension CreditShortListViewModel {
     
-    convenience init(title: String, items: [CreditCellViewModelMultipleSection.SectionItem], creditType: CreditType, mediaType: MediaType, delegate: CreditShortListViewModelDelegate?) {
+    convenience init(title: String,
+                     items: [CreditCellViewModelMultipleSection.SectionItem],
+                     creditType: CreditType, mediaType: MediaType,
+                     delegate: CreditShortListViewModelDelegate?) {
+        
         self.init(title: title, items: items)
         self.delegate = delegate
         self.creditType = creditType

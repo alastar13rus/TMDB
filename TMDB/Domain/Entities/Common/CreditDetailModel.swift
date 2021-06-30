@@ -16,4 +16,3 @@ public struct CreditDetailModel: Decodable {
         public let name: String
     }
 }
-

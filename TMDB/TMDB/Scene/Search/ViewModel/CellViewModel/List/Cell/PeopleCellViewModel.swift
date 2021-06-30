@@ -11,7 +11,7 @@ import RxDataSources
 
 class PeopleCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     public let adult: Bool
     public let id: String
     public let knownFor: String
@@ -23,8 +23,7 @@ class PeopleCellViewModel {
         ImageURL.profile(.w185, profilePath).fullURL
     }
     
-    
-//    MARK: - Init
+// MARK: - Init
     init(_ model: PeopleModel) {
         self.adult = model.adult
         self.id = "\(model.id)"
@@ -47,7 +46,7 @@ extension PeopleCellViewModel: IdentifiableType {
 }
 
 extension PeopleCellViewModel: Equatable {
-    static func ==(lhs: PeopleCellViewModel, rhs: PeopleCellViewModel) -> Bool {
+    static func == (lhs: PeopleCellViewModel, rhs: PeopleCellViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

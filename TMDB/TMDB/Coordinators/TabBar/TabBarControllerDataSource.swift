@@ -9,10 +9,10 @@ import UIKit
 
 class TabBarControllerDataSource {
     
-//    MARK: - Properties
+// MARK: - Properties
     private(set) var items: [UINavigationController]
     
-//    MARK: - Init
+// MARK: - Init
     init() {
         self.items = Array(0...3).map { _ -> UINavigationController in
             let navigation = UINavigationController()
@@ -28,7 +28,7 @@ class TabBarControllerDataSource {
         
     }
     
-//    MARK: - Methods
+// MARK: - Methods
 //    func setItems(_ newValue: [UINavigationController]) {
 //        self.items = newValue
 //    }

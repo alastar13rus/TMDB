@@ -29,12 +29,11 @@ extension TVSeasonShortListViewModelDelegate {
 
 class TVSeasonShortListViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let title: String
     let items: [TVSeasonCellViewModelMultipleSection.SectionItem]
     weak var tvSeasonShortListDelegate: TVSeasonShortListViewModelDelegate?
     let disposeBag = DisposeBag()
-    
     
     var sectionedItems: Observable<[TVSeasonCellViewModelMultipleSection]> {
         
@@ -58,7 +57,7 @@ class TVSeasonShortListViewModel {
     
     let selectedItem = PublishRelay<TVSeasonCellViewModelMultipleSection.SectionItem>()
     
-//    MARK: - Init
+// MARK: - Init
     init(title: String, items: [TVSeasonCellViewModelMultipleSection.SectionItem], mediaID: String, delegate: TVSeasonShortListViewModelDelegate?) {
         self.title = title
         self.items = items
@@ -70,7 +69,7 @@ class TVSeasonShortListViewModel {
     fileprivate func subscribe() {
         selectedItem.subscribe(onNext: { [weak self] in
             guard let self = self, let delegate = self.tvSeasonShortListDelegate else { return }
-            switch $0 { case .season, .showMore: delegate.routing(item: $0) }
+            delegate.routing(item: $0)
         }).disposed(by: disposeBag)
     }
 }

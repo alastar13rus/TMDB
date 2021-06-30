@@ -9,7 +9,7 @@ import UIKit
 
 class TVAggregateCrewCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: AggregateCrewCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -35,7 +35,7 @@ class TVAggregateCrewCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -54,8 +54,7 @@ class TVAggregateCrewCollectionViewCell: UICollectionViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: AggregateCrewCellViewModel) {
         nameLabel.text = vm.name
         jobsLabel.text = vm.jobs
@@ -99,10 +98,9 @@ class TVAggregateCrewCollectionViewCell: UICollectionViewCell {
             jobsLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             jobsLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             jobsLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            jobsLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            jobsLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
 
         ])
     }
-    
     
 }

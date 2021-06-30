@@ -10,7 +10,7 @@ import Domain
 
 struct PeopleProfileWrapperCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let id: String
     let name: String
     let placeOfBirth: String?
@@ -55,7 +55,7 @@ struct PeopleProfileWrapperCellViewModel {
         ImageURL.profile(.w185, profilePath).fullURL
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(_ model: PeopleDetailModel) {
         self.id = "\(model.id)"
         self.name = model.name

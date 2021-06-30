@@ -24,7 +24,6 @@ public final class NetworkAgent {
             components.path = endpoint.path
             components.queryItems = endpoint.queryItems
             
-            
             guard let url = components.url else { return }
             print(url)
             let request = URLRequest(url: url)
@@ -41,9 +40,6 @@ public final class NetworkAgent {
                 
                 guard response != nil else { return }
                 guard let data = data else { return }
-                
-//  FIXME: - оставил пока, пусть крашится
-                _ = try! JSONDecoder().decode(T.self, from: data)
                 
                 do {
                     let responseObject = try JSONDecoder().decode(T.self, from: data)

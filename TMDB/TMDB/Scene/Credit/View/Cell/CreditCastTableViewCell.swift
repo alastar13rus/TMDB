@@ -9,7 +9,7 @@ import UIKit
 
 class CreditCastTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     
     var viewModel: CastCellViewModel! {
         didSet {
@@ -36,7 +36,7 @@ class CreditCastTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -56,9 +56,7 @@ class CreditCastTableViewCell: UITableViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CastCellViewModel) {
         
         nameLabel.text = vm.name
@@ -102,9 +100,8 @@ class CreditCastTableViewCell: UITableViewCell {
             
             characterLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
             characterLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
-            characterLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            characterLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
-    
     
 }

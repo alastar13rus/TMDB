@@ -9,7 +9,7 @@ import UIKit
 
 class CreditInMediaTableViewCell: UITableViewCell {
     
-//  MARK: - Properties
+// MARK: - Properties
     var viewModel: CreditInMediaViewModel! {
         didSet {
             configure(with: viewModel)
@@ -40,7 +40,7 @@ class CreditInMediaTableViewCell: UITableViewCell {
         return view
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -58,8 +58,7 @@ class CreditInMediaTableViewCell: UITableViewCell {
         selectionStyle = .none
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CreditInMediaViewModel) {
         mediaTitleLabel.text = vm.mediaTitle
         characterLabel.text = vm.credit
@@ -89,9 +88,8 @@ class CreditInMediaTableViewCell: UITableViewCell {
             voteAverageCircleProgressBar.heightAnchor.constraint(equalToConstant: 50),
             voteAverageCircleProgressBar.widthAnchor.constraint(equalToConstant: 50),
             voteAverageCircleProgressBar.leftAnchor.constraint(equalTo: mediaTitleLabel.rightAnchor, constant: 12),
-            voteAverageCircleProgressBar.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
+            voteAverageCircleProgressBar.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
-    
     
 }

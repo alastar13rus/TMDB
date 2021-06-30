@@ -11,7 +11,7 @@ import RxDataSources
 
 class TVEpisodeDetailViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVEpisodeDetailViewModel!
     let dataSource = TVEpisodeDetailDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -25,7 +25,7 @@ class TVEpisodeDetailViewController: UIViewController {
     
     lazy var appearance = NavigationBarAppearance(barAppearance: .init())
     
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,7 +34,7 @@ class TVEpisodeDetailViewController: UIViewController {
         setupConstraints()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -49,17 +49,20 @@ class TVEpisodeDetailViewController: UIViewController {
             tvEpisodeDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tvEpisodeDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             tvEpisodeDetailTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            tvEpisodeDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            tvEpisodeDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
     }
 }
 
-//  MARK: - BindableType
+// MARK: - BindableType
 extension TVEpisodeDetailViewController: BindableType {
     func bindViewModel() {
         tvEpisodeDetailTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        viewModel.output.sectionedItems.asDriver(onErrorJustReturn: []).drive(tvEpisodeDetailTableView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel.output.sectionedItems
+            .asDriver(onErrorJustReturn: [])
+            .drive(tvEpisodeDetailTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
         viewModel.output.title.asDriver(onErrorJustReturn: "").drive(navigationItem.rx.title).disposed(by: disposeBag)
     }

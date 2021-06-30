@@ -11,7 +11,7 @@ import Domain
 
 struct ImageCellViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let filePath: String
     private (set) var imageType: ImageType
     
@@ -38,10 +38,7 @@ struct ImageCellViewModel {
         return nil
     }
     
-    
-    
-    
-//    MARK: - Init
+// MARK: - Init
     init(_ model: ImageModel, imageType: ImageType) {
         self.filePath = model.filePath
         self.imageType = imageType
@@ -51,7 +48,6 @@ struct ImageCellViewModel {
 extension ImageCellViewModel: IdentifiableType {
     var identity: String { return filePath }
 }
-
 
 extension ImageCellViewModel: Equatable {
     static func == (lhs: ImageCellViewModel, rhs: ImageCellViewModel) -> Bool {

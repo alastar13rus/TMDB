@@ -11,14 +11,13 @@ import RxRelay
 
 class TVEpisodeShortListViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let title: String
     let items: [TVEpisodeCellViewModelMultipleSection.SectionItem]
     let mediaID: String
     let seasonNumber: String
     weak var coordinator: Coordinator?
     let disposeBag = DisposeBag()
-    
     
     var sectionedItems: Observable<[TVEpisodeCellViewModelMultipleSection]> {
         
@@ -42,8 +41,13 @@ class TVEpisodeShortListViewModel {
     
     let selectedItem = PublishRelay<TVEpisodeCellViewModelMultipleSection.SectionItem>()
     
-//    MARK: - Init
-    init(title: String, items: [TVEpisodeCellViewModelMultipleSection.SectionItem], mediaID: String, seasonNumber: String, coordinator: Coordinator?) {
+// MARK: - Init
+    init(title: String,
+         items: [TVEpisodeCellViewModelMultipleSection.SectionItem],
+         mediaID: String,
+         seasonNumber: String,
+         coordinator: Coordinator?) {
+        
         self.title = title
         self.items = items
         self.mediaID = mediaID

@@ -9,7 +9,7 @@ import UIKit
 
 class CrewCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: CrewCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -35,7 +35,7 @@ class CrewCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -54,8 +54,7 @@ class CrewCollectionViewCell: UICollectionViewCell {
         self.profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CrewCellViewModel) {
         nameLabel.text = vm.name
         jobLabel.text = vm.job
@@ -99,10 +98,9 @@ class CrewCollectionViewCell: UICollectionViewCell {
             jobLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
             jobLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
             jobLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            jobLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            jobLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
             
         ])
     }
-    
     
 }

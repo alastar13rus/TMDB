@@ -12,7 +12,7 @@ import RxDataSources
 
 class CrewShortListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     let disposeBag = DisposeBag()
     let dataSource = CreditShortListDataSource.dataSource()
     var viewModel: CreditShortListViewModel! {
@@ -22,17 +22,22 @@ class CrewShortListTableViewCell: UITableViewCell {
     }
     
     lazy var crewListCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewLayout(countItemsInScrollDirection: 3, scrollDirection: .horizontal, contentForm: .portrait, view: self))
-        collectionView.register(CrewCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: CrewCollectionViewCell.self))
-        collectionView.register(TVAggregateCrewCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: TVAggregateCrewCollectionViewCell.self))
-        collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: String(describing: ShowMoreCell.self))
+        let collectionView = UICollectionView(frame: .zero,
+                                              collectionViewLayout: CollectionViewLayout(countItemsInScrollDirection: 3,
+                                                                                         scrollDirection: .horizontal,
+                                                                                         contentForm: .portrait, view: self))
+        collectionView.register(CrewCollectionViewCell.self,
+                                forCellWithReuseIdentifier: CrewCollectionViewCell.reuseId)
+        collectionView.register(TVAggregateCrewCollectionViewCell.self,
+                                forCellWithReuseIdentifier: TVAggregateCrewCollectionViewCell.reuseId)
+        collectionView.register(ShowMoreCell.self, forCellWithReuseIdentifier: ShowMoreCell.reuseId)
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -45,11 +50,14 @@ class CrewShortListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: CreditShortListViewModel) {
         vm.sectionedItems.asDriver(onErrorJustReturn: []).drive(crewListCollectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
-        crewListCollectionView.rx.modelSelected(CreditCellViewModelMultipleSection.SectionItem.self).bind(to: viewModel.selectedItem).disposed(by: disposeBag)
+        crewListCollectionView.rx
+            .modelSelected(CreditCellViewModelMultipleSection.SectionItem.self)
+            .bind(to: viewModel.selectedItem)
+            .disposed(by: disposeBag)
     }
     
     fileprivate func setupUI() {
@@ -65,7 +73,7 @@ class CrewShortListTableViewCell: UITableViewCell {
             crewListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             crewListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             crewListCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            crewListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            crewListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
         ])
     }
 }

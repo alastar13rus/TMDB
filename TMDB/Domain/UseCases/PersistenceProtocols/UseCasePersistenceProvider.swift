@@ -11,5 +11,5 @@ public protocol UseCasePersistenceProvider {
     
     func makeFavoriteMovieUseCase() -> FavoriteMovieUseCase
     func makeFavoriteTVUseCase() -> FavoriteTVUseCase
-    func makeFavoritePeopleUseCase() ->  FavoritePeopleUseCase
+    func makeFavoritePeopleUseCase() -> FavoritePeopleUseCase
 }

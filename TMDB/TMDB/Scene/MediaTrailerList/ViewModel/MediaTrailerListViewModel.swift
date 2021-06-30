@@ -13,7 +13,7 @@ import Domain
 
 class MediaTrailerListViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     weak var coordinator: Coordinator?
     
     let useCaseProvider: Domain.UseCaseProvider
@@ -45,7 +45,7 @@ class MediaTrailerListViewModel {
         let sectionedItems = BehaviorRelay<[MediaTrailerCellViewModelSection]>(value: [])
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(with mediaID: String, mediaType: MediaType, useCaseProvider: Domain.UseCaseProvider) {
         self.useCaseProvider = useCaseProvider
 
@@ -76,7 +76,7 @@ class MediaTrailerListViewModel {
         setupOutput()
     }
         
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupOutput() {
         fetch { [weak self] (trailerList) in
             guard let self = self else { return }

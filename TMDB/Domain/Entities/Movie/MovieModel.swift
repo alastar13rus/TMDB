@@ -55,8 +55,7 @@ public struct MovieModel: MovieProtocol {
         self.voteAverage = voteAverage
     }
     
-    public init(_ detailModel: MovieDetailModel)
-    {
+    public init(_ detailModel: MovieDetailModel) {
         self.posterPath = detailModel.posterPath
         self.adult = detailModel.adult
         self.overview = detailModel.overview

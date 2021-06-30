@@ -9,7 +9,7 @@ import UIKit
 
 class CreditTVAggregateCrewTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     
     var viewModel: AggregateCrewCellViewModel! {
         didSet {
@@ -44,7 +44,7 @@ class CreditTVAggregateCrewTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -64,10 +64,7 @@ class CreditTVAggregateCrewTableViewCell: UITableViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-    
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: AggregateCrewCellViewModel) {
         nameLabel.text = vm.name
         jobsLabel.text = vm.jobs
@@ -115,9 +112,8 @@ class CreditTVAggregateCrewTableViewCell: UITableViewCell {
             
             totalEpisodeCountLabel.topAnchor.constraint(equalTo: jobsLabel.bottomAnchor, constant: 12),
             totalEpisodeCountLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
-            totalEpisodeCountLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            totalEpisodeCountLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
-    
     
 }

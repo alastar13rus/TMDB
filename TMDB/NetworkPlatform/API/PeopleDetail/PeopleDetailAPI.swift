@@ -19,7 +19,7 @@ public final class PeopleDetailAPI {
     }
 }
 
-//  MARK: - extension Domain.PeopleDetailAPI
+// MARK: - extension Domain.PeopleDetailAPI
 extension PeopleDetailAPI: Domain.PeopleDetailAPI {
     public func details(personID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {
         

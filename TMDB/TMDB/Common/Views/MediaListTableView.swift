@@ -9,10 +9,10 @@ import UIKit
 
 class MediaListTableView: UITableView {
     
-    convenience init(cell: UITableViewCell.Type, refreshControl: UIRefreshControl) {
+    convenience init(cellType: UITableViewCell.Type, refreshControl: UIRefreshControl) {
         self.init()
         
-        self.register(cell.self, forCellReuseIdentifier: String(describing: cell.self))
+        self.register(cellType.self, forCellReuseIdentifier: cellType.reuseId)
         self.separatorStyle = .singleLine
         self.separatorColor = .systemBlue
         self.separatorInset = .init(top: 10, left: 10, bottom: 10, right: 10)

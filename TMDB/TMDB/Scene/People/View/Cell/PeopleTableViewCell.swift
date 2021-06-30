@@ -9,7 +9,7 @@ import UIKit
 
 class PeopleTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: PeopleCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -35,9 +35,7 @@ class PeopleTableViewCell: UITableViewCell {
         return label
     }()
     
-    
-    
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -56,7 +54,7 @@ class PeopleTableViewCell: UITableViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupUI() {
         selectionStyle = .none
     }
@@ -80,7 +78,7 @@ class PeopleTableViewCell: UITableViewCell {
             
             knownForLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 12),
             knownForLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
-            knownForLabel.rightAnchor.constraint(equalTo: nameLabel.rightAnchor),
+            knownForLabel.rightAnchor.constraint(equalTo: nameLabel.rightAnchor)
         ])
     }
     

@@ -20,7 +20,7 @@ final class CreditDetailAPI {
     
 }
 
-//  MARK: - extension Domain.CreditDetailAPI
+// MARK: - extension Domain.CreditDetailAPI
 extension CreditDetailAPI: Domain.CreditDetailAPI {
     
     public func details(creditID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage]) -> Domain.Endpoint {

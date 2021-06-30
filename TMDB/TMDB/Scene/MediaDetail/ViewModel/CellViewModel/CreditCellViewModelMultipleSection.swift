@@ -31,7 +31,7 @@ enum CreditCellViewModelMultipleSection {
             }
         }
         
-        static func ==(lhs: SectionItem, rhs: SectionItem) -> Bool {
+        static func == (lhs: SectionItem, rhs: SectionItem) -> Bool {
             switch (lhs, rhs) {
             case (.cast(let lhsVM), .cast(let rhsVM)): return lhsVM == rhsVM
             case (.crew(let lhsVM), .crew(let rhsVM)): return lhsVM == rhsVM
@@ -44,7 +44,7 @@ enum CreditCellViewModelMultipleSection {
     }
 }
 
-//MARK: Extensions
+// MARK: Extensions
 
 extension CreditCellViewModelMultipleSection: AnimatableSectionModelType {
     
@@ -78,7 +78,7 @@ extension CreditCellViewModelMultipleSection: IdentifiableType {
 }
 
 extension CreditCellViewModelMultipleSection: Equatable {
-    static func ==(lhs: CreditCellViewModelMultipleSection, rhs: CreditCellViewModelMultipleSection) -> Bool {
+    static func == (lhs: CreditCellViewModelMultipleSection, rhs: CreditCellViewModelMultipleSection) -> Bool {
         return lhs.items == rhs.items && lhs.identity == rhs.identity
     }
 }

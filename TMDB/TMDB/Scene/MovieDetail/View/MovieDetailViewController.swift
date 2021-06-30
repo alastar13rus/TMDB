@@ -12,7 +12,7 @@ import RxDataSources
 
 class MovieDetailViewController: UIViewController {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MovieDetailViewModel!
     let dataSource = MovieDetailDataSource.dataSource()
     let disposeBag = DisposeBag()
@@ -37,8 +37,7 @@ class MovieDetailViewController: UIViewController {
     
     lazy var appearance = NavigationBarAppearance(barAppearance: .init())
     
-    
-//    MARK: - Lifecycle
+// MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,7 +57,7 @@ class MovieDetailViewController: UIViewController {
         self.navigationController?.navigationBar.subviews.forEach { $0.clipsToBounds = true }
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     private func setupUI() {
         setupNavigationWithAppearance(appearance)
         
@@ -74,7 +73,7 @@ class MovieDetailViewController: UIViewController {
             movieDetailTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             movieDetailTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             movieDetailTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            movieDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            movieDetailTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -108,11 +107,11 @@ extension MovieDetailViewController: BindableType {
                     self.navigationItem.compactAppearance?.backgroundColor = .white
                     self.navigationItem.scrollEdgeAppearance?.largeTitleTextAttributes = [
                         .foregroundColor: UIColor.darkText,
-                        .font: UIFont.boldSystemFont(ofSize: 24),
+                        .font: UIFont.boldSystemFont(ofSize: 24)
                     ]
                     self.navigationItem.compactAppearance?.largeTitleTextAttributes = [
                         .foregroundColor: UIColor.darkText,
-                        .font: UIFont.boldSystemFont(ofSize: 24),
+                        .font: UIFont.boldSystemFont(ofSize: 24)
                     ]
                     self.navigationItem.compactAppearance?.backgroundColor = .white
                     return

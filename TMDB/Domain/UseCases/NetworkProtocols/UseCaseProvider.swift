@@ -17,7 +17,7 @@ public protocol UseCaseProvider {
     func makeMovieDetailUseCase() -> MovieDetailUseCase
     
     func makeTVListUseCase() -> TVListUseCase
-    func makeTVDetailUseCase() ->  TVDetailUseCase
+    func makeTVDetailUseCase() -> TVDetailUseCase
     
     func makeTVSeasonDetailUseCase() -> TVSeasonDetailUseCase
     
@@ -25,10 +25,10 @@ public protocol UseCaseProvider {
     
 //    func makeCreditListUseCase() ->  CreditListUseCase
     
-    func makePeopleDetailUseCase() ->  PeopleDetailUseCase
-    func makePeopleListUseCase() ->  PeopleListUseCase
+    func makePeopleDetailUseCase() -> PeopleDetailUseCase
+    func makePeopleListUseCase() -> PeopleListUseCase
     
-    func makeSearchUseCase() ->  SearchUseCase
+    func makeSearchUseCase() -> SearchUseCase
 
     func makeMonitoringUseCase() -> MonitoringUseCase
 }

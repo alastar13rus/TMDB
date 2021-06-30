@@ -24,7 +24,7 @@ class ShowMoreCellViewModel: Equatable {
         self.type = type
     }
     
-    static func ==(lhs: ShowMoreCellViewModel, rhs: ShowMoreCellViewModel) -> Bool {
+    static func == (lhs: ShowMoreCellViewModel, rhs: ShowMoreCellViewModel) -> Bool {
         return lhs.type == rhs.type
     }
     

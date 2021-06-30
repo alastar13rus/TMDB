@@ -9,7 +9,12 @@ import Foundation
 
 public protocol MovieDetailUseCase: UseCase {
     
-    func details(mediaID: String, appendToResponse: [AppendToResponse], includeImageLanguage: [IncludeImageLanguage], completion: @escaping (Result<MovieDetailModel, Error>) -> Void)
+    func details(mediaID: String,
+                 appendToResponse: [AppendToResponse],
+                 includeImageLanguage: [IncludeImageLanguage],
+                 completion: @escaping (Result<MovieDetailModel, Error>) -> Void)
+    
     func videos(mediaID: String, completion: @escaping (Result<VideoList, Error>) -> Void)
+    
     func credits(mediaID: String, completion: @escaping (Result<CreditListResponse, Error>) -> Void)
 }

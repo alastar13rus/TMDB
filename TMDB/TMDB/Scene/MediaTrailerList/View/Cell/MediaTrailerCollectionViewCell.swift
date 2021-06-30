@@ -10,7 +10,7 @@ import youtube_ios_player_helper
 
 class MediaTrailerCollectionViewCell: UICollectionViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: MediaTrailerCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -35,7 +35,7 @@ class MediaTrailerCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -48,9 +48,8 @@ class MediaTrailerCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: MediaTrailerCellViewModel) {
         player.load(withVideoId: vm.key)
 //        player.playVideo()
@@ -77,7 +76,7 @@ class MediaTrailerCollectionViewCell: UICollectionViewCell {
             trailerLabel.topAnchor.constraint(equalTo: player.bottomAnchor, constant: 12),
             trailerLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -12),
             trailerLabel.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor, constant: 12),
-            trailerLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12),
+            trailerLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor, constant: -12)
         ])
     }
     

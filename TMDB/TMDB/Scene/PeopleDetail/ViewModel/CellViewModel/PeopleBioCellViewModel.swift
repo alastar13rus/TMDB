@@ -10,15 +10,14 @@ import Domain
 
 struct PeopleBioCellViewModel {
     
-    //    MARK: - Properties
+    // MARK: - Properties
     let id: String
     let bio: String
     
-    //    MARK: - Init
+    // MARK: - Init
     init(_ model: PeopleDetailModel) {
         self.id = "\(model.id)"
         self.bio = model.biography
     }
-    
     
 }

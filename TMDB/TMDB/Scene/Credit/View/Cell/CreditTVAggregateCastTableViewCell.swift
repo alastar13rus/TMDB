@@ -9,7 +9,7 @@ import UIKit
 
 class CreditTVAggregateCastTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     
     var viewModel: AggregateCastCellViewModel! {
         didSet {
@@ -45,7 +45,7 @@ class CreditTVAggregateCastTableViewCell: UITableViewCell {
         return label
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -65,9 +65,7 @@ class CreditTVAggregateCastTableViewCell: UITableViewCell {
         profileImageView.contentMode = .scaleAspectFill
     }
     
-    
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: AggregateCastCellViewModel) {
         nameLabel.text = vm.name
         characterLabel.text = vm.roles
@@ -117,9 +115,8 @@ class CreditTVAggregateCastTableViewCell: UITableViewCell {
             
             totalEpisodeCountLabel.topAnchor.constraint(equalTo: characterLabel.bottomAnchor, constant: 12),
             totalEpisodeCountLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor),
-            totalEpisodeCountLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+            totalEpisodeCountLabel.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor)
         ])
     }
-    
     
 }

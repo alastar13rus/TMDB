@@ -12,7 +12,7 @@ import RxRelay
 
 class FilterOptionListMediaViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let searchCategory: SearchCategory
     
     var mediaType: Domain.MediaType {
@@ -39,7 +39,7 @@ class FilterOptionListMediaViewModel {
         let sectionedItems = BehaviorRelay<[FilterOptionListMediaModelMultipleSection]>(value: [])
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(searchCategory: SearchCategory, useCaseProvider: Domain.UseCaseProvider) {
         self.useCaseProvider = useCaseProvider
         self.searchCategory = searchCategory
@@ -48,7 +48,7 @@ class FilterOptionListMediaViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: { (option) in
             guard let coordinator = self.coordinator as? SearchFlowCoordinator else { return }

@@ -63,4 +63,3 @@ protocol TVDetailProtocol: MediaDetailProtocol {
     var type: String { get }
     
 }
-

@@ -9,7 +9,7 @@ import UIKit
 
 class ReusableHeaderView: UICollectionReusableView {
     
-//    MARK: - Properties
+// MARK: - Properties
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
@@ -18,9 +18,7 @@ class ReusableHeaderView: UICollectionReusableView {
         return label
     }()
     
-    
-    
-//    MARK: - Init
+// MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -33,7 +31,7 @@ class ReusableHeaderView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     func configure(withTitle title: String) {
         titleLabel.text = title
     }
@@ -49,7 +47,7 @@ class ReusableHeaderView: UICollectionReusableView {
     fileprivate func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

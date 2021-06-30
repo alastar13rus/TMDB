@@ -9,15 +9,13 @@ import Foundation
 import Domain
 import RxSwift
 import RxRelay
-import NetworkPlatform
-
 
 class MediaFilteredListViewModel {
     
     typealias Section = MediaCellViewModelMultipleSection
     typealias Item = Section.SectionItem
 
-//    MARK: - Properties
+// MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let networkMonitor: Domain.NetworkMonitor
     
@@ -48,8 +46,7 @@ class MediaFilteredListViewModel {
         var numberOfMedia = 0
     }
     
-    
-//    MARK: - Init
+// MARK: - Init
     init(mediaType: MediaType,
          mediaFilterType: MediaFilterType,
          useCaseProvider: Domain.UseCaseProvider,
@@ -63,7 +60,7 @@ class MediaFilteredListViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: { [weak self] (mediaItem) in
             guard let self = self, let coordinator = self.coordinator as? SearchFlowCoordinator else { return }
@@ -71,7 +68,6 @@ class MediaFilteredListViewModel {
             case .movie(let vm): coordinator.toMovie(with: vm.id)
             case .tv(let vm): coordinator.toTV(with: vm.id)
             }
-            
             
         }).disposed(by: disposeBag)
         
@@ -166,22 +162,26 @@ class MediaFilteredListViewModel {
         
         switch (mediaType, mediaFilterType) {
         case (.movie, .byGenre(let genreID, _)):
-            useCase.filterMediaListByGenre(genreID, mediaType: mediaType, page: page) { [weak self] (result: Result<MediaListResponse<MovieModel>, Error>) in
+            useCase.filterMediaListByGenre(genreID, mediaType:
+                                            mediaType, page: page) { [weak self] (result: Result<MediaListResponse<MovieModel>, Error>) in
                 guard let self = self else { return }
                 completion(self.handleMovie(result))
             }
         case (.movie, .byYear(let year)):
-            useCase.filterMediaListByYear(year, mediaType: mediaType, page: page) { [weak self] (result: Result<MediaListResponse<MovieModel>, Error>) in
+            useCase.filterMediaListByYear(year, mediaType: mediaType,
+                                          page: page) { [weak self] (result: Result<MediaListResponse<MovieModel>, Error>) in
                 guard let self = self else { return }
                 completion(self.handleMovie(result))
             }
         case (.tv, .byGenre(let genreID, _)):
-            useCase.filterMediaListByGenre(genreID, mediaType: mediaType, page: page) { [weak self] (result: Result<MediaListResponse<TVModel>, Error>) in
+            useCase.filterMediaListByGenre(genreID, mediaType: mediaType,
+                                           page: page) { [weak self] (result: Result<MediaListResponse<TVModel>, Error>) in
                 guard let self = self else { return }
                 completion(self.handleTV(result))
             }
         case (.tv, .byYear(let year)):
-            useCase.filterMediaListByYear(year, mediaType: mediaType, page: page) { [weak self] (result: Result<MediaListResponse<TVModel>, Error>) in
+            useCase.filterMediaListByYear(year, mediaType: mediaType,
+                                          page: page) { [weak self] (result: Result<MediaListResponse<TVModel>, Error>) in
                 guard let self = self else { return }
                 completion(self.handleTV(result))
             }

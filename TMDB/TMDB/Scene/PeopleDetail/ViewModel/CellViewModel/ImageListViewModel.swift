@@ -12,7 +12,7 @@ import RxDataSources
 
 class ImageListViewModel: AnimatableSectionModelType {
     
-    //    MARK: - Properties
+    // MARK: - Properties
     let title: String
     let items: [ImageCellViewModel]
     
@@ -28,7 +28,7 @@ class ImageListViewModel: AnimatableSectionModelType {
     
     let selectedItem = PublishRelay<ImageCellViewModel>()
         
-    //    MARK: - Init
+    // MARK: - Init
     required init(original: ImageListViewModel, items: [ImageCellViewModel]) {
         self.title = original.title
         self.items = items
@@ -47,7 +47,7 @@ class ImageListViewModel: AnimatableSectionModelType {
         subscribe()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func subscribe() {
         selectedItem.subscribe(onNext: { [weak self] vm in
             guard let self = self, let coordinator = self.coordinator else { return }
@@ -61,7 +61,7 @@ extension ImageListViewModel: IdentifiableType {
 }
 
 extension ImageListViewModel: Equatable {
-    static func ==(lhs: ImageListViewModel, rhs: ImageListViewModel) -> Bool {
+    static func == (lhs: ImageListViewModel, rhs: ImageListViewModel) -> Bool {
         return lhs.identity == rhs.identity
     }
 }

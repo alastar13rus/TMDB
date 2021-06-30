@@ -19,7 +19,7 @@ protocol SearchCategoryListViewModelDelegate: AnyObject {
 
 class SearchCategoryListViewModel {
     
-    //    MARK: - Properties
+    // MARK: - Properties
     let title: String
     let items: [SearchCategoryCellViewModel]
     
@@ -37,7 +37,7 @@ class SearchCategoryListViewModel {
         let sectionedItems = BehaviorRelay<[SearchCategoryListViewModelSection]>(value: [])
     }
     
-    //    MARK: - Init
+    // MARK: - Init
     init(title: String, items: [SearchCategoryCellViewModel], delegate: SearchCategoryListViewModelDelegate?) {
         self.title = title
         self.items = items

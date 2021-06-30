@@ -11,9 +11,9 @@ import Domain
 final class TVSeasonDetailUseCase: Domain.TVSeasonDetailUseCase {
     
     private let repository: TVSeasonDetailRepository
-    private let api: TVSeasonDetailAPI
+    private let api: Domain.TVSeasonDetailAPI
 
-    init(_ repository: TVSeasonDetailRepository, _ api: TVSeasonDetailAPI) {
+    init(_ repository: TVSeasonDetailRepository, _ api: Domain.TVSeasonDetailAPI) {
         self.repository = repository
         self.api = api
     }

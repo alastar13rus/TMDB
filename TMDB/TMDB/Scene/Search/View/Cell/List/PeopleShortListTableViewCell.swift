@@ -11,7 +11,7 @@ import RxDataSources
 
 class PeopleShortListTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: PeopleShortListViewModel! {
         didSet {
             configure(with: viewModel)
@@ -30,7 +30,8 @@ class PeopleShortListTableViewCell: UITableViewCell {
         layout.minimumLineSpacing = 10
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(PeopleCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: PeopleCollectionViewCell.self))
+        collectionView.register(PeopleCollectionViewCell.self,
+                                forCellWithReuseIdentifier: PeopleCollectionViewCell.reuseId)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
@@ -38,8 +39,7 @@ class PeopleShortListTableViewCell: UITableViewCell {
         return collectionView
     }()
     
-    
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -52,7 +52,7 @@ class PeopleShortListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     
     fileprivate func setupUI() {
         backgroundColor = .systemGreen
@@ -67,7 +67,7 @@ class PeopleShortListTableViewCell: UITableViewCell {
             peopleShortListCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             peopleShortListCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             peopleShortListCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            peopleShortListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            peopleShortListCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
         ])
     }
     

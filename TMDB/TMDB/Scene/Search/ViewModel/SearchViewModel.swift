@@ -9,16 +9,13 @@ import Foundation
 import Domain
 import RxSwift
 import RxRelay
-import Domain
-import NetworkPlatform
-
 
 class SearchViewModel {
     
     typealias Section = SearchQuickRequestCellModelMultipleSection
     typealias Item = Section.SectionItem
 
-//    MARK: - Properties
+// MARK: - Properties
     private let useCaseProvider: Domain.UseCaseProvider
     private let networkMonitor: Domain.NetworkMonitor
     
@@ -49,7 +46,7 @@ class SearchViewModel {
         var setOfFetchedMediaList = Set<Int>()
     }
     
-//    MARK: - Init
+// MARK: - Init
     init(useCaseProvider: Domain.UseCaseProvider,
          networkMonitor: Domain.NetworkMonitor) {
         self.useCaseProvider = useCaseProvider
@@ -59,7 +56,7 @@ class SearchViewModel {
         setupOutput()
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func subscribing() {
         input.query.skip(1).subscribe(onNext: { [weak self] (query) in
             guard let self = self else { return }
@@ -87,7 +84,7 @@ class SearchViewModel {
                 case .tv: coordinator.toTV(with: vm.id)
                 default: return
                 }
-                default: return
+            default: return
             }
         }).disposed(by: disposeBag)
         
@@ -150,7 +147,6 @@ class SearchViewModel {
     
     fileprivate func setupOutput() {
         
-        
         var sections: [SearchQuickRequestCellModelMultipleSection] = []
         
         setupPeopleShortListSection { [weak self] in
@@ -162,7 +158,6 @@ class SearchViewModel {
             sections.append($0)
             self?.output.sectionedItems.accept(sections)
         }
-        
         
     }
     
@@ -200,7 +195,9 @@ class SearchViewModel {
     fileprivate func setupCategoryListSection(_ completion: @escaping (Section) -> Void) {
         fetchSearchQuickCategories { (categories) in
             let title = "Категории"
-            let searchCategoryListViewModel = SearchCategoryListViewModel(title: title, items: categories.map { SearchCategoryCellViewModel($0) }, delegate: self)
+            let searchCategoryListViewModel = SearchCategoryListViewModel(title: title,
+                                                                          items: categories.map { SearchCategoryCellViewModel($0) },
+                                                                          delegate: self)
             let item = Item.categoryList(vm: searchCategoryListViewModel)
             let section = Section.categoryListSection(title: title, items: [item])
             completion(section)
@@ -275,4 +272,3 @@ extension SearchViewModel: SearchCategoryListViewModelDelegate {
         coordinator.showFilterOptionListMedia(type: type)
     }
 }
-

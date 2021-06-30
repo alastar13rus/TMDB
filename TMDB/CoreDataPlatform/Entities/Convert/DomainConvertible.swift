@@ -12,6 +12,4 @@ public protocol DomainConvertible {
 
     func asDomain() -> DomainType
     
-    
-    
 }

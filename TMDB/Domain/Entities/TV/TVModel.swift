@@ -69,7 +69,6 @@ public struct TVModel: TVProtocol {
         self.overview = detailModel.overview
     }
     
-    
     enum CodingKeys: String, CodingKey {
         case id
         case originalLanguage = "original_language"

@@ -10,11 +10,10 @@ import RxSwift
 import RxRelay
 import Swinject
 import Domain
-import NetworkPlatform
 
 class TVEpisodeDetailViewModel {
     
-//    MARK: - Properties
+// MARK: - Properties
     let mediaID: String
     let seasonNumber: String
     let episodeNumber: String
@@ -38,10 +37,7 @@ class TVEpisodeDetailViewModel {
         let sectionedItems = BehaviorRelay<[TVEpisodeDetailCellViewModelMultipleSection]>(value: [])
     }
     
-    
-    
-    
-//    MARK: - Init
+// MARK: - Init
     required init(with mediaID: String,
                   seasonNumber: String,
                   episodeNumber: String,
@@ -58,13 +54,15 @@ class TVEpisodeDetailViewModel {
         setupOutput()
     }
     
-    
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func setupInput() {
         input.selectedItem.subscribe(onNext: { [weak self] in
             guard let self = self, let coordinator = self.coordinator as? TVEpisodeFlowCoordinator else { return }
             if case .tvEpisodeTrailerButton = $0 {
-                coordinator.toTrailerList(with: self.mediaID, mediaType: .tvEpisode, seasonNumber: self.seasonNumber, episodeNumber: self.episodeNumber)
+                coordinator.toTrailerList(with: self.mediaID,
+                                          mediaType: .tvEpisode,
+                                          seasonNumber: self.seasonNumber,
+                                          episodeNumber: self.episodeNumber)
             }
         }).disposed(by: disposeBag)
     }
@@ -80,7 +78,11 @@ class TVEpisodeDetailViewModel {
     fileprivate func fetch(completion: @escaping (TVEpisodeDetailModel) -> Void) {
         
         let useCase = useCaseProvider.makeTVEpisodeDetailUseCase()
-        useCase.details(mediaID: mediaID, seasonNumber: seasonNumber, episodeNumber: episodeNumber, appendToResponse: [.credits, .images, .videos], includeImageLanguage: []) { [weak self] (result: Result<TVEpisodeDetailModel, Error>) in
+        useCase.details(mediaID: mediaID,
+                        seasonNumber: seasonNumber,
+                        episodeNumber: episodeNumber,
+                        appendToResponse: [.credits, .images, .videos],
+                        includeImageLanguage: []) { [weak self] (result: Result<TVEpisodeDetailModel, Error>) in
             switch result {
             case .success(let tvEpisodeDetail):
                 completion(tvEpisodeDetail)
@@ -115,7 +117,9 @@ class TVEpisodeDetailViewModel {
 
     }
     
-    fileprivate func configureTVEpisodeStillWrapperSection(withModel model: TVEpisodeDetailModel, sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeStillWrapperSection(
+        withModel model: TVEpisodeDetailModel,
+        sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
     
             var sections = sections
 
@@ -131,7 +135,10 @@ class TVEpisodeDetailViewModel {
             return sections
         }
     
-    fileprivate func configureTVEpisodeImageListSection(withModel model: TVEpisodeDetailModel, sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeImageListSection(
+        withModel model: TVEpisodeDetailModel,
+        sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+        
         let title = "Фото"
         
         guard var images = model.images?.stills, !images.isEmpty else { return sections }
@@ -142,7 +149,10 @@ class TVEpisodeDetailViewModel {
         
         guard let coordinator = coordinator as? ToImageFullScreenRoutable else { return sections }
         
-        let items: [TVEpisodeDetailCellViewModelMultipleSection.SectionItem] = [.tvEpisodeImageList(vm: ImageListViewModel(title: title, items: images.map { ImageCellViewModel($0, imageType: .still(size: .small)) }, coordinator: coordinator, contentForm: .landscape))]
+        let items: [TVEpisodeDetailCellViewModelMultipleSection.SectionItem] = [
+            .tvEpisodeImageList(vm: ImageListViewModel(title: title,
+                                                       items: images.map { ImageCellViewModel($0, imageType: .still(size: .small)) },
+                                                       coordinator: coordinator, contentForm: .landscape))]
         
         let imageListSection: TVEpisodeDetailCellViewModelMultipleSection = .tvEpisodeImageListSection(title: title, items: items)
         
@@ -150,7 +160,10 @@ class TVEpisodeDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVEpisodeTrailerButtonSection(withModel model: TVEpisodeDetailModel, sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeTrailerButtonSection(
+        withModel model: TVEpisodeDetailModel,
+        sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+        
         let title = "Смотреть трейлеры"
         guard let videos = model.videos?.results, !videos.isEmpty else { return sections }
         var sections = sections
@@ -165,7 +178,9 @@ class TVEpisodeDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVEpisodeOverviewSection(withModel model: TVEpisodeDetailModel, sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeOverviewSection(
+        withModel model: TVEpisodeDetailModel,
+        sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
         
         var sections = sections
         guard !model.overview.isEmpty else { return sections }
@@ -179,7 +194,9 @@ class TVEpisodeDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVEpisodeCrewListSection(withModel model: TVEpisodeDetailModel, sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeCrewListSection(
+        withModel model: TVEpisodeDetailModel,
+        sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let crewCount = model.credits?.crew.count ?? 0
@@ -187,7 +204,6 @@ class TVEpisodeDetailViewModel {
         let title = "Съемочная группа"
         
         guard let crewList = model.credits?.crew.sorted(by: >).prefix(limit), !crewList.isEmpty else { return sections }
-        
         
         let crewSection: [CreditCellViewModelMultipleSection.SectionItem] =
             crewList.map { .crew(vm: CrewCellViewModel($0)) }
@@ -200,7 +216,11 @@ class TVEpisodeDetailViewModel {
         if crewCount > limit { items.append(contentsOf: showMoreSection) }
 
         let tvEpisodeCrewListSectionItems: [TVEpisodeDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvEpisodeCrewShortList(vm: CreditShortListViewModel(title: title, items: items, creditType: .crew, mediaType: .tvEpisode, delegate: self))
+            .tvEpisodeCrewShortList(vm: CreditShortListViewModel(title: title,
+                                                                 items: items,
+                                                                 creditType: .crew,
+                                                                 mediaType: .tvEpisode,
+                                                                 delegate: self))
         ]
 
         let tvEpisodeCrewListSection: TVEpisodeDetailCellViewModelMultipleSection =
@@ -211,7 +231,9 @@ class TVEpisodeDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVEpisodeCastListSection(withModel model: TVEpisodeDetailModel, sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeCastListSection(
+        withModel model: TVEpisodeDetailModel,
+        sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let castCount = model.credits?.cast.count ?? 0
@@ -219,7 +241,6 @@ class TVEpisodeDetailViewModel {
         let title = "Актеры"
         
         guard let castList = model.credits?.cast.sorted(by: >).prefix(limit), !castList.isEmpty else { return sections }
-        
         
         let castSection: [CreditCellViewModelMultipleSection.SectionItem] =
             castList.map { .cast(vm: CastCellViewModel($0)) }
@@ -232,7 +253,11 @@ class TVEpisodeDetailViewModel {
         if castCount > limit { items.append(contentsOf: showMoreSection) }
 
         let tvEpisodeCastListSectionItems: [TVEpisodeDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvEpisodeCastShortList(vm: CreditShortListViewModel(title: title, items: items,  creditType: .cast, mediaType: .tvEpisode, delegate: self))
+            .tvEpisodeCastShortList(vm: CreditShortListViewModel(title: title,
+                                                                 items: items,
+                                                                 creditType: .cast,
+                                                                 mediaType: .tvEpisode,
+                                                                 delegate: self))
         ]
 
         let tvEpisodeCastListSection: TVEpisodeDetailCellViewModelMultipleSection =
@@ -243,7 +268,9 @@ class TVEpisodeDetailViewModel {
         return sections
     }
     
-    fileprivate func configureTVEpisodeGuestStarsListSection(withModel model: TVEpisodeDetailModel, sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
+    fileprivate func configureTVEpisodeGuestStarsListSection(
+        withModel model: TVEpisodeDetailModel,
+        sections: [TVEpisodeDetailCellViewModelMultipleSection]) -> [TVEpisodeDetailCellViewModelMultipleSection] {
         
         var sections = sections
         let guestStarsCount = model.credits?.guestStars.count ?? 0
@@ -251,7 +278,6 @@ class TVEpisodeDetailViewModel {
         let title = "Приглашенные звезды"
         
         guard let guestStarsList = model.credits?.guestStars.sorted(by: >).prefix(limit), !guestStarsList.isEmpty else { return sections }
-        
         
         let guestStarsSection: [CreditCellViewModelMultipleSection.SectionItem] =
             guestStarsList.map { .cast(vm: CastCellViewModel($0)) }
@@ -264,7 +290,11 @@ class TVEpisodeDetailViewModel {
         if guestStarsCount > limit { items.append(contentsOf: showMoreSection) }
 
         let tvEpisodeGuestStarsListSectionItems: [TVEpisodeDetailCellViewModelMultipleSection.SectionItem] = [
-            .tvEpisodeGuestStarsShortList(vm: CreditShortListViewModel(title: title, items: items, creditType: .guestStars, mediaType: .tvEpisode,  delegate: self))
+            .tvEpisodeGuestStarsShortList(vm: CreditShortListViewModel(title: title,
+                                                                       items: items,
+                                                                       creditType: .guestStars,
+                                                                       mediaType: .tvEpisode,
+                                                                       delegate: self))
         ]
 
         let tvEpisodeGuestStarsListSection: TVEpisodeDetailCellViewModelMultipleSection =

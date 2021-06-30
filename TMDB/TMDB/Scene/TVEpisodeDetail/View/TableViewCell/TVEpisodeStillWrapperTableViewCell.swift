@@ -9,7 +9,7 @@ import UIKit
 
 class TVEpisodeStillWrapperTableViewCell: UITableViewCell {
     
-//    MARK: - Properties
+// MARK: - Properties
     var viewModel: TVEpisodeStillWrapperCellViewModel! {
         didSet {
             configure(with: viewModel)
@@ -23,7 +23,7 @@ class TVEpisodeStillWrapperTableViewCell: UITableViewCell {
         return view
     }()
     
-//    MARK: - Init
+// MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -42,7 +42,7 @@ class TVEpisodeStillWrapperTableViewCell: UITableViewCell {
         stillWrapperView.stillImageView.contentMode = .scaleAspectFill
     }
     
-//    MARK: - Methods
+// MARK: - Methods
     fileprivate func configure(with vm: TVEpisodeStillWrapperCellViewModel) {
         stillWrapperView.titleLabel.text = vm.name
         stillWrapperView.airYearLabel.text = vm.airYear
@@ -75,7 +75,7 @@ class TVEpisodeStillWrapperTableViewCell: UITableViewCell {
             stillWrapperView.topAnchor.constraint(equalTo: topAnchor),
             stillWrapperView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stillWrapperView.leftAnchor.constraint(equalTo: leftAnchor),
-            stillWrapperView.rightAnchor.constraint(equalTo: rightAnchor),
+            stillWrapperView.rightAnchor.constraint(equalTo: rightAnchor)
         ])
     }
     
