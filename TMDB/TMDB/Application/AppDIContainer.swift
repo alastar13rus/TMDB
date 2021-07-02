@@ -35,7 +35,7 @@ class AppDIContainer {
         
         container.register(Domain.NetworkMonitor.self) { _ in
             let monitor = NetworkPlatform.NetworkMonitor.shared
-            monitor.delegate = AlertCoordinator()
+            monitor.alertCoordinator = AlertCoordinator()
             return monitor
         }
         

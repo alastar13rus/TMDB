@@ -7,7 +7,7 @@
 
 import UIKit
 import Swinject
-@testable import Domain
+import Domain
 
 class TVFlowCoordinator: NavigationCoordinator {
     

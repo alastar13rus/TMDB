@@ -418,7 +418,7 @@ class TVDetailViewModel {
     }
     
     private func inform(with message: String) {
-        networkMonitor.delegate?.inform(with: message)
+        networkMonitor.alertCoordinator?.inform(with: message)
     }
     
 }
